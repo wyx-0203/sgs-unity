@@ -1,0 +1,80 @@
+{
+    "list": [
+        {
+            "id": 104201,
+            "name": "经典形象",
+            "voice": [
+                {
+                    "name": "乱击",
+                    "url": [
+                        "original/spell102_1",
+                        "original/spell102_2"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "dead/charDead_41"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 504201,
+            "name": "箭击曹营",
+            "voice": [
+                {
+                    "name": "乱击",
+                    "url": [
+                        "yuanshao06/YuanShao_LuanJi_01",
+                        "yuanshao06/YuanShao_LuanJi_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "yuanshao06/YuanShao_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 504202,
+            "name": "率盟伐董",
+            "voice": [
+                {
+                    "name": "乱击",
+                    "url": [
+                        "yuanshao07/YuanShao_LuanJi_01",
+                        "yuanshao07/YuanShao_LuanJi_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "yuanshao07/YuanShao_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 304202,
+            "name": "乱箭宿敌",
+            "voice": [
+                {
+                    "name": "乱击",
+                    "url": [
+                        "yuanshao01/YuanShao_LuanJi_01",
+                        "yuanshao01/YuanShao_LuanJi_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "yuanshao01/YuanShao_Dead"
+                    ]
+                }
+            ]
+        }
+    ]
+}

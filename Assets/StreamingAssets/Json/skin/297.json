@@ -1,0 +1,82 @@
+{
+    "list": [
+        {
+            "id": 129701,
+            "name": "经典形象",
+            "voice": [
+                {
+                    "name": "明策",
+                    "url": [
+                        "original/spell405_1",
+                        "original/spell405_2"
+                    ]
+                },
+                {
+                    "name": "智迟",
+                    "url": [
+                        "original/spell406_1",
+                        "original/spell406_2"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "dead/charDead_153"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 529701,
+            "name": "一战而就",
+            "voice": [
+                {
+                    "name": "明策",
+                    "url": [
+                        "chengong03/ChenGong_MingCe_01",
+                        "chengong03/ChenGong_MingCe_02"
+                    ]
+                },
+                {
+                    "name": "智迟",
+                    "url": [
+                        "chengong03/ChenGong_ZhiChi_01",
+                        "chengong03/ChenGong_ZhiChi_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "chengong03/ChenGong_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 529702,
+            "name": "公台献城",
+            "voice": [
+                {
+                    "name": "明策",
+                    "url": [
+                        "chengong04/ChenGong_MingCe_01",
+                        "chengong04/ChenGong_MingCe_02"
+                    ]
+                },
+                {
+                    "name": "智迟",
+                    "url": [
+                        "chengong04/ChenGong_ZhiChi_01",
+                        "chengong04/ChenGong_ZhiChi_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "chengong04/ChenGong_Dead"
+                    ]
+                }
+            ]
+        }
+    ]
+}

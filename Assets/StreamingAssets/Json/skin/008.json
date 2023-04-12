@@ -1,0 +1,99 @@
+{
+    "list": [
+        {
+            "id": 100801,
+            "name": "经典形象",
+            "voice": [
+                {
+                    "name": "制衡",
+                    "url": [
+                        "original/spell53_1",
+                        "original/spell53_2"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "dead/charDead_8"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 106701,
+            "name": "界限突破",
+            "voice": [
+                {
+                    "name": "制衡",
+                    "url": [
+                        "sunquan01/SunQuan_ZhiHeng_01",
+                        "sunquan01/SunQuan_ZhiHeng_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "sunquan01/SunQuan_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 500802,
+            "name": "英杰会聚",
+            "voice": [
+                {
+                    "name": "制衡",
+                    "url": [
+                        "sunquan02/SunQuan_ZhiHeng_01",
+                        "sunquan02/SunQuan_ZhiHeng_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "sunquan02/SunQuan_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 500801,
+            "name": "吴王光耀",
+            "voice": [
+                {
+                    "name": "制衡",
+                    "url": [
+                        "sunquan04/SunQuan_ZhiHeng_01",
+                        "sunquan04/SunQuan_ZhiHeng_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "sunquan04/SunQuan_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 500803,
+            "name": "励战年兽",
+            "voice": [
+                {
+                    "name": "制衡",
+                    "url": [
+                        "sunquan03/SunQuan_ZhiHeng_01",
+                        "sunquan03/SunQuan_ZhiHeng_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "sunquan03/SunQuan_Dead"
+                    ]
+                }
+            ]
+        }
+    ]
+}

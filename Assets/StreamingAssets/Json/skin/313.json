@@ -1,0 +1,108 @@
+{
+    "list": [
+        {
+            "id": 131301,
+            "name": "经典形象",
+            "voice": [
+                {
+                    "name": "龙吟",
+                    "url": [
+                        "guanping04/GuanPing_LongYin_01",
+                        "guanping04/GuanPing_LongYin_02"
+                    ]
+                },
+                {
+                    "name": "竭忠",
+                    "url": [
+                        "guanping04/GuanPing_JieZhong_01",
+                        "guanping04/GuanPing_JieZhong_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "guanping04/GuanPing_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 531301,
+            "name": "战场虎子",
+            "voice": [
+                {
+                    "name": "龙吟",
+                    "url": [
+                        "guanping05/GuanPing_LongYin_01",
+                        "guanping05/GuanPing_LongYin_02"
+                    ]
+                },
+                {
+                    "name": "竭忠",
+                    "url": [
+                        "guanping05/GuanPing_JieZhong_01",
+                        "guanping05/GuanPing_JieZhong_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "guanping05/GuanPing_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 531302,
+            "name": "忠武鏖战",
+            "voice": [
+                {
+                    "name": "龙吟",
+                    "url": [
+                        "guanping01/GuanPing_LongYin_01",
+                        "guanping01/GuanPing_LongYin_02"
+                    ]
+                },
+                {
+                    "name": "竭忠",
+                    "url": [
+                        "guanping01/GuanPing_JieZhong_01",
+                        "guanping01/GuanPing_JieZhong_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "guanping01/GuanPing_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 531303,
+            "name": "贲勇直前",
+            "voice": [
+                {
+                    "name": "龙吟",
+                    "url": [
+                        "guanping07/GuanPing_LongYin_01",
+                        "guanping07/GuanPing_LongYin_02"
+                    ]
+                },
+                {
+                    "name": "竭忠",
+                    "url": [
+                        "guanping07/GuanPing_JieZhong_01",
+                        "guanping07/GuanPing_JieZhong_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "guanping07/GuanPing_Dead"
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,186 @@
+{
+    "list": [
+        {
+            "id": 100201,
+            "name": "经典形象",
+            "voice": [
+                {
+                    "name": "武圣",
+                    "url": [
+                        "original/spell33_1",
+                        "original/spell33_2"
+                    ]
+                },
+                {
+                    "name": "义绝",
+                    "url": [
+                        "original/spell701_1",
+                        "original/spell701_2"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "dead/charDead_2"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 106101,
+            "name": "界限突破",
+            "voice": [
+                {
+                    "name": "武圣",
+                    "url": [
+                        "guanyu06/GuanYu_WuSheng_01",
+                        "guanyu06/GuanYu_WuSheng_02"
+                    ]
+                },
+                {
+                    "name": "义绝",
+                    "url": [
+                        "guanyu06/GuanYu_YiJue_01",
+                        "guanyu06/GuanYu_YiJue_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "guanyu06/GuanYu_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 600201,
+            "name": "武动乾坤",
+            "voice": [
+                {
+                    "name": "武圣",
+                    "url": [
+                        "guanyu01/GuanYu_WuSheng_01",
+                        "guanyu01/GuanYu_WuSheng_02"
+                    ]
+                },
+                {
+                    "name": "义绝",
+                    "url": [
+                        "guanyu01/GuanYuPo_YiJue_01",
+                        "guanyu01/GuanYuPo_YiJue_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "guanyu01/charDead_2"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 500201,
+            "name": "飞龙在天",
+            "voice": [
+                {
+                    "name": "武圣",
+                    "url": [
+                        "guanyu04/GuanYu_WuSheng_01",
+                        "guanyu04/GuanYu_WuSheng_02"
+                    ]
+                },
+                {
+                    "name": "义绝",
+                    "url": [
+                        "guanyu04/GuanYu_YiJue_01",
+                        "guanyu04/GuanYu_YiJue_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "guanyu04/GuanYu_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 506101,
+            "name": "单刀赴会",
+            "voice": [
+                {
+                    "name": "武圣",
+                    "url": [
+                        "guanyupo01/GuanYuPo_WuSheng_01",
+                        "guanyupo01/GuanYuPo_WuSheng_02"
+                    ]
+                },
+                {
+                    "name": "义绝",
+                    "url": [
+                        "guanyupo01/GuanYuPo_YiJue_01",
+                        "guanyupo01/GuanYuPo_YiJue_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "guanyupo01/GuanYuPo_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 500205,
+            "name": "开泰盛世",
+            "voice": [
+                {
+                    "name": "武圣",
+                    "url": [
+                        "guanyu07/GuanYuPo_WuSheng_01",
+                        "guanyu07/GuanYuPo_WuSheng_02"
+                    ]
+                },
+                {
+                    "name": "义绝",
+                    "url": [
+                        "guanyu07/GuanYuPo_YiJue_01",
+                        "guanyu07/GuanYuPo_YiJue_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "guanyu07/GuanYuPo_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 500206,
+            "name": "狂龙怒战",
+            "voice": [
+                {
+                    "name": "武圣",
+                    "url": [
+                        "guanyu08/GuanYuPo_WuSheng_01",
+                        "guanyu08/GuanYuPo_WuSheng_02"
+                    ]
+                },
+                {
+                    "name": "义绝",
+                    "url": [
+                        "guanyu08/GuanYuPo_YiJue_01",
+                        "guanyu08/GuanYuPo_YiJue_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "guanyu08/GuanYuPo_Dead"
+                    ]
+                }
+            ]
+        }
+    ]
+}

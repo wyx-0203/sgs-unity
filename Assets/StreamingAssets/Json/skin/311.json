@@ -1,0 +1,42 @@
+{
+    "list": [
+        {
+            "id": 131101,
+            "name": "经典形象",
+            "voice": [
+                {
+                    "name": "精策",
+                    "url": [
+                        "original/spell443_1",
+                        "original/spell443_2"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "dead/charDead_175"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 531101,
+            "name": "御蜀屏障",
+            "voice": [
+                {
+                    "name": "精策",
+                    "url": [
+                        "guohuai03/GuoHuai_JingCe_01",
+                        "guohuai03/GuoHuai_JingCe_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "guohuai03/GuoHuai_Dead"
+                    ]
+                }
+            ]
+        }
+    ]
+}

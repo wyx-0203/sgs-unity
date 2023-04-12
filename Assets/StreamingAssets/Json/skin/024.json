@@ -1,0 +1,108 @@
+{
+    "list": [
+        {
+            "id": 102401,
+            "name": "经典形象",
+            "voice": [
+                {
+                    "name": "无双",
+                    "url": [
+                        "lvbu01/LvBu_WuShuang_01",
+                        "lvbu01/LvBu_WuShuang_02"
+                    ]
+                },
+                {
+                    "name": "利驭",
+                    "url": [
+                        "lvbu01/LvBu_LiYu_01",
+                        "lvbu01/LvBu_LiYu_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "lvbu01/LvBu_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 608301,
+            "name": "文和乱武",
+            "voice": [
+                {
+                    "name": "无双",
+                    "url": [
+                        "lvbupo04/LvBuPo_WuShuang_01",
+                        "lvbupo04/LvBuPo_WuShuang_02"
+                    ]
+                },
+                {
+                    "name": "利驭",
+                    "url": [
+                        "lvbupo04/LvBuPo_LiYu_01",
+                        "lvbupo04/LvBuPo_LiYu_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "lvbupo04/LvBuPo_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 602401,
+            "name": "武动乾坤",
+            "voice": [
+                {
+                    "name": "无双",
+                    "url": [
+                        "lvbu02/LvBuPo_WuShuang_01",
+                        "lvbu02/LvBuPo_WuShuang_02"
+                    ]
+                },
+                {
+                    "name": "利驭",
+                    "url": [
+                        "lvbu02/LvBuPo_LiYu_01",
+                        "lvbu02/LvBuPo_LiYu_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "lvbu02/LvBuPo_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 508301,
+            "name": "如火燎原",
+            "voice": [
+                {
+                    "name": "无双",
+                    "url": [
+                        "lvbupo02/LvBuPo_WuShuang_01",
+                        "lvbupo02/LvBuPo_WuShuang_02"
+                    ]
+                },
+                {
+                    "name": "利驭",
+                    "url": [
+                        "lvbupo02/LvBuPo_LiYu_01",
+                        "lvbupo02/LvBuPo_LiYu_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "lvbupo02/LvBuPo_Dead"
+                    ]
+                }
+            ]
+        }
+    ]
+}

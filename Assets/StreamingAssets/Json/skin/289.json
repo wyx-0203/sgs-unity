@@ -1,0 +1,56 @@
+{
+    "list": [
+        {
+            "id": 128901,
+            "name": "经典形象",
+            "voice": [
+                {
+                    "name": "散谣",
+                    "url": [
+                        "original/spell236_1",
+                        "original/spell236_2"
+                    ]
+                },
+                {
+                    "name": "制蛮",
+                    "url": [
+                        "original/spell237_1",
+                        "original/spell237_2"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "dead/charDead_156"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 528901,
+            "name": "攻心定南",
+            "voice": [
+                {
+                    "name": "散谣",
+                    "url": [
+                        "masu06/MaSu_SanYao_01",
+                        "masu06/MaSu_SanYao_01"
+                    ]
+                },
+                {
+                    "name": "制蛮",
+                    "url": [
+                        "masu06/MaSu_ZhiMan_01",
+                        "masu06/MaSu_ZhiMan_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "masu06/MaSu_Dead"
+                    ]
+                }
+            ]
+        }
+    ]
+}

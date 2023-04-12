@@ -1,0 +1,108 @@
+{
+    "list": [
+        {
+            "id": 105401,
+            "name": "经典形象",
+            "voice": [
+                {
+                    "name": "享乐",
+                    "url": [
+                        "original/spell127_1",
+                        "original/spell127_2"
+                    ]
+                },
+                {
+                    "name": "放权",
+                    "url": [
+                        "original/spell128_1",
+                        "original/spell128_2"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "dead/charDead_53"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 505401,
+            "name": "庸主阿斗",
+            "voice": [
+                {
+                    "name": "享乐",
+                    "url": [
+                        "liushan05/Liushan_XiangLe_01",
+                        "liushan05/Liushan_XiangLe_02"
+                    ]
+                },
+                {
+                    "name": "放权",
+                    "url": [
+                        "liushan05/Liushan_FangQuan_01",
+                        "liushan05/Liushan_FangQuan_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "liushan05/Liushan_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 505403,
+            "name": "虚拟天团",
+            "voice": [
+                {
+                    "name": "享乐",
+                    "url": [
+                        "liushan06/LiuShan_XiangLe_01",
+                        "liushan06/LiuShan_XiangLe_02"
+                    ]
+                },
+                {
+                    "name": "放权",
+                    "url": [
+                        "liushan06/LiuShan_FangQuan_01",
+                        "liushan06/LiuShan_FangQuan_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "liushan06/LiuShan_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 505404,
+            "name": "樽酒逍遥",
+            "voice": [
+                {
+                    "name": "享乐",
+                    "url": [
+                        "liushan07/LiuShan_XiangLe_01",
+                        "liushan07/LiuShan_XiangLe_02"
+                    ]
+                },
+                {
+                    "name": "放权",
+                    "url": [
+                        "liushan07/LiuShan_FangQuan_01",
+                        "liushan07/LiuShan_FangQuan_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "liushan07/LiuShan_Dead"
+                    ]
+                }
+            ]
+        }
+    ]
+}

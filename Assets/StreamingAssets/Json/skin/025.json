@@ -1,0 +1,186 @@
+{
+    "list": [
+        {
+            "id": 102501,
+            "name": "经典形象",
+            "voice": [
+                {
+                    "name": "离间",
+                    "url": [
+                        "original/spell68_1",
+                        "original/spell68_2"
+                    ]
+                },
+                {
+                    "name": "闭月",
+                    "url": [
+                        "original/spell67_1",
+                        "original/spell67_2"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "dead/charDead_24"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 108401,
+            "name": "界限突破",
+            "voice": [
+                {
+                    "name": "离间",
+                    "url": [
+                        "diaochan04/DiaoChan_LiJian_01",
+                        "diaochan04/DiaoChan_LiJian_02"
+                    ]
+                },
+                {
+                    "name": "闭月",
+                    "url": [
+                        "diaochan04/DiaoChan_BiYue_01",
+                        "diaochan04/DiaoChan_BiYue_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "diaochan04/DiaoChan_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 602501,
+            "name": "花好月圆",
+            "voice": [
+                {
+                    "name": "离间",
+                    "url": [
+                        "diaochan10/DiaoChan_LiJian_01",
+                        "diaochan10/DiaoChan_LiJian_02"
+                    ]
+                },
+                {
+                    "name": "闭月",
+                    "url": [
+                        "diaochan10/DiaoChan_BiYue_01",
+                        "diaochan10/DiaoChan_BiYue_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "diaochan10/DiaoChan_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 602502,
+            "name": "文和乱舞",
+            "voice": [
+                {
+                    "name": "离间",
+                    "url": [
+                        "diaochan11/DiaoChan_LiJian_01",
+                        "diaochan11/DiaoChan_LiJian_02"
+                    ]
+                },
+                {
+                    "name": "闭月",
+                    "url": [
+                        "diaochan11/DiaoChan_BiYue_01",
+                        "diaochan11/DiaoChan_BiYue_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "diaochan11/DiaoChan_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 502501,
+            "name": "玉蝉仙子",
+            "voice": [
+                {
+                    "name": "离间",
+                    "url": [
+                        "diaochan07/DiaoChan_LiJian_01",
+                        "diaochan07/DiaoChan_LiJian_02"
+                    ]
+                },
+                {
+                    "name": "闭月",
+                    "url": [
+                        "diaochan07/DiaoChan_BiYue_01",
+                        "diaochan07/DiaoChan_BiYue_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "diaochan07/DiaoChan_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 502504,
+            "name": "红颜绮梦",
+            "voice": [
+                {
+                    "name": "离间",
+                    "url": [
+                        "diaochan13/DiaoChan_LiJian_01",
+                        "diaochan13/DiaoChan_LiJian_02"
+                    ]
+                },
+                {
+                    "name": "闭月",
+                    "url": [
+                        "diaochan13/DiaoChan_BiYue_01",
+                        "diaochan13/DiaoChan_BiYue_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "diaochan13/DiaoChan_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 302502,
+            "name": "月下弄兔",
+            "voice": [
+                {
+                    "name": "离间",
+                    "url": [
+                        "diaochan05/DiaoChan_LiJian_01",
+                        "diaochan05/DiaoChan_LiJian_02"
+                    ]
+                },
+                {
+                    "name": "闭月",
+                    "url": [
+                        "diaochan05/DiaoChan_BiYue_01",
+                        "diaochan05/DiaoChan_BiYue_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "diaochan05/DiaoChan_Dead"
+                    ]
+                }
+            ]
+        }
+    ]
+}

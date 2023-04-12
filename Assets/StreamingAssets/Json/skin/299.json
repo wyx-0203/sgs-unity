@@ -1,0 +1,103 @@
+{
+    "list": [
+        {
+            "id": 129901,
+            "name": "经典形象",
+            "voice": [
+                {
+                    "name": "父魂",
+                    "url": [
+                        "xinguanxingzhangbao01/XinGuanXingZhangBao_XinFuHun_01",
+                        "xinguanxingzhangbao01/XinGuanXingZhangBao_XinFuHun_02"
+                    ]
+                },
+                {
+                    "name": "武圣",
+                    "url": [
+                        "xinguanxingzhangbao01/XinGuanXingZhangBao_WuSheng_01",
+                        "xinguanxingzhangbao01/XinGuanXingZhangBao_WuSheng_02"
+                    ]
+                },
+                {
+                    "name": "咆哮",
+                    "url": [
+                        "xinguanxingzhangbao01/XinGuanXingZhangBao_PaoXiao_01",
+                        "xinguanxingzhangbao01/XinGuanXingZhangBao_PaoXiao_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "xinguanxingzhangbao01/XinGuanXingZhangBao_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 529901,
+            "name": "父魂子魄",
+            "voice": [
+                {
+                    "name": "父魂",
+                    "url": [
+                        "xinguanxingzhangbao04/XinGuanXingZhangBao_XinFuHun_01",
+                        "xinguanxingzhangbao04/XinGuanXingZhangBao_XinFuHun_02"
+                    ]
+                },
+                {
+                    "name": "武圣",
+                    "url": [
+                        "xinguanxingzhangbao04/XinGuanXingZhangBao_WuSheng_01",
+                        "xinguanxingzhangbao04/XinGuanXingZhangBao_WuSheng_02"
+                    ]
+                },
+                {
+                    "name": "咆哮",
+                    "url": [
+                        "xinguanxingzhangbao04/XinGuanXingZhangBao_PaoXiao_01",
+                        "xinguanxingzhangbao04/XinGuanXingZhangBao_PaoXiao_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "xinguanxingzhangbao04/XinGuanXingZhangBao_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 529902,
+            "name": "同心并力",
+            "voice": [
+                {
+                    "name": "父魂",
+                    "url": [
+                        "xinguanxingzhangbao06/XinGuanXingZhangBao_XinFuHun_01",
+                        "xinguanxingzhangbao06/XinGuanXingZhangBao_XinFuHun_02"
+                    ]
+                },
+                {
+                    "name": "武圣",
+                    "url": [
+                        "xinguanxingzhangbao06/XinGuanXingZhangBao_WuSheng_01",
+                        "xinguanxingzhangbao06/XinGuanXingZhangBao_WuSheng_02"
+                    ]
+                },
+                {
+                    "name": "咆哮",
+                    "url": [
+                        "xinguanxingzhangbao06/XinGuanXingZhangBao_PaoXiao_01",
+                        "xinguanxingzhangbao06/XinGuanXingZhangBao_PaoXiao_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "xinguanxingzhangbao06/XinGuanXingZhangBao_Dead"
+                    ]
+                }
+            ]
+        }
+    ]
+}

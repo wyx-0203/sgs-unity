@@ -1,0 +1,134 @@
+{
+    "list": [
+        {
+            "id": 101101,
+            "name": "经典形象",
+            "voice": [
+                {
+                    "name": "苦肉",
+                    "url": [
+                        "huanggai05/HuangGaiPo_KuRouPo_01",
+                        "huanggai05/HuangGaiPo_KuRouPo_02"
+                    ]
+                },
+                {
+                    "name": "诈降",
+                    "url": [
+                        "huanggai05/HuangGaiPo_ZhaXiangPo_01",
+                        "huanggai05/HuangGaiPo_ZhaXiangPo_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "huanggai05/HuangGaiPo_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 107001,
+            "name": "界限突破",
+            "voice": [
+                {
+                    "name": "苦肉",
+                    "url": [
+                        "huanggai05/HuangGaiPo_KuRouPo_01",
+                        "huanggai05/HuangGaiPo_KuRouPo_02"
+                    ]
+                },
+                {
+                    "name": "诈降",
+                    "url": [
+                        "huanggai05/HuangGaiPo_ZhaXiangPo_01",
+                        "huanggai05/HuangGaiPo_ZhaXiangPo_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "huanggai05/HuangGaiPo_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 601101,
+            "name": "武动乾坤",
+            "voice": [
+                {
+                    "name": "苦肉",
+                    "url": [
+                        "huanggai02/HuangGai_KuRou_01",
+                        "huanggai02/HuangGai_KuRou_02"
+                    ]
+                },
+                {
+                    "name": "诈降",
+                    "url": [
+                        "huanggai02/HuangGaiPo_ZhaXiangPo_01",
+                        "huanggai02/HuangGaiPo_ZhaXiangPo_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "huanggai02/HuangGai_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 501101,
+            "name": "破天焚舰",
+            "voice": [
+                {
+                    "name": "苦肉",
+                    "url": [
+                        "huanggai04/HuangGai_KuRou_01",
+                        "huanggai04/HuangGai_KuRou_02"
+                    ]
+                },
+                {
+                    "name": "诈降",
+                    "url": [
+                        "huanggai04/HuangGai_ZhaXiang_01",
+                        "huanggai04/HuangGai_ZhaXiang_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "huanggai04/HuangGai_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 501102,
+            "name": "勇力精锐",
+            "voice": [
+                {
+                    "name": "苦肉",
+                    "url": [
+                        "huanggai07/HuangGai_KuRou_01",
+                        "huanggai07/HuangGai_KuRou_02"
+                    ]
+                },
+                {
+                    "name": "诈降",
+                    "url": [
+                        "huanggai07/HuangGai_ZhaXiang_01",
+                        "huanggai07/HuangGai_ZhaXiang_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "huanggai07/HuangGai_Dead"
+                    ]
+                }
+            ]
+        }
+    ]
+}

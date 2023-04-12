@@ -1,0 +1,82 @@
+{
+    "list": [
+        {
+            "id": 130401,
+            "name": "经典形象",
+            "voice": [
+                {
+                    "name": "弓骑",
+                    "url": [
+                        "handang05/HanDang_GongQi_01",
+                        "handang05/HanDang_GongQi_02"
+                    ]
+                },
+                {
+                    "name": "解烦",
+                    "url": [
+                        "handang05/HanDang_JieFan_01",
+                        "handang05/HanDang_JieFan_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "handang05/HanDang_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 530401,
+            "name": "箭厉沙场",
+            "voice": [
+                {
+                    "name": "弓骑",
+                    "url": [
+                        "handang04/HanDang_GongQi_01",
+                        "handang04/HanDang_GongQi_02"
+                    ]
+                },
+                {
+                    "name": "解烦",
+                    "url": [
+                        "handang04/HanDang_JieFan_01",
+                        "handang04/HanDang_JieFan_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "handang04/HanDang_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 530402,
+            "name": "激箭流星",
+            "voice": [
+                {
+                    "name": "弓骑",
+                    "url": [
+                        "handang06/HanDang_GongQi_01",
+                        "handang06/HanDang_GongQi_02"
+                    ]
+                },
+                {
+                    "name": "解烦",
+                    "url": [
+                        "handang06/HanDang_JieFan_01",
+                        "handang06/HanDang_JieFan_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "handang06/HanDang_Dead"
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,82 @@
+{
+    "list": [
+        {
+            "id": 128801,
+            "name": "经典形象",
+            "voice": [
+                {
+                    "name": "恩怨",
+                    "url": [
+                        "original/spell460_1",
+                        "original/spell460_2"
+                    ]
+                },
+                {
+                    "name": "眩惑",
+                    "url": [
+                        "original/spell461_1",
+                        "original/spell461_2"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "dead/charDead_154"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 528801,
+            "name": "恩怨如火",
+            "voice": [
+                {
+                    "name": "恩怨",
+                    "url": [
+                        "fazhengxin06/FaZhengXin_EnYuanXin_01",
+                        "fazhengxin06/FaZhengXin_EnYuanXin_02"
+                    ]
+                },
+                {
+                    "name": "眩惑",
+                    "url": [
+                        "fazhengxin06/FaZhengXin_XuanHuoXin_01",
+                        "fazhengxin06/FaZhengXin_XuanHuoXin_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "fazhengxin06/FaZhengXin_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 528802,
+            "name": "戡律定料",
+            "voice": [
+                {
+                    "name": "恩怨",
+                    "url": [
+                        "fazhengxin02/FaZhengXin_EnYuanXin_01",
+                        "fazhengxin02/FaZhengXin_EnYuanXin_02"
+                    ]
+                },
+                {
+                    "name": "眩惑",
+                    "url": [
+                        "fazhengxin02/FaZhengXin_XuanHuoXin_01",
+                        "fazhengxin02/FaZhengXin_XuanHuoXin_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "fazhengxin02/FaZhengXin_Dead"
+                    ]
+                }
+            ]
+        }
+    ]
+}

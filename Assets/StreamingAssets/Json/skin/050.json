@@ -1,0 +1,108 @@
+{
+    "list": [
+        {
+            "id": 105001,
+            "name": "经典形象",
+            "voice": [
+                {
+                    "name": "好施",
+                    "url": [
+                        "original/spell120_1",
+                        "original/spell120_2"
+                    ]
+                },
+                {
+                    "name": "缔盟",
+                    "url": [
+                        "original/spell121_1",
+                        "original/spell121_2"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "dead/charDead_49"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 605001,
+            "name": "谋定天下",
+            "voice": [
+                {
+                    "name": "好施",
+                    "url": [
+                        "lusu07/LuSu_HaoShi_01",
+                        "lusu07/LuSu_HaoShi_02"
+                    ]
+                },
+                {
+                    "name": "缔盟",
+                    "url": [
+                        "lusu07/LuSu_DiMeng_01",
+                        "lusu07/LuSu_DiMeng_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "lusu07/LuSu_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 505001,
+            "name": "缔造联盟",
+            "voice": [
+                {
+                    "name": "好施",
+                    "url": [
+                        "lusu06/LuSu_HaoShi_01",
+                        "lusu06/LuSu_HaoShi_02"
+                    ]
+                },
+                {
+                    "name": "缔盟",
+                    "url": [
+                        "lusu06/LuSu_DiMeng_01",
+                        "lusu06/LuSu_DiMeng_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "lusu06/LuSu_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 505002,
+            "name": "周济万民",
+            "voice": [
+                {
+                    "name": "好施",
+                    "url": [
+                        "lusu02/LuSu_HaoShi_01",
+                        "lusu02/LuSu_HaoShi_02"
+                    ]
+                },
+                {
+                    "name": "缔盟",
+                    "url": [
+                        "lusu02/LuSu_DiMeng_01",
+                        "lusu02/LuSu_DiMeng_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "lusu02/LuSu_Dead"
+                    ]
+                }
+            ]
+        }
+    ]
+}

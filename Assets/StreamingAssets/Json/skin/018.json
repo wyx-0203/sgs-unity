@@ -1,0 +1,134 @@
+{
+    "list": [
+        {
+            "id": 101801,
+            "name": "经典形象",
+            "voice": [
+                {
+                    "name": "刚烈",
+                    "url": [
+                        "xiahoudun05/XiaHouDun_GangLie_01",
+                        "xiahoudun05/XiaHouDun_GangLie_02"
+                    ]
+                },
+                {
+                    "name": "清俭",
+                    "url": [
+                        "xiahoudun05/XiaHouDun_QingJian_01",
+                        "xiahoudun05/XiaHouDun_QingJian_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "xiahoudun05/XiaHouDun_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 107701,
+            "name": "界限突破",
+            "voice": [
+                {
+                    "name": "刚烈",
+                    "url": [
+                        "xiahoudun04/XiaHouDun_GangLie_01",
+                        "xiahoudun04/XiaHouDun_GangLie_02"
+                    ]
+                },
+                {
+                    "name": "清俭",
+                    "url": [
+                        "xiahoudun04/XiaHouDun_QingJian_01",
+                        "xiahoudun04/XiaHouDun_QingJian_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "xiahoudun04/XiaHouDun_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 501801,
+            "name": "开疆烈血",
+            "voice": [
+                {
+                    "name": "刚烈",
+                    "url": [
+                        "xiahoudun01/XiaHouDunPo_GangLiePo_01",
+                        "xiahoudun01/XiaHouDunPo_GangLiePo_02"
+                    ]
+                },
+                {
+                    "name": "清俭",
+                    "url": [
+                        "xiahoudun01/XiaHouDunPo_QingJian_01",
+                        "xiahoudun01/XiaHouDunPo_QingJian_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "xiahoudun01/XiaHouDunPo_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 501802,
+            "name": "元让伏虎",
+            "voice": [
+                {
+                    "name": "刚烈",
+                    "url": [
+                        "xiahoudun07/XiaHouDun_GangLie_01",
+                        "xiahoudun07/XiaHouDun_GangLie_02"
+                    ]
+                },
+                {
+                    "name": "清俭",
+                    "url": [
+                        "xiahoudun07/XiaHouDun_QingJian_02",
+                        "xiahoudun07/XiaHouDun_QingJian_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "xiahoudun07/XiaHouDun_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 501803,
+            "name": "万难不辞",
+            "voice": [
+                {
+                    "name": "刚烈",
+                    "url": [
+                        "xiahoudun08/XiaHouDun_GangLie_01",
+                        "xiahoudun08/XiaHouDun_GangLie_02"
+                    ]
+                },
+                {
+                    "name": "清俭",
+                    "url": [
+                        "xiahoudun08/XiaHouDun_QingJian_02",
+                        "xiahoudun08/XiaHouDun_QingJian_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "xiahoudun08/XiaHouDun_Dead"
+                    ]
+                }
+            ]
+        }
+    ]
+}

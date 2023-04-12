@@ -1,0 +1,80 @@
+{
+    "list": [
+        {
+            "id": 102701,
+            "name": "经典形象",
+            "voice": [
+                {
+                    "name": "烈弓",
+                    "url": [
+                        "original/spell71_1",
+                        "original/spell71_2"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "dead/charDead_26"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 602701,
+            "name": "武动乾坤",
+            "voice": [
+                {
+                    "name": "烈弓",
+                    "url": [
+                        "huangzhong05/HuangZhong_LieGong_01",
+                        "huangzhong05/HuangZhong_LieGong_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "huangzhong05/HuangZhong_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 502701,
+            "name": "没金饮羽",
+            "voice": [
+                {
+                    "name": "烈弓",
+                    "url": [
+                        "huangzhong06/HuangZhong_LieGong_01",
+                        "huangzhong06/HuangZhong_LieGong_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "huangzhong06/HuangZhong_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 502702,
+            "name": "佻身飞镞",
+            "voice": [
+                {
+                    "name": "烈弓",
+                    "url": [
+                        "huangzhong07/HuangZhong_LieGong_01",
+                        "huangzhong07/HuangZhong_LieGong_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "huangzhong07/HuangZhong_Dead"
+                    ]
+                }
+            ]
+        }
+    ]
+}

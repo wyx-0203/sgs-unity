@@ -1,0 +1,82 @@
+{
+    "list": [
+        {
+            "id": 129801,
+            "name": "经典形象",
+            "voice": [
+                {
+                    "name": "陷阵",
+                    "url": [
+                        "original/spell403_1",
+                        "original/spell403_2"
+                    ]
+                },
+                {
+                    "name": "禁酒",
+                    "url": [
+                        "original/spell404_1",
+                        "original/spell404_2"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "dead/charDead_152"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 529801,
+            "name": "陷阵统帅",
+            "voice": [
+                {
+                    "name": "陷阵",
+                    "url": [
+                        "gaoshun05/GaoShun_XianZhen_01",
+                        "gaoshun05/GaoShun_XianZhen_01"
+                    ]
+                },
+                {
+                    "name": "禁酒",
+                    "url": [
+                        "gaoshun05/GaoShun_JinJiu_01",
+                        "gaoshun05/GaoShun_JinJiu_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "gaoshun05/GaoShun_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 529802,
+            "name": "炙炎烽火",
+            "voice": [
+                {
+                    "name": "陷阵",
+                    "url": [
+                        "gaoshun07/GaoShun_XianZhen_01",
+                        "gaoshun07/GaoShun_XianZhen_01"
+                    ]
+                },
+                {
+                    "name": "禁酒",
+                    "url": [
+                        "gaoshun07/GaoShun_JinJiu_01",
+                        "gaoshun07/GaoShun_JinJiu_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "gaoshun07/GaoShun_Dead"
+                    ]
+                }
+            ]
+        }
+    ]
+}

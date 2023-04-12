@@ -1,0 +1,99 @@
+{
+    "list": [
+        {
+            "id": 100101,
+            "name": "经典形象",
+            "voice": [
+                {
+                    "name": "仁德",
+                    "url": [
+                        "original/spell31_1",
+                        "original/spell31_2"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "dead/charDead_1"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 106001,
+            "name": "界限突破",
+            "voice": [
+                {
+                    "name": "仁德",
+                    "url": [
+                        "original/spell699_1",
+                        "original/spell699_2"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "dead/charDead_299"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 506002,
+            "name": "英杰会聚",
+            "voice": [
+                {
+                    "name": "仁德",
+                    "url": [
+                        "jieliubei05/JieLiuBei_JieRenDe_01",
+                        "jieliubei05/JieLiuBei_JieRenDe_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "jieliubei05/JieLiuBei_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 506001,
+            "name": "六星耀帝",
+            "voice": [
+                {
+                    "name": "仁德",
+                    "url": [
+                        "jieliubei04/JieLiuBei_JieRenDe_01",
+                        "jieliubei04/JieLiuBei_JieRenDe_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "jieliubei04/JieLiuBei_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 400101,
+            "name": "御驾亲征",
+            "voice": [
+                {
+                    "name": "仁德",
+                    "url": [
+                        "liubei05/LiuBei_RenDe_01",
+                        "liubei05/LiuBei_RenDe_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "liubei05/LiuBei_Dead"
+                    ]
+                }
+            ]
+        }
+    ]
+}

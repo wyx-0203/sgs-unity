@@ -1,0 +1,160 @@
+{
+    "list": [
+        {
+            "id": 103601,
+            "name": "经典形象",
+            "voice": [
+                {
+                    "name": "驱虎",
+                    "url": [
+                        "original/spell92_1",
+                        "original/spell92_2"
+                    ]
+                },
+                {
+                    "name": "节命",
+                    "url": [
+                        "original/spell93_1",
+                        "original/spell93_2"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "dead/charDead_35"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 603601,
+            "name": "谋定天下",
+            "voice": [
+                {
+                    "name": "驱虎",
+                    "url": [
+                        "xunyu07/XunYu_QuHu_01",
+                        "xunyu07/XunYu_QuHu_02"
+                    ]
+                },
+                {
+                    "name": "节命",
+                    "url": [
+                        "xunyu07/XunYu_JieMing_01",
+                        "xunyu07/XunYu_JieMing_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "xunyu07/XunYu_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 503601,
+            "name": "明以举贤",
+            "voice": [
+                {
+                    "name": "驱虎",
+                    "url": [
+                        "xunyu02/XunYu_QuHu_01",
+                        "xunyu02/XunYu_QuHu_02"
+                    ]
+                },
+                {
+                    "name": "节命",
+                    "url": [
+                        "xunyu02/XunYu_JieMing_01",
+                        "xunyu02/XunYu_JieMing_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "xunyu02/XunYu_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 503602,
+            "name": "令君劝战",
+            "voice": [
+                {
+                    "name": "驱虎",
+                    "url": [
+                        "xunyu03/XunYu_QuHu_01",
+                        "xunyu03/XunYu_QuHu_02"
+                    ]
+                },
+                {
+                    "name": "节命",
+                    "url": [
+                        "xunyu03/XunYu_JieMing_01",
+                        "xunyu03/XunYu_JieMing_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "xunyu03/XunYu_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 503604,
+            "name": "王佐之谋",
+            "voice": [
+                {
+                    "name": "驱虎",
+                    "url": [
+                        "xunyu08/XunYu_QuHu_01",
+                        "xunyu08/XunYu_QuHu_02"
+                    ]
+                },
+                {
+                    "name": "节命",
+                    "url": [
+                        "xunyu08/XunYu_JieMing_01",
+                        "xunyu08/XunYu_JieMing_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "xunyu08/XunYu_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 403601,
+            "name": "王佐之才",
+            "voice": [
+                {
+                    "name": "驱虎",
+                    "url": [
+                        "xunyu01/XunYu_QuHu_01",
+                        "xunyu01/XunYu_QuHu_02"
+                    ]
+                },
+                {
+                    "name": "节命",
+                    "url": [
+                        "xunyu01/XunYu_JieMing_01",
+                        "xunyu01/XunYu_JieMing_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "xunyu01/XunYu_Dead"
+                    ]
+                }
+            ]
+        }
+    ]
+}

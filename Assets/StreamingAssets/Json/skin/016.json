@@ -1,0 +1,118 @@
+{
+    "list": [
+        {
+            "id": 101601,
+            "name": "经典形象",
+            "voice": [
+                {
+                    "name": "奸雄",
+                    "url": [
+                        "original/spell42_1",
+                        "original/spell42_2"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "dead/charDead_15"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 107501,
+            "name": "界限突破",
+            "voice": [
+                {
+                    "name": "奸雄",
+                    "url": [
+                        "caocaopo03/CaoCao_JianXiong_01",
+                        "caocaopo03/CaoCao_JianXiong_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "caocaopo03/CaoCao_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 507502,
+            "name": "英杰会聚",
+            "voice": [
+                {
+                    "name": "奸雄",
+                    "url": [
+                        "caocaopo02/CaoCaoPo_JianXiongPo_01",
+                        "caocaopo02/CaoCaoPo_JianXiongPo_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "caocaopo02/CaoCaoPo_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 501601,
+            "name": "魏武东临",
+            "voice": [
+                {
+                    "name": "奸雄",
+                    "url": [
+                        "caocao03/CaoCao_JianXiong_01",
+                        "caocao03/CaoCao_JianXiong_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "caocao03/CaoCao_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 507501,
+            "name": "魏武霸业",
+            "voice": [
+                {
+                    "name": "奸雄",
+                    "url": [
+                        "caocaopo01/CaoCaoPo_JianXiongPo_01",
+                        "caocaopo01/CaoCaoPo_JianXiongPo_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "caocaopo01/CaoCaoPo_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 501606,
+            "name": "山河常青",
+            "voice": [
+                {
+                    "name": "奸雄",
+                    "url": [
+                        "caocaopo06/CaoCaoPo_JianXiongPo_01",
+                        "caocaopo06/CaoCaoPo_JianXiongPo_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "caocaopo06/CaoCaoPo_Dead"
+                    ]
+                }
+            ]
+        }
+    ]
+}

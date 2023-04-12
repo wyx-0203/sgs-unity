@@ -1,0 +1,118 @@
+{
+    "list": [
+        {
+            "id": 101901,
+            "name": "经典形象",
+            "voice": [
+                {
+                    "name": "突袭",
+                    "url": [
+                        "original/spell44_1",
+                        "original/spell44_2"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "dead/charDead_18"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 107801,
+            "name": "界限突破",
+            "voice": [
+                {
+                    "name": "突袭",
+                    "url": [
+                        "zhangliaopo04/ZhangLiaoPo_TuXiPo_01",
+                        "zhangliaopo04/ZhangLiaoPo_TuXiPo_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "zhangliaopo04/ZhangLiaoPo_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 601901,
+            "name": "武动乾坤",
+            "voice": [
+                {
+                    "name": "突袭",
+                    "url": [
+                        "zhangliaopo02/ZhangLiaoPo_TuXiPo_01",
+                        "zhangliaopo02/ZhangLiaoPo_TuXiPo_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "zhangliaopo02/ZhangLiaoPo_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 507802,
+            "name": "奋勇破敌",
+            "voice": [
+                {
+                    "name": "突袭",
+                    "url": [
+                        "zhangliaopo05/ZhangLiaoPo_TuXiPo_01",
+                        "zhangliaopo05/ZhangLiaoPo_TuXiPo_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "zhangliaopo05/ZhangLiaoPo_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 507801,
+            "name": "威震逍遥",
+            "voice": [
+                {
+                    "name": "突袭",
+                    "url": [
+                        "zhangliaopo06/ZhangLiaoPo_TuXiPo_01",
+                        "zhangliaopo06/ZhangLiaoPo_TuXiPo_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "zhangliaopo06/ZhangLiaoPo_Dead"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 507803,
+            "name": "踏雪疾驰",
+            "voice": [
+                {
+                    "name": "突袭",
+                    "url": [
+                        "zhangliaopo09/ZhangLiaoPo_TuXiPo_01",
+                        "zhangliaopo09/ZhangLiaoPo_TuXiPo_02"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "zhangliaopo09/ZhangLiaoPo_Dead"
+                    ]
+                }
+            ]
+        }
+    ]
+}

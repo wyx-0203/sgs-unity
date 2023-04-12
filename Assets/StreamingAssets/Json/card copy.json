@@ -1,0 +1,1131 @@
+{
+    "list": [
+        {
+            "id": 0,
+            "suit": "",
+            "weight": 0,
+            "type": "",
+            "name": ""
+        },
+        {
+            "id": 1,
+            "suit": "黑桃",
+            "weight": 1,
+            "type": "锦囊牌",
+            "name": "决斗"
+        },
+        {
+            "id": 2,
+            "suit": "黑桃",
+            "weight": 2,
+            "type": "防具",
+            "name": "八卦阵"
+        },
+        {
+            "id": 3,
+            "suit": "黑桃",
+            "weight": 3,
+            "type": "锦囊牌",
+            "name": "过河拆桥"
+        },
+        {
+            "id": 4,
+            "suit": "黑桃",
+            "weight": 4,
+            "type": "锦囊牌",
+            "name": "过河拆桥"
+        },
+        {
+            "id": 5,
+            "suit": "黑桃",
+            "weight": 5,
+            "type": "武器",
+            "name": "青龙偃月刀"
+        },
+        {
+            "id": 6,
+            "suit": "黑桃",
+            "weight": 6,
+            "type": "延时锦囊",
+            "name": "乐不思蜀"
+        },
+        {
+            "id": 7,
+            "suit": "黑桃",
+            "weight": 7,
+            "type": "基本牌",
+            "name": "杀"
+        },
+        {
+            "id": 8,
+            "suit": "黑桃",
+            "weight": 8,
+            "type": "基本牌",
+            "name": "杀"
+        },
+        {
+            "id": 9,
+            "suit": "黑桃",
+            "weight": 9,
+            "type": "基本牌",
+            "name": "杀"
+        },
+        {
+            "id": 10,
+            "suit": "黑桃",
+            "weight": 10,
+            "type": "基本牌",
+            "name": "杀"
+        },
+        {
+            "id": 11,
+            "suit": "黑桃",
+            "weight": 11,
+            "type": "锦囊牌",
+            "name": "顺手牵羊"
+        },
+        {
+            "id": 12,
+            "suit": "黑桃",
+            "weight": 12,
+            "type": "锦囊牌",
+            "name": "过河拆桥"
+        },
+        {
+            "id": 13,
+            "suit": "黑桃",
+            "weight": 13,
+            "type": "锦囊牌",
+            "name": "南蛮入侵"
+        },
+        {
+            "id": 14,
+            "suit": "红桃",
+            "weight": 1,
+            "type": "锦囊牌",
+            "name": "万箭齐发"
+        },
+        {
+            "id": 15,
+            "suit": "红桃",
+            "weight": 2,
+            "type": "基本牌",
+            "name": "闪"
+        },
+        {
+            "id": 16,
+            "suit": "红桃",
+            "weight": 3,
+            "type": "基本牌",
+            "name": "桃"
+        },
+        {
+            "id": 17,
+            "suit": "红桃",
+            "weight": 4,
+            "type": "基本牌",
+            "name": "桃"
+        },
+        {
+            "id": 18,
+            "suit": "红桃",
+            "weight": 5,
+            "type": "武器",
+            "name": "麒麟弓"
+        },
+        {
+            "id": 19,
+            "suit": "红桃",
+            "weight": 6,
+            "type": "基本牌",
+            "name": "桃"
+        },
+        {
+            "id": 20,
+            "suit": "红桃",
+            "weight": 7,
+            "type": "基本牌",
+            "name": "桃"
+        },
+        {
+            "id": 21,
+            "suit": "红桃",
+            "weight": 8,
+            "type": "基本牌",
+            "name": "桃"
+        },
+        {
+            "id": 22,
+            "suit": "红桃",
+            "weight": 9,
+            "type": "基本牌",
+            "name": "桃"
+        },
+        {
+            "id": 23,
+            "suit": "红桃",
+            "weight": 10,
+            "type": "基本牌",
+            "name": "杀"
+        },
+        {
+            "id": 24,
+            "suit": "红桃",
+            "weight": 11,
+            "type": "基本牌",
+            "name": "杀"
+        },
+        {
+            "id": 25,
+            "suit": "红桃",
+            "weight": 12,
+            "type": "基本牌",
+            "name": "桃"
+        },
+        {
+            "id": 26,
+            "suit": "红桃",
+            "weight": 13,
+            "type": "基本牌",
+            "name": "闪"
+        },
+        {
+            "id": 27,
+            "suit": "草花",
+            "weight": 1,
+            "type": "锦囊牌",
+            "name": "决斗"
+        },
+        {
+            "id": 28,
+            "suit": "草花",
+            "weight": 2,
+            "type": "基本牌",
+            "name": "杀"
+        },
+        {
+            "id": 29,
+            "suit": "草花",
+            "weight": 3,
+            "type": "基本牌",
+            "name": "杀"
+        },
+        {
+            "id": 30,
+            "suit": "草花",
+            "weight": 4,
+            "type": "基本牌",
+            "name": "杀"
+        },
+        {
+            "id": 31,
+            "suit": "草花",
+            "weight": 5,
+            "type": "基本牌",
+            "name": "杀"
+        },
+        {
+            "id": 32,
+            "suit": "草花",
+            "weight": 6,
+            "type": "基本牌",
+            "name": "杀"
+        },
+        {
+            "id": 33,
+            "suit": "草花",
+            "weight": 7,
+            "type": "基本牌",
+            "name": "杀"
+        },
+        {
+            "id": 34,
+            "suit": "草花",
+            "weight": 8,
+            "type": "基本牌",
+            "name": "杀"
+        },
+        {
+            "id": 35,
+            "suit": "草花",
+            "weight": 9,
+            "type": "基本牌",
+            "name": "杀"
+        },
+        {
+            "id": 36,
+            "suit": "草花",
+            "weight": 10,
+            "type": "基本牌",
+            "name": "杀"
+        },
+        {
+            "id": 37,
+            "suit": "草花",
+            "weight": 11,
+            "type": "基本牌",
+            "name": "杀"
+        },
+        {
+            "id": 38,
+            "suit": "草花",
+            "weight": 12,
+            "type": "锦囊牌",
+            "name": "借刀杀人"
+        },
+        {
+            "id": 39,
+            "suit": "草花",
+            "weight": 13,
+            "type": "锦囊牌",
+            "name": "借刀杀人"
+        },
+        {
+            "id": 40,
+            "suit": "方片",
+            "weight": 1,
+            "type": "锦囊牌",
+            "name": "决斗"
+        },
+        {
+            "id": 41,
+            "suit": "方片",
+            "weight": 2,
+            "type": "基本牌",
+            "name": "闪"
+        },
+        {
+            "id": 42,
+            "suit": "方片",
+            "weight": 3,
+            "type": "基本牌",
+            "name": "闪"
+        },
+        {
+            "id": 43,
+            "suit": "方片",
+            "weight": 4,
+            "type": "基本牌",
+            "name": "闪"
+        },
+        {
+            "id": 44,
+            "suit": "方片",
+            "weight": 5,
+            "type": "基本牌",
+            "name": "闪"
+        },
+        {
+            "id": 45,
+            "suit": "方片",
+            "weight": 6,
+            "type": "基本牌",
+            "name": "杀"
+        },
+        {
+            "id": 46,
+            "suit": "方片",
+            "weight": 7,
+            "type": "基本牌",
+            "name": "杀"
+        },
+        {
+            "id": 47,
+            "suit": "方片",
+            "weight": 8,
+            "type": "基本牌",
+            "name": "杀"
+        },
+        {
+            "id": 48,
+            "suit": "方片",
+            "weight": 9,
+            "type": "基本牌",
+            "name": "杀"
+        },
+        {
+            "id": 49,
+            "suit": "方片",
+            "weight": 10,
+            "type": "基本牌",
+            "name": "杀"
+        },
+        {
+            "id": 50,
+            "suit": "方片",
+            "weight": 11,
+            "type": "基本牌",
+            "name": "闪"
+        },
+        {
+            "id": 51,
+            "suit": "方片",
+            "weight": 12,
+            "type": "基本牌",
+            "name": "桃"
+        },
+        {
+            "id": 52,
+            "suit": "方片",
+            "weight": 13,
+            "type": "基本牌",
+            "name": "杀"
+        },
+        {
+            "id": 53,
+            "suit": "黑桃",
+            "weight": 1,
+            "type": "延时锦囊",
+            "name": "闪电"
+        },
+        {
+            "id": 54,
+            "suit": "黑桃",
+            "weight": 2,
+            "type": "武器",
+            "name": "雌雄双股剑"
+        },
+        {
+            "id": 55,
+            "suit": "黑桃",
+            "weight": 3,
+            "type": "锦囊牌",
+            "name": "顺手牵羊"
+        },
+        {
+            "id": 56,
+            "suit": "黑桃",
+            "weight": 4,
+            "type": "锦囊牌",
+            "name": "顺手牵羊"
+        },
+        {
+            "id": 57,
+            "suit": "黑桃",
+            "weight": 5,
+            "type": "加一马",
+            "name": "绝影"
+        },
+        {
+            "id": 58,
+            "suit": "黑桃",
+            "weight": 6,
+            "type": "武器",
+            "name": "青釭剑"
+        },
+        {
+            "id": 59,
+            "suit": "黑桃",
+            "weight": 7,
+            "type": "锦囊牌",
+            "name": "南蛮入侵"
+        },
+        {
+            "id": 60,
+            "suit": "黑桃",
+            "weight": 8,
+            "type": "基本牌",
+            "name": "杀"
+        },
+        {
+            "id": 61,
+            "suit": "黑桃",
+            "weight": 9,
+            "type": "基本牌",
+            "name": "杀"
+        },
+        {
+            "id": 62,
+            "suit": "黑桃",
+            "weight": 10,
+            "type": "基本牌",
+            "name": "杀"
+        },
+        {
+            "id": 63,
+            "suit": "黑桃",
+            "weight": 11,
+            "type": "锦囊牌",
+            "name": "无懈可击"
+        },
+        {
+            "id": 64,
+            "suit": "黑桃",
+            "weight": 12,
+            "type": "武器",
+            "name": "丈八蛇矛"
+        },
+        {
+            "id": 65,
+            "suit": "黑桃",
+            "weight": 13,
+            "type": "减一马",
+            "name": "大宛"
+        },
+        {
+            "id": 66,
+            "suit": "红桃",
+            "weight": 1,
+            "type": "锦囊牌",
+            "name": "桃园结义"
+        },
+        {
+            "id": 67,
+            "suit": "红桃",
+            "weight": 2,
+            "type": "基本牌",
+            "name": "闪"
+        },
+        {
+            "id": 68,
+            "suit": "红桃",
+            "weight": 3,
+            "type": "锦囊牌",
+            "name": "五谷丰登"
+        },
+        {
+            "id": 69,
+            "suit": "红桃",
+            "weight": 4,
+            "type": "基本牌",
+            "name": "桃"
+        },
+        {
+            "id": 70,
+            "suit": "红桃",
+            "weight": 5,
+            "type": "减一马",
+            "name": "赤兔"
+        },
+        {
+            "id": 71,
+            "suit": "红桃",
+            "weight": 6,
+            "type": "延时锦囊",
+            "name": "乐不思蜀"
+        },
+        {
+            "id": 72,
+            "suit": "红桃",
+            "weight": 7,
+            "type": "锦囊牌",
+            "name": "无中生有"
+        },
+        {
+            "id": 73,
+            "suit": "红桃",
+            "weight": 8,
+            "type": "锦囊牌",
+            "name": "无中生有"
+        },
+        {
+            "id": 74,
+            "suit": "红桃",
+            "weight": 9,
+            "type": "锦囊牌",
+            "name": "无中生有"
+        },
+        {
+            "id": 75,
+            "suit": "红桃",
+            "weight": 10,
+            "type": "基本牌",
+            "name": "杀"
+        },
+        {
+            "id": 76,
+            "suit": "红桃",
+            "weight": 11,
+            "type": "锦囊牌",
+            "name": "无中生有"
+        },
+        {
+            "id": 77,
+            "suit": "红桃",
+            "weight": 12,
+            "type": "锦囊牌",
+            "name": "过河拆桥"
+        },
+        {
+            "id": 78,
+            "suit": "红桃",
+            "weight": 13,
+            "type": "加一马",
+            "name": "爪黄飞电"
+        },
+        {
+            "id": 79,
+            "suit": "草花",
+            "weight": 1,
+            "type": "武器",
+            "name": "诸葛连弩"
+        },
+        {
+            "id": 80,
+            "suit": "草花",
+            "weight": 2,
+            "type": "防具",
+            "name": "八卦阵"
+        },
+        {
+            "id": 81,
+            "suit": "草花",
+            "weight": 3,
+            "type": "锦囊牌",
+            "name": "过河拆桥"
+        },
+        {
+            "id": 82,
+            "suit": "草花",
+            "weight": 4,
+            "type": "锦囊牌",
+            "name": "过河拆桥"
+        },
+        {
+            "id": 83,
+            "suit": "草花",
+            "weight": 5,
+            "type": "加一马",
+            "name": "的卢"
+        },
+        {
+            "id": 84,
+            "suit": "草花",
+            "weight": 6,
+            "type": "延时锦囊",
+            "name": "乐不思蜀"
+        },
+        {
+            "id": 85,
+            "suit": "草花",
+            "weight": 7,
+            "type": "锦囊牌",
+            "name": "南蛮入侵"
+        },
+        {
+            "id": 86,
+            "suit": "草花",
+            "weight": 8,
+            "type": "基本牌",
+            "name": "杀"
+        },
+        {
+            "id": 87,
+            "suit": "草花",
+            "weight": 9,
+            "type": "基本牌",
+            "name": "杀"
+        },
+        {
+            "id": 88,
+            "suit": "草花",
+            "weight": 10,
+            "type": "基本牌",
+            "name": "杀"
+        },
+        {
+            "id": 89,
+            "suit": "草花",
+            "weight": 11,
+            "type": "基本牌",
+            "name": "杀"
+        },
+        {
+            "id": 90,
+            "suit": "草花",
+            "weight": 12,
+            "type": "锦囊牌",
+            "name": "无懈可击"
+        },
+        {
+            "id": 91,
+            "suit": "草花",
+            "weight": 13,
+            "type": "锦囊牌",
+            "name": "无懈可击"
+        },
+        {
+            "id": 92,
+            "suit": "方片",
+            "weight": 1,
+            "type": "武器",
+            "name": "诸葛连弩"
+        },
+        {
+            "id": 93,
+            "suit": "方片",
+            "weight": 2,
+            "type": "基本牌",
+            "name": "闪"
+        },
+        {
+            "id": 94,
+            "suit": "方片",
+            "weight": 3,
+            "type": "锦囊牌",
+            "name": "顺手牵羊"
+        },
+        {
+            "id": 95,
+            "suit": "方片",
+            "weight": 4,
+            "type": "锦囊牌",
+            "name": "顺手牵羊"
+        },
+        {
+            "id": 96,
+            "suit": "方片",
+            "weight": 5,
+            "type": "武器",
+            "name": "贯石斧"
+        },
+        {
+            "id": 97,
+            "suit": "方片",
+            "weight": 6,
+            "type": "基本牌",
+            "name": "闪"
+        },
+        {
+            "id": 98,
+            "suit": "方片",
+            "weight": 7,
+            "type": "基本牌",
+            "name": "闪"
+        },
+        {
+            "id": 99,
+            "suit": "方片",
+            "weight": 8,
+            "type": "基本牌",
+            "name": "闪"
+        },
+        {
+            "id": 100,
+            "suit": "方片",
+            "weight": 9,
+            "type": "基本牌",
+            "name": "闪"
+        },
+        {
+            "id": 101,
+            "suit": "方片",
+            "weight": 10,
+            "type": "基本牌",
+            "name": "闪"
+        },
+        {
+            "id": 102,
+            "suit": "方片",
+            "weight": 11,
+            "type": "基本牌",
+            "name": "闪"
+        },
+        {
+            "id": 103,
+            "suit": "方片",
+            "weight": 12,
+            "type": "武器",
+            "name": "方天画戟"
+        },
+        {
+            "id": 104,
+            "suit": "方片",
+            "weight": 13,
+            "type": "减一马",
+            "name": "紫骍"
+        },
+        {
+            "id": 105,
+            "suit": "黑桃",
+            "weight": 1,
+            "type": "武器",
+            "name": "古锭刀"
+        },
+        {
+            "id": 106,
+            "suit": "黑桃",
+            "weight": 2,
+            "type": "防具",
+            "name": "藤甲"
+        },
+        {
+            "id": 107,
+            "suit": "黑桃",
+            "weight": 3,
+            "type": "基本牌",
+            "name": "酒"
+        },
+        {
+            "id": 108,
+            "suit": "黑桃",
+            "weight": 4,
+            "type": "基本牌",
+            "name": "雷杀"
+        },
+        {
+            "id": 109,
+            "suit": "黑桃",
+            "weight": 5,
+            "type": "基本牌",
+            "name": "雷杀"
+        },
+        {
+            "id": 110,
+            "suit": "黑桃",
+            "weight": 6,
+            "type": "基本牌",
+            "name": "雷杀"
+        },
+        {
+            "id": 111,
+            "suit": "黑桃",
+            "weight": 7,
+            "type": "基本牌",
+            "name": "雷杀"
+        },
+        {
+            "id": 112,
+            "suit": "黑桃",
+            "weight": 8,
+            "type": "基本牌",
+            "name": "雷杀"
+        },
+        {
+            "id": 113,
+            "suit": "黑桃",
+            "weight": 9,
+            "type": "基本牌",
+            "name": "酒"
+        },
+        {
+            "id": 114,
+            "suit": "黑桃",
+            "weight": 10,
+            "type": "延时锦囊",
+            "name": "兵粮寸断"
+        },
+        {
+            "id": 115,
+            "suit": "黑桃",
+            "weight": 11,
+            "type": "锦囊牌",
+            "name": "铁索连环"
+        },
+        {
+            "id": 116,
+            "suit": "黑桃",
+            "weight": 12,
+            "type": "锦囊牌",
+            "name": "铁索连环"
+        },
+        {
+            "id": 117,
+            "suit": "黑桃",
+            "weight": 13,
+            "type": "锦囊牌",
+            "name": "无懈可击"
+        },
+        {
+            "id": 118,
+            "suit": "红桃",
+            "weight": 1,
+            "type": "锦囊牌",
+            "name": "无懈可击"
+        },
+        {
+            "id": 119,
+            "suit": "红桃",
+            "weight": 2,
+            "type": "锦囊牌",
+            "name": "火攻"
+        },
+        {
+            "id": 120,
+            "suit": "红桃",
+            "weight": 3,
+            "type": "基本牌",
+            "name": "火杀"
+        },
+        {
+            "id": 121,
+            "suit": "红桃",
+            "weight": 4,
+            "type": "基本牌",
+            "name": "火杀"
+        },
+        {
+            "id": 122,
+            "suit": "红桃",
+            "weight": 5,
+            "type": "基本牌",
+            "name": "桃"
+        },
+        {
+            "id": 123,
+            "suit": "红桃",
+            "weight": 6,
+            "type": "基本牌",
+            "name": "桃"
+        },
+        {
+            "id": 124,
+            "suit": "红桃",
+            "weight": 7,
+            "type": "基本牌",
+            "name": "火杀"
+        },
+        {
+            "id": 125,
+            "suit": "红桃",
+            "weight": 8,
+            "type": "基本牌",
+            "name": "闪"
+        },
+        {
+            "id": 126,
+            "suit": "红桃",
+            "weight": 9,
+            "type": "基本牌",
+            "name": "闪"
+        },
+        {
+            "id": 127,
+            "suit": "红桃",
+            "weight": 10,
+            "type": "基本牌",
+            "name": "火杀"
+        },
+        {
+            "id": 128,
+            "suit": "红桃",
+            "weight": 11,
+            "type": "基本牌",
+            "name": "闪"
+        },
+        {
+            "id": 129,
+            "suit": "红桃",
+            "weight": 12,
+            "type": "基本牌",
+            "name": "闪"
+        },
+        {
+            "id": 130,
+            "suit": "红桃",
+            "weight": 13,
+            "type": "锦囊牌",
+            "name": "无懈可击"
+        },
+        {
+            "id": 131,
+            "suit": "草花",
+            "weight": 1,
+            "type": "防具",
+            "name": "白银狮子"
+        },
+        {
+            "id": 132,
+            "suit": "草花",
+            "weight": 2,
+            "type": "防具",
+            "name": "藤甲"
+        },
+        {
+            "id": 133,
+            "suit": "草花",
+            "weight": 3,
+            "type": "基本牌",
+            "name": "酒"
+        },
+        {
+            "id": 134,
+            "suit": "草花",
+            "weight": 4,
+            "type": "延时锦囊",
+            "name": "兵粮寸断"
+        },
+        {
+            "id": 135,
+            "suit": "草花",
+            "weight": 5,
+            "type": "基本牌",
+            "name": "雷杀"
+        },
+        {
+            "id": 136,
+            "suit": "草花",
+            "weight": 6,
+            "type": "基本牌",
+            "name": "雷杀"
+        },
+        {
+            "id": 137,
+            "suit": "草花",
+            "weight": 7,
+            "type": "基本牌",
+            "name": "雷杀"
+        },
+        {
+            "id": 138,
+            "suit": "草花",
+            "weight": 8,
+            "type": "基本牌",
+            "name": "雷杀"
+        },
+        {
+            "id": 139,
+            "suit": "草花",
+            "weight": 9,
+            "type": "基本牌",
+            "name": "酒"
+        },
+        {
+            "id": 140,
+            "suit": "草花",
+            "weight": 10,
+            "type": "锦囊牌",
+            "name": "铁索连环"
+        },
+        {
+            "id": 141,
+            "suit": "草花",
+            "weight": 11,
+            "type": "锦囊牌",
+            "name": "铁索连环"
+        },
+        {
+            "id": 142,
+            "suit": "草花",
+            "weight": 12,
+            "type": "锦囊牌",
+            "name": "铁索连环"
+        },
+        {
+            "id": 143,
+            "suit": "草花",
+            "weight": 13,
+            "type": "锦囊牌",
+            "name": "铁索连环"
+        },
+        {
+            "id": 144,
+            "suit": "方片",
+            "weight": 1,
+            "type": "武器",
+            "name": "朱雀羽扇"
+        },
+        {
+            "id": 145,
+            "suit": "方片",
+            "weight": 2,
+            "type": "基本牌",
+            "name": "桃"
+        },
+        {
+            "id": 146,
+            "suit": "方片",
+            "weight": 3,
+            "type": "基本牌",
+            "name": "桃"
+        },
+        {
+            "id": 147,
+            "suit": "方片",
+            "weight": 4,
+            "type": "基本牌",
+            "name": "火杀"
+        },
+        {
+            "id": 148,
+            "suit": "方片",
+            "weight": 5,
+            "type": "基本牌",
+            "name": "火杀"
+        },
+        {
+            "id": 149,
+            "suit": "方片",
+            "weight": 6,
+            "type": "基本牌",
+            "name": "闪"
+        },
+        {
+            "id": 150,
+            "suit": "方片",
+            "weight": 7,
+            "type": "基本牌",
+            "name": "闪"
+        },
+        {
+            "id": 151,
+            "suit": "方片",
+            "weight": 8,
+            "type": "基本牌",
+            "name": "闪"
+        },
+        {
+            "id": 152,
+            "suit": "方片",
+            "weight": 9,
+            "type": "基本牌",
+            "name": "酒"
+        },
+        {
+            "id": 153,
+            "suit": "方片",
+            "weight": 10,
+            "type": "基本牌",
+            "name": "闪"
+        },
+        {
+            "id": 154,
+            "suit": "方片",
+            "weight": 11,
+            "type": "基本牌",
+            "name": "闪"
+        },
+        {
+            "id": 155,
+            "suit": "方片",
+            "weight": 12,
+            "type": "锦囊牌",
+            "name": "火攻"
+        },
+        {
+            "id": 156,
+            "suit": "方片",
+            "weight": 13,
+            "type": "加一马",
+            "name": "骅骝"
+        },
+        {
+            "id": 157,
+            "suit": "黑桃",
+            "weight": 2,
+            "type": "武器",
+            "name": "寒冰剑"
+        },
+        {
+            "id": 158,
+            "suit": "红桃",
+            "weight": 12,
+            "type": "延时锦囊",
+            "name": "闪电"
+        },
+        {
+            "id": 159,
+            "suit": "草花",
+            "weight": 2,
+            "type": "防具",
+            "name": "仁王盾"
+        },
+        {
+            "id": 160,
+            "suit": "方片",
+            "weight": 12,
+            "type": "锦囊牌",
+            "name": "无懈可击"
+        }
+    ]
+}
