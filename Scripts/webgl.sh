@@ -1,0 +1,1 @@
+scp -r Build/WebGL/Build aliyun:~/sgs-server/nginx/webgl

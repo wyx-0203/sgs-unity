@@ -1,0 +1,3897 @@
+fileFormatVersion: 2
+guid: 2c1a133ff6031ac4eb14fad25c0a7e96
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -4277315727225170271
+    second: selfseat_0
+  - first:
+      213: 414418895054464936
+    second: selfseat_1
+  - first:
+      213: 1867727849994948062
+    second: selfseat_2
+  - first:
+      213: -7500382506170940039
+    second: selfseat_3
+  - first:
+      213: 4737121156844674954
+    second: selfseat_4
+  - first:
+      213: 3908207352910473148
+    second: selfseat_5
+  - first:
+      213: 1417443120948114152
+    second: selfseat_6
+  - first:
+      213: 4173324856054228885
+    second: selfseat_7
+  - first:
+      213: 7203757676830629257
+    second: selfseat_8
+  - first:
+      213: -3006630636673633871
+    second: selfseat_9
+  - first:
+      213: -21015544913745051
+    second: selfseat_10
+  - first:
+      213: -3768247104028270579
+    second: selfseat_11
+  - first:
+      213: 5311493361356630707
+    second: selfseat_12
+  - first:
+      213: 4755718228062822093
+    second: selfseat_13
+  - first:
+      213: 5280722216174896832
+    second: selfseat_14
+  - first:
+      213: -3028135278434099884
+    second: selfseat_15
+  - first:
+      213: -2011377951662295848
+    second: selfseat_16
+  - first:
+      213: -7584244594823159508
+    second: selfseat_17
+  - first:
+      213: 7805682030441305742
+    second: selfseat_18
+  - first:
+      213: 2368928713686938272
+    second: selfseat_19
+  - first:
+      213: 1315169942305162267
+    second: selfseat_20
+  - first:
+      213: 2547187360422537606
+    second: selfseat_21
+  - first:
+      213: 1771446640603595134
+    second: selfseat_22
+  - first:
+      213: -5331816542132555353
+    second: selfseat_23
+  - first:
+      213: 92268597075512906
+    second: selfseat_24
+  - first:
+      213: -3549411794497009021
+    second: selfseat_25
+  - first:
+      213: 7808070309725291882
+    second: selfseat_26
+  - first:
+      213: 3723088600898682445
+    second: selfseat_27
+  - first:
+      213: 6174116275092945109
+    second: selfseat_28
+  - first:
+      213: 5710910785278686147
+    second: selfseat_29
+  - first:
+      213: -5418234196558526521
+    second: selfseat_30
+  - first:
+      213: 7978764584846453303
+    second: selfseat_31
+  - first:
+      213: -2427098360052770745
+    second: selfseat_32
+  - first:
+      213: 3223131038177936559
+    second: selfseat_33
+  - first:
+      213: -4498416726584555455
+    second: selfseat_34
+  - first:
+      213: -5346694443984761784
+    second: selfseat_35
+  - first:
+      213: -4484921380972353429
+    second: selfseat_36
+  - first:
+      213: 4721535625552112110
+    second: selfseat_37
+  - first:
+      213: -2754263021359386975
+    second: selfseat_38
+  - first:
+      213: 882822135211167721
+    second: selfseat_39
+  - first:
+      213: 499822306936458655
+    second: selfseat_40
+  - first:
+      213: 3654664926448015227
+    second: selfseat_41
+  - first:
+      213: 7628078593766789801
+    second: selfseat_42
+  - first:
+      213: 233926256185919206
+    second: selfseat_43
+  - first:
+      213: -3284110583522401138
+    second: selfseat_44
+  - first:
+      213: -2990120211676351551
+    second: selfseat_45
+  - first:
+      213: -8980425004720992182
+    second: selfseat_46
+  - first:
+      213: 6046746087867371747
+    second: selfseat_47
+  - first:
+      213: -7849229675714854486
+    second: selfseat_48
+  - first:
+      213: -4960906936284245871
+    second: selfseat_49
+  - first:
+      213: -2600892170802597542
+    second: selfseat_50
+  - first:
+      213: 428601848539144079
+    second: selfseat_51
+  - first:
+      213: 8006273166234089037
+    second: selfseat_52
+  - first:
+      213: 6631605363863623019
+    second: selfseat_53
+  - first:
+      213: 2198839874754659298
+    second: selfseat_54
+  - first:
+      213: 4278557457930763885
+    second: selfseat_55
+  - first:
+      213: 120033031981212206
+    second: selfseat_56
+  - first:
+      213: 1362027954412071692
+    second: selfseat_57
+  - first:
+      213: 5077073725121919569
+    second: selfseat_58
+  - first:
+      213: 4325784666360058122
+    second: selfseat_59
+  - first:
+      213: 8269330988289218606
+    second: selfseat_60
+  - first:
+      213: -2565905497662330221
+    second: selfseat_61
+  - first:
+      213: 3308851999256264609
+    second: selfseat_62
+  - first:
+      213: 7184231555765074445
+    second: selfseat_63
+  - first:
+      213: -135991042799875142
+    second: selfseat_64
+  - first:
+      213: -648170271738323597
+    second: selfseat_65
+  - first:
+      213: -7684389164252886992
+    second: selfseat_66
+  - first:
+      213: -5703418050944525145
+    second: selfseat_67
+  - first:
+      213: -2355244783810682927
+    second: selfseat_68
+  - first:
+      213: 2025769663441454716
+    second: selfseat_69
+  - first:
+      213: 3150217856063750042
+    second: selfseat_70
+  - first:
+      213: 6005578029555573586
+    second: selfseat_71
+  - first:
+      213: -8181111228369514450
+    second: selfseat_72
+  - first:
+      213: 1699770543232716491
+    second: selfseat_73
+  - first:
+      213: 4545737862365071222
+    second: selfseat_74
+  - first:
+      213: 4880700350775291292
+    second: selfseat_75
+  - first:
+      213: 8908602645087660505
+    second: selfseat_76
+  - first:
+      213: -3496996370256492667
+    second: selfseat_77
+  - first:
+      213: 3924546888513992237
+    second: selfseat_78
+  - first:
+      213: 3616290476797450700
+    second: selfseat_79
+  - first:
+      213: 8649525461822015932
+    second: selfseat_80
+  - first:
+      213: 7266686984870627659
+    second: selfseat_81
+  - first:
+      213: -7445192406327409966
+    second: selfseat_82
+  - first:
+      213: 2910657300838186528
+    second: selfseat_83
+  - first:
+      213: -770396354443060775
+    second: selfseat_84
+  - first:
+      213: -26143661467693521
+    second: selfseat_85
+  - first:
+      213: -3738025434036581469
+    second: selfseat_86
+  - first:
+      213: -8881992683219672076
+    second: selfseat_87
+  - first:
+      213: 7265004560052797138
+    second: selfseat_88
+  - first:
+      213: 1445159158545350287
+    second: selfseat_89
+  - first:
+      213: -2929023022839052125
+    second: selfseat_90
+  - first:
+      213: -4020428283013712995
+    second: selfseat_91
+  - first:
+      213: -3025400129226214673
+    second: selfseat_92
+  - first:
+      213: 6611337674871394760
+    second: selfseat_93
+  - first:
+      213: 8434014426655833724
+    second: selfseat_94
+  - first:
+      213: -3235988460867905835
+    second: selfseat_95
+  - first:
+      213: -1374430381969965629
+    second: selfseat_96
+  - first:
+      213: -3689254916439957303
+    second: selfseat_97
+  - first:
+      213: -5480714027518693780
+    second: selfseat_98
+  - first:
+      213: -8699957794065945659
+    second: selfseat_99
+  - first:
+      213: -7188143068664944780
+    second: selfseat_100
+  - first:
+      213: -5895405446639038033
+    second: selfseat_101
+  - first:
+      213: 2698409246389066755
+    second: selfseat_102
+  - first:
+      213: -5342118827519485375
+    second: selfseat_103
+  - first:
+      213: 956535890456718223
+    second: selfseat_104
+  - first:
+      213: 270808667219201566
+    second: selfseat_105
+  - first:
+      213: 6038762377184151733
+    second: selfseat_106
+  - first:
+      213: -1216164210917907695
+    second: selfseat_107
+  - first:
+      213: -1628791358169156869
+    second: selfseat_108
+  - first:
+      213: -5537060372231607036
+    second: selfseat_109
+  - first:
+      213: -5059133254850792093
+    second: selfseat_110
+  - first:
+      213: -8793295127765290120
+    second: selfseat_111
+  - first:
+      213: 2144263906431895005
+    second: selfseat_112
+  - first:
+      213: -2800118647400698799
+    second: selfseat_113
+  - first:
+      213: 7288323563737452465
+    second: selfseat_114
+  - first:
+      213: 4537781526568297634
+    second: selfseat_115
+  - first:
+      213: 4608334505800546626
+    second: selfseat_116
+  - first:
+      213: 2312258583078317297
+    second: selfseat_117
+  - first:
+      213: -1286479909499965563
+    second: selfseat_118
+  - first:
+      213: 4390741015091009119
+    second: selfseat_119
+  - first:
+      213: 7722656900324503757
+    second: selfseat_120
+  - first:
+      213: -1222198414785917605
+    second: selfseat_121
+  - first:
+      213: -6028673961413532483
+    second: selfseat_122
+  - first:
+      213: 4517160984074103831
+    second: selfseat_123
+  - first:
+      213: 5250206497274452695
+    second: selfseat_124
+  - first:
+      213: -79147696652231371
+    second: selfseat_125
+  - first:
+      213: 389437690041641038
+    second: selfseat_126
+  - first:
+      213: -8310070792506461750
+    second: selfseat_127
+  - first:
+      213: 9144182007762676190
+    second: selfseat_128
+  - first:
+      213: -8577766775060233722
+    second: selfseat_129
+  - first:
+      213: -3732567810888355404
+    second: selfseat_130
+  - first:
+      213: 6048957758546155533
+    second: selfseat_131
+  - first:
+      213: -4181856810420958877
+    second: selfseat_132
+  - first:
+      213: 4288244873631795297
+    second: selfseat_133
+  - first:
+      213: 1592244537356179223
+    second: selfseat_134
+  - first:
+      213: -1066661677595310863
+    second: selfseat_135
+  - first:
+      213: 6904721831425950992
+    second: selfseat_136
+  - first:
+      213: 3982109016873164880
+    second: selfseat_137
+  - first:
+      213: 4786775472169934331
+    second: selfseat_138
+  - first:
+      213: 5870685552350780314
+    second: selfseat_139
+  - first:
+      213: -7461592143119087322
+    second: selfseat_140
+  - first:
+      213: -4416323404147679064
+    second: selfseat_141
+  - first:
+      213: 3267866079736597211
+    second: selfseat_142
+  - first:
+      213: 1902161874006232670
+    second: selfseat_143
+  - first:
+      213: 4995640746065881111
+    second: selfseat_144
+  - first:
+      213: -197132260356277733
+    second: selfseat_145
+  - first:
+      213: -5975074665769562890
+    second: selfseat_146
+  - first:
+      213: 1586256519806012306
+    second: selfseat_147
+  - first:
+      213: 1316436744919532190
+    second: selfseat_148
+  - first:
+      213: -3844130465630062570
+    second: selfseat_149
+  - first:
+      213: 3285640355904398177
+    second: selfseat_150
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: selfseat_0
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 488
+        width: 703
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1a65d8e120ce3a4c0800000000000000
+      internalID: -4277315727225170271
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_1
+      rect:
+        serializedVersion: 2
+        x: 385
+        y: 666
+        width: 5
+        height: 5
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8a76ee31acf40c500800000000000000
+      internalID: 414418895054464936
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_2
+      rect:
+        serializedVersion: 2
+        x: 715
+        y: 591
+        width: 101
+        height: 81
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: edd8d0c75908be910800000000000000
+      internalID: 1867727849994948062
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_3
+      rect:
+        serializedVersion: 2
+        x: 817
+        y: 600
+        width: 39
+        height: 72
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 975802079d949e790800000000000000
+      internalID: -7500382506170940039
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_4
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 477
+        width: 54
+        height: 195
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a8fd6b30892adb140800000000000000
+      internalID: 4737121156844674954
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_5
+      rect:
+        serializedVersion: 2
+        x: 938
+        y: 605
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cb76cc281edbc3630800000000000000
+      internalID: 3908207352910473148
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_6
+      rect:
+        serializedVersion: 2
+        x: 715
+        y: 526
+        width: 107
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8e2fe613205cba310800000000000000
+      internalID: 1417443120948114152
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_7
+      rect:
+        serializedVersion: 2
+        x: 823
+        y: 526
+        width: 39
+        height: 72
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 597ab6968d0aae930800000000000000
+      internalID: 4173324856054228885
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_8
+      rect:
+        serializedVersion: 2
+        x: 935
+        y: 542
+        width: 73
+        height: 59
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 98d9b7f9073e8f360800000000000000
+      internalID: 7203757676830629257
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_9
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 462
+        width: 478
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1b1f242ad5d4646d0800000000000000
+      internalID: -3006630636673633871
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_10
+      rect:
+        serializedVersion: 2
+        x: 715
+        y: 489
+        width: 107
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 56ba7a6297655bff0800000000000000
+      internalID: -21015544913745051
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_11
+      rect:
+        serializedVersion: 2
+        x: 823
+        y: 490
+        width: 54
+        height: 34
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d002082593f74bbc0800000000000000
+      internalID: -3768247104028270579
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_12
+      rect:
+        serializedVersion: 2
+        x: 935
+        y: 482
+        width: 73
+        height: 59
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3bae186121736b940800000000000000
+      internalID: 5311493361356630707
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_13
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 435
+        width: 270
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dced8831884bff140800000000000000
+      internalID: 4755718228062822093
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_14
+      rect:
+        serializedVersion: 2
+        x: 271
+        y: 417
+        width: 151
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0c64e9c80e4e84940800000000000000
+      internalID: 5280722216174896832
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_15
+      rect:
+        serializedVersion: 2
+        x: 479
+        y: 460
+        width: 400
+        height: 27
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 45d5b1d0207e9f5d0800000000000000
+      internalID: -3028135278434099884
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_16
+      rect:
+        serializedVersion: 2
+        x: 881
+        y: 440
+        width: 104
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8d4bd12e8662614e0800000000000000
+      internalID: -2011377951662295848
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_17
+      rect:
+        serializedVersion: 2
+        x: 423
+        y: 415
+        width: 151
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c21a3eb59b95fb690800000000000000
+      internalID: -7584244594823159508
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_18
+      rect:
+        serializedVersion: 2
+        x: 575
+        y: 415
+        width: 151
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e869a1e437a535c60800000000000000
+      internalID: 7805682030441305742
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_19
+      rect:
+        serializedVersion: 2
+        x: 727
+        y: 415
+        width: 151
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0a2788d2d1020e020800000000000000
+      internalID: 2368928713686938272
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_20
+      rect:
+        serializedVersion: 2
+        x: 981
+        y: 440
+        width: 27
+        height: 17
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b14ce5e281c604210800000000000000
+      internalID: 1315169942305162267
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_21
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 390
+        width: 151
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 689a952a86d695320800000000000000
+      internalID: 2547187360422537606
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_22
+      rect:
+        serializedVersion: 2
+        x: 152
+        y: 419
+        width: 31
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e718cb78551759810800000000000000
+      internalID: 1771446640603595134
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_23
+      rect:
+        serializedVersion: 2
+        x: 185
+        y: 419
+        width: 32
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7a133a6aa159106b0800000000000000
+      internalID: -5331816542132555353
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_24
+      rect:
+        serializedVersion: 2
+        x: 882
+        y: 422
+        width: 23
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a4e0c98dccdc74100800000000000000
+      internalID: 92268597075512906
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_25
+      rect:
+        serializedVersion: 2
+        x: 912
+        y: 394
+        width: 102
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 38a8c6b47c4fdbec0800000000000000
+      internalID: -3549411794497009021
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_26
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 345
+        width: 151
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a654378e396db5c60800000000000000
+      internalID: 7808070309725291882
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_27
+      rect:
+        serializedVersion: 2
+        x: 152
+        y: 372
+        width: 151
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d4e3fd35b511ba330800000000000000
+      internalID: 3723088600898682445
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_28
+      rect:
+        serializedVersion: 2
+        x: 304
+        y: 370
+        width: 151
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5d87fd25a0edea550800000000000000
+      internalID: 6174116275092945109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_29
+      rect:
+        serializedVersion: 2
+        x: 456
+        y: 370
+        width: 151
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3c3bb7cf91b314f40800000000000000
+      internalID: 5710910785278686147
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_30
+      rect:
+        serializedVersion: 2
+        x: 608
+        y: 370
+        width: 151
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7c7414c84b09ec4b0800000000000000
+      internalID: -5418234196558526521
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_31
+      rect:
+        serializedVersion: 2
+        x: 760
+        y: 370
+        width: 151
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 73a6d3add144abe60800000000000000
+      internalID: 7978764584846453303
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_32
+      rect:
+        serializedVersion: 2
+        x: 912
+        y: 349
+        width: 102
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7481f1e96e6315ed0800000000000000
+      internalID: -2427098360052770745
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_33
+      rect:
+        serializedVersion: 2
+        x: 152
+        y: 327
+        width: 151
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fa4c1233a9cdabc20800000000000000
+      internalID: 3223131038177936559
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_34
+      rect:
+        serializedVersion: 2
+        x: 304
+        y: 326
+        width: 150
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 148804022d96291c0800000000000000
+      internalID: -4498416726584555455
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_35
+      rect:
+        serializedVersion: 2
+        x: 456
+        y: 326
+        width: 150
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 84ccbbf2bb9bcc5b0800000000000000
+      internalID: -5346694443984761784
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_36
+      rect:
+        serializedVersion: 2
+        x: 608
+        y: 326
+        width: 150
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b68a69124cb52c1c0800000000000000
+      internalID: -4484921380972353429
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_37
+      rect:
+        serializedVersion: 2
+        x: 760
+        y: 326
+        width: 150
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ee9a26bb2a3468140800000000000000
+      internalID: 4721535625552112110
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_38
+      rect:
+        serializedVersion: 2
+        x: 912
+        y: 304
+        width: 102
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1ae21e1ff54e6c9d0800000000000000
+      internalID: -2754263021359386975
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_39
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 301
+        width: 231
+        height: 25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9ef0d19fd0a604c00800000000000000
+      internalID: 882822135211167721
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_40
+      rect:
+        serializedVersion: 2
+        x: 234
+        y: 281
+        width: 102
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f9d83cf6db9bfe600800000000000000
+      internalID: 499822306936458655
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_41
+      rect:
+        serializedVersion: 2
+        x: 339
+        y: 265
+        width: 73
+        height: 59
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b77530a236af7b230800000000000000
+      internalID: 3654664926448015227
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_42
+      rect:
+        serializedVersion: 2
+        x: 413
+        y: 288
+        width: 107
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9a21b34d0116cd960800000000000000
+      internalID: 7628078593766789801
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_43
+      rect:
+        serializedVersion: 2
+        x: 521
+        y: 288
+        width: 106
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6e6499bc0b21f3300800000000000000
+      internalID: 233926256185919206
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_44
+      rect:
+        serializedVersion: 2
+        x: 628
+        y: 288
+        width: 106
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e84eb0203de7c62d0800000000000000
+      internalID: -3284110583522401138
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_45
+      rect:
+        serializedVersion: 2
+        x: 735
+        y: 288
+        width: 106
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1c3b0538285f086d0800000000000000
+      internalID: -2990120211676351551
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_46
+      rect:
+        serializedVersion: 2
+        x: 867
+        y: 271
+        width: 32
+        height: 31
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a40d19dd90f1f5380800000000000000
+      internalID: -8980425004720992182
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_47
+      rect:
+        serializedVersion: 2
+        x: 959
+        y: 275
+        width: 47
+        height: 27
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3e05156a78b5ae350800000000000000
+      internalID: 6046746087867371747
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_48
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 262
+        width: 77
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aa1cf8a623fe11390800000000000000
+      internalID: -7849229675714854486
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_49
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 262
+        width: 77
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 190910bec61572bb0800000000000000
+      internalID: -4960906936284245871
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_50
+      rect:
+        serializedVersion: 2
+        x: 166
+        y: 242
+        width: 77
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 27, y: 6, z: 7, w: 6}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a51773cc956c7ebd0800000000000000
+      internalID: -2600892170802597542
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_51
+      rect:
+        serializedVersion: 2
+        x: 248
+        y: 242
+        width: 77
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f8f50444c13b2f500800000000000000
+      internalID: 428601848539144079
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_52
+      rect:
+        serializedVersion: 2
+        x: 415
+        y: 250
+        width: 77
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d46ff10960ffb1f60800000000000000
+      internalID: 8006273166234089037
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_53
+      rect:
+        serializedVersion: 2
+        x: 497
+        y: 250
+        width: 77
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b659aa351f1380c50800000000000000
+      internalID: 6631605363863623019
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_54
+      rect:
+        serializedVersion: 2
+        x: 579
+        y: 250
+        width: 77
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e347b45739d38e10800000000000000
+      internalID: 2198839874754659298
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_55
+      rect:
+        serializedVersion: 2
+        x: 661
+        y: 250
+        width: 77
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d6ebf07d65d706b30800000000000000
+      internalID: 4278557457930763885
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_56
+      rect:
+        serializedVersion: 2
+        x: 743
+        y: 250
+        width: 77
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e22ad8818617aa100800000000000000
+      internalID: 120033031981212206
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_57
+      rect:
+        serializedVersion: 2
+        x: 842
+        y: 273
+        width: 22
+        height: 28
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c0b22ec4535e6e210800000000000000
+      internalID: 1362027954412071692
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_58
+      rect:
+        serializedVersion: 2
+        x: 897
+        y: 271
+        width: 61
+        height: 30
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 15a7c5c47a3657640800000000000000
+      internalID: 5077073725121919569
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_59
+      rect:
+        serializedVersion: 2
+        x: 987
+        y: 238
+        width: 32
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a01193d2c36480c30800000000000000
+      internalID: 4325784666360058122
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_60
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 222
+        width: 77
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 27, y: 6, z: 7, w: 6}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e28db1798b092c270800000000000000
+      internalID: 8269330988289218606
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_61
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 222
+        width: 77
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 27, y: 6, z: 7, w: 6}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 39a6d9c6b82146cd0800000000000000
+      internalID: -2565905497662330221
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_62
+      rect:
+        serializedVersion: 2
+        x: 166
+        y: 202
+        width: 77
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 27, y: 6, z: 7, w: 6}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1afb20ebc576bed20800000000000000
+      internalID: 3308851999256264609
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_63
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 227
+        width: 77
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d0a7789498483b360800000000000000
+      internalID: 7184231555765074445
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_64
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 210
+        width: 77
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 27, y: 6, z: 7, w: 6}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: abb4749fddcdc1ef0800000000000000
+      internalID: -135991042799875142
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_65
+      rect:
+        serializedVersion: 2
+        x: 494
+        y: 210
+        width: 77
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 27, y: 6, z: 7, w: 6}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 37d911f629c3107f0800000000000000
+      internalID: -648170271738323597
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_66
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 210
+        width: 77
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 27, y: 6, z: 7, w: 6}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 03888dcc4c09b5590800000000000000
+      internalID: -7684389164252886992
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_67
+      rect:
+        serializedVersion: 2
+        x: 658
+        y: 210
+        width: 77
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 27, y: 6, z: 7, w: 6}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7ac96eb208369d0b0800000000000000
+      internalID: -5703418050944525145
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_68
+      rect:
+        serializedVersion: 2
+        x: 740
+        y: 210
+        width: 77
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 27, y: 6, z: 7, w: 6}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1df5fd5095d705fd0800000000000000
+      internalID: -2355244783810682927
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_69
+      rect:
+        serializedVersion: 2
+        x: 825
+        y: 233
+        width: 77
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c76c032a6cafc1c10800000000000000
+      internalID: 2025769663441454716
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_70
+      rect:
+        serializedVersion: 2
+        x: 907
+        y: 233
+        width: 77
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a9fb5c31372d7bb20800000000000000
+      internalID: 3150217856063750042
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_71
+      rect:
+        serializedVersion: 2
+        x: 987
+        y: 201
+        width: 32
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 253ec822669185350800000000000000
+      internalID: 6005578029555573586
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_72
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 182
+        width: 77
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 27, y: 6, z: 7, w: 6}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e205315eeaad67e80800000000000000
+      internalID: -8181111228369514450
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_73
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 182
+        width: 77
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 27, y: 6, z: 7, w: 6}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bce0f05ad4cc69710800000000000000
+      internalID: 1699770543232716491
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_74
+      rect:
+        serializedVersion: 2
+        x: 252
+        y: 206
+        width: 69
+        height: 27
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 67740506084b51f30800000000000000
+      internalID: 4545737862365071222
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_75
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 187
+        width: 77
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 27, y: 6, z: 7, w: 6}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c9de5172c1bbbb340800000000000000
+      internalID: 4880700350775291292
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_76
+      rect:
+        serializedVersion: 2
+        x: 822
+        y: 193
+        width: 77
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 27, y: 6, z: 7, w: 6}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9d92e89e7e6b1ab70800000000000000
+      internalID: 8908602645087660505
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_77
+      rect:
+        serializedVersion: 2
+        x: 904
+        y: 193
+        width: 77
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 27, y: 6, z: 7, w: 6}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5870802445c287fc0800000000000000
+      internalID: -3496996370256492667
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_78
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 143
+        width: 87
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d26bd3a1a9ac67630800000000000000
+      internalID: 3924546888513992237
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_79
+      rect:
+        serializedVersion: 2
+        x: 166
+        y: 162
+        width: 77
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cc9d32a5705af2230800000000000000
+      internalID: 3616290476797450700
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_80
+      rect:
+        serializedVersion: 2
+        x: 248
+        y: 162
+        width: 77
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cb909939499490870800000000000000
+      internalID: 8649525461822015932
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_81
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 170
+        width: 77
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 27, y: 6, z: 7, w: 6}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b490b2bef4578d460800000000000000
+      internalID: 7266686984870627659
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_82
+      rect:
+        serializedVersion: 2
+        x: 494
+        y: 170
+        width: 77
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 27, y: 6, z: 7, w: 6}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2d24b68e3fc5da890800000000000000
+      internalID: -7445192406327409966
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_83
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 170
+        width: 77
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 02e7b5fc46bb46820800000000000000
+      internalID: 2910657300838186528
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_84
+      rect:
+        serializedVersion: 2
+        x: 658
+        y: 170
+        width: 77
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9d95a2de8900f45f0800000000000000
+      internalID: -770396354443060775
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_85
+      rect:
+        serializedVersion: 2
+        x: 740
+        y: 170
+        width: 77
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f2e07197a7e13aff0800000000000000
+      internalID: -26143661467693521
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_86
+      rect:
+        serializedVersion: 2
+        x: 822
+        y: 153
+        width: 77
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3abcfd23caddf1cc0800000000000000
+      internalID: -3738025434036581469
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_87
+      rect:
+        serializedVersion: 2
+        x: 902
+        y: 154
+        width: 87
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4f3a213a6b2dcb480800000000000000
+      internalID: -8881992683219672076
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_88
+      rect:
+        serializedVersion: 2
+        x: 990
+        y: 164
+        width: 32
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2de3a8dd72b72d460800000000000000
+      internalID: 7265004560052797138
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_89
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 106
+        width: 81
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f8e7ff0199c3e0410800000000000000
+      internalID: 1445159158545350287
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_90
+      rect:
+        serializedVersion: 2
+        x: 88
+        y: 123
+        width: 87
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3a8ccb054150a57d0800000000000000
+      internalID: -2929023022839052125
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_91
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 87
+        width: 39
+        height: 72
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d93b80a17c19438c0800000000000000
+      internalID: -4020428283013712995
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_92
+      rect:
+        serializedVersion: 2
+        x: 217
+        y: 87
+        width: 39
+        height: 72
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe2fc0a9c9e9306d0800000000000000
+      internalID: -3025400129226214673
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_93
+      rect:
+        serializedVersion: 2
+        x: 258
+        y: 87
+        width: 39
+        height: 72
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8c1ddd0469030cb50800000000000000
+      internalID: 6611337674871394760
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_94
+      rect:
+        serializedVersion: 2
+        x: 299
+        y: 134
+        width: 23
+        height: 23
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c7e375b8f63ab0570800000000000000
+      internalID: 8434014426655833724
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_95
+      rect:
+        serializedVersion: 2
+        x: 328
+        y: 131
+        width: 87
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5d694bcc3a57713d0800000000000000
+      internalID: -3235988460867905835
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_96
+      rect:
+        serializedVersion: 2
+        x: 416
+        y: 131
+        width: 87
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3cdfc2289da0dece0800000000000000
+      internalID: -1374430381969965629
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_97
+      rect:
+        serializedVersion: 2
+        x: 504
+        y: 131
+        width: 87
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9c0abb333322dccc0800000000000000
+      internalID: -3689254916439957303
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_98
+      rect:
+        serializedVersion: 2
+        x: 592
+        y: 131
+        width: 87
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c6e6f3a41a790f3b0800000000000000
+      internalID: -5480714027518693780
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_99
+      rect:
+        serializedVersion: 2
+        x: 680
+        y: 131
+        width: 87
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5cbeecb0b7a834780800000000000000
+      internalID: -8699957794065945659
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_100
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 95
+        width: 39
+        height: 72
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4772a85a6f59e3c90800000000000000
+      internalID: -7188143068664944780
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_101
+      rect:
+        serializedVersion: 2
+        x: 809
+        y: 114
+        width: 81
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fa15d224bff4f2ea0800000000000000
+      internalID: -5895405446639038033
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_102
+      rect:
+        serializedVersion: 2
+        x: 902
+        y: 81
+        width: 39
+        height: 72
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 30c56ada9eca27520800000000000000
+      internalID: 2698409246389066755
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_103
+      rect:
+        serializedVersion: 2
+        x: 943
+        y: 81
+        width: 39
+        height: 72
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 14a56c9ea3bfcd5b0800000000000000
+      internalID: -5342118827519485375
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_104
+      rect:
+        serializedVersion: 2
+        x: 984
+        y: 105
+        width: 40
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f8ba59d035c464d00800000000000000
+      internalID: 956535890456718223
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_105
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 69
+        width: 67
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e1e82bb4c0b12c300800000000000000
+      internalID: 270808667219201566
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_106
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 86
+        width: 67
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5b80e07236efdc350800000000000000
+      internalID: 6038762377184151733
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_107
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 99
+        width: 19
+        height: 19
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 113e1bbf7115f1fe0800000000000000
+      internalID: -1216164210917907695
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_108
+      rect:
+        serializedVersion: 2
+        x: 299
+        y: 94
+        width: 81
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bf2f913b3ee5569e0800000000000000
+      internalID: -1628791358169156869
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_109
+      rect:
+        serializedVersion: 2
+        x: 381
+        y: 94
+        width: 81
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 40d2e359de86823b0800000000000000
+      internalID: -5537060372231607036
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_110
+      rect:
+        serializedVersion: 2
+        x: 463
+        y: 101
+        width: 95
+        height: 29
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 365b041fb195ac9b0800000000000000
+      internalID: -5059133254850792093
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_111
+      rect:
+        serializedVersion: 2
+        x: 559
+        y: 101
+        width: 95
+        height: 29
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 87370609ba0f7f580800000000000000
+      internalID: -8793295127765290120
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_112
+      rect:
+        serializedVersion: 2
+        x: 655
+        y: 101
+        width: 95
+        height: 29
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd5809f79a4f1cd10800000000000000
+      internalID: 2144263906431895005
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_113
+      rect:
+        serializedVersion: 2
+        x: 809
+        y: 77
+        width: 67
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 15cebb40deaf329d0800000000000000
+      internalID: -2800118647400698799
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_114
+      rect:
+        serializedVersion: 2
+        x: 877
+        y: 88
+        width: 23
+        height: 22
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1bf0ea08aa3552560800000000000000
+      internalID: 7288323563737452465
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_115
+      rect:
+        serializedVersion: 2
+        x: 984
+        y: 56
+        width: 40
+        height: 47
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2a4ee67914079fe30800000000000000
+      internalID: 4537781526568297634
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_116
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 60
+        width: 84
+        height: 25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 249ba6821d714ff30800000000000000
+      internalID: 4608334505800546626
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_117
+      rect:
+        serializedVersion: 2
+        x: 153
+        y: 60
+        width: 84
+        height: 25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1fc2b313eeac61020800000000000000
+      internalID: 2312258583078317297
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_118
+      rect:
+        serializedVersion: 2
+        x: 238
+        y: 49
+        width: 50
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 58fe39f9651852ee0800000000000000
+      internalID: -1286479909499965563
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_119
+      rect:
+        serializedVersion: 2
+        x: 299
+        y: 57
+        width: 67
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f56dc39a0bb0fec30800000000000000
+      internalID: 4390741015091009119
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_120
+      rect:
+        serializedVersion: 2
+        x: 367
+        y: 57
+        width: 67
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc0bf02d8836c2b60800000000000000
+      internalID: 7722656900324503757
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_121
+      rect:
+        serializedVersion: 2
+        x: 436
+        y: 70
+        width: 19
+        height: 19
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b5dc3a96401e90fe0800000000000000
+      internalID: -1222198414785917605
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_122
+      rect:
+        serializedVersion: 2
+        x: 463
+        y: 64
+        width: 67
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: db4ac4f29f8d55ca0800000000000000
+      internalID: -6028673961413532483
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_123
+      rect:
+        serializedVersion: 2
+        x: 531
+        y: 64
+        width: 67
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 71cadf86bfd20be30800000000000000
+      internalID: 4517160984074103831
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_124
+      rect:
+        serializedVersion: 2
+        x: 599
+        y: 64
+        width: 67
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7dadd731efa7cd840800000000000000
+      internalID: 5250206497274452695
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_125
+      rect:
+        serializedVersion: 2
+        x: 667
+        y: 64
+        width: 67
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 53dd048d69fc6eef0800000000000000
+      internalID: -79147696652231371
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_126
+      rect:
+        serializedVersion: 2
+        x: 735
+        y: 51
+        width: 84
+        height: 25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e48a419048f876500800000000000000
+      internalID: 389437690041641038
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_127
+      rect:
+        serializedVersion: 2
+        x: 820
+        y: 40
+        width: 44
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ac1bd4294a2bcac80800000000000000
+      internalID: -8310070792506461750
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_128
+      rect:
+        serializedVersion: 2
+        x: 877
+        y: 54
+        width: 84
+        height: 25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ed9663e8619a6ee70800000000000000
+      internalID: 9144182007762676190
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_129
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 39
+        width: 101
+        height: 20
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6020366a096a5f880800000000000000
+      internalID: -8577766775060233722
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_130
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 43
+        width: 332
+        height: 5
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4b131fb1a51433cc0800000000000000
+      internalID: -3732567810888355404
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_131
+      rect:
+        serializedVersion: 2
+        x: 435
+        y: 38
+        width: 84
+        height: 25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d089c7b580732f350800000000000000
+      internalID: 6048957758546155533
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_132
+      rect:
+        serializedVersion: 2
+        x: 520
+        y: 38
+        width: 84
+        height: 25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3698f49236f07f5c0800000000000000
+      internalID: -4181856810420958877
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_133
+      rect:
+        serializedVersion: 2
+        x: 605
+        y: 43
+        width: 101
+        height: 20
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 16886b21ef7e28b30800000000000000
+      internalID: 4288244873631795297
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_134
+      rect:
+        serializedVersion: 2
+        x: 707
+        y: 14
+        width: 44
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 717dbac78f9c81610800000000000000
+      internalID: 1592244537356179223
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_135
+      rect:
+        serializedVersion: 2
+        x: 752
+        y: 14
+        width: 44
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1f4c86b0bd47231f0800000000000000
+      internalID: -1066661677595310863
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_136
+      rect:
+        serializedVersion: 2
+        x: 865
+        y: 17
+        width: 44
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 01547034cef72df50800000000000000
+      internalID: 6904721831425950992
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_137
+      rect:
+        serializedVersion: 2
+        x: 910
+        y: 17
+        width: 44
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 050ea9f7d0b434730800000000000000
+      internalID: 3982109016873164880
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_138
+      rect:
+        serializedVersion: 2
+        x: 962
+        y: 19
+        width: 44
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bfddd363eea0e6240800000000000000
+      internalID: 4786775472169934331
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_139
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 12
+        width: 44
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 5, y: 5, z: 5, w: 5}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a9bd2e7d76dd87150800000000000000
+      internalID: 5870685552350780314
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_140
+      rect:
+        serializedVersion: 2
+        x: 45
+        y: 0
+        width: 443
+        height: 38
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6298a82aa79137890800000000000000
+      internalID: -7461592143119087322
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_141
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 6
+        width: 44
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8a0a88a334116b2c0800000000000000
+      internalID: -4416323404147679064
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_142
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 6
+        width: 44
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bda8f38b2eac95d20800000000000000
+      internalID: 3267866079736597211
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_143
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 6
+        width: 44
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e5ece657526d56a10800000000000000
+      internalID: 1902161874006232670
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_144
+      rect:
+        serializedVersion: 2
+        x: 237
+        y: 6
+        width: 315
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 71869be5ac4145540800000000000000
+      internalID: 4995640746065881111
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_145
+      rect:
+        serializedVersion: 2
+        x: 282
+        y: 33
+        width: 330
+        height: 4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b1ab1bfe045a34df0800000000000000
+      internalID: -197132260356277733
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_146
+      rect:
+        serializedVersion: 2
+        x: 613
+        y: 15
+        width: 47
+        height: 27
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6fc8e50bf35441da0800000000000000
+      internalID: -5975074665769562890
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_147
+      rect:
+        serializedVersion: 2
+        x: 661
+        y: 6
+        width: 32
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 29b4fa186e3830610800000000000000
+      internalID: 1586256519806012306
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_148
+      rect:
+        serializedVersion: 2
+        x: 797
+        y: 13
+        width: 44
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 5, y: 5, z: 5, w: 5}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e924336ae3ce44210800000000000000
+      internalID: 1316436744919532190
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_149
+      rect:
+        serializedVersion: 2
+        x: 77
+        y: 25
+        width: 18
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 618fcd565b7e6aac0800000000000000
+      internalID: -3844130465630062570
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selfseat_150
+      rect:
+        serializedVersion: 2
+        x: 77
+        y: 17
+        width: 18
+        height: 6
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 163ae51ee70f89d20800000000000000
+      internalID: 3285640355904398177
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      selfseat_6: 1417443120948114152
+      selfseat_44: -3284110583522401138
+      selfseat_87: -8881992683219672076
+      selfseat_120: 7722656900324503757
+      selfseat_68: -2355244783810682927
+      selfseat_94: 8434014426655833724
+      selfseat_140: -7461592143119087322
+      selfseat_54: 2198839874754659298
+      selfseat_76: 8908602645087660505
+      selfseat_129: -8577766775060233722
+      selfseat_149: -3844130465630062570
+      selfseat_43: 233926256185919206
+      selfseat_33: 3223131038177936559
+      selfseat_60: 8269330988289218606
+      selfseat_99: -8699957794065945659
+      selfseat_7: 4173324856054228885
+      selfseat_91: -4020428283013712995
+      selfseat_101: -5895405446639038033
+      selfseat_72: -8181111228369514450
+      selfseat_11: -3768247104028270579
+      selfseat_132: -4181856810420958877
+      selfseat_30: -5418234196558526521
+      selfseat_22: 1771446640603595134
+      selfseat_62: 3308851999256264609
+      selfseat_16: -2011377951662295848
+      selfseat_104: 956535890456718223
+      selfseat_115: 4537781526568297634
+      selfseat_23: -5331816542132555353
+      selfseat_39: 882822135211167721
+      selfseat_19: 2368928713686938272
+      selfseat_81: 7266686984870627659
+      selfseat_58: 5077073725121919569
+      selfseat_9: -3006630636673633871
+      selfseat_136: 6904721831425950992
+      selfseat_145: -197132260356277733
+      selfseat_1: 414418895054464936
+      selfseat_35: -5346694443984761784
+      selfseat_88: 7265004560052797138
+      selfseat_90: -2929023022839052125
+      selfseat_124: 5250206497274452695
+      selfseat_125: -79147696652231371
+      selfseat_98: -5480714027518693780
+      selfseat_109: -5537060372231607036
+      selfseat_67: -5703418050944525145
+      selfseat_116: 4608334505800546626
+      selfseat_65: -648170271738323597
+      selfseat_5: 3908207352910473148
+      selfseat_71: 6005578029555573586
+      selfseat_119: 4390741015091009119
+      selfseat_28: 6174116275092945109
+      selfseat_86: -3738025434036581469
+      selfseat_102: 2698409246389066755
+      selfseat_51: 428601848539144079
+      selfseat_131: 6048957758546155533
+      selfseat_107: -1216164210917907695
+      selfseat_111: -8793295127765290120
+      selfseat_0: -4277315727225170271
+      selfseat_92: -3025400129226214673
+      selfseat_128: 9144182007762676190
+      selfseat_64: -135991042799875142
+      selfseat_133: 4288244873631795297
+      selfseat_146: -5975074665769562890
+      selfseat_37: 4721535625552112110
+      selfseat_150: 3285640355904398177
+      selfseat_103: -5342118827519485375
+      selfseat_135: -1066661677595310863
+      selfseat_138: 4786775472169934331
+      selfseat_31: 7978764584846453303
+      selfseat_143: 1902161874006232670
+      selfseat_20: 1315169942305162267
+      selfseat_139: 5870685552350780314
+      selfseat_77: -3496996370256492667
+      selfseat_106: 6038762377184151733
+      selfseat_13: 4755718228062822093
+      selfseat_29: 5710910785278686147
+      selfseat_97: -3689254916439957303
+      selfseat_73: 1699770543232716491
+      selfseat_34: -4498416726584555455
+      selfseat_41: 3654664926448015227
+      selfseat_66: -7684389164252886992
+      selfseat_46: -8980425004720992182
+      selfseat_83: 2910657300838186528
+      selfseat_137: 3982109016873164880
+      selfseat_148: 1316436744919532190
+      selfseat_2: 1867727849994948062
+      selfseat_78: 3924546888513992237
+      selfseat_105: 270808667219201566
+      selfseat_144: 4995640746065881111
+      selfseat_57: 1362027954412071692
+      selfseat_95: -3235988460867905835
+      selfseat_24: 92268597075512906
+      selfseat_84: -770396354443060775
+      selfseat_147: 1586256519806012306
+      selfseat_47: 6046746087867371747
+      selfseat_42: 7628078593766789801
+      selfseat_70: 3150217856063750042
+      selfseat_117: 2312258583078317297
+      selfseat_40: 499822306936458655
+      selfseat_126: 389437690041641038
+      selfseat_130: -3732567810888355404
+      selfseat_142: 3267866079736597211
+      selfseat_108: -1628791358169156869
+      selfseat_27: 3723088600898682445
+      selfseat_10: -21015544913745051
+      selfseat_89: 1445159158545350287
+      selfseat_82: -7445192406327409966
+      selfseat_61: -2565905497662330221
+      selfseat_15: -3028135278434099884
+      selfseat_3: -7500382506170940039
+      selfseat_17: -7584244594823159508
+      selfseat_36: -4484921380972353429
+      selfseat_112: 2144263906431895005
+      selfseat_12: 5311493361356630707
+      selfseat_121: -1222198414785917605
+      selfseat_56: 120033031981212206
+      selfseat_85: -26143661467693521
+      selfseat_69: 2025769663441454716
+      selfseat_96: -1374430381969965629
+      selfseat_141: -4416323404147679064
+      selfseat_100: -7188143068664944780
+      selfseat_113: -2800118647400698799
+      selfseat_74: 4545737862365071222
+      selfseat_25: -3549411794497009021
+      selfseat_48: -7849229675714854486
+      selfseat_18: 7805682030441305742
+      selfseat_8: 7203757676830629257
+      selfseat_50: -2600892170802597542
+      selfseat_123: 4517160984074103831
+      selfseat_52: 8006273166234089037
+      selfseat_59: 4325784666360058122
+      selfseat_110: -5059133254850792093
+      selfseat_114: 7288323563737452465
+      selfseat_118: -1286479909499965563
+      selfseat_49: -4960906936284245871
+      selfseat_55: 4278557457930763885
+      selfseat_79: 3616290476797450700
+      selfseat_63: 7184231555765074445
+      selfseat_14: 5280722216174896832
+      selfseat_21: 2547187360422537606
+      selfseat_4: 4737121156844674954
+      selfseat_122: -6028673961413532483
+      selfseat_75: 4880700350775291292
+      selfseat_127: -8310070792506461750
+      selfseat_134: 1592244537356179223
+      selfseat_45: -2990120211676351551
+      selfseat_80: 8649525461822015932
+      selfseat_26: 7808070309725291882
+      selfseat_53: 6631605363863623019
+      selfseat_32: -2427098360052770745
+      selfseat_38: -2754263021359386975
+      selfseat_93: 6611337674871394760
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: sprite
+  assetBundleVariant: 

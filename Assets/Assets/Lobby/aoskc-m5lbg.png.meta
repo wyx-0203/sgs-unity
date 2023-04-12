@@ -1,0 +1,1572 @@
+fileFormatVersion: 2
+guid: 3125bc503642a074590140accd5f6ed3
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 3945266691166401978
+    second: aoskc-m5lbg_0
+  - first:
+      213: -4696281294164030791
+    second: aoskc-m5lbg_1
+  - first:
+      213: 6412181528890735946
+    second: aoskc-m5lbg_2
+  - first:
+      213: -7461229496098767782
+    second: aoskc-m5lbg_3
+  - first:
+      213: -4118795829532124015
+    second: aoskc-m5lbg_4
+  - first:
+      213: 7457253141783747740
+    second: aoskc-m5lbg_5
+  - first:
+      213: 7733644658325523820
+    second: aoskc-m5lbg_6
+  - first:
+      213: -2516774718619390443
+    second: aoskc-m5lbg_7
+  - first:
+      213: 4572215591525876700
+    second: aoskc-m5lbg_8
+  - first:
+      213: -2495778152964038395
+    second: aoskc-m5lbg_9
+  - first:
+      213: -4319407796583442700
+    second: aoskc-m5lbg_10
+  - first:
+      213: -1757190028697449575
+    second: aoskc-m5lbg_11
+  - first:
+      213: -4715911926690421255
+    second: aoskc-m5lbg_12
+  - first:
+      213: -7511494693565573491
+    second: aoskc-m5lbg_13
+  - first:
+      213: 8156521025265987460
+    second: aoskc-m5lbg_14
+  - first:
+      213: 6671119813402715402
+    second: aoskc-m5lbg_15
+  - first:
+      213: -7792829490819709624
+    second: aoskc-m5lbg_16
+  - first:
+      213: 6217810928886556078
+    second: aoskc-m5lbg_17
+  - first:
+      213: -586954411809613013
+    second: aoskc-m5lbg_18
+  - first:
+      213: 4206509076300557313
+    second: aoskc-m5lbg_19
+  - first:
+      213: 4335873997651881712
+    second: aoskc-m5lbg_20
+  - first:
+      213: 7576901164468202709
+    second: aoskc-m5lbg_21
+  - first:
+      213: 4728808711528620273
+    second: aoskc-m5lbg_22
+  - first:
+      213: -8101273488405949583
+    second: aoskc-m5lbg_23
+  - first:
+      213: -4395200269582823666
+    second: aoskc-m5lbg_24
+  - first:
+      213: 5698990342705113845
+    second: aoskc-m5lbg_25
+  - first:
+      213: -3297743150092943122
+    second: aoskc-m5lbg_26
+  - first:
+      213: 6498390917888165573
+    second: aoskc-m5lbg_27
+  - first:
+      213: 634862495417870206
+    second: aoskc-m5lbg_28
+  - first:
+      213: 8812352301458775018
+    second: aoskc-m5lbg_29
+  - first:
+      213: -6396821724009863992
+    second: aoskc-m5lbg_30
+  - first:
+      213: 3597370697589113352
+    second: aoskc-m5lbg_31
+  - first:
+      213: 987599352362062152
+    second: aoskc-m5lbg_32
+  - first:
+      213: -3736702028143612060
+    second: aoskc-m5lbg_33
+  - first:
+      213: -6152982479559308354
+    second: aoskc-m5lbg_34
+  - first:
+      213: -2102841845519671626
+    second: aoskc-m5lbg_35
+  - first:
+      213: 195362751576700973
+    second: aoskc-m5lbg_36
+  - first:
+      213: 932877812470841102
+    second: aoskc-m5lbg_37
+  - first:
+      213: -1490238796470349194
+    second: aoskc-m5lbg_38
+  - first:
+      213: -8587485733366845083
+    second: aoskc-m5lbg_39
+  - first:
+      213: -51303511610026651
+    second: aoskc-m5lbg_40
+  - first:
+      213: 7665929234537599430
+    second: aoskc-m5lbg_41
+  - first:
+      213: -6628798581643602148
+    second: aoskc-m5lbg_42
+  - first:
+      213: 5959466216076712286
+    second: aoskc-m5lbg_43
+  - first:
+      213: 8240643740264446329
+    second: aoskc-m5lbg_44
+  - first:
+      213: 2447982305386036250
+    second: aoskc-m5lbg_45
+  - first:
+      213: 513500461801505876
+    second: aoskc-m5lbg_46
+  - first:
+      213: -270350256852863859
+    second: aoskc-m5lbg_47
+  - first:
+      213: -1210621575158959899
+    second: aoskc-m5lbg_48
+  - first:
+      213: -4630016427101348334
+    second: aoskc-m5lbg_49
+  - first:
+      213: 1444895180441654278
+    second: aoskc-m5lbg_50
+  - first:
+      213: -9080623056241617523
+    second: aoskc-m5lbg_51
+  - first:
+      213: 3446083404582945654
+    second: aoskc-m5lbg_52
+  - first:
+      213: 7039093827087823651
+    second: aoskc-m5lbg_53
+  - first:
+      213: 4250243309774911064
+    second: aoskc-m5lbg_54
+  - first:
+      213: 8735119408243770166
+    second: aoskc-m5lbg_55
+  - first:
+      213: 3943678136716652424
+    second: aoskc-m5lbg_56
+  - first:
+      213: -8639601965622587266
+    second: aoskc-m5lbg_57
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: aoskc-m5lbg_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 666
+        width: 680
+        height: 358
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ab57727172760c630800000000000000
+      internalID: 3945266691166401978
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_1
+      rect:
+        serializedVersion: 2
+        x: 681
+        y: 865
+        width: 305
+        height: 159
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9ba8a008b0573deb0800000000000000
+      internalID: -4696281294164030791
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_2
+      rect:
+        serializedVersion: 2
+        x: 681
+        y: 705
+        width: 305
+        height: 159
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a4d7ad89025acf850800000000000000
+      internalID: 6412181528890735946
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 506
+        width: 305
+        height: 159
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a5cbd59fd43647890800000000000000
+      internalID: -7461229496098767782
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_4
+      rect:
+        serializedVersion: 2
+        x: 306
+        y: 506
+        width: 305
+        height: 159
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 19c906ee30917d6c0800000000000000
+      internalID: -4118795829532124015
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_5
+      rect:
+        serializedVersion: 2
+        x: 612
+        y: 608
+        width: 65
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c9c9f24e83c7d7760800000000000000
+      internalID: 7457253141783747740
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_6
+      rect:
+        serializedVersion: 2
+        x: 681
+        y: 545
+        width: 305
+        height: 159
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c6d079697dc635b60800000000000000
+      internalID: 7733644658325523820
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_7
+      rect:
+        serializedVersion: 2
+        x: 612
+        y: 564
+        width: 51
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 51ee1055abe921dd0800000000000000
+      internalID: -2516774718619390443
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_8
+      rect:
+        serializedVersion: 2
+        x: 666
+        y: 593
+        width: 8
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cd307691bd5c37f30800000000000000
+      internalID: 4572215591525876700
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_9
+      rect:
+        serializedVersion: 2
+        x: 665
+        y: 577
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 501e56a3ef63d5dd0800000000000000
+      internalID: -2495778152964038395
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_10
+      rect:
+        serializedVersion: 2
+        x: 627
+        y: 548
+        width: 8
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4f657948e716e04c0800000000000000
+      internalID: -4319407796583442700
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_11
+      rect:
+        serializedVersion: 2
+        x: 639
+        y: 549
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 99b41a89af43d97e0800000000000000
+      internalID: -1757190028697449575
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_12
+      rect:
+        serializedVersion: 2
+        x: 665
+        y: 561
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9f5e691b617bd8eb0800000000000000
+      internalID: -4715911926690421255
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_13
+      rect:
+        serializedVersion: 2
+        x: 614
+        y: 548
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d86dac1bf5fc1c790800000000000000
+      internalID: -7511494693565573491
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_14
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 346
+        width: 305
+        height: 159
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 48febf948a8c13170800000000000000
+      internalID: 8156521025265987460
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_15
+      rect:
+        serializedVersion: 2
+        x: 306
+        y: 346
+        width: 305
+        height: 159
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a0560fb0024949c50800000000000000
+      internalID: 6671119813402715402
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_16
+      rect:
+        serializedVersion: 2
+        x: 612
+        y: 385
+        width: 305
+        height: 159
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 845c084cdde4ad390800000000000000
+      internalID: -7792829490819709624
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_17
+      rect:
+        serializedVersion: 2
+        x: 918
+        y: 504
+        width: 49
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ea523d0b81a1a4650800000000000000
+      internalID: 6217810928886556078
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_18
+      rect:
+        serializedVersion: 2
+        x: 969
+        y: 499
+        width: 41
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b2b5db08218bad7f0800000000000000
+      internalID: -586954411809613013
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_19
+      rect:
+        serializedVersion: 2
+        x: 920
+        y: 475
+        width: 35
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 10ce955c7b5806a30800000000000000
+      internalID: 4206509076300557313
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_20
+      rect:
+        serializedVersion: 2
+        x: 956
+        y: 476
+        width: 16
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0fea4ecad6e1c2c30800000000000000
+      internalID: 4335873997651881712
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_21
+      rect:
+        serializedVersion: 2
+        x: 974
+        y: 476
+        width: 17
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5dcee56077f862960800000000000000
+      internalID: 7576901164468202709
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_22
+      rect:
+        serializedVersion: 2
+        x: 996
+        y: 484
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1f0af65087a10a140800000000000000
+      internalID: 4728808711528620273
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_23
+      rect:
+        serializedVersion: 2
+        x: 1008
+        y: 483
+        width: 10
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 17316474fae729f80800000000000000
+      internalID: -8101273488405949583
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_24
+      rect:
+        serializedVersion: 2
+        x: 919
+        y: 451
+        width: 53
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e0f80de34ac1103c0800000000000000
+      internalID: -4395200269582823666
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_25
+      rect:
+        serializedVersion: 2
+        x: 972
+        y: 451
+        width: 18
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5fae15ba581e61f40800000000000000
+      internalID: 5698990342705113845
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_26
+      rect:
+        serializedVersion: 2
+        x: 993
+        y: 419
+        width: 28
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ee08b32c3101c32d0800000000000000
+      internalID: -3297743150092943122
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_27
+      rect:
+        serializedVersion: 2
+        x: 919
+        y: 417
+        width: 32
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5c649502c1cee2a50800000000000000
+      internalID: 6498390917888165573
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_28
+      rect:
+        serializedVersion: 2
+        x: 612
+        y: 367
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e77a990731c7fc800800000000000000
+      internalID: 634862495417870206
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_29
+      rect:
+        serializedVersion: 2
+        x: 630
+        y: 366
+        width: 18
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aebdb047ab3cb4a70800000000000000
+      internalID: 8812352301458775018
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_30
+      rect:
+        serializedVersion: 2
+        x: 650
+        y: 366
+        width: 17
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8c4e3e8a88ce937a0800000000000000
+      internalID: -6396821724009863992
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_31
+      rect:
+        serializedVersion: 2
+        x: 669
+        y: 367
+        width: 18
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 802c23bf69d6ce130800000000000000
+      internalID: 3597370697589113352
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_32
+      rect:
+        serializedVersion: 2
+        x: 689
+        y: 367
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 84152f1e068a4bd00800000000000000
+      internalID: 987599352362062152
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_33
+      rect:
+        serializedVersion: 2
+        x: 707
+        y: 366
+        width: 18
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 46fa405ad41942cc0800000000000000
+      internalID: -3736702028143612060
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_34
+      rect:
+        serializedVersion: 2
+        x: 727
+        y: 370
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ebb4aa4e8073c9aa0800000000000000
+      internalID: -6152982479559308354
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_35
+      rect:
+        serializedVersion: 2
+        x: 746
+        y: 272
+        width: 124
+        height: 112
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6be19fa9b7431d2e0800000000000000
+      internalID: -2102841845519671626
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_36
+      rect:
+        serializedVersion: 2
+        x: 871
+        y: 275
+        width: 108
+        height: 109
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d287212336116b200800000000000000
+      internalID: 195362751576700973
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_37
+      rect:
+        serializedVersion: 2
+        x: 727
+        y: 354
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e0ffa278d6f32fc00800000000000000
+      internalID: 932877812470841102
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_38
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 325
+        width: 745
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 67211e1d5bb915be0800000000000000
+      internalID: -1490238796470349194
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_39
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 272
+        width: 18
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5613fe4593f13d880800000000000000
+      internalID: -8587485733366845083
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_40
+      rect:
+        serializedVersion: 2
+        x: 196
+        y: 272
+        width: 18
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 56511ce5abbb94ff0800000000000000
+      internalID: -51303511610026651
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_41
+      rect:
+        serializedVersion: 2
+        x: 215
+        y: 307
+        width: 18
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6c155e1e50ad26a60800000000000000
+      internalID: 7665929234537599430
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_42
+      rect:
+        serializedVersion: 2
+        x: 234
+        y: 307
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c1715859fc6c104a0800000000000000
+      internalID: -6628798581643602148
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_43
+      rect:
+        serializedVersion: 2
+        x: 253
+        y: 307
+        width: 16
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e59913ce2f644b250800000000000000
+      internalID: 5959466216076712286
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_44
+      rect:
+        serializedVersion: 2
+        x: 271
+        y: 306
+        width: 17
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 979320b22d5ac5270800000000000000
+      internalID: 8240643740264446329
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_45
+      rect:
+        serializedVersion: 2
+        x: 289
+        y: 307
+        width: 18
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a1cf9f0dfeaf8f120800000000000000
+      internalID: 2447982305386036250
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_46
+      rect:
+        serializedVersion: 2
+        x: 309
+        y: 307
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4548da903f1502700800000000000000
+      internalID: 513500461801505876
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_47
+      rect:
+        serializedVersion: 2
+        x: 326
+        y: 306
+        width: 18
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d84795fafd58f3cf0800000000000000
+      internalID: -270350256852863859
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_48
+      rect:
+        serializedVersion: 2
+        x: 345
+        y: 307
+        width: 18
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e0f93f6712033fe0800000000000000
+      internalID: -1210621575158959899
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_49
+      rect:
+        serializedVersion: 2
+        x: 364
+        y: 307
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 21e96662790eebfb0800000000000000
+      internalID: -4630016427101348334
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_50
+      rect:
+        serializedVersion: 2
+        x: 871
+        y: 257
+        width: 18
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 60416efd28c4d0410800000000000000
+      internalID: 1444895180441654278
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_51
+      rect:
+        serializedVersion: 2
+        x: 890
+        y: 257
+        width: 18
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d851f7901752bf180800000000000000
+      internalID: -9080623056241617523
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_52
+      rect:
+        serializedVersion: 2
+        x: 908
+        y: 256
+        width: 18
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 673098c2992f2df20800000000000000
+      internalID: 3446083404582945654
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_53
+      rect:
+        serializedVersion: 2
+        x: 927
+        y: 257
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 323f6308a82efa160800000000000000
+      internalID: 7039093827087823651
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_54
+      rect:
+        serializedVersion: 2
+        x: 945
+        y: 256
+        width: 18
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8563d1085c5ebfa30800000000000000
+      internalID: 4250243309774911064
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_55
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 257
+        width: 18
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6338df632d0693970800000000000000
+      internalID: 8735119408243770166
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_56
+      rect:
+        serializedVersion: 2
+        x: 983
+        y: 257
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 88f687fee52cab630800000000000000
+      internalID: 3943678136716652424
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aoskc-m5lbg_57
+      rect:
+        serializedVersion: 2
+        x: 1001
+        y: 256
+        width: 18
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e709c4e69c7f91880800000000000000
+      internalID: -8639601965622587266
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      aoskc-m5lbg_48: -1210621575158959899
+      aoskc-m5lbg_57: -8639601965622587266
+      aoskc-m5lbg_43: 5959466216076712286
+      aoskc-m5lbg_54: 4250243309774911064
+      aoskc-m5lbg_22: 4728808711528620273
+      aoskc-m5lbg_7: -2516774718619390443
+      aoskc-m5lbg_2: 6412181528890735946
+      aoskc-m5lbg_47: -270350256852863859
+      aoskc-m5lbg_52: 3446083404582945654
+      aoskc-m5lbg_11: -1757190028697449575
+      aoskc-m5lbg_28: 634862495417870206
+      aoskc-m5lbg_45: 2447982305386036250
+      aoskc-m5lbg_31: 3597370697589113352
+      aoskc-m5lbg_40: -51303511610026651
+      aoskc-m5lbg_1: -4696281294164030791
+      aoskc-m5lbg_4: -4118795829532124015
+      aoskc-m5lbg_9: -2495778152964038395
+      aoskc-m5lbg_18: -586954411809613013
+      aoskc-m5lbg_36: 195362751576700973
+      aoskc-m5lbg_34: -6152982479559308354
+      aoskc-m5lbg_21: 7576901164468202709
+      aoskc-m5lbg_29: 8812352301458775018
+      aoskc-m5lbg_51: -9080623056241617523
+      aoskc-m5lbg_32: 987599352362062152
+      aoskc-m5lbg_8: 4572215591525876700
+      aoskc-m5lbg_53: 7039093827087823651
+      aoskc-m5lbg_35: -2102841845519671626
+      aoskc-m5lbg_25: 5698990342705113845
+      aoskc-m5lbg_46: 513500461801505876
+      aoskc-m5lbg_33: -3736702028143612060
+      aoskc-m5lbg_10: -4319407796583442700
+      aoskc-m5lbg_20: 4335873997651881712
+      aoskc-m5lbg_3: -7461229496098767782
+      aoskc-m5lbg_27: 6498390917888165573
+      aoskc-m5lbg_6: 7733644658325523820
+      aoskc-m5lbg_39: -8587485733366845083
+      aoskc-m5lbg_42: -6628798581643602148
+      aoskc-m5lbg_19: 4206509076300557313
+      aoskc-m5lbg_0: 3945266691166401978
+      aoskc-m5lbg_30: -6396821724009863992
+      aoskc-m5lbg_49: -4630016427101348334
+      aoskc-m5lbg_44: 8240643740264446329
+      aoskc-m5lbg_38: -1490238796470349194
+      aoskc-m5lbg_37: 932877812470841102
+      aoskc-m5lbg_50: 1444895180441654278
+      aoskc-m5lbg_12: -4715911926690421255
+      aoskc-m5lbg_17: 6217810928886556078
+      aoskc-m5lbg_55: 8735119408243770166
+      aoskc-m5lbg_13: -7511494693565573491
+      aoskc-m5lbg_41: 7665929234537599430
+      aoskc-m5lbg_5: 7457253141783747740
+      aoskc-m5lbg_15: 6671119813402715402
+      aoskc-m5lbg_14: 8156521025265987460
+      aoskc-m5lbg_26: -3297743150092943122
+      aoskc-m5lbg_23: -8101273488405949583
+      aoskc-m5lbg_24: -4395200269582823666
+      aoskc-m5lbg_16: -7792829490819709624
+      aoskc-m5lbg_56: 3943678136716652424
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

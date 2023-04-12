@@ -1,0 +1,1036 @@
+fileFormatVersion: 2
+guid: 9dc0c8108349a4278b273952b3cb8278
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: skillSelectEffect_0
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 623
+        width: 65
+        height: 222
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3f8fe4efc24f94678aa01bb1cfd9f382
+      internalID: -603652905
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skillSelectEffect_1
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 624
+        width: 65
+        height: 220
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2f6d96f844e954952bdc2ecf83e251f9
+      internalID: -1962953460
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skillSelectEffect_2
+      rect:
+        serializedVersion: 2
+        x: 136
+        y: 621
+        width: 65
+        height: 213
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aa25cf0a392ba469f90649186d59b702
+      internalID: -2000808916
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skillSelectEffect_3
+      rect:
+        serializedVersion: 2
+        x: 207
+        y: 728
+        width: 209
+        height: 65
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 913c9fdd6ce814169bb2e481bb98f0e0
+      internalID: -622254275
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skillSelectEffect_4
+      rect:
+        serializedVersion: 2
+        x: 425
+        y: 748
+        width: 214
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 06910a8bbb2214e12a6ac35f2c30ee19
+      internalID: -1350105893
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skillSelectEffect_5
+      rect:
+        serializedVersion: 2
+        x: 657
+        y: 543
+        width: 64
+        height: 211
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a073adcbf04cc4ce4bebba7f8ded47b5
+      internalID: 1386228769
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skillSelectEffect_6
+      rect:
+        serializedVersion: 2
+        x: 723
+        y: 543
+        width: 63
+        height: 210
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 08439d28804f04c5aaed2dd54d7f9c23
+      internalID: -1541454962
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skillSelectEffect_7
+      rect:
+        serializedVersion: 2
+        x: 203
+        y: 662
+        width: 225
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9a353039c54fd482caada878f65e7477
+      internalID: -314647510
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skillSelectEffect_8
+      rect:
+        serializedVersion: 2
+        x: 431
+        y: 682
+        width: 213
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fa8238aece1474b6ea3351b092a54980
+      internalID: -873510112
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skillSelectEffect_9
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 535
+        width: 209
+        height: 83
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e079f52404e5480f8fd787f3d175521
+      internalID: -792354363
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skillSelectEffect_10
+      rect:
+        serializedVersion: 2
+        x: 218
+        y: 595
+        width: 218
+        height: 65
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8171dada63fe04611b985cb173beb506
+      internalID: -1735967508
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skillSelectEffect_11
+      rect:
+        serializedVersion: 2
+        x: 439
+        y: 616
+        width: 215
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d32ef356b0c36466b9cb07b27e49eafe
+      internalID: -1686297766
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skillSelectEffect_12
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 528
+        width: 212
+        height: 65
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d9a2dc33f88de4896a79544938ab9513
+      internalID: -637423237
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skillSelectEffect_13
+      rect:
+        serializedVersion: 2
+        x: 439
+        y: 550
+        width: 214
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5a1765dd1816647989933cfdcd938fb1
+      internalID: 440543172
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skillSelectEffect_14
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 450
+        width: 209
+        height: 83
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bac869b1262f04ed2a0c186cbc3141bd
+      internalID: 899540740
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skillSelectEffect_15
+      rect:
+        serializedVersion: 2
+        x: 213
+        y: 443
+        width: 209
+        height: 83
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bec0f55da978d4a939ba78b1b278d1ac
+      internalID: -1381486639
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skillSelectEffect_16
+      rect:
+        serializedVersion: 2
+        x: 439
+        y: 484
+        width: 214
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 01d9fa974d554430889f73128bc396a2
+      internalID: 1395848756
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skillSelectEffect_17
+      rect:
+        serializedVersion: 2
+        x: 656
+        y: 327
+        width: 64
+        height: 210
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 214906831b9014fa48c7e47d2c2e2fd4
+      internalID: -1169409635
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skillSelectEffect_18
+      rect:
+        serializedVersion: 2
+        x: 722
+        y: 327
+        width: 64
+        height: 212
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: da985789f2f0543768f239f10db7a99c
+      internalID: -825477032
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skillSelectEffect_19
+      rect:
+        serializedVersion: 2
+        x: 788
+        y: 327
+        width: 64
+        height: 206
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 015224925d57547a9956f4db72e240f9
+      internalID: 1952626783
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skillSelectEffect_20
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 363
+        width: 209
+        height: 85
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1e9d234decdce4f1ba685909fddc0e7c
+      internalID: 1826298915
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skillSelectEffect_21
+      rect:
+        serializedVersion: 2
+        x: 213
+        y: 358
+        width: 209
+        height: 83
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: caee7a719479443768864506443ca085
+      internalID: 1492962767
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skillSelectEffect_22
+      rect:
+        serializedVersion: 2
+        x: 425
+        y: 417
+        width: 218
+        height: 65
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ebd86977d8f1843e7bc1deb400dc7ce7
+      internalID: 590239288
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skillSelectEffect_23
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 274
+        width: 209
+        height: 87
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c8f8d90b21ac64fd483027ff42acb777
+      internalID: 2055616430
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skillSelectEffect_24
+      rect:
+        serializedVersion: 2
+        x: 213
+        y: 271
+        width: 209
+        height: 85
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d2b592e3abbdf416699e0169cd1ac530
+      internalID: -1457756527
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skillSelectEffect_25
+      rect:
+        serializedVersion: 2
+        x: 424
+        y: 350
+        width: 214
+        height: 65
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ca43ce503fa834f3091f34322029b8ab
+      internalID: -1577401739
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skillSelectEffect_26
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 184
+        width: 209
+        height: 88
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 73644a5a398f04db78f8a655f521e1d8
+      internalID: -1336480596
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skillSelectEffect_27
+      rect:
+        serializedVersion: 2
+        x: 213
+        y: 182
+        width: 209
+        height: 87
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 53, y: 40, z: 49, w: 37}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aab4f98cdf7da4b38ab74be2c2befc53
+      internalID: 1329385235
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skillSelectEffect_28
+      rect:
+        serializedVersion: 2
+        x: 424
+        y: 265
+        width: 209
+        height: 83
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3ef43d6b3228a4895a3eaf05b0725ac9
+      internalID: -141038282
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skillSelectEffect_29
+      rect:
+        serializedVersion: 2
+        x: 635
+        y: 261
+        width: 211
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1fdb24d643e7a45cfab957043b34f04e
+      internalID: -1193367903
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skillSelectEffect_30
+      rect:
+        serializedVersion: 2
+        x: 184
+        y: 178
+        width: 4
+        height: 4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0294a979810af40deb832c8cccb458b1
+      internalID: -1903325086
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skillSelectEffect_31
+      rect:
+        serializedVersion: 2
+        x: 213
+        y: 92
+        width: 209
+        height: 88
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e09ac19328c234eb78911f6a32468a97
+      internalID: -1921714844
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skillSelectEffect_32
+      rect:
+        serializedVersion: 2
+        x: 424
+        y: 179
+        width: 209
+        height: 84
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4cd4ab972794042109d39ca05f6fabb8
+      internalID: 1688033331
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skillSelectEffect_33
+      rect:
+        serializedVersion: 2
+        x: 635
+        y: 176
+        width: 209
+        height: 83
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb60ad4156fda42ed9c0011b64bb4361
+      internalID: -1885103116
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skillSelectEffect_34
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 93
+        width: 209
+        height: 82
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e90e683361097465eae565c833d913e8
+      internalID: 1518388053
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skillSelectEffect_35
+      rect:
+        serializedVersion: 2
+        x: 424
+        y: 91
+        width: 209
+        height: 86
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a5e85aeaf7d6940f884f9e1181232168
+      internalID: -2138249579
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skillSelectEffect_36
+      rect:
+        serializedVersion: 2
+        x: 635
+        y: 90
+        width: 209
+        height: 84
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b710596486b594a4fb86674f9962cc0a
+      internalID: 872718173
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skillSelectEffect_37
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 2
+        width: 209
+        height: 89
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9c373400e27b54443805bd8ad49aaafe
+      internalID: 1254014817
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skillSelectEffect_38
+      rect:
+        serializedVersion: 2
+        x: 213
+        y: 2
+        width: 209
+        height: 88
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ab00ff79e4f1548ae9781bc41eb6fac0
+      internalID: 1957586571
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skillSelectEffect_39
+      rect:
+        serializedVersion: 2
+        x: 424
+        y: 2
+        width: 209
+        height: 87
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7b7f270cdd6de4822a674f487e482cbe
+      internalID: 1814459243
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skillSelectEffect_40
+      rect:
+        serializedVersion: 2
+        x: 635
+        y: 2
+        width: 209
+        height: 86
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e3e77ece2c8784c5da50966d7057159b
+      internalID: -82376862
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      skillSelectEffect_5: 1386228769
+      skillSelectEffect_14: 899540740
+      skillSelectEffect_40: -82376862
+      skillSelectEffect_28: -141038282
+      skillSelectEffect_24: -1457756527
+      skillSelectEffect_11: -1686297766
+      skillSelectEffect_13: 440543172
+      skillSelectEffect_30: -1903325086
+      skillSelectEffect_7: -314647510
+      skillSelectEffect_31: -1921714844
+      skillSelectEffect_36: 872718173
+      skillSelectEffect_32: 1688033331
+      skillSelectEffect_17: -1169409635
+      skillSelectEffect_8: -873510112
+      skillSelectEffect_12: -637423237
+      skillSelectEffect_4: -1350105893
+      skillSelectEffect_39: 1814459243
+      skillSelectEffect_25: -1577401739
+      skillSelectEffect_29: -1193367903
+      skillSelectEffect_1: -1962953460
+      skillSelectEffect_19: 1952626783
+      skillSelectEffect_3: -622254275
+      skillSelectEffect_34: 1518388053
+      skillSelectEffect_0: -603652905
+      skillSelectEffect_21: 1492962767
+      skillSelectEffect_2: -2000808916
+      skillSelectEffect_10: -1735967508
+      skillSelectEffect_6: -1541454962
+      skillSelectEffect_15: -1381486639
+      skillSelectEffect_20: 1826298915
+      skillSelectEffect_27: 1329385235
+      skillSelectEffect_26: -1336480596
+      skillSelectEffect_35: -2138249579
+      skillSelectEffect_37: 1254014817
+      skillSelectEffect_16: 1395848756
+      skillSelectEffect_23: 2055616430
+      skillSelectEffect_38: 1957586571
+      skillSelectEffect_33: -1885103116
+      skillSelectEffect_22: 590239288
+      skillSelectEffect_18: -825477032
+      skillSelectEffect_9: -792354363
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
