@@ -81,5 +81,5 @@ crashlytics-build.properties
 
 # /Assets/StreamingAssets
 # /Assets/StreamingAssets/Image/General/Big/*.png
-/Assets/StreamingAssets/Image/General/Window/*.png
+# /Assets/StreamingAssets/Image/General/Window/*.png
 /Assets/StreamingAssets/Image/General/Seat/*.png
