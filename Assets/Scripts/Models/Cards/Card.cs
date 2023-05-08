@@ -33,7 +33,7 @@ namespace Model
             Dests = dests;
             string cardInfo = IsConvert ? "" : "【" + Suit + Weight.ToString() + "】";
             Debug.Log(Src.posStr + "号位使用了" + Name + cardInfo);
-            useCardView?.Invoke(this);
+            UseCardView?.Invoke(this);
 
             // 目标角色排序
             if (Dests != null && Dests.Count > 1)
@@ -69,7 +69,7 @@ namespace Model
             Src = player;
             string cardInfo = IsConvert ? "" : "【" + Suit + Weight.ToString() + "】";
             Debug.Log(player.posStr + "号位打出了" + Name + cardInfo);
-            useCardView?.Invoke(this);
+            UseCardView?.Invoke(this);
 
             // 使用者失去此手牌
             if (!IsConvert)
@@ -157,51 +157,18 @@ namespace Model
 
             if (PrimiTives.Count == 0) return null;
 
-            // var list = new List<Card>();
             return PrimiTives.Where(x => CardPile.Instance.discardPile.Contains(x)).ToList();
-            // foreach (var i in PrimiTives)
-            // {
-            //     if (CardPile.Instance.discardPile.Contains(i)) list.Add(i);
-            // }
-            // return list;
         }
 
         public virtual bool AIPerform()
         {
             if (!CardArea.Instance.ValidCard(this)) return false;
-            // Debug.Log("a");
 
             Operation.Instance.Cards.Add(this);
 
-            // foreach (var i in AI.Instance.DestList)
-            // {
-            //     // Debug.Log("a");
-            //     if (DestArea.Instance.ValidDest(i))
-            //     {
-            //         Operation.Instance.Dests.Add(i);
-            //     }
-            //     if (Operation.Instance.Dests.Count == DestArea.Instance.MaxDest()) break;
-            // }
-
-            // return Operation.Instance.AICommit();
-
             return AI.Instance.SelectDest();
-
-            // if (Operation.Instance.Dests.Count >= DestArea.Instance.MinDest())
-            // {
-            //     Operation.Instance.AICommit();
-            //     Operation.Instance.Clear();
-            //     return true;
-            // }
-            // Operation.Instance.Clear();
-            // return false;
         }
 
-        private static UnityAction<Card> useCardView;
-        public static event UnityAction<Card> UseCardView
-        {
-            add => useCardView += value;
-            remove => useCardView -= value;
-        }
+        public static UnityAction<Card> UseCardView { get; set; }
     }
 }

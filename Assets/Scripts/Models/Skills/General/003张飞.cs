@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using System.Threading.Tasks;
 
 namespace Model
@@ -27,7 +24,7 @@ namespace Model
         public async Task Execute(Card card)
         {
             await Task.Yield();
-            if (card is 杀 && Src.ShaCount > 0) Execute();
+            if (card is 杀 && Src.杀Count > 0) Execute();
         }
     }
 }

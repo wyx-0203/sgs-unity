@@ -139,17 +139,17 @@ namespace View
             deadText.sprite = IsSelf ? selfDead : oppoDead;
         }
 
-        private void StartTurn(Model.TurnSystem turnSystem)
+        private void StartTurn()
         {
-            if (turnSystem.CurrentPlayer != model) return;
+            if (Model.TurnSystem.Instance.CurrentPlayer != model) return;
 
             turnBorder.gameObject.SetActive(true);
             if (!IsSelf) positionImage.gameObject.SetActive(false);
         }
 
-        private void FinishTurn(Model.TurnSystem turnSystem)
+        private void FinishTurn()
         {
-            if (turnSystem.CurrentPlayer != model) return;
+            if (Model.TurnSystem.Instance.CurrentPlayer != model) return;
 
             turnBorder.gameObject.SetActive(false);
             positionImage.gameObject.SetActive(true);

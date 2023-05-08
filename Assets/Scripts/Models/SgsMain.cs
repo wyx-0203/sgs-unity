@@ -133,6 +133,6 @@ namespace Model
         public UnityAction<Player[]> PositionView { get; set; }
         public UnityAction GeneralView { get; set; }
         public UnityAction<Player> MoveSeatView { get; set; }
-        public UnityAction<ChatMessage> ChatView { get; set; }
+        // public UnityAction<ChatMessage> ChatView { get; set; }
     }
 }

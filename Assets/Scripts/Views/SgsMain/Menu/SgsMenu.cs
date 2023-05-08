@@ -22,9 +22,9 @@ namespace View
             Model.CardPile.Instance.PileCountView -= UpdatePileCount;
         }
 
-        private void UpdatePileCount(Model.CardPile model)
+        private void UpdatePileCount()
         {
-            pileCount.text = "牌堆数" + model.PileCount.ToString();
+            pileCount.text = "牌堆数" + Model.CardPile.Instance.PileCount.ToString();
         }
 
         private IEnumerator UpdateFrame()

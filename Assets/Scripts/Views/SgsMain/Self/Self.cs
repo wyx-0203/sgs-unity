@@ -42,20 +42,20 @@ namespace View
         /// <summary>
         /// 显示并更新阶段信息
         /// </summary>
-        public void ShowPhase(Model.TurnSystem turnSystem)
+        public void ShowPhase()
         {
-            if (turnSystem.CurrentPlayer != model) return;
+            if (Model.TurnSystem.Instance.CurrentPlayer != model) return;
 
             currentPhase.gameObject.SetActive(true);
-            currentPhase.sprite = phaseSprite[(int)turnSystem.CurrentPhase];
+            currentPhase.sprite = phaseSprite[(int)Model.TurnSystem.Instance.CurrentPhase];
         }
 
         /// <summary>
         /// 隐藏阶段信息(回合外)
         /// </summary>
-        public void HidePhase(Model.TurnSystem turnSystem)
+        public void HidePhase()
         {
-            if (turnSystem.CurrentPlayer != model) return;
+            if (Model.TurnSystem.Instance.CurrentPlayer != model) return;
             currentPhase.gameObject.SetActive(false);
         }
 

@@ -65,7 +65,10 @@ namespace View
 
             else
             {
-                foreach (var i in Equips.Values) i.button.interactable = timer.IsValidCard(i.model);
+                foreach (var i in Equips.Values)
+                {
+                    i.button.interactable = i.gameObject.activeSelf && timer.IsValidCard(i.model);
+                }
 
                 if (Equips["武器"].name == "丈八蛇矛" && timer.IsValidCard(Model.Card.Convert<Model.杀>()))
                 {

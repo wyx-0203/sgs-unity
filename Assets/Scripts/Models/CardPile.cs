@@ -13,34 +13,32 @@ namespace Model
         {
             string url = Url.JSON + "card.json";
             List<CardJson> cardJsons = JsonList<CardJson>.FromJson(await WebRequest.Get(url));
+            cards = new Card[cardJsons.Count];
 
-            cards = new List<Card>();
-            remainPile = new List<Card>();
-            discardPile = new List<Card>();
-            foreach (var cardJson in cardJsons)
+            foreach (var i in cardJsons)
             {
-                Card card;
-                if (cardMap.ContainsKey(cardJson.name))
-                {
-                    card = Activator.CreateInstance(cardMap[cardJson.name]) as Card;
-                }
-                else card = new 桃();
+                // Card card;
+                if (!cardMap.ContainsKey(i.name)) continue;
 
-                card.Id = cardJson.id;
-                card.Suit = cardJson.suit;
-                card.Weight = cardJson.weight;
-                card.Type = cardJson.type;
-                card.Name = cardJson.name;
+                var card = Activator.CreateInstance(cardMap[i.name]) as Card;
 
-                cards.Add(card);
-                discardPile.Add(card);
+                card.Id = i.id;
+                card.Suit = i.suit;
+                card.Weight = i.weight;
+                card.Type = i.type;
+                card.Name = i.name;
+
+                // cards.Add(card);
+                cards[i.id] = card;
+                // discardPile.Add(card);
             }
 
+            discardPile = new List<Card>(cards);
             discardPile.RemoveAt(0);
             await Shuffle();
         }
 
-        public List<Card> cards;
+        public Card[] cards { get; private set; }
 
         public Dictionary<string, System.Type> cardMap = new Dictionary<string, System.Type>
         {
@@ -96,10 +94,10 @@ namespace Model
         // 牌堆
         private List<Card> remainPile;
         // 弃牌堆
-        public List<Card> discardPile;
+        public List<Card> discardPile { get; private set; }
 
         // 牌堆数
-        public int PileCount { get => remainPile.Count; }
+        public int PileCount => remainPile.Count;
 
 
         /// <summary>
@@ -111,7 +109,7 @@ namespace Model
             remainPile.RemoveAt(0);
 
             if (remainPile.Count == 0) await Shuffle();
-            PileCountView?.Invoke(this);
+            PileCountView?.Invoke();
 
             return T;
         }
@@ -177,6 +175,6 @@ namespace Model
         }
 
         public UnityAction<List<Card>> DiscardView { get; set; }
-        public UnityAction<CardPile> PileCountView { get; set; }
+        public UnityAction PileCountView { get; set; }
     }
 }

@@ -50,8 +50,8 @@ namespace View
             Model.Timer.Instance.StopTimerView -= HideTimer;
         }
 
-        private Model.Player player => self.model;
-        private List<Model.Card> cards => Model.CardPile.Instance.cards;
+        // private Model.Player player => self.model;
+        // private List<Model.Card> cards => Model.CardPile.Instance.cards;
 
         /// <summary>
         /// 点击确定键

@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Threading.Tasks;
 
 namespace Model
@@ -81,6 +79,7 @@ namespace Model
         public async Task Execute(GetCard getCard)
         {
             if (!IsValid || getCard is GetCardFromPile && (getCard as GetCardFromPile).InGetCardPhase) return;
+            if (TurnSystem.Instance.Round == 0) return;
 
             if (!await base.ShowTimer()) return;
             Execute();

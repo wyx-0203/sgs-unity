@@ -40,7 +40,7 @@ namespace Model
         public bool UseSha(Player player, Card card = null)
         {
             if (card is null) card = Card.Convert<杀>();
-            return player.ShaCount < 1 || player.UnlimitedCard(card);
+            return player.杀Count < 1 || player.UnlimitedCard(card);
         }
     }
 }

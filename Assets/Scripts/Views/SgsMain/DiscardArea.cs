@@ -25,7 +25,7 @@ namespace View
             card.SetParent(transform);
         }
 
-        public async void Clear(Model.TurnSystem turnSystem)
+        public async void Clear()
         {
             foreach (var i in Cards) Destroy(i.gameObject, 2);
 

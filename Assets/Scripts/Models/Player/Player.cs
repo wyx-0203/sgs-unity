@@ -11,16 +11,15 @@ namespace Model
         public Player(bool team)
         {
             this.team = team;
-            events = new PlayerEvents();
         }
 
-        public PlayerEvents events;
+        public PlayerEvents events { get; private set; } = new PlayerEvents();
 
         public bool isSelf { get; set; } = false;
         public bool isAI { get; set; } = false;
         public Player teammate { get; set; }
         public bool team { get; private set; }
-        public List<Player> Teammates { get; set; }
+        // public List<Player> Teammates { get; set; }
 
         // 武将
         public General general { get; private set; }
@@ -79,7 +78,7 @@ namespace Model
         // 攻击范围
         public int AttackRange { get; set; } = 1;
         // 出杀次数
-        public int ShaCount { get; set; }
+        public int 杀Count { get; set; }
         public bool Use酒 { get; set; } = false;
         public int 酒Count { get; set; }
 

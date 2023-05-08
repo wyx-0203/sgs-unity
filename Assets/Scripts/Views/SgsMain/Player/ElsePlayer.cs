@@ -127,23 +127,21 @@ namespace View
         /// <summary>
         /// 显示并更新阶段信息
         /// </summary>
-        /// <param name="phase">新阶段</param>
-        private void ShowPhase(Model.TurnSystem turnSystem)
+        private void ShowPhase()
         {
-            if (turnSystem.CurrentPlayer != model) return;
+            if (Model.TurnSystem.Instance.CurrentPlayer != model) return;
 
             currentPhase.gameObject.SetActive(true);
 
-            // while (sprites.phase is null) await Task.Yield();
-            currentPhase.sprite = phaseSprite[(int)turnSystem.CurrentPhase];
+            currentPhase.sprite = phaseSprite[(int)Model.TurnSystem.Instance.CurrentPhase];
         }
 
         /// <summary>
         /// 隐藏阶段信息(回合外)
         /// </summary>
-        private void HidePhase(Model.TurnSystem turnSystem)
+        private void HidePhase()
         {
-            if (turnSystem.CurrentPlayer != model) return;
+            if (Model.TurnSystem.Instance.CurrentPlayer != model) return;
 
             currentPhase.gameObject.SetActive(false);
         }

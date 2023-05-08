@@ -70,7 +70,7 @@ namespace Model
             var teammates = SgsMain.Instance.AlivePlayers.Where(x => x.team == Src.team).ToList();
             // 按摸牌数量排序
             teammates.Sort((x, y) => (x.HpLimit - x.HandCardCount) > (y.HpLimit - y.HandCardCount) ? -1 : 1);
-            Operation.Instance.Dests.Add(Src.Teammates[0]);
+            Operation.Instance.Dests.Add(teammates[0]);
             Operation.Instance.AICommit();
             return true;
         }

@@ -204,7 +204,7 @@ namespace Model
 
         public override void WhenUseSha(杀 sha)
         {
-            if (sha.Src.ShaCount > 1) SkillView();
+            if (sha.Src.杀Count > 1) SkillView();
         }
     }
 

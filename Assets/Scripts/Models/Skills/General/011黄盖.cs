@@ -48,7 +48,7 @@ namespace Model
             }
 
             // 出杀次数加1
-            Src.ShaCount--;
+            Src.杀Count--;
             // 红杀无距离限制
             Src.unlimitedDst += IsUnlimited;
             // 红杀不可闪避

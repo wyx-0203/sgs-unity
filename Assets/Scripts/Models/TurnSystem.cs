@@ -34,16 +34,19 @@ namespace Model
         // 被跳过阶段
         public Dictionary<Player, Dictionary<Phase, bool>> SkipPhase { get; set; }
 
-        public int Round { get; private set; } = 1;
+        public int Round { get; private set; } = 0;
 
         public async Task Run()
         {
+            Round = 1;
             while (true)
             {
                 // 执行回合
                 await SgsMain.Instance.MoveSeat(CurrentPlayer);
-                StartTurnView?.Invoke(this);
+                StartTurnView?.Invoke();
                 BeforeTurn?.Invoke();
+
+                // 从准备阶段到结束阶段
                 for (CurrentPhase = Phase.Prepare; CurrentPhase <= Phase.End; CurrentPhase++)
                 {
                     if (!Room.Instance.IsSingle) await Sync();
@@ -51,7 +54,7 @@ namespace Model
                     while (ExtraPhase.Count > 0) await ExeuteExtraPhase();
                     if (GameOver.Instance.Check()) return;
                 }
-                FinishTurnView?.Invoke(this);
+                FinishTurnView?.Invoke();
                 AfterTurn?.Invoke();
 
                 // 额外回合
@@ -76,14 +79,11 @@ namespace Model
         {
             if (!CurrentPlayer.IsAlive) return;
             // 执行阶段开始时view事件
-            StartPhaseView?.Invoke(this);
+            StartPhaseView?.Invoke();
 
-            // #if UNITY_EDITOR
-            //             await Task.Delay(300);
-            // #endif
             await new Delay(0.3f).Run();
 
-            var playerEvents = CurrentPlayer.events;
+            var events = CurrentPlayer.events;
 
             // 阶段开始时判断是否跳过
             if (SkipPhase[CurrentPlayer][CurrentPhase])
@@ -92,7 +92,7 @@ namespace Model
                 return;
             }
             // 执行阶段开始时事件
-            await playerEvents.StartPhase[CurrentPhase].Execute();
+            await events.StartPhase[CurrentPhase].Execute();
 
             // 阶段中判断是否跳过
             if (SkipPhase[CurrentPlayer][CurrentPhase])
@@ -100,22 +100,22 @@ namespace Model
                 SkipPhase[CurrentPlayer][CurrentPhase] = false;
                 return;
             }
-            // await playerEvents.phaseEvents[CurrentPhase].Execute();
 
             switch (CurrentPhase)
             {
+                // 执行判定阶段
                 case Phase.Judge:
                     while (CurrentPlayer.JudgeArea.Count != 0)
                     {
                         await CurrentPlayer.JudgeArea[0].Judge();
                     }
                     break;
+
                 // 执行摸牌阶段
                 case Phase.Get:
-
-                    var act = new GetCardFromPile(CurrentPlayer, 2);
-                    act.InGetCardPhase = true;
-                    await act.Execute();
+                    var getCardFromPile = new GetCardFromPile(CurrentPlayer, 2);
+                    getCardFromPile.InGetCardPhase = true;
+                    await getCardFromPile.Execute();
                     break;
 
                 // 执行出牌阶段
@@ -125,7 +125,6 @@ namespace Model
 
                 // 执行弃牌阶段
                 case Phase.Discard:
-
                     var count = CurrentPlayer.HandCardCount - CurrentPlayer.HandCardLimit;
                     if (count > 0) await TimerAction.DiscardFromHand(CurrentPlayer, count);
                     break;
@@ -134,68 +133,63 @@ namespace Model
             if (!CurrentPlayer.IsAlive) return;
 
             // 执行阶段结束时事件
-            await playerEvents.FinishPhase[CurrentPhase].Execute();
-            FinishPhaseView?.Invoke(this);
+            await events.FinishPhase[CurrentPhase].Execute();
+            FinishPhaseView?.Invoke();
         }
-
-        // public bool IsDone { get; set; }
 
         private async Task Perform()
         {
             // 重置出杀次数
-            CurrentPlayer.ShaCount = 0;
+            CurrentPlayer.杀Count = 0;
             CurrentPlayer.酒Count = 0;
             CurrentPlayer.Use酒 = false;
-            // 重置使用技能次数
-            // foreach (var i in CurrentPlayer.skills.Values) if (i is Active) (i as Active).Time = 0;
 
             bool action = true;
-            while (action && CurrentPlayer.IsAlive)
+            while (action && CurrentPlayer.IsAlive && !GameOver.Instance.Check())
             {
-                if (GameOver.Instance.Check()) return;
                 // 暂停线程,显示进度条
-                var timerTask = Timer.Instance;
-                timerTask.Hint = "出牌阶段，请选择一张牌。";
-                timerTask.MaxDest = DestArea.Instance.MaxDest;
-                timerTask.MinDest = DestArea.Instance.MinDest;
-                timerTask.IsValidCard = CardArea.Instance.ValidCard;
-                timerTask.IsValidDest = DestArea.Instance.ValidDest;
-                timerTask.isPerformPhase = true;
-                action = await timerTask.Run(CurrentPlayer, 1, 0);
-                timerTask.isPerformPhase = false;
+                var timer = Timer.Instance;
+                timer.Hint = "出牌阶段，请选择一张牌。";
+                timer.MaxDest = DestArea.Instance.MaxDest;
+                timer.MinDest = DestArea.Instance.MinDest;
+                timer.IsValidCard = CardArea.Instance.ValidCard;
+                timer.IsValidDest = DestArea.Instance.ValidDest;
+                timer.isPerformPhase = true;
+                action = await timer.Run(CurrentPlayer, 1, 0);
+                timer.isPerformPhase = false;
 
                 if (CurrentPlayer.isAI) action = AI.Instance.Perform();
 
                 if (action)
                 {
                     // 使用技能
-                    if (timerTask.Skill != "")
+                    if (timer.Skill != "")
                     {
-                        var skill = CurrentPlayer.FindSkill(timerTask.Skill) as Active;
-                        await skill.Execute(timerTask.Dests, timerTask.Cards, "");
+                        var skill = CurrentPlayer.FindSkill(timer.Skill) as Active;
+                        await skill.Execute(timer.Dests, timer.Cards, "");
                     }
                     // 使用牌
                     else
                     {
-                        var card = timerTask.Cards[0];
-                        if (card is 杀) CurrentPlayer.ShaCount++;
-                        await card.UseCard(CurrentPlayer, timerTask.Dests);
+                        var card = timer.Cards[0];
+                        if (card is 杀) CurrentPlayer.杀Count++;
+                        await card.UseCard(CurrentPlayer, timer.Dests);
                     }
                 }
 
-                FinishPerformView?.Invoke(this);
+                FinishPerformView?.Invoke();
             }
 
             // 重置出杀次数
-            CurrentPlayer.ShaCount = 0;
+            CurrentPlayer.杀Count = 0;
             CurrentPlayer.Use酒 = false;
 
             AfterPerform?.Invoke();
         }
 
-        public Action BeforeTurn;
-        public Action AfterTurn;
-        public Action AfterPerform;
+        public Action BeforeTurn { get; set; }
+        public Action AfterTurn { get; set; }
+        public Action AfterPerform { get; set; }
 
         public void SortDest(List<Player> dests)
         {
@@ -220,7 +214,7 @@ namespace Model
 
             // 执行回合
             await SgsMain.Instance.MoveSeat(CurrentPlayer);
-            StartTurnView?.Invoke(this);
+            StartTurnView?.Invoke();
             BeforeTurn?.Invoke();
             for (CurrentPhase = Phase.Prepare; CurrentPhase <= Phase.End; CurrentPhase++)
             {
@@ -229,7 +223,7 @@ namespace Model
                 while (ExtraPhase.Count > 0) await ExeuteExtraPhase();
                 if (GameOver.Instance.Check()) return;
             }
-            FinishTurnView?.Invoke(this);
+            FinishTurnView?.Invoke();
             AfterTurn?.Invoke();
 
             if (ExtraTurn != null) await ExecuteExtraTurn();
@@ -250,10 +244,10 @@ namespace Model
             CurrentPhase = t;
         }
 
-        public UnityAction<TurnSystem> StartTurnView { get; set; }
-        public UnityAction<TurnSystem> FinishTurnView { get; set; }
-        public UnityAction<TurnSystem> StartPhaseView { get; set; }
-        public UnityAction<TurnSystem> FinishPhaseView { get; set; }
-        public UnityAction<TurnSystem> FinishPerformView { get; set; }
+        public UnityAction StartTurnView { get; set; }
+        public UnityAction FinishTurnView { get; set; }
+        public UnityAction StartPhaseView { get; set; }
+        public UnityAction FinishPhaseView { get; set; }
+        public UnityAction FinishPerformView { get; set; }
     }
 }

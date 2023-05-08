@@ -15,11 +15,6 @@ namespace Model
             this.player = player;
         }
 
-        /// <summary>
-        /// 执行操作
-        /// </summary>
-        // public abstract Task Execute();
-
         protected static UnityAction<T> actionView;
         public static event UnityAction<T> ActionView
         {
@@ -104,23 +99,13 @@ namespace Model
 
     public class GetJudgeCard : GetCard
     {
-        public GetJudgeCard(Player player, Card card) : base(player, new List<Card> { card })
-        {
-            // Dest = dest;
-        }
-
-        // public Player Dest { get; private set; }
+        public GetJudgeCard(Player player, Card card) : base(player, new List<Card> { card }) { }
 
         public new async Task Execute()
         {
-            // var list = new List<Card>(Cards);
-            // Cards.Clear();
-            // foreach (var i in list) Cards.AddRange(i.InDiscardPile());
-            // if (Cards.Count > 0) await base.Execute();
             var card = Cards[0];
 
             (card as DelayScheme).RemoveToJudgeArea();
-            // await new GetCard(src, new List<Card> { card }).Execute();
             await base.Execute();
         }
     }
@@ -195,47 +180,26 @@ namespace Model
             player.Hp += Value;
             actionView?.Invoke(this);
 
-            // 执行事件(濒死)
+            // 濒死
             if (player.Hp < 1 && Value < 0) await NearDeath();
+
             // 失去体力
             if (Value < 0 && this is not Damaged) await player.events.AfterLoseHp.Execute(this);
         }
 
         private async Task NearDeath()
         {
-            // Player i = TurnSystem.Instance.CurrentPlayer;
-            // while (true)
-            // {
-            //     while (await 桃.Call(i, player))
-            //     {
-            //         if (player.Hp >= 1) return;
-            //     }
-            //     i = i.next;
-            //     if (i == TurnSystem.Instance.CurrentPlayer) break;
-            // }
-
-            // await Util.Instance.Loop(async x=>
-            // {
-            //     while (await 桃.Call(x, player))
-            //     {
-            //         if (player.Hp >= 1) return;
-            //     }
-            // });
-
-            var currentPlayer = Model.TurnSystem.Instance.CurrentPlayer;
+            var currentPlayer = TurnSystem.Instance.CurrentPlayer;
             bool t = true;
             for (var i = currentPlayer; i != currentPlayer || t; i = i.next)
             {
                 t = false;
-                // await func(i);
                 while (await 桃.Call(i, player))
                 {
                     if (player.Hp >= 1) return;
                 }
             }
 
-            // if (this is Damaged) await new Die(player, (this as Damaged).Src).Execute();
-            // else await new Die(player, null).Execute();
             await new Die(player, this is Damaged ? (this as Damaged).Src : null).Execute();
         }
     }
@@ -354,8 +318,6 @@ namespace Model
             }
             await base.Execute();
 
-            // if (SgsMain.Instance.GameIsOver) return;
-
             // 受到伤害后
             if (player.IsAlive) await player.events.AfterDamaged.Execute(this);
 
@@ -367,16 +329,6 @@ namespace Model
         /// </summary>
         private async Task Conduct()
         {
-            // var currentPlayer = TurnSystem.Instance.CurrentPlayer;
-            // bool t = false;
-            // for (var i = currentPlayer; i == currentPlayer && t; i = i.Next)
-            // {
-            //     t = true;
-            //     if (!i.IsLocked) continue;
-            //     var damaged = new Damaged(i, Src, SrcCard, -Value, damageType);
-            //     damaged.IsConDucted = true;
-            //     await damaged.Execute();
-            // }
             Func<Player, Task> func = async x =>
             {
                 if (!x.IsLocked) return;
@@ -434,14 +386,8 @@ namespace Model
             CardPile.Instance.AddToDiscard(JudgeCard);
             Debug.Log("判定结果为【" + JudgeCard.Name + JudgeCard.Suit + JudgeCard.Weight + "】");
 
-            // await modifyJudge.Execute(this);
-
             return JudgeCard;
         }
-
-        // public Card JudgeCard { get; set; }
-
-        // public EventSet<Judge> modifyJudge = new EventSet<Judge>();
     }
 
     /// <summary>
@@ -513,9 +459,6 @@ namespace Model
             CardPile.Instance.AddToDiscard(Card1);
             await new LoseCard(player, new List<Card> { Card0 }).Execute();
             await new LoseCard(Dest, new List<Card> { Card1 }).Execute();
-
-            // Debug.Log(Card0.Weight);
-            // Debug.Log(Card1.Weight);
 
             return Card0.Weight > Card1.Weight;
         }
