@@ -35,7 +35,7 @@ namespace View
 
             switch (model.timerType)
             {
-                case TimerType.区域内:
+                case TimerType.Region:
                     foreach (var i in model.dest.HandCards) InitCard(i, handCards, model.display);
                     handCards.GetComponent<GridLayoutGroup>().spacing = UpdateSpacing(handCards.transform.childCount);
 
@@ -50,7 +50,7 @@ namespace View
                     }
                     break;
 
-                case TimerType.手牌:
+                case TimerType.HandCard:
                     foreach (var i in model.dest.HandCards) InitCard(i, handCards, model.display);
                     handCards.GetComponent<GridLayoutGroup>().spacing = UpdateSpacing(handCards.transform.childCount);
                     break;

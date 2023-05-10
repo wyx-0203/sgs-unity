@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using UnityEngine;
 
 namespace Model
 {
@@ -16,17 +14,19 @@ namespace Model
             Name = "无懈可击";
         }
 
+        private bool isCountered;
+
         public static async Task<bool> Call(Card card, Player dest)
         {
             string hint = dest != null ? "对" + dest.posStr + "号位" : "";
-            Timer.Instance.Hint = card.Name + "即将" + hint + "生效，是否使用无懈可击？";
+            WxkjTimer.Instance.Hint = card.Name + "即将" + hint + "生效，是否使用无懈可击？";
 
-            bool result = await Timer.Instance.RunWxkj();
+            bool result = await WxkjTimer.Instance.Run();
             if (result)
             {
-                Debug.Log(Timer.Instance.Cards[0].Name);
-                var wxkj = Timer.Instance.Cards[0] as 无懈可击;
-                await wxkj.UseCard(Timer.Instance.player);
+                // Debug.Log(Timer.Instance.Cards[0].Name);
+                var wxkj = WxkjTimer.Instance.cards[0] as 无懈可击;
+                await wxkj.UseCard(WxkjTimer.Instance.Src);
                 if (!wxkj.isCountered) return true;
             }
             return false;
@@ -37,8 +37,6 @@ namespace Model
             await base.UseCard(src, dests);
             isCountered = await Call(this, null);
         }
-
-        private bool isCountered;
     }
 
     /// <summary>
@@ -294,7 +292,7 @@ namespace Model
             // 出杀
             if (result)
             {
-                await Timer.Instance.Cards[0].UseCard(dests[0], Timer.Instance.Dests);
+                await Timer.Instance.cards[0].UseCard(dests[0], Timer.Instance.dests);
             }
             // 获得武器
             else await new GetCardFromElse(Src, dests[0], new List<Card> { dests[0].weapon }).Execute();
@@ -356,7 +354,7 @@ namespace Model
                 Timer.Instance.IsValidCard = card => card.Suit == showCard.Suit;
                 if (!await Timer.Instance.Run(Src, 1, 0)) return;
 
-                await new Discard(Src, Timer.Instance.Cards).Execute();
+                await new Discard(Src, Timer.Instance.cards).Execute();
                 await new Damaged(dest, Src, this, 1, DamageType.Fire).Execute();
             }
         }

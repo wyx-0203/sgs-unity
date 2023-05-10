@@ -61,7 +61,7 @@ namespace Model
             };
 
             if (Room.Instance.IsSingle) waitAction.TrySetResult(json);
-            else WS.Instance.SendJson(json);
+            else WebSocket.Instance.SendMessage(json);
         }
 
         public void SendResult()
@@ -80,7 +80,7 @@ namespace Model
             }
             else
             {
-                var msg = await WS.Instance.PopMsg();
+                var msg = await WebSocket.Instance.PopMessage();
                 json = JsonUtility.FromJson<TimerMessage>(msg);
             }
 
@@ -104,7 +104,7 @@ namespace Model
         public async Task<Card> SelectCard(Player player, Player dest, bool judgeArea = false)
         {
             if (player.teammate == dest) display = true;
-            bool result = await Run(player, dest, TimerType.区域内, judgeArea);
+            bool result = await Run(player, dest, TimerType.Region, judgeArea);
             Card card;
             if (!result)
             {

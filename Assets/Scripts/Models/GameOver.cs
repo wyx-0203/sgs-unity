@@ -51,7 +51,7 @@ namespace Model
                     msg_type = "surrender",
                     team = Self.Instance.team,
                 };
-                WS.Instance.SendJson(json);
+                WebSocket.Instance.SendMessage(json);
             }
         }
 

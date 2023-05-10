@@ -157,7 +157,7 @@ namespace View
             }
 
             // 无懈可击
-            if (timer.isWxkj)
+            if (timer is Model.WxkjTimer)
             {
                 foreach (var i in handcards.Values) i.gameObject.SetActive(i.name == "无懈可击");
                 MoveAll(0);
@@ -171,11 +171,11 @@ namespace View
         /// </summary>
         public void Reset()
         {
-            if (!timer.isWxkj && self != timer.player) return;
+            if (!timer.players.Contains(self)) return;
 
             // 重置手牌状态
             foreach (var card in handcards.Values) if (card.gameObject.activeSelf) card.Reset();
-            if (timer.isWxkj)
+            if (timer is Model.WxkjTimer)
             {
                 foreach (var i in handcards.Values) i.gameObject.SetActive(self.HandCards.Contains(i.model));
                 MoveAll(0);
@@ -252,7 +252,6 @@ namespace View
             if (!IsValid || ConvertIsValid) return;
 
             foreach (var i in handcards.Values) i.button.interactable = false;
-            // var prefab = ABManager.Instance.GetGameAsset("Card");
             foreach (var i in timer.MultiConvert)
             {
                 var card = Card.NewHandCard(i);
@@ -306,27 +305,33 @@ namespace View
         /// <summary>
         /// 更新手牌数与手牌上限信息
         /// </summary>
-        public void UpdateHandCardText(Model.Player player)
+        private void UpdateHandCardText()
         {
-            handCardText.text = player.HandCardCount.ToString() + "/" + player.HandCardLimit.ToString();
+            handCardText.text = self.HandCardCount.ToString() + "/" + self.HandCardLimit.ToString();
         }
 
-        public void UpdateHandCardText(Model.GetCard operation)
+        private void UpdateHandCardText(Model.Player player)
         {
-            if (self != operation.player) return;
-            UpdateHandCardText(operation.player);
+            if (self != player) return;
+            UpdateHandCardText();
         }
 
-        public void UpdateHandCardText(Model.LoseCard operation)
+        private void UpdateHandCardText(Model.GetCard operation)
         {
             if (self != operation.player) return;
-            UpdateHandCardText(operation.player);
+            UpdateHandCardText();
         }
 
-        public void UpdateHandCardText(Model.UpdateHp operation)
+        private void UpdateHandCardText(Model.LoseCard operation)
         {
             if (self != operation.player) return;
-            UpdateHandCardText(operation.player);
+            UpdateHandCardText();
+        }
+
+        private void UpdateHandCardText(Model.UpdateHp operation)
+        {
+            if (self != operation.player) return;
+            UpdateHandCardText();
         }
     }
 }

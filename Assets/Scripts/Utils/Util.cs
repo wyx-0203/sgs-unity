@@ -20,7 +20,7 @@ public class Util : GlobalSingletonMono<Util>
     /// <summary>
     /// 从当前回合玩家开始，循环执行操作
     /// </summary>
-    public async Task Loop(Func<Model.Player, Task> func)
+    public async Task Loop(Func<Model.Player, Task> func, Func<bool> condition = null)
     {
         var currentPlayer = Model.TurnSystem.Instance.CurrentPlayer;
         if (!currentPlayer.IsAlive) currentPlayer = currentPlayer.next;
@@ -29,6 +29,9 @@ public class Util : GlobalSingletonMono<Util>
         for (var i = currentPlayer; i != currentPlayer || t; i = i.next)
         {
             t = false;
+
+            // if (condition?.Invoke() == false) return;
+            if (condition != null && !condition()) return;
             await func(i);
         }
     }

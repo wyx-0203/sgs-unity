@@ -27,7 +27,7 @@ namespace Model
             {
                 CardPanel.Instance.Title = "弓骑";
                 CardPanel.Instance.Hint = "弃置其一张牌";
-                var dest = Timer.Instance.Dests[0];
+                var dest = Timer.Instance.dests[0];
                 var card = await CardPanel.Instance.SelectCard(Src, dest);
                 await new Discard(dest, new List<Card> { card }).Execute();
             }
@@ -67,7 +67,7 @@ namespace Model
                     Timer.Instance.Hint = "弃置一张武器牌，或令该角色摸一张牌";
                     Timer.Instance.IsValidCard = x => x is Weapon;
                     bool result = await Timer.Instance.Run(i, 1, 0);
-                    if (result) await new Discard(i, Timer.Instance.Cards).Execute();
+                    if (result) await new Discard(i, Timer.Instance.cards).Execute();
                     else await new GetCardFromPile(dest, 1).Execute();
                 }
                 i = i.next;

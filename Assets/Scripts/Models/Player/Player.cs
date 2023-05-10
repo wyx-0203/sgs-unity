@@ -19,7 +19,6 @@ namespace Model
         public bool isAI { get; set; } = false;
         public Player teammate { get; set; }
         public bool team { get; private set; }
-        // public List<Player> Teammates { get; set; }
 
         // 武将
         public General general { get; private set; }
@@ -142,12 +141,11 @@ namespace Model
         {
             foreach (var str in general.skill)
             {
-                if (Skill.SkillMap.ContainsKey(str))
-                {
-                    var skill = (Activator.CreateInstance(Skill.SkillMap[str], this) as Skill);
-                    skill.Name = str;
-                    skills.Add(skill);
-                }
+                if (!Skill.SkillMap.ContainsKey(str)) continue;
+
+                var skill = (Activator.CreateInstance(Skill.SkillMap[str], this) as Skill);
+                skill.Name = str;
+                skills.Add(skill);
             }
         }
 
@@ -215,7 +213,7 @@ namespace Model
             };
 
             if (Room.Instance.IsSingle) ChangeSkin(json.skin_id);
-            else WS.Instance.SendJson(json);
+            else WebSocket.Instance.SendMessage(json);
         }
 
         public void ChangeSkin(int skinId)

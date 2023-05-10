@@ -9,38 +9,118 @@ namespace Model
 {
     public class CardPile : Singleton<CardPile>
     {
+        // 卡牌数组
+        public Card[] cards { get; private set; }
+        // 牌堆
+        private List<Card> remainPile;
+        // 弃牌堆
+        public List<Card> DiscardPile { get; private set; }
+        // 牌堆数
+        public int PileCount => remainPile.Count;
+
         public async Task Init()
         {
             string url = Url.JSON + "card.json";
-            List<CardJson> cardJsons = JsonList<CardJson>.FromJson(await WebRequest.Get(url));
+            var cardJsons = JsonList<CardJson>.FromJson(await WebRequest.Get(url));
             cards = new Card[cardJsons.Count];
 
             foreach (var i in cardJsons)
             {
-                // Card card;
                 if (!cardMap.ContainsKey(i.name)) continue;
 
                 var card = Activator.CreateInstance(cardMap[i.name]) as Card;
-
                 card.Id = i.id;
                 card.Suit = i.suit;
                 card.Weight = i.weight;
                 card.Type = i.type;
                 card.Name = i.name;
 
-                // cards.Add(card);
                 cards[i.id] = card;
-                // discardPile.Add(card);
             }
 
-            discardPile = new List<Card>(cards);
-            discardPile.RemoveAt(0);
+            DiscardPile = new List<Card>(cards);
+            DiscardPile.RemoveAt(0);
             await Shuffle();
         }
 
-        public Card[] cards { get; private set; }
+        /// <summary>
+        /// 弹出并返回牌堆顶的牌
+        /// </summary>
+        public async Task<Card> Pop()
+        {
+            Card T = remainPile[0];
+            remainPile.RemoveAt(0);
 
-        public Dictionary<string, System.Type> cardMap = new Dictionary<string, System.Type>
+            if (PileCount == 0) await Shuffle();
+            PileCountView?.Invoke();
+
+            return T;
+        }
+
+        /// <summary>
+        /// 将牌置入弃牌堆
+        /// </summary>
+        public void AddToDiscard(List<Card> cards)
+        {
+            DiscardPile.AddRange(cards);
+            DiscardView?.Invoke(cards);
+        }
+
+        public void AddToDiscard(Card card)
+        {
+            AddToDiscard(new List<Card> { card });
+        }
+
+        public void RemoveToDiscard(Card card)
+        {
+            DiscardPile.Remove(card);
+        }
+
+        /// <summary>
+        /// 洗牌
+        /// </summary>
+        private async Task Shuffle()
+        {
+            List<int> cardIds = DiscardPile.Select(x => x.Id).ToList();
+
+            if (Room.Instance.IsSingle || TurnSystem.Instance.CurrentPlayer.isSelf)
+            {
+                // 随机取一个元素与第i个元素交换
+                for (int i = 0; i < cardIds.Count; i++)
+                {
+                    int t = UnityEngine.Random.Range(i, cardIds.Count);
+                    var card = cardIds[i];
+                    cardIds[i] = cardIds[t];
+                    cardIds[t] = card;
+                }
+
+                // 发送洗牌请求
+                if (!Room.Instance.IsSingle)
+                {
+                    var json = new ShuffleMessage
+                    {
+                        msg_type = "shuffle",
+                        cards = cardIds,
+                    };
+                    WebSocket.Instance.SendMessage(json);
+                }
+            }
+
+            // 等待消息
+            if (!Room.Instance.IsSingle)
+            {
+                var msg = await WebSocket.Instance.PopMessage();
+                cardIds = JsonUtility.FromJson<ShuffleMessage>(msg).cards;
+            }
+
+            DiscardPile.Clear();
+            remainPile = cardIds.Select(x => cards[x]).ToList();
+        }
+
+        public UnityAction<List<Card>> DiscardView { get; set; }
+        public UnityAction PileCountView { get; set; }
+
+        private Dictionary<string, System.Type> cardMap = new Dictionary<string, System.Type>
         {
             { "杀", typeof(杀) },
             { "闪", typeof(闪) },
@@ -90,91 +170,5 @@ namespace Model
             { "铁索连环", typeof(铁索连环) },
             { "火攻", typeof(火攻) },
         };
-
-        // 牌堆
-        private List<Card> remainPile;
-        // 弃牌堆
-        public List<Card> discardPile { get; private set; }
-
-        // 牌堆数
-        public int PileCount => remainPile.Count;
-
-
-        /// <summary>
-        /// 弹出并返回牌堆顶的牌
-        /// </summary>
-        public async Task<Card> Pop()
-        {
-            Card T = remainPile[0];
-            remainPile.RemoveAt(0);
-
-            if (remainPile.Count == 0) await Shuffle();
-            PileCountView?.Invoke();
-
-            return T;
-        }
-
-        /// <summary>
-        /// 将一张牌添加到弃牌堆
-        /// </summary>
-        public void AddToDiscard(List<Card> cards)
-        {
-            DiscardView?.Invoke(cards);
-            foreach (var card in cards) discardPile.Add(card);
-        }
-
-        public void AddToDiscard(Card card)
-        {
-            AddToDiscard(new List<Card> { card });
-        }
-
-        public void RemoveToDiscard(Card card)
-        {
-            discardPile.Remove(card);
-        }
-
-        /// <summary>
-        /// 洗牌
-        /// </summary>
-        private async Task Shuffle()
-        {
-            List<int> cardIds = discardPile.Select(x => x.Id).ToList();
-
-            if (Room.Instance.IsSingle || TurnSystem.Instance.CurrentPlayer.isSelf)
-            {
-                // 随机取一个元素与第i个元素交换
-                for (int i = 0; i < cardIds.Count; i++)
-                {
-                    int t = UnityEngine.Random.Range(i, cardIds.Count);
-                    var card = cardIds[i];
-                    cardIds[i] = cardIds[t];
-                    cardIds[t] = card;
-                }
-
-                // 发送洗牌请求
-                if (!Room.Instance.IsSingle)
-                {
-                    var json = new ShuffleMessage
-                    {
-                        msg_type = "shuffle",
-                        cards = cardIds,
-                    };
-                    WS.Instance.SendJson(json);
-                }
-            }
-
-            // 等待消息
-            if (!Room.Instance.IsSingle)
-            {
-                var msg = await WS.Instance.PopMsg();
-                cardIds = JsonUtility.FromJson<ShuffleMessage>(msg).cards;
-            }
-
-            discardPile.Clear();
-            remainPile = cardIds.Select(x => cards[x]).ToList();
-        }
-
-        public UnityAction<List<Card>> DiscardView { get; set; }
-        public UnityAction PileCountView { get; set; }
     }
 }

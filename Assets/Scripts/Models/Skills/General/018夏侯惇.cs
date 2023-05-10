@@ -84,15 +84,15 @@ namespace Model
             if (!await base.ShowTimer()) return;
             Execute();
 
-            dest = Timer.Instance.Dests[0];
+            dest = Timer.Instance.dests[0];
             offset = 0;
 
-            if (Timer.Instance.Cards.Find(x => x.Type == "基本牌") != null) offset++;
-            if (Timer.Instance.Cards.Find(x => x.Type == "锦囊牌" || x.Type == "延时锦囊") != null) offset++;
-            if (Timer.Instance.Cards.Find(x => x is Equipage) != null) offset++;
+            if (Timer.Instance.cards.Find(x => x.Type == "基本牌") != null) offset++;
+            if (Timer.Instance.cards.Find(x => x.Type == "锦囊牌" || x.Type == "延时锦囊") != null) offset++;
+            if (Timer.Instance.cards.Find(x => x is Equipage) != null) offset++;
             dest.HandCardLimitOffset += offset;
 
-            await new GetCardFromElse(dest, Src, Timer.Instance.Cards).Execute();
+            await new GetCardFromElse(dest, Src, Timer.Instance.cards).Execute();
         }
 
         private Player dest;

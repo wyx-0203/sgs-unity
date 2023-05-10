@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 namespace View
 {
@@ -29,8 +30,7 @@ namespace View
         private SkillArea skillArea => SkillArea.Instance;
 
         private Model.Operation model => Model.Operation.Instance;
-        private Model.Timer timerTask => Model.Timer.Instance;
-        private Model.Timer timer;
+        private Model.Timer timer => Model.Timer.Instance;
 
         private void Start()
         {
@@ -50,9 +50,6 @@ namespace View
             Model.Timer.Instance.StopTimerView -= HideTimer;
         }
 
-        // private Model.Player player => self.model;
-        // private List<Model.Card> cards => Model.CardPile.Instance.cards;
-
         /// <summary>
         /// 点击确定键
         /// </summary>
@@ -60,29 +57,24 @@ namespace View
         {
             StopAllCoroutines();
 
-            List<int> cards = new List<int>();
-            foreach (var i in model.Cards) cards.Add(i.Id);
-            foreach (var i in model.Equips) cards.Add(i.Id);
+            var cards = model.Cards.Select(x => x.Id).Union(model.Equips.Select(x => x.Id)).ToList();
+            var players = model.Dests.Select(x => x.position).ToList();
+            var skill = model.skill != null ? model.skill.Name : "";
 
-            List<int> players = new List<int>();
-            foreach (var i in model.Dests) players.Add(i.position);
-
-            string skillName = model.skill != null ? model.skill.Name : "";
-
-            if (timerTask.isWxkj)
+            if (timer is Model.WxkjTimer)
             {
                 bool isSelf = self.model.HandCards.Contains(Model.CardPile.Instance.cards[cards[0]]);
-                timerTask.SendResult((isSelf ? self.model : self.model.teammate).position, true, cards);
+                (timer as Model.WxkjTimer).SendResult((isSelf ? self.model : self.model.teammate).position, true, cards);
             }
-            else if (timerTask.isCompete)
+            else if (timer is Model.CompeteTimer)
             {
                 HideTimer();
-                timerTask.SendResult(self.model.position, true, cards);
+                (timer as Model.CompeteTimer).SendResult(self.model.position, true, cards);
             }
             else
             {
                 string other = model.Converted is null ? "" : model.Converted.Name;
-                timerTask.SendResult(cards, players, skillName, other);
+                timer.SendResult(cards, players, skill, other);
             }
         }
 
@@ -92,21 +84,21 @@ namespace View
         private void ClickCancel()
         {
             // 取消技能
-            if (model.skill != null && timerTask.GivenSkill == "")
+            if (model.skill != null && timer.GivenSkill == "")
             {
                 skillArea.Skills.Find(x => x.name == model.skill.Name).ClickSkill();
                 return;
             }
 
             // SetResult
-            HideTimer();
 
-            if (timerTask.isWxkj)
+            if (timer is Model.WxkjTimer)
             {
-                timerTask.SendResult(self.model.position, false);
-                timerTask.SendResult(self.model.teammate.position, false);
+                HideTimer();
+                (timer as Model.WxkjTimer).SendResult(self.model.position, false);
+                if (self.model.teammate.IsAlive) (timer as Model.WxkjTimer).SendResult(self.model.teammate.position, false);
             }
-            else timerTask.SendResult();
+            else timer.SendResult();
         }
 
         /// <summary>
@@ -115,7 +107,7 @@ namespace View
         private void ClickFinishPhase()
         {
             StopAllCoroutines();
-            timerTask.SendResult();
+            timer.SendResult();
         }
 
         /// <summary>
@@ -123,21 +115,17 @@ namespace View
         /// </summary>
         public async void ShowTimer()
         {
-            if (!timerTask.isWxkj && !timerTask.isCompete && self.model != timerTask.player) return;
-            if (timerTask.isCompete && self.model != timerTask.player0 && self.model != timerTask.player1) return;
-
+            if (!timer.players.Contains(self.model)) return;
             await Util.Instance.WaitFrame(2);
 
-            // while (CardAnime.Instance.InAnimation > 0) await Task.Yield();
-
             operationArea.SetActive(true);
-            hint.text = timerTask.Hint;
+            hint.text = timer.Hint;
 
             // 初始化进度条和按键
 
             confirm.gameObject.SetActive(true);
-            cancel.gameObject.SetActive(timerTask.Refusable);
-            finishPhase.gameObject.SetActive(timerTask.isPerformPhase);
+            cancel.gameObject.SetActive(timer.Refusable);
+            finishPhase.gameObject.SetActive(timer.isPerformPhase);
 
             skillArea.InitSkillArea();
             cardArea.Init();
@@ -146,7 +134,7 @@ namespace View
             equipArea.Init();
 
             UpdateButtonArea();
-            StartCoroutine(StartTimer(timerTask.second));
+            StartCoroutine(StartTimer(timer.second));
         }
 
         /// <summary>
@@ -154,7 +142,7 @@ namespace View
         /// </summary>
         public void HideTimer()
         {
-            if (!timerTask.isWxkj && !timerTask.isCompete && self.model != timerTask.player) return;
+            if (!timer.players.Contains(self.model)) return;
 
             // 隐藏所有按键
             StopAllCoroutines();
@@ -184,7 +172,8 @@ namespace View
         {
             // 启用确定键
             confirm.interactable = cardArea.IsValid && destArea.IsValid;
-            cancel.interactable = !timerTask.isPerformPhase || model.skill != null;
+            // 出牌阶段，取消键用于取消选中技能
+            cancel.interactable = !timer.isPerformPhase || model.skill != null;
         }
 
         public void UseSkill()

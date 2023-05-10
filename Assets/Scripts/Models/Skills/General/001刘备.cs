@@ -41,8 +41,8 @@ namespace Model
             Timer.Instance.IsValidDest = DestArea.Instance.ValidDest;
             if (!await Timer.Instance.Run(Src)) return;
 
-            var card = list.Find(x => x.Name == Timer.Instance.Other);
-            await card.UseCard(Src, Timer.Instance.Dests);
+            var card = list.Find(x => x.Name == Timer.Instance.other);
+            await card.UseCard(Src, Timer.Instance.dests);
         }
 
         protected override void Reset()

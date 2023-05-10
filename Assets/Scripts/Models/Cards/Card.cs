@@ -151,13 +151,13 @@ namespace Model
         {
             if (!IsConvert)
             {
-                if (CardPile.Instance.discardPile.Contains(this)) return new List<Card> { this };
+                if (CardPile.Instance.DiscardPile.Contains(this)) return new List<Card> { this };
                 else return null;
             }
 
             if (PrimiTives.Count == 0) return null;
 
-            return PrimiTives.Where(x => CardPile.Instance.discardPile.Contains(x)).ToList();
+            return PrimiTives.Where(x => CardPile.Instance.DiscardPile.Contains(x)).ToList();
         }
 
         public virtual bool AIPerform()

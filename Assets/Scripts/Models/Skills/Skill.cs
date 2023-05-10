@@ -101,7 +101,7 @@ namespace Model
         {
             Time++;
             // if (this is Ultimate) (this as Ultimate).IsDone = true;
-            Dests = Timer.Instance.Dests;
+            Dests = Timer.Instance.dests;
             useSkillView(this);
         }
 

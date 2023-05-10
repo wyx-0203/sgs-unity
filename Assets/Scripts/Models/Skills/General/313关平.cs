@@ -30,8 +30,8 @@ namespace Model
             if (!await base.ShowTimer()) return;
             Execute();
 
-            var card1 = Timer.Instance.Cards[0];
-            await new Discard(Src, Timer.Instance.Cards).Execute();
+            var card1 = Timer.Instance.cards[0];
+            await new Discard(Src, Timer.Instance.cards).Execute();
             dest.杀Count--;
             if (card.Suit == "红桃" || card.Suit == "方片") await new GetCardFromPile(Src, 1).Execute();
             if (card1.Weight == card.Weight) (Src.skills.Find(x => x is 竭忠) as 竭忠).IsDone = false;

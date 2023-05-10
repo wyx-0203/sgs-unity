@@ -92,7 +92,7 @@ namespace Model
             var list = new List<Card>(Cards);
             Cards.Clear();
             foreach (var i in list) Cards.AddRange(i.InDiscardPile());
-            foreach (var i in Cards) CardPile.Instance.discardPile.Remove(i);
+            foreach (var i in Cards) CardPile.Instance.DiscardPile.Remove(i);
             if (Cards.Count > 0) await base.Execute();
         }
     }
@@ -423,7 +423,7 @@ namespace Model
         public async Task Execute()
         {
             player.IsLocked = !player.IsLocked;
-            actionView(this);
+            actionView?.Invoke(this);
             await Task.Yield();
         }
     }
@@ -432,35 +432,35 @@ namespace Model
     {
         public Compete(Player player, Player dest) : base(player)
         {
-            Dest = dest;
+            this.dest = dest;
         }
 
-        public Player Dest { get; private set; }
-        public Card Card0 { get; private set; }
-        public Card Card1 { get; private set; }
-        public bool Result { get; private set; }
+        private Player dest;
+        private Card card0;
+        private Card card1;
+        private bool Result;
 
         public async Task<bool> Execute()
         {
             Timer.Instance.Hint = "请选择一张手牌拼点";
-            if (player.team == Dest.team)
+            if (player.team == dest.team)
             {
-                Card0 = (await TimerAction.SelectHandCard(player, 1))[0];
-                Card1 = (await TimerAction.SelectHandCard(Dest, 1))[0];
+                card0 = (await TimerAction.SelectHandCard(player, 1))[0];
+                card1 = (await TimerAction.SelectHandCard(dest, 1))[0];
             }
             else
             {
-                await Timer.Instance.Compete(player, Dest);
-                Card0 = CardPile.Instance.cards[Timer.Instance.card0];
-                Card1 = CardPile.Instance.cards[Timer.Instance.card1];
+                await CompeteTimer.Instance.Run(player, dest);
+                card0 = CompeteTimer.Instance.result[player];
+                card1 = CompeteTimer.Instance.result[dest];
             }
 
-            CardPile.Instance.AddToDiscard(Card0);
-            CardPile.Instance.AddToDiscard(Card1);
-            await new LoseCard(player, new List<Card> { Card0 }).Execute();
-            await new LoseCard(Dest, new List<Card> { Card1 }).Execute();
+            CardPile.Instance.AddToDiscard(card0);
+            CardPile.Instance.AddToDiscard(card1);
+            await new LoseCard(player, new List<Card> { card0 }).Execute();
+            await new LoseCard(dest, new List<Card> { card1 }).Execute();
 
-            return Card0.Weight > Card1.Weight;
+            return card0.Weight > card1.Weight;
         }
     }
 
@@ -476,7 +476,9 @@ namespace Model
         {
             foreach (var i in Skills)
             {
-                player.skills.Add(Activator.CreateInstance(Skill.SkillMap[i], player) as Skill);
+                var skill = Activator.CreateInstance(Skill.SkillMap[i], player) as Skill;
+                skill.Name = i;
+                player.skills.Add(skill);
             }
             actionView?.Invoke(this);
         }

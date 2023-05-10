@@ -92,14 +92,14 @@ namespace Model
                 var card = player.FindCard<杀>();
                 if (card != null)
                 {
-                    Timer.Instance.Cards.Add(card);
+                    Timer.Instance.cards = new List<Card> { card };
                     result = true;
                 }
             }
 
             if (!result) return false;
 
-            await Timer.Instance.Cards[0].Put(player);
+            await Timer.Instance.cards[0].Put(player);
             return true;
         }
     }
@@ -133,7 +133,8 @@ namespace Model
                 var card = player.FindCard<闪>();
                 if (card != null)
                 {
-                    Timer.Instance.Cards.Add(card);
+                    Timer.Instance.cards = new List<Card> { card };
+                    // Timer.Instance.Cards.Add(card);
                     result = true;
                 }
             }
@@ -142,7 +143,7 @@ namespace Model
 
             else
             {
-                await Timer.Instance.Cards[0].UseCard(player);
+                await Timer.Instance.cards[0].UseCard(player);
                 return true;
             }
         }
@@ -186,7 +187,8 @@ namespace Model
                 if (card is null) card = player.FindCard<桃>();
                 if (card != null)
                 {
-                    Timer.Instance.Cards.Add(card);
+                    Timer.Instance.cards = new List<Card> { card };
+                    // Timer.Instance.Cards.Add(card);
                     result = true;
                 }
             }
@@ -195,7 +197,7 @@ namespace Model
 
             else
             {
-                await Timer.Instance.Cards[0].UseCard(player, new List<Player> { dest });
+                await Timer.Instance.cards[0].UseCard(player, new List<Player> { dest });
                 return true;
             }
         }

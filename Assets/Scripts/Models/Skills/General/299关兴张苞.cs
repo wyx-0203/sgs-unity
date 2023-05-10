@@ -16,7 +16,7 @@ namespace Model
         public override void Execute()
         {
             base.Execute();
-            primitives = Timer.Instance.Cards[0].PrimiTives;
+            primitives = Timer.Instance.cards[0].PrimiTives;
         }
 
         private List<Card> primitives;

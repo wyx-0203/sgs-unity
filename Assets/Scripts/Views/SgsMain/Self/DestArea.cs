@@ -1,6 +1,5 @@
 using System.Linq;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace View
 {
@@ -52,7 +51,7 @@ namespace View
             // 自动选择
 
             var validDests = players.Where(x => x.button.interactable);
-            if (validDests.Count() == minCount)
+            if (validDests.Count() == 1 && minCount == 1)
             {
                 foreach (var i in validDests) i.OnClick();
             }
@@ -63,7 +62,7 @@ namespace View
         /// </summary>
         public void Reset()
         {
-            if (!timer.isWxkj && self.model != timer.player) return;
+            if (!timer.players.Contains(self.model)) return;
 
             // 重置目标按键状态
             foreach (var i in players) i.Reset();

@@ -130,7 +130,7 @@ namespace Model
                         }
                     }
                 }
-                else dest1 = Timer.Instance.Dests[0];
+                else dest1 = Timer.Instance.dests[0];
 
                 // 使用决斗
                 await Card.Convert<决斗>(new List<Card>()).UseCard(Src, new List<Player> { dest1 });

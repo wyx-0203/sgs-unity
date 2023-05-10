@@ -47,7 +47,7 @@ namespace View
             Tssj(true);
 
             BGM.Instance.Load(Url.AUDIO + "bgm/outbgm_2.mp3");
-            WS.Instance.Connect();
+            WebSocket.Instance.Connect();
 
             if (model.players != null && model.players.Count > 0)
             {

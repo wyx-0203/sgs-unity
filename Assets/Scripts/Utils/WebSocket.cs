@@ -1,19 +1,17 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Threading.Tasks;
-using NativeWebSocket;
+// using NativeWebSocket;
 
-public class WS : GlobalSingletonMono<WS>
+public class WebSocket : GlobalSingletonMono<WebSocket>
 {
-    private WebSocket websocket;
+    private NativeWebSocket.WebSocket websocket;
 
     public async void Connect()
     {
-        if (websocket != null && websocket.State is WebSocketState.Open) return;
+        if (websocket != null && websocket.State is NativeWebSocket.WebSocketState.Open) return;
 
-        websocket = new WebSocket(Url.WEB_SOCKET + "?user_id=" + Model.Self.Instance.UserId.ToString());
+        websocket = new NativeWebSocket.WebSocket(Url.WEB_SOCKET + "?user_id=" + Model.Self.Instance.UserId.ToString());
 
         websocket.OnOpen += () =>
         {
@@ -80,7 +78,7 @@ public class WS : GlobalSingletonMono<WS>
 
     private List<string> messages = new List<string>();
 
-    public async Task<string> PopMsg()
+    public async Task<string> PopMessage()
     {
         while (messages.Count == 0) await Task.Yield();
         var msg = messages[0];
@@ -95,11 +93,11 @@ public class WS : GlobalSingletonMono<WS>
 #endif
     }
 
-    public async void SendJson(WebsocketMessage json)
+    public async void SendMessage(WebsocketMessage json)
     {
         var message = JsonUtility.ToJson(json);
         Debug.Log("send:" + message);
-        if (websocket.State == WebSocketState.Open) await websocket.SendText(message);
+        if (websocket.State == NativeWebSocket.WebSocketState.Open) await websocket.SendText(message);
     }
 
     private async void OnApplicationQuit()

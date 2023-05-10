@@ -79,7 +79,8 @@ namespace View
 
         public void Reset()
         {
-            if (self.model != timer.player) return;
+            if (!timer.players.Contains(self.model)) return;
+            // if (self.model != timer.players) return;
             // 重置装备牌状态
             foreach (var card in Equips.Values) card.ResetCard();
         }

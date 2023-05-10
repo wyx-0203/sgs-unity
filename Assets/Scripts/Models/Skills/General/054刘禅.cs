@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace Model
 {
@@ -39,12 +40,12 @@ namespace Model
                 var c = card.Src.HandCards.Find(x => x.Type == "基本牌" && !x.IsConvert);
                 if (c != null)
                 {
-                    Timer.Instance.Cards.Add(c);
+                    Timer.Instance.cards = new List<Card> { c };
                     result = true;
                 }
             }
 
-            if (result) await new Discard(card.Src, Timer.Instance.Cards).Execute();
+            if (result) await new Discard(card.Src, Timer.Instance.cards).Execute();
             disableForMe = !result;
         }
 
@@ -95,8 +96,8 @@ namespace Model
             Timer.Instance.IsValidDest = x => x != Src;
             if (!await Timer.Instance.Run(Src, 1, 1)) return;
 
-            await new Discard(Src, Timer.Instance.Cards).Execute();
-            TurnSystem.Instance.ExtraTurn = Timer.Instance.Dests[0];
+            await new Discard(Src, Timer.Instance.cards).Execute();
+            TurnSystem.Instance.ExtraTurn = Timer.Instance.dests[0];
         }
 
         protected override bool AIResult() => false;

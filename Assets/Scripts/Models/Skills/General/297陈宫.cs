@@ -25,7 +25,7 @@ namespace Model
             Timer.Instance.IsValidDest = dest => dest == dests[1];
             bool result = await Timer.Instance.Run(dests[0], 0, 1);
 
-            if (result) await Card.Convert<杀>().UseCard(dests[0], Timer.Instance.Dests);
+            if (result) await Card.Convert<杀>().UseCard(dests[0], Timer.Instance.dests);
             else await new GetCardFromPile(dests[0], 1).Execute();
         }
     }

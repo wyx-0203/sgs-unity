@@ -21,7 +21,7 @@ namespace View
         public Model.Card model => Model.CardPile.Instance.cards[Id];
         private Model.Skill skill { get => Model.Operation.Instance.skill; set => Model.Operation.Instance.skill = value; }
 
-        void Start()
+        private void Start()
         {
             // button.interactable = false;
             button.onClick.AddListener(ClickCard);
@@ -48,7 +48,7 @@ namespace View
             if (name == "丈八蛇矛" && Model.Timer.Instance.IsValidCard(Model.Card.Convert<Model.杀>()))
             {
                 // var skill = SkillArea.Instance.SelectedSkill;
-                if (skill == null)
+                if (skill is null)
                 {
                     skill = (model as Model.丈八蛇矛).skill;
                     operationArea.UseSkill();

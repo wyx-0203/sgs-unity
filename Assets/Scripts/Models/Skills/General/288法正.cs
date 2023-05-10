@@ -58,8 +58,8 @@ namespace Model
 
                 if (result)
                 {
-                    var card = Timer.Instance.Cards[0];
-                    await new GetCardFromElse(Src, damaged.Src, Timer.Instance.Cards).Execute();
+                    var card = Timer.Instance.cards[0];
+                    await new GetCardFromElse(Src, damaged.Src, Timer.Instance.cards).Execute();
                     if (card.Suit != "红桃") await new GetCardFromPile(Src, 1).Execute();
                 }
                 else await new UpdateHp(damaged.Src, -1).Execute();
@@ -102,9 +102,9 @@ namespace Model
         {
             if (!await base.ShowTimer()) return;
             base.Execute();
-            var dest0 = Timer.Instance.Dests[0];
-            var dest1 = Timer.Instance.Dests[1];
-            await new GetCardFromElse(dest0, Src, Timer.Instance.Cards).Execute();
+            var dest0 = Timer.Instance.dests[0];
+            var dest1 = Timer.Instance.dests[1];
+            await new GetCardFromElse(dest0, Src, Timer.Instance.cards).Execute();
             var list = new List<Card>
             {
                 Card.Convert<杀>(),
@@ -118,8 +118,8 @@ namespace Model
             bool result = await Timer.Instance.Run(dest0, 0, 1);
             if (result)
             {
-                var card = list.Find(x => x.Name == Timer.Instance.Other);
-                await card.UseCard(dest0, Timer.Instance.Dests);
+                var card = list.Find(x => x.Name == Timer.Instance.other);
+                await card.UseCard(dest0, Timer.Instance.dests);
             }
             else await new GetCardFromElse(Src, dest0, new List<Card>(dest0.HandCards)).Execute();
         }

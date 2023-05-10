@@ -79,7 +79,7 @@ namespace Model
 
                 if (result)
                 {
-                    await new Discard(i, Timer.Instance.Cards).Execute();
+                    await new Discard(i, Timer.Instance.cards).Execute();
                     if (Src.weapon != null) await new Discard(Src, new List<Card> { Src.weapon }).Execute();
                 }
                 else

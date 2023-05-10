@@ -14,7 +14,7 @@ namespace Model
             Timer.Instance.IsValidCard = (card) => player.HandCards.Contains(card);
             Timer.Instance.Refusable = false;
             bool result = await Timer.Instance.Run(player, count, 0);
-            return result ? Timer.Instance.Cards : player.HandCards.Take(count).ToList();
+            return result ? Timer.Instance.cards : player.HandCards.Take(count).ToList();
         }
 
 

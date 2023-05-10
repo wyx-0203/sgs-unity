@@ -52,8 +52,8 @@ namespace Model
                 Operation.Instance.AICommit();
             }
 
-            var cards = result ? Timer.Instance.Cards : Src.HandCards.Take(count).ToList();
-            var dest = result ? Timer.Instance.Dests[0] :
+            var cards = result ? Timer.Instance.cards : Src.HandCards.Take(count).ToList();
+            var dest = result ? Timer.Instance.dests[0] :
                 SgsMain.Instance.AlivePlayers.Find(x => x.HandCardCount == min && x != Src);
 
             await new GetCardFromElse(dest, Src, cards).Execute();
@@ -91,7 +91,7 @@ namespace Model
                 Timer.Instance.Refusable = false;
                 bool result = await Timer.Instance.Run(Src, count, 0);
                 List<Card> discard = null;
-                if (result) discard = Timer.Instance.Cards;
+                if (result) discard = Timer.Instance.cards;
                 else if (Src.HandCardCount >= count) discard = Src.HandCards.Take(count).ToList();
                 else
                 {

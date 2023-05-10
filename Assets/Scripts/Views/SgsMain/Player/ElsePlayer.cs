@@ -96,8 +96,7 @@ namespace View
 
         private void ShowTimer()
         {
-            if (!gameObject.activeSelf) return;
-            if (!timer.isWxkj && timer.player != model) return;
+            if (!gameObject.activeSelf || !timer.players.Contains(model)) return;
             ShowTimer(timer.second);
         }
 
@@ -113,7 +112,8 @@ namespace View
         /// </summary>
         private void HideTimer()
         {
-            if (!timer.isWxkj && timer.player != model) return;
+            if (!gameObject.activeSelf || !timer.players.Contains(model)) return;
+            // if (!timer.isWxkj && timer.players != model) return;
             StopAllCoroutines();
             slider.gameObject.SetActive(false);
         }

@@ -16,9 +16,9 @@ public enum Phase
 
 public enum TimerType
 {
+    Region,
+    HandCard,
     麒麟弓,
-    区域内,
-    手牌
 }
 
 public enum DamageType

@@ -70,9 +70,9 @@ namespace Model
             if (CurrentPlayer.isSelf)
             {
                 var json = new WebsocketMessage { msg_type = "phase" };
-                WS.Instance.SendJson(json);
+                WebSocket.Instance.SendMessage(json);
             }
-            await WS.Instance.PopMsg();
+            await WebSocket.Instance.PopMessage();
         }
 
         private async Task ExecutePhase()
@@ -163,17 +163,16 @@ namespace Model
                 if (action)
                 {
                     // 使用技能
-                    if (timer.Skill != "")
+                    if (timer.skill != null)
                     {
-                        var skill = CurrentPlayer.FindSkill(timer.Skill) as Active;
-                        await skill.Execute(timer.Dests, timer.Cards, "");
+                        await (timer.skill as Active).Execute(timer.dests, timer.cards, "");
                     }
                     // 使用牌
                     else
                     {
-                        var card = timer.Cards[0];
+                        var card = timer.cards[0];
                         if (card is 杀) CurrentPlayer.杀Count++;
-                        await card.UseCard(CurrentPlayer, timer.Dests);
+                        await card.UseCard(CurrentPlayer, timer.dests);
                     }
                 }
 

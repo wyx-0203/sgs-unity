@@ -40,10 +40,10 @@ namespace Model
                         msg_type = "general_pool",
                         generals = generalIds
                     };
-                    WS.Instance.SendJson(json);
+                    WebSocket.Instance.SendMessage(json);
                 }
 
-                generalIds = JsonUtility.FromJson<GeneralPoolMessage>(await WS.Instance.PopMsg()).generals;
+                generalIds = JsonUtility.FromJson<GeneralPoolMessage>(await WebSocket.Instance.PopMessage()).generals;
                 Pool = generalIds.Select(x => generalList.Find(y => y.id == x)).ToList();
             }
 
@@ -112,7 +112,7 @@ namespace Model
             };
 
             if (Room.Instance.IsSingle) tcs.TrySetResult(json);
-            else WS.Instance.SendJson(json);
+            else WebSocket.Instance.SendMessage(json);
         }
 
         private async Task<int> WaitBp()
@@ -125,7 +125,7 @@ namespace Model
             }
             else
             {
-                var msg = await WS.Instance.PopMsg();
+                var msg = await WebSocket.Instance.PopMessage();
                 json = JsonUtility.FromJson<BanpickMessage>(msg);
             }
 
@@ -157,7 +157,7 @@ namespace Model
             };
 
             if (Room.Instance.IsSingle) tcs.TrySetResult(json);
-            else WS.Instance.SendJson(json);
+            else WebSocket.Instance.SendMessage(json);
         }
 
         public async Task WaitSelfPick()
@@ -170,7 +170,7 @@ namespace Model
             }
             else
             {
-                var msg = await WS.Instance.PopMsg();
+                var msg = await WebSocket.Instance.PopMessage();
                 json = JsonUtility.FromJson<BanpickMessage>(msg);
             }
 

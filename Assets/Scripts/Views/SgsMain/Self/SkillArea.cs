@@ -105,7 +105,8 @@ namespace View
         /// </summary>
         public void Reset()
         {
-            if (!timerTask.isWxkj && self.model != timerTask.player) return;
+            if (!timerTask.players.Contains(self.model)) return;
+            // if (!timerTask.isWxkj && self.model != timerTask.players) return;
 
             foreach (var i in Skills) i.ResetSkill();
         }

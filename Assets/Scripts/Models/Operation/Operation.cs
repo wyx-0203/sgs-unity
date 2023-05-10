@@ -34,10 +34,10 @@ namespace Model
             }
             // Debug.Log("aicommit");
 
-            Timer.Instance.Cards.AddRange(Cards);
-            Timer.Instance.Dests.AddRange(Dests);
-            Timer.Instance.Cards.AddRange(Equips);
-            Timer.Instance.Skill = skill != null ? skill.Name : "";
+            Timer.Instance.cards = Cards.Union(Equips).ToList();
+            Timer.Instance.dests = new List<Player>(Dests);
+            // Timer.Instance.Cards.AddRange(Equips);
+            Timer.Instance.skill = skill;
 
             Clear();
             return true;
@@ -56,7 +56,7 @@ namespace Model
         public Func<Card, bool> IsValidCard { get; set; }
         public Func<Player, bool> IsValidDest { get; set; }
 
-        public void CopyTimer()
+        public void SetAITimer()
         {
             maxCard = Timer.Instance.maxCard;
             minCard = Timer.Instance.minCard;

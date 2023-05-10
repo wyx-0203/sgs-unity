@@ -30,7 +30,7 @@ namespace View
             foreach (var i in Cards) Destroy(i.gameObject, 2);
 
             await new Delay(2.1f).Run();
-            if (gameObject is null) return;
+            if (this == null) return;
             MoveAll(0.1f);
         }
 

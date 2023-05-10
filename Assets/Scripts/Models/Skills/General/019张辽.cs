@@ -27,16 +27,16 @@ namespace Model
         {
             getCardFromPile = getCard;
             if (!getCard.InGetCardPhase || !await base.ShowTimer()) return;
-            TurnSystem.Instance.SortDest(Timer.Instance.Dests);
+            TurnSystem.Instance.SortDest(Timer.Instance.dests);
             Execute();
 
-            getCard.Count -= Timer.Instance.Dests.Count;
-            foreach (var i in Timer.Instance.Dests)
+            getCard.Count -= Timer.Instance.dests.Count;
+            foreach (var i in Timer.Instance.dests)
             {
                 CardPanel.Instance.Title = "突袭";
                 CardPanel.Instance.Hint = "对" + i.posStr + "号位发动突袭，获得其一张牌";
                 if (Src.team == i.team) CardPanel.Instance.display = true;
-                bool result = await CardPanel.Instance.Run(Src, i, TimerType.手牌);
+                bool result = await CardPanel.Instance.Run(Src, i, TimerType.HandCard);
                 var card = result ? CardPanel.Instance.Cards : new List<Card> { i.HandCards[0] };
                 await new GetCardFromElse(Src, i, card).Execute();
             }

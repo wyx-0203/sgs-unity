@@ -111,12 +111,12 @@ namespace Model
         // 询问请求
         public async Task Execute()
         {
-            if (events is null) return;
+            // if (events is null) return;
 
             await Util.Instance.Loop(async x =>
             {
                 if (events.ContainsKey(x)) await events[x]();
-            });
+            }, () => events != null);
         }
 
         public void Clear()
@@ -161,12 +161,12 @@ namespace Model
         /// </summary>
         public async Task Execute(T param)
         {
-            if (events is null) return;
+            // if (events is null) return;
 
             await Util.Instance.Loop(async x =>
             {
                 if (events.ContainsKey(x)) await events[x](param);
-            });
+            }, () => events != null);
         }
 
         public void Clear()

@@ -56,7 +56,7 @@ namespace Model
             if (!result) return;
 
             SkillView();
-            await Timer.Instance.Cards[0].UseCard(Owner, new List<Player> { dest });
+            await Timer.Instance.cards[0].UseCard(Owner, new List<Player> { dest });
         }
     }
 
@@ -115,7 +115,7 @@ namespace Model
                 Timer.Instance.Hint = Src.posStr + "号位对你发动雌雄双股剑，请弃一张手牌或令其摸一张牌";
                 Timer.Instance.IsValidCard = card => i.HandCards.Contains(card);
                 bool result = await Timer.Instance.Run(i, 1, 0);
-                if (result) await new Discard(i, Timer.Instance.Cards).Execute();
+                if (result) await new Discard(i, Timer.Instance.cards).Execute();
                 else await new GetCardFromPile(sha.Src, 1).Execute();
             }
         }
@@ -146,11 +146,13 @@ namespace Model
         public override async Task AddEquipage(Player owner)
         {
             skill = new ZBSMSkill(owner);
+            owner.skills.Add(skill);
             await base.AddEquipage(owner);
         }
 
         public override async Task RemoveEquipage()
         {
+            Owner.skills.Remove(skill);
             skill = null;
             await base.RemoveEquipage();
         }
@@ -222,7 +224,7 @@ namespace Model
             Timer.Instance.IsValidCard = card => card != Owner.weapon && !card.IsConvert;
             if (!await Timer.Instance.Run(Owner, 2, 0)) return;
 
-            await new Discard(Owner, Timer.Instance.Cards).Execute();
+            await new Discard(Owner, Timer.Instance.cards).Execute();
             sha.IsDamage = true;
         }
     }

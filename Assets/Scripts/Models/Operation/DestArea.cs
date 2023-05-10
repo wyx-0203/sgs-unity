@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 namespace Model
 {
     public class DestArea : Singleton<DestArea>
@@ -15,7 +11,7 @@ namespace Model
         /// <returns>目标数量最大值与最小值</returns>
         public int MaxDest()
         {
-            var player = Timer.Instance.player;
+            var player = Timer.Instance.players[0];
 
             switch (card.Name)
             {

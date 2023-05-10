@@ -43,7 +43,7 @@ namespace Model
             }
 
             await new UpdateHp(Src, -1).Execute();
-            var card = CardPile.Instance.discardPile.Find(x => x is 杀);
+            var card = CardPile.Instance.DiscardPile.Find(x => x is 杀);
             if (card != null) await new GetDisCard(Src, new List<Card> { card }).Execute();
         }
     }

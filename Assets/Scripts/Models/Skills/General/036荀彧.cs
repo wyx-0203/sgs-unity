@@ -29,7 +29,7 @@ namespace Model
                 Timer.Instance.Refusable = false;
                 Timer.Instance.IsValidDest = dest => DestArea.Instance.UseSha(dests[0], dest);
                 await Timer.Instance.Run(Src, 0, 1);
-                await new Damaged(Timer.Instance.Dests[0], dests[0]).Execute();
+                await new Damaged(Timer.Instance.dests[0], dests[0]).Execute();
             }
             else await new Damaged(Src, dests[0]).Execute();
         }
@@ -58,7 +58,7 @@ namespace Model
             {
                 if (!await base.ShowTimer()) return;
                 Execute();
-                var dest = Timer.Instance.Dests[0];
+                var dest = Timer.Instance.dests[0];
                 int count = dest.HpLimit - dest.HandCardCount;
                 if (count > 0) await new GetCardFromPile(dest, count).Execute();
             }

@@ -28,9 +28,7 @@ namespace View
 
         private void UseCard(Model.Card card)
         {
-            Debug.Log(1);
             if (card.Dests is null) return;
-            Debug.Log(2);
 
             Vector3 src = Pos(card.Src);
             foreach (var i in card.Dests)
