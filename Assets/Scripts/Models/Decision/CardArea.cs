@@ -7,7 +7,7 @@ namespace Model
             var player = TurnSystem.Instance.CurrentPlayer;
             if (!player.HandCards.Contains(card) && !card.IsConvert) return false;
             if (player.DisabledCard(card)) return false;
-            switch (card.Name)
+            switch (card.name)
             {
                 case "闪":
                 case "无懈可击":
@@ -26,7 +26,7 @@ namespace Model
                     return true;
 
                 case "酒":
-                    return player.酒Count < 1 || player.UnlimitedCard(card);
+                    return player.酒Count < 1 || player.UnlimitTimes(card);
 
                 default:
                     return true;
@@ -36,7 +36,7 @@ namespace Model
         public bool UseSha(Player player, Card card = null)
         {
             if (card is null) card = Card.Convert<杀>();
-            return player.杀Count < 1 || player.UnlimitedCard(card);
+            return player.杀Count < 1 || player.UnlimitTimes(card);
         }
     }
 }

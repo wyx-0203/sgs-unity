@@ -29,7 +29,7 @@ namespace View
         private EquipArea equipArea => EquipArea.Instance;
         private SkillArea skillArea => SkillArea.Instance;
 
-        private Model.Operation model => Model.Operation.Instance;
+        private Model.Decision model => timer.temp;
         private Model.Timer timer => Model.Timer.Instance;
 
         private void Start()
@@ -57,25 +57,9 @@ namespace View
         {
             StopAllCoroutines();
 
-            var cards = model.Cards.Select(x => x.Id).Union(model.Equips.Select(x => x.Id)).ToList();
-            var players = model.Dests.Select(x => x.position).ToList();
-            var skill = model.skill != null ? model.skill.Name : "";
-
-            if (timer is Model.WxkjTimer)
-            {
-                bool isSelf = self.model.HandCards.Contains(Model.CardPile.Instance.cards[cards[0]]);
-                (timer as Model.WxkjTimer).SendResult((isSelf ? self.model : self.model.teammate).position, true, cards);
-            }
-            else if (timer is Model.CompeteTimer)
-            {
-                HideTimer();
-                (timer as Model.CompeteTimer).SendResult(self.model.position, true, cards);
-            }
-            else
-            {
-                string other = model.Converted is null ? "" : model.Converted.Name;
-                timer.SendResult(cards, players, skill, other);
-            }
+            timer.temp.action = true;
+            timer.temp.src = timer.temp.cards.FirstOrDefault()?.Src;
+            timer.SendDecision();
         }
 
         /// <summary>
@@ -84,7 +68,7 @@ namespace View
         private void ClickCancel()
         {
             // 取消技能
-            if (model.skill != null && timer.GivenSkill == "")
+            if (model.skill != null && timer.givenSkill is null)
             {
                 skillArea.Skills.Find(x => x.name == model.skill.Name).ClickSkill();
                 return;
@@ -92,14 +76,20 @@ namespace View
 
             // SetResult
 
-            if (timer is Model.WxkjTimer)
+            if (timer is Model.WxkjTimer wxkjTimer)
             {
                 HideTimer();
-                (timer as Model.WxkjTimer).SendResult(self.model.position, false);
-                if (self.model.teammate.IsAlive) (timer as Model.WxkjTimer).SendResult(self.model.teammate.position, false);
+                foreach (var i in Model.SgsMain.Instance.AlivePlayers.Where(x => x.team == self.model.team))
+                {
+                    wxkjTimer.temp.src = i;
+                    wxkjTimer.SendDecision();
+                }
             }
-            else timer.SendResult();
+            else if (DebugAI) timer.SendDecision(timer.AIDecision());
+            else timer.SendDecision();
         }
+
+        public bool DebugAI;
 
         /// <summary>
         /// 点击回合结束键
@@ -107,7 +97,8 @@ namespace View
         private void ClickFinishPhase()
         {
             StopAllCoroutines();
-            timer.SendResult();
+            if (DebugAI) timer.SendDecision(timer.AIDecision());
+            else timer.SendDecision();
         }
 
         /// <summary>
@@ -119,13 +110,13 @@ namespace View
             await Util.Instance.WaitFrame(2);
 
             operationArea.SetActive(true);
-            hint.text = timer.Hint;
+            hint.text = timer.hint;
 
             // 初始化进度条和按键
 
             confirm.gameObject.SetActive(true);
-            cancel.gameObject.SetActive(timer.Refusable);
-            finishPhase.gameObject.SetActive(timer.isPerformPhase);
+            cancel.gameObject.SetActive(timer.refusable);
+            finishPhase.gameObject.SetActive(timer.isPlayPhase);
 
             skillArea.InitSkillArea();
             cardArea.Init();
@@ -173,7 +164,7 @@ namespace View
             // 启用确定键
             confirm.interactable = cardArea.IsValid && destArea.IsValid;
             // 出牌阶段，取消键用于取消选中技能
-            cancel.interactable = !timer.isPerformPhase || model.skill != null;
+            cancel.interactable = !timer.isPlayPhase || model.skill != null;
         }
 
         public void UseSkill()

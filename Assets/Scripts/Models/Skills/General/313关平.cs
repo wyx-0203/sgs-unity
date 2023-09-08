@@ -6,8 +6,6 @@ namespace Model
 {
     public class 龙吟 : Triggered
     {
-        public 龙吟(Player src) : base(src) { }
-
         public override int MaxCard => 1;
         public override int MinCard => 1;
 
@@ -27,47 +25,53 @@ namespace Model
         {
             if (card is not 杀 || card.Src != TurnSystem.Instance.CurrentPlayer) return;
             dest = card.Src;
-            if (!await base.ShowTimer()) return;
-            Execute();
+            sha = card;
+            var decision = await WaitDecision();
+            if (!decision.action) return;
+            await Execute(decision);
 
-            var card1 = Timer.Instance.cards[0];
-            await new Discard(Src, Timer.Instance.cards).Execute();
+            await new Discard(Src, decision.cards).Execute();
             dest.杀Count--;
-            if (card.Suit == "红桃" || card.Suit == "方片") await new GetCardFromPile(Src, 1).Execute();
-            if (card1.Weight == card.Weight) (Src.skills.Find(x => x is 竭忠) as 竭忠).IsDone = false;
-            // await new GetCardFromPile(getCardFromElse.Dest, 1).Execute();
+            if (card.isRed) await new GetCardFromPile(Src, 1).Execute();
+            if (decision.cards[0].weight == card.weight) (Src.skills.Find(x => x is 竭忠) as 竭忠).IsDone = false;
         }
 
         private Player dest;
+        private Card sha;
 
-        protected override bool AIResult() => false;
+        public override Decision AIDecision()
+        {
+            if (Src.CardCount == 0 || dest.team != Src.team && (!sha.isRed || UnityEngine.Random.value < 0.7f)) return new();
+            return AI.AutoDecision();
+        }
     }
 
     public class 竭忠 : Triggered, Ultimate
     {
-        public 竭忠(Player src) : base(src) { }
+        // public 竭忠(Player src) : base(src) { }
 
         public override void OnEnable()
         {
-            Src.events.StartPhase[Phase.Perform].AddEvent(Src, Execute);
+            Src.events.StartPhase[Phase.Play].AddEvent(Src, Execute);
         }
 
         public override void OnDisable()
         {
-            Src.events.StartPhase[Phase.Perform].RemoveEvent(Src);
+            Src.events.StartPhase[Phase.Play].RemoveEvent(Src);
         }
 
         public bool IsDone { get; set; } = false;
 
-        public new async Task Execute()
+        public async Task Execute()
         {
             int count = Src.HpLimit - Src.HandCardCount;
-            if (count < 1 || !await base.ShowTimer()) return;
-            base.Execute();
+            if (count < 1 || !(await base.WaitDecision()).action) return;
+            await base.Execute();
+
             IsDone = true;
             await new GetCardFromPile(Src, count).Execute();
         }
 
-        protected override bool AIResult() => Src.HpLimit - Src.HandCardCount > 1;
+        public override Decision AIDecision() => new Decision { action = Src.HpLimit - Src.HandCardCount > 1 };
     }
 }

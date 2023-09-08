@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
-using System.Threading.Tasks;
 
 namespace Model
 {
@@ -17,9 +18,9 @@ namespace Model
 
             maxCard = 1;
             minCard = 1;
-            MaxDest = () => 0;
-            MinDest = () => 0;
-            IsValidCard = card => card is 无懈可击;
+            maxDest = () => 0;
+            minDest = () => 0;
+            isValidCard = card => card is 无懈可击;
         }
 
         private static WxkjTimer instance;
@@ -32,69 +33,59 @@ namespace Model
             }
         }
 
-        public Player Src { get; private set; }
-        public async Task<bool> Run()
+        // public Player Src { get; private set; }
+        private Card scheme;
+
+        public async Task<Decision> Run(Card scheme)
         {
             currentInstance = instance;
+            this.scheme = scheme;
 
             StartTimerView?.Invoke();
             SelfAutoResult();
             if (Room.Instance.IsSingle) AIAutoResult();
-            bool result = await WaitResult();
+            var decision = await WaitResult();
 
             StopTimerView?.Invoke();
-
             currentInstance = null;
-            return result;
+            return decision;
         }
 
-        private async Task<bool> WaitResult()
+        private async Task<Decision> WaitResult()
         {
-            cards = new List<Card>();
-
             for (int i = 0; i < players.Count; i++)
             {
-                TimerMessage json;
-                if (Room.Instance.IsSingle)
-                {
-                    // 若为单机模式，则通过tcs阻塞线程，等待操作结果
-                    waitAction = new TaskCompletionSource<TimerMessage>();
-                    json = await waitAction.Task;
-                }
-                else
+                if (!Room.Instance.IsSingle)
                 {
                     // 若为多人模式，则等待ws通道传入消息
                     var message = await WebSocket.Instance.PopMessage();
-                    json = JsonUtility.FromJson<TimerMessage>(message);
+                    var json = JsonUtility.FromJson<TimerMessage>(message);
+
+                    Decision.list.Add(new Decision
+                    {
+                        src = SgsMain.Instance.players[json.src],
+                        action = json.action,
+                        cards = json.cards.Select(x => CardPile.Instance.cards[x]).ToList(),
+                        skill = players[0].FindSkill(json.skill),
+                    });
                 }
 
-                if (!json.result) continue;
+                var decision = await Decision.Pop();
+                if (!decision.action) continue;
 
-                Src = SgsMain.Instance.players[json.src];
-                cards.Add(CardPile.Instance.cards[json.cards[0]]);
                 Delay.StopAll();
-                return true;
+                return decision;
             }
 
             Delay.StopAll();
-            return false;
+            return new Decision();
         }
 
-        public void SendResult(int src, bool result, List<int> cards = null)
+        public new Decision AIDecision(Player player)
         {
-            var json = new TimerMessage
-            {
-                msg_type = "wxkj_set_result",
-                result = result,
-                cards = cards,
-                src = src,
-            };
-
-            if (Room.Instance.IsSingle) waitAction.TrySetResult(json);
-            else
-            {
-                WebSocket.Instance.SendMessage(json);
-            }
+            var card = player.FindCard<无懈可击>();
+            if (card is null || scheme.Src.team == player.team) return new Decision { src = player };
+            else return new Decision { src = player, action = true, cards = new List<Card> { card } };
         }
 
         private async void AIAutoResult()
@@ -103,7 +94,7 @@ namespace Model
 
             foreach (var i in players)
             {
-                if (i.isAI) SendResult(i.position, false, null);
+                if (i.isAI) SendDecision(AIDecision(i));
             }
         }
 
@@ -113,11 +104,18 @@ namespace Model
 
             foreach (var i in players)
             {
-                if (i.isSelf) SendResult(i.position, false);
+                if (i.isSelf) SendDecision(new Decision { src = i });
             }
         }
 
         private new UnityAction StartTimerView => Singleton<Timer>.Instance.StartTimerView;
         private new UnityAction StopTimerView => Singleton<Timer>.Instance.StopTimerView;
+
+        // public new void Add(Decision decision) => Singleton<Timer>.Instance.Add(decision);
+        // public new async Task<Decision> Pop() => await Singleton<Timer>.Instance.Pop();
+
+        // public static new WxkjTimer SaveInstance() => instance;
+        public static new void RemoveInstance() => instance = default;
+        public static void RestoreInstance(WxkjTimer _instance) => instance = _instance;
     }
 }

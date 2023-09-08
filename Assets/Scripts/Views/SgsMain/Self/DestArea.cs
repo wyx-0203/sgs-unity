@@ -7,8 +7,8 @@ namespace View
     {
         public List<Dest> players;
 
-        private List<Model.Player> SelectedPlayer => Model.Operation.Instance.Dests;
-        private Model.Skill skill => Model.Operation.Instance.skill;
+        private List<Model.Player> SelectedPlayer => Model.Timer.Instance.temp.dests;
+        private Model.Skill skill => Model.Timer.Instance.temp.skill;
         private Player self => SgsMain.Instance.self;
         private Model.Timer timer => Model.Timer.Instance;
 
@@ -35,16 +35,8 @@ namespace View
 
             // 设置可选目标数量
 
-            if (skill != null && skill is not Model.Converted)
-            {
-                maxCount = skill.MaxDest;
-                minCount = skill.MinDest;
-            }
-            else
-            {
-                maxCount = timer.MaxDest();
-                minCount = timer.MinDest();
-            }
+            maxCount = timer.maxDest();
+            minCount = timer.minDest();
 
             Update_();
 
@@ -80,20 +72,17 @@ namespace View
 
             // 每指定一个角色，都要更新不能指定的角色，例如明策指定一个目标后，第二个目标需在第一个的攻击范围内
 
-            if (skill != null && skill is not Model.Converted)
-            {
-                foreach (var player in players)
-                {
-                    player.button.interactable = skill.IsValidDest(player.model);
-                }
-            }
-            else
-            {
-                foreach (var i in players)
-                {
-                    i.button.interactable = Model.Timer.Instance.IsValidDest(i.model);
-                }
-            }
+            // if (skill != null && skill is not Model.Converted)
+            // {
+            //     foreach (var player in players)
+            //     {
+            //         player.button.interactable = skill.IsValidDest(player.model);
+            //     }
+            // }
+            // else
+            // {
+            foreach (var i in players) i.button.interactable = Model.Timer.Instance.isValidDest(i.model);
+            // }
 
             // 对不能选择的角色设置阴影
             foreach (var player in players) player.AddShadow();

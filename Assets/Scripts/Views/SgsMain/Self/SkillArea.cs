@@ -9,9 +9,9 @@ namespace View
         // 技能表
         public List<Skill> Skills { get; private set; } = new List<Skill>();
         // 已选技能
-        private Model.Skill SelectedSkill => Model.Operation.Instance.skill;
+        private Model.Skill SelectedSkill => timer.temp.skill;
         private Player self => SgsMain.Instance.self;
-        private Model.Timer timerTask => Model.Timer.Instance;
+        private Model.Timer timer => Model.Timer.Instance;
 
         public Transform Long;
         public Transform Short;
@@ -48,7 +48,7 @@ namespace View
                     GameObject prefab;
                     // string str;
                     if (j is Model.Ultimate) prefab = 限定技;
-                    else if (j.Passive) prefab = 锁定技;
+                    else if (j.isObey) prefab = 锁定技;
                     else prefab = 主动技;
 
                     var instance = Instantiate(prefab).GetComponent<Skill>();
@@ -88,7 +88,7 @@ namespace View
         /// </summary>
         public void InitSkillArea()
         {
-            if (timerTask.GivenSkill != "") Skills.Find(x => x.name == timerTask.GivenSkill)?.Select();
+            if (timer.givenSkill != null) Skills.Find(x => x.name == timer.givenSkill)?.Select();
 
             if (SelectedSkill != null)
             {
@@ -96,7 +96,7 @@ namespace View
             }
             else
             {
-                foreach (var i in Skills) i.button.interactable = !(i.model is Model.Triggered) && i.model.IsValid;
+                foreach (var i in Skills) i.button.interactable = i.model is not Model.Triggered && i.model.IsValid;
             }
         }
 
@@ -105,7 +105,7 @@ namespace View
         /// </summary>
         public void Reset()
         {
-            if (!timerTask.players.Contains(self.model)) return;
+            if (!timer.players.Contains(self.model)) return;
             // if (!timerTask.isWxkj && self.model != timerTask.players) return;
 
             foreach (var i in Skills) i.ResetSkill();

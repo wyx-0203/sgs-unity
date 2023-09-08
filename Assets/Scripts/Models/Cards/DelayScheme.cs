@@ -43,8 +43,8 @@ namespace Model
     {
         public 乐不思蜀()
         {
-            Type = "延时锦囊";
-            Name = "乐不思蜀";
+            type = "延时锦囊";
+            name = "乐不思蜀";
         }
 
         public override async Task Judge()
@@ -54,7 +54,7 @@ namespace Model
             if (await 无懈可击.Call(this, Owner)) return;
             judgeCard = await new Judge().Execute();
 
-            if (judgeCard.Suit != "红桃") TurnSystem.Instance.SkipPhase[Owner][Phase.Perform] = true;
+            if (judgeCard.suit != "红桃") TurnSystem.Instance.SkipPhase[Phase.Play] = true;
         }
     }
 
@@ -62,8 +62,8 @@ namespace Model
     {
         public 兵粮寸断()
         {
-            Type = "延时锦囊";
-            Name = "兵粮寸断";
+            type = "延时锦囊";
+            name = "兵粮寸断";
         }
 
         public override async Task Judge()
@@ -73,7 +73,7 @@ namespace Model
             if (await 无懈可击.Call(this, Owner)) return;
             judgeCard = await new Judge().Execute();
 
-            if (judgeCard.Suit != "草花") TurnSystem.Instance.SkipPhase[Owner][Phase.Get] = true;
+            if (judgeCard.suit != "草花") TurnSystem.Instance.SkipPhase[Phase.Get] = true;
         }
     }
 
@@ -81,8 +81,8 @@ namespace Model
     {
         public 闪电()
         {
-            Type = "延时锦囊";
-            Name = "闪电";
+            type = "延时锦囊";
+            name = "闪电";
         }
 
         public override async Task UseCard(Player src, List<Player> dests = null)
@@ -100,7 +100,7 @@ namespace Model
             }
             judgeCard = await new Judge().Execute();
 
-            if (judgeCard.Suit == "黑桃" && judgeCard.Weight >= 2 && judgeCard.Weight <= 9)
+            if (judgeCard.suit == "黑桃" && judgeCard.weight >= 2 && judgeCard.weight <= 9)
             {
                 CardPile.Instance.AddToDiscard(this);
                 await new Damaged(Owner, null, this, 3, DamageType.Thunder).Execute();

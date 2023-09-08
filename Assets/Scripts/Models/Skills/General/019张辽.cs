@@ -1,11 +1,11 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+
 namespace Model
 {
     public class 突袭 : Triggered
     {
-        public 突袭(Player src) : base(src) { }
-
         public override void OnEnable()
         {
             Src.events.WhenGetCard.AddEvent(Src, Execute);
@@ -23,36 +23,32 @@ namespace Model
 
         private GetCardFromPile getCardFromPile;
 
-        public async Task Execute(GetCardFromPile getCard)
+        public async Task Execute(GetCard getCard)
         {
-            getCardFromPile = getCard;
-            if (!getCard.InGetCardPhase || !await base.ShowTimer()) return;
-            TurnSystem.Instance.SortDest(Timer.Instance.dests);
-            Execute();
+            getCardFromPile = getCard as GetCardFromPile;
+            if (getCardFromPile is null || !getCardFromPile.InGetCardPhase) return;
 
-            getCard.Count -= Timer.Instance.dests.Count;
-            foreach (var i in Timer.Instance.dests)
+            var decision = await WaitDecision();
+            if (!decision.action) return;
+            TurnSystem.Instance.SortDest(decision.dests);
+            await Execute(decision);
+
+            getCardFromPile.Count -= decision.dests.Count;
+            foreach (var i in decision.dests)
             {
                 CardPanel.Instance.Title = "突袭";
                 CardPanel.Instance.Hint = "对" + i.posStr + "号位发动突袭，获得其一张牌";
-                if (Src.team == i.team) CardPanel.Instance.display = true;
-                bool result = await CardPanel.Instance.Run(Src, i, TimerType.HandCard);
-                var card = result ? CardPanel.Instance.Cards : new List<Card> { i.HandCards[0] };
+
+                decision = await CardPanel.Instance.Run(Src, i, i.HandCards);
+                var card = decision.action ? decision.cards : new List<Card> { i.HandCards[0] };
                 await new GetCardFromElse(Src, i, card).Execute();
             }
         }
 
-        protected override bool AIResult() => AI.Instance.SelectDest();
-        // {
-        //     foreach (var i in AI.Instance.DestList)
-        //     {
-        //         if (i.HandCardCount > 0)
-        //         {
-        //             Operation.Instance.Dests.Add(i);
-        //             if (Operation.Instance.Dests.Count == MaxDest) break;
-        //         }
-        //     }
-        //     return Operation.Instance.AICommit();
-        // }
+        public override Decision AIDecision()
+        {
+            var dests = AI.GetDestByTeam(!Src.team).Take(getCardFromPile.Count).ToList();
+            return dests.Count > 0 ? new Decision { action = true, dests = dests } : new();
+        }
     }
 }

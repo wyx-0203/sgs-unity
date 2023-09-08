@@ -5,8 +5,6 @@ namespace Model
 {
     public class 离间 : Active
     {
-        public 离间(Player src) : base(src) { }
-
         public override int MaxCard => 1;
         public override int MinCard => 1;
         public override int MaxDest => 2;
@@ -14,19 +12,27 @@ namespace Model
 
         public override bool IsValidDest(Player dest) => dest != Src && dest.general.gender;
 
-        public override async Task Execute(List<Player> dests, List<Card> cards, string additional)
+        public override async Task Execute(Decision decision)
         {
-            await base.Execute(dests, cards, additional);
+            await base.Execute(decision);
 
-            await new Discard(Src, cards).Execute();
-            await Card.Convert<决斗>().UseCard(dests[1], new List<Player> { dests[0] });
+            await new Discard(Src, decision.cards).Execute();
+            await Card.Convert<决斗>().UseCard(decision.dests[1], new List<Player> { decision.dests[0] });
+        }
+
+        public override Decision AIDecision()
+        {
+            var dests = AI.GetValidDest();
+            if (dests.Count < 2 || dests[0].team == Src.team) return new();
+
+            Timer.Instance.temp.cards = AI.GetRandomCard();
+            Timer.Instance.temp.dests = dests.GetRange(0, 2);
+            return base.AIDecision();
         }
     }
 
     public class 闭月 : Triggered
     {
-        public 闭月(Player src) : base(src) { }
-
         public override void OnEnable()
         {
             Src.events.StartPhase[Phase.End].AddEvent(Src, Execute);
@@ -37,10 +43,12 @@ namespace Model
             Src.events.StartPhase[Phase.End].RemoveEvent(Src);
         }
 
-        public new async Task Execute()
+        public async Task Execute()
         {
-            if (!await base.ShowTimer()) return;
-            base.Execute();
+            var decision = await WaitDecision();
+            if (!decision.action) return;
+            await Execute(decision);
+
             await new GetCardFromPile(Src, Src.HandCardCount == 0 ? 2 : 1).Execute();
         }
     }

@@ -1,12 +1,12 @@
-using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Model
 {
     public class 享乐 : Triggered
     {
-        public 享乐(Player src) : base(src) { }
-        public override bool Passive => true;
+        public override bool isObey => true;
 
         public override void OnEnable()
         {
@@ -29,77 +29,76 @@ namespace Model
         public async Task Execute(Card card)
         {
             if (card is not 杀 || !card.Dests.Contains(Src)) return;
-            Execute();
+            await Execute();
 
-            Timer.Instance.Hint = "请弃置一张基本牌，否则此【杀】对刘禅无效。";
-            Timer.Instance.IsValidCard = x => x.Type == "基本牌" && !x.IsConvert;
-            bool result = await Timer.Instance.Run(card.Src, 1, 0);
+            Timer.Instance.hint = "请弃置一张基本牌，否则此【杀】对刘禅无效。";
+            Timer.Instance.isValidCard = x => x.type == "基本牌" && !x.IsConvert;
+            Timer.Instance.AIDecision = () => card.Src.team != Src.team ? AI.AutoDecision() : new(); ;
 
-            if (card.Src.isAI && Src.isSelf)
-            {
-                var c = card.Src.HandCards.Find(x => x.Type == "基本牌" && !x.IsConvert);
-                if (c != null)
-                {
-                    Timer.Instance.cards = new List<Card> { c };
-                    result = true;
-                }
-            }
-
-            if (result) await new Discard(card.Src, Timer.Instance.cards).Execute();
-            disableForMe = !result;
+            var decision = await Timer.Instance.Run(card.Src, 1, 0);
+            if (decision.action) await new Discard(card.Src, decision.cards).Execute();
+            else disableForMe = true;
         }
 
         private bool disableForMe;
-
         public bool DisableForMe(Card card) => card is 杀 && disableForMe;
     }
 
     public class 放权 : Triggered
     {
-        public 放权(Player src) : base(src) { }
-
-        // public override int MaxDest => 1;
-        // public override int MinDest => 1;
-        // public override bool IsValidDest(Player dest1) => dest1 !=Src;
-
-        // private Player dest;
-
         public override void OnEnable()
         {
-            Src.events.StartPhase[Phase.Perform].AddEvent(Src, Execute1);
-            Src.events.StartPhase[Phase.End].AddEvent(Src, Execute2);
+            Src.events.StartPhase[Phase.Play].AddEvent(Src, ExecuteInPlay);
+            Src.events.StartPhase[Phase.End].AddEvent(Src, ExecuteInEnd);
         }
 
         public override void OnDisable()
         {
-            Src.events.StartPhase[Phase.Perform].RemoveEvent(Src);
+            Src.events.StartPhase[Phase.Play].RemoveEvent(Src);
             Src.events.StartPhase[Phase.End].RemoveEvent(Src);
         }
 
-        private bool use = false;
+        private bool invoked = false;
 
-        public async Task Execute1()
+        public async Task ExecuteInPlay()
         {
+            var decision = await WaitDecision();
+            if (!decision.action) return;
+            await Execute(decision);
 
-            // 触发条件
-            if (!await base.ShowTimer()) return;
-            Execute();
-            TurnSystem.Instance.SkipPhase[Src][Phase.Perform] = true;
-            use = true;
+            TurnSystem.Instance.SkipPhase[Phase.Play] = true;
+            invoked = true;
         }
 
-        public async Task Execute2()
+        public async Task ExecuteInEnd()
         {
-            if (!use) return;
-            Timer.Instance.Hint = "弃置一张手牌并令一名其他角色获得一个额外的回合";
-            Timer.Instance.IsValidCard = x => Src.HandCards.Contains(x);
-            Timer.Instance.IsValidDest = x => x != Src;
-            if (!await Timer.Instance.Run(Src, 1, 1)) return;
+            if (!invoked || Src.HandCardCount == 0) return;
 
-            await new Discard(Src, Timer.Instance.cards).Execute();
-            TurnSystem.Instance.ExtraTurn = Timer.Instance.dests[0];
+            Timer.Instance.hint = "弃置一张手牌并令一名其他角色获得一个额外的回合";
+            Timer.Instance.isValidCard = x => Src.HandCards.Contains(x);
+            Timer.Instance.isValidDest = x => x != Src;
+            Timer.Instance.AIDecision = () =>
+            {
+                var dests = AI.GetDestByTeam(Src.team).Take(1);
+                if (dests.Count() == 0 || AI.CertainValue) return new();
+
+                var cards = AI.GetRandomCard();
+                return new Decision { action = true, cards = cards, dests = dests.ToList() };
+            };
+
+            var decision = await Timer.Instance.Run(Src, 1, 1);
+            if (!decision.action) return;
+            await Execute(decision);
+
+            await new Discard(Src, decision.cards).Execute();
+            TurnSystem.Instance.ExtraTurn = decision.dests[0];
         }
 
-        protected override bool AIResult() => false;
+        public override Decision AIDecision()
+        {
+            if (SgsMain.Instance.AlivePlayers.Where(x => x.team == Src.team).Count() < 2) return new();
+            else if (Src.HandCardCount - Src.HandCardLimit > 2 && AI.CertainValue) return new();
+            else return AI.AutoDecision();
+        }
     }
 }

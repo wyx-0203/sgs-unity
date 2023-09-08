@@ -5,8 +5,6 @@ namespace Model
 {
     public class 奸雄 : Triggered
     {
-        public 奸雄(Player src) : base(src) { }
-
         public override void OnEnable()
         {
             Src.events.AfterDamaged.AddEvent(Src, Execute);
@@ -19,14 +17,16 @@ namespace Model
 
         public async Task Execute(Damaged damaged)
         {
-            if (!await base.ShowTimer()) return;
-            Execute();
+            var decision = await WaitDecision();
+            if (!decision.action) return;
+            await Execute(decision);
 
-            // var srcCard = damaged.SrcCard;
-            // List<Card> srcCard = null;
-            if (damaged.SrcCard != null) await new GetDisCard(Src, new List<Card> { damaged.SrcCard }).Execute();
+            if (damaged.SrcCard != null)
+            {
+                var cards = damaged.SrcCard.InDiscardPile();
+                await new GetDisCard(Src, cards).Execute();
+            }
 
-            // if (srcCard != null && srcCard.Count != 0) await new GetCard(Src, srcCard).Execute();
             await new GetCardFromPile(Src, 1).Execute();
         }
     }

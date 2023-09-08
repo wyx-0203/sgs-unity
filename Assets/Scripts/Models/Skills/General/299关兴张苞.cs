@@ -5,18 +5,15 @@ namespace Model
 {
     public class 父魂 : Converted
     {
-        public 父魂(Player src) : base(src) { }
-        public override string CardName => "杀";
-
         public override int MaxCard => 2;
         public override int MinCard => 2;
 
-        public override Card Execute(List<Card> cards) => Card.Convert<杀>(cards);
+        public override Card Convert(List<Card> cards) => Card.Convert<杀>(cards);
 
-        public override void Execute()
+        public override async Task Execute(Decision decision = null)
         {
-            base.Execute();
-            primitives = Timer.Instance.cards[0].PrimiTives;
+            primitives = decision.cards[0].PrimiTives;
+            await base.Execute(decision);
         }
 
         private List<Card> primitives;
@@ -47,20 +44,20 @@ namespace Model
                 || damaged.SrcCard is null
                 || damaged.SrcCard.PrimiTives != primitives
                 || TurnSystem.Instance.CurrentPlayer != Src
-                || TurnSystem.Instance.CurrentPhase != Phase.Perform
+                || TurnSystem.Instance.CurrentPhase != Phase.Play
                 || isDone) return;
 
             await Task.Yield();
             new UpdateSkill(Src, new List<string> { "武圣", "咆哮" }).Add();
-            TurnSystem.Instance.AfterTurn += Reset;
+            TurnSystem.Instance.AfterTurn += ResetAfterTurn;
             isDone = true;
         }
 
-        protected override void Reset()
+        protected override void ResetAfterTurn()
         {
             new UpdateSkill(Src, new List<string> { "武圣", "咆哮" }).Remove();
             isDone = false;
-            TurnSystem.Instance.AfterTurn -= Reset;
+            TurnSystem.Instance.AfterTurn -= ResetAfterTurn;
         }
     }
 }

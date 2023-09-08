@@ -4,12 +4,18 @@ namespace Model
 {
     public abstract class Converted : Skill
     {
-        public Converted(Player src) : base(src) { }
+        // public Converted(Player src) : base(src) { }
 
         // 转化牌名称
-        public virtual string CardName => "";
+        // public virtual string CardName => "";
 
-        public abstract Card Execute(List<Card> cards);
+        public abstract Card Convert(List<Card> cards);
+
+        // public Card Execute(List<Card> cards)
+        // {
+        //     Execute();
+        //     return Convert(cards);
+        // }
 
         public override int MaxCard => 1;
 
@@ -19,7 +25,7 @@ namespace Model
 
         public override bool IsValid => base.IsValid
             && Timer.Instance.maxCard > 0
-            && Timer.Instance.IsValidCard(Execute(null));
+            && Timer.Instance.isValidCard(Convert(null));
 
         // public override void Execute()
         // {

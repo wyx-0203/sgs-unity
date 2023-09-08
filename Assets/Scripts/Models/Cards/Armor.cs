@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-    public class Armor : Equipage
+    public class Armor : Equipment
     {
         // public bool enable { get; set; }
 
@@ -29,27 +29,27 @@ namespace Model
         {
             // if (!enable) return false;
 
-            Timer.Instance.Hint = "是否发动八卦阵？";
-            bool result = await Timer.Instance.Run(Owner);
-            if (!result && !Owner.isAI) return false;
+            Timer.Instance.hint = "是否发动八卦阵？";
+            Timer.Instance.AIDecision = () => new Decision { action = true };
+            if (!(await Timer.Instance.Run(Owner)).action) return false;
 
             SkillView();
             var card = await new Judge().Execute();
-            return card.Suit == "红桃" || card.Suit == "方片";
+            return card.suit == "红桃" || card.suit == "方片";
         }
     }
 
     public class 藤甲 : Armor
     {
-        public override async Task AddEquipage(Player owner)
+        public override async Task Add(Player owner)
         {
-            await base.AddEquipage(owner);
+            await base.Add(owner);
             Owner.disableForMe += Disable;
         }
 
-        public override async Task RemoveEquipage()
+        public override async Task Remove()
         {
-            await base.RemoveEquipage();
+            await base.Remove();
             Owner.disableForMe -= Disable;
         }
         public bool Disable(Card card) => card is 杀
@@ -67,28 +67,26 @@ namespace Model
 
     public class 仁王盾 : Armor
     {
-        public override async Task AddEquipage(Player owner)
+        public override async Task Add(Player owner)
         {
-            await base.AddEquipage(owner);
+            await base.Add(owner);
             Owner.disableForMe += Disable;
         }
 
-        public override async Task RemoveEquipage()
+        public override async Task Remove()
         {
-            await base.RemoveEquipage();
+            await base.Remove();
             Owner.disableForMe -= Disable;
         }
 
-        public bool Disable(Card card) => card is 杀
-            && !(card as 杀).IgnoreArmor
-            && (card.Suit == "黑桃" || card.Suit == "草花" || card.Suit == "黑色");
+        public bool Disable(Card card) => card is 杀 && !(card as 杀).IgnoreArmor && (card.suit == "黑桃" || card.suit == "草花" || card.suit == "黑色");
     }
 
     public class 白银狮子 : Armor
     {
-        public override async Task RemoveEquipage()
+        public override async Task Remove()
         {
-            await base.RemoveEquipage();
+            await base.Remove();
             await new Recover(Owner).Execute();
         }
         public override void WhenDamaged(Damaged damaged)

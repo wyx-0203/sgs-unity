@@ -33,35 +33,43 @@ namespace View
 
             StartTimer(model.second);
 
-            switch (model.timerType)
+            foreach (var i in model.cards)
             {
-                case TimerType.Region:
-                    foreach (var i in model.dest.HandCards) InitCard(i, handCards, model.display);
-                    handCards.GetComponent<GridLayoutGroup>().spacing = UpdateSpacing(handCards.transform.childCount);
-
-                    foreach (var i in model.dest.Equipages.Values)
-                    {
-                        if (i != null) InitCard(i, equips);
-                    }
-
-                    if (Model.CardPanel.Instance.judgeArea)
-                    {
-                        foreach (var i in model.dest.JudgeArea) InitCard(i, equips);
-                    }
-                    break;
-
-                case TimerType.HandCard:
-                    foreach (var i in model.dest.HandCards) InitCard(i, handCards, model.display);
-                    handCards.GetComponent<GridLayoutGroup>().spacing = UpdateSpacing(handCards.transform.childCount);
-                    break;
-
-                case TimerType.麒麟弓:
-                    var plus = model.dest.plusHorse;
-                    var sub = model.dest.subHorse;
-                    if (plus != null) InitCard(plus, equips);
-                    if (sub != null) InitCard(sub, equips);
-                    break;
+                var display = model.player.team == model.dest.team;
+                if (model.dest.HandCards.Contains(i)) InitCard(i, handCards, display);
+                else InitCard(i, equips);
             }
+            UpdateSpacing(handCards.transform.childCount);
+
+            // switch (model.timerType)
+            // {
+            //     case TimerType.Region:
+            //         foreach (var i in model.dest.HandCards) InitCard(i, handCards, model.display);
+            //         handCards.GetComponent<GridLayoutGroup>().spacing = UpdateSpacing(handCards.transform.childCount);
+
+            //         foreach (var i in model.dest.Equipages.Values)
+            //         {
+            //             if (i != null) InitCard(i, equips);
+            //         }
+
+            //         if (Model.CardPanel.Instance.showJudgeArea)
+            //         {
+            //             foreach (var i in model.dest.JudgeArea) InitCard(i, equips);
+            //         }
+            //         break;
+
+            //     case TimerType.HandCard:
+            //         foreach (var i in model.dest.HandCards) InitCard(i, handCards, model.display);
+            //         handCards.GetComponent<GridLayoutGroup>().spacing = UpdateSpacing(handCards.transform.childCount);
+            //         break;
+
+            //     case TimerType.麒麟弓:
+            //         var plus = model.dest.plusHorse;
+            //         var sub = model.dest.subHorse;
+            //         if (plus != null) InitCard(plus, equips);
+            //         if (sub != null) InitCard(sub, equips);
+            //         break;
+            // }
 
             string skinId = SgsMain.Instance.players[model.dest.position].GetComponent<General>().SkinId;
             string url = Url.GENERAL_IMAGE + "Window/" + skinId + ".png";
@@ -94,7 +102,7 @@ namespace View
             if (selectCard != null)
             {
                 StopAllCoroutines();
-                Model.CardPanel.Instance.SendResult(new List<int> { selectCard.Id }, true);
+                Model.CardPanel.Instance.SendResult(new List<Model.Card> { selectCard.model }, true);
             }
         }
 
@@ -121,14 +129,19 @@ namespace View
         /// <summary>
         /// 更新卡牌间距
         /// </summary>
-        protected Vector2 UpdateSpacing(int count)
+        private void UpdateSpacing(int count)
         {
 
             // 若手牌数小于7，则不用设置负间距，直接返回
-            if (count < 8) return new Vector2(0, 0);
+            if (count < 8)
+            {
+                handCards.GetComponent<GridLayoutGroup>().spacing = Vector2.zero;
+                return;
+            }
 
             float spacing = -(count * 121.5f - 850) / (float)(count - 1) - 0.001f;
-            return new Vector2(spacing, 0);
+            // return new Vector2(spacing, 0);
+            handCards.GetComponent<GridLayoutGroup>().spacing = new Vector2(spacing, 0);
         }
     }
 }

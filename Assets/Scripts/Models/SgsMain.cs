@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System;
 using UnityEngine.Events;
 
 namespace Model
@@ -61,9 +60,14 @@ namespace Model
             foreach (var i in players) await new GetCardFromPile(i, 4).Execute();
 
             // 开始第一个回合
-            await TurnSystem.Instance.Run();
-
-            GameOver.Instance.Run();
+            try
+            {
+                await TurnSystem.Instance.Run();
+            }
+            catch (GameOverException e)
+            {
+                GameOver.Instance.Run(e.loser);
+            }
         }
 
 
@@ -90,8 +94,8 @@ namespace Model
             {
                 await new GetCardFromPile(players[0], 1).Execute();
                 var newCard = players[0].HandCards[players[0].HandCardCount - 1];
-                if (!list.Contains(newCard.Name)) await new Discard(players[0], new List<Card> { newCard }).Execute();
-                else list.Remove(newCard.Name);
+                if (!list.Contains(newCard.name)) await new Discard(players[0], new List<Card> { newCard }).Execute();
+                else list.Remove(newCard.name);
             }
         }
 
@@ -111,7 +115,7 @@ namespace Model
         /// <summary>
         /// 当前最少手牌数
         /// </summary>
-        public int MinHand(Player exp = null)
+        public int MinHandCard(Player exp = null)
         {
             int minHand = int.MaxValue;
             foreach (var i in AlivePlayers)
@@ -133,6 +137,5 @@ namespace Model
         public UnityAction<Player[]> PositionView { get; set; }
         public UnityAction GeneralView { get; set; }
         public UnityAction<Player> MoveSeatView { get; set; }
-        // public UnityAction<ChatMessage> ChatView { get; set; }
     }
 }

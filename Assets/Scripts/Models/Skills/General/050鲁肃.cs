@@ -7,73 +7,63 @@ namespace Model
 {
     public class 好施 : Triggered
     {
-        public 好施(Player src) : base(src) { }
-
         public override void OnEnable()
         {
             Src.events.WhenGetCard.AddEvent(Src, Execute);
+            Src.events.FinishPhase[Phase.Get].AddEvent(Src, Give);
         }
 
         public override void OnDisable()
         {
             Src.events.WhenGetCard.RemoveEvent(Src);
-        }
-
-        public async Task Execute(GetCardFromPile getCard)
-        {
-            if (!getCard.InGetCardPhase || !await base.ShowTimer()) return;
-
-            Execute();
-            (getCard as GetCardFromPile).Count += 2;
             Src.events.FinishPhase[Phase.Get].AddEvent(Src, Give);
-            TurnSystem.Instance.AfterTurn += Reset;
         }
+
+        public async Task Execute(GetCard getCard)
+        {
+            if (getCard is not GetCardFromPile getCardFromPile) return;
+            if (!getCardFromPile.InGetCardPhase) return;
+
+            var decision = await WaitDecision();
+            if (!decision.action) return;
+            await Execute(decision);
+
+            getCardFromPile.Count += 2;
+            invoked = true;
+        }
+
+        private bool invoked;
 
         public async Task Give()
         {
-            if (Src.HandCardCount <= 5) return;
+            if (!invoked || Src.HandCardCount <= 5) return;
 
             int count = Src.HandCardCount / 2;
-            int min = SgsMain.Instance.MinHand(Src);
+            int min = SgsMain.Instance.MinHandCard(Src);
 
-            Timer.Instance.Hint = "请选择" + count + "张手牌，交给一名手牌最少的角色";
-            Timer.Instance.IsValidDest = dest => dest.HandCardCount == min;
-            Timer.Instance.IsValidCard = card => Src.HandCards.Contains(card);
-            Timer.Instance.Refusable = false;
-            bool result = await Timer.Instance.Run(Src, count, 1);
-
-            if (isAI)
+            Timer.Instance.hint = "请选择" + count + "张手牌，交给一名手牌最少的角色";
+            Timer.Instance.isValidDest = dest => dest.HandCardCount == min;
+            Timer.Instance.isValidCard = card => Src.HandCards.Contains(card);
+            Timer.Instance.refusable = false;
+            Timer.Instance.AIDecision = () => new Decision
             {
-                result = true;
-                var i = SgsMain.Instance.AlivePlayers.Where(x => x.HandCardCount == min && x != Src).ToList();
-                i.Sort((x, y) => x.team == Src.team ? -1 : 1);
-                Operation.Instance.Dests.Add(i[0]);
-                Operation.Instance.Cards.AddRange(Src.HandCards.Take(count));
-                Operation.Instance.AICommit();
-            }
+                action = true,
+                cards = AI.GetRandomCard(),
+                dests = AI.GetAllDests().OrderBy(x => x.team == Src.team ? -1 : 1).Take(1).ToList(),
+            };
 
-            var cards = result ? Timer.Instance.cards : Src.HandCards.Take(count).ToList();
-            var dest = result ? Timer.Instance.dests[0] :
-                SgsMain.Instance.AlivePlayers.Find(x => x.HandCardCount == min && x != Src);
-
-            await new GetCardFromElse(dest, Src, cards).Execute();
+            var decision = await Timer.Instance.Run(Src, count, 1);
+            await new GetCardFromElse(decision.dests[0], Src, decision.cards).Execute();
         }
 
-        protected override void Reset()
+        protected override void ResetAfterTurn()
         {
-            // base.Reset();
-            Src.events.FinishPhase[Phase.Get].RemoveEvent(Src);
-            TurnSystem.Instance.AfterTurn -= Reset;
+            invoked = false;
         }
-
-        protected override bool AIResult() => Src.HandCardCount < 2
-            || SgsMain.Instance.MinHand(Src) == Src.teammate.HandCardCount;
     }
 
     public class 缔盟 : Active
     {
-        public 缔盟(Player src) : base(src) { }
-
         public override int MaxDest => 2;
         public override int MinDest => 2;
         public override bool IsValidDest(Player dest)
@@ -82,39 +72,48 @@ namespace Model
             return firstDest is null || Mathf.Abs(firstDest.HandCardCount - dest.HandCardCount) <= Src.CardCount;
         }
 
-        public override async Task Execute(List<Player> dests, List<Card> cards, string other)
+        public override async Task Execute(Decision decision)
         {
+            TurnSystem.Instance.SortDest(decision.dests);
+            await base.Execute(decision);
+
             // 弃牌
-            int count = Mathf.Abs(dests[0].HandCardCount - dests[1].HandCardCount);
+            int count = Mathf.Abs(decision.dests[0].HandCardCount - decision.dests[1].HandCardCount);
             if (count > 0)
             {
-                Timer.Instance.Refusable = false;
-                bool result = await Timer.Instance.Run(Src, count, 0);
-                List<Card> discard = null;
-                if (result) discard = Timer.Instance.cards;
-                else if (Src.HandCardCount >= count) discard = Src.HandCards.Take(count).ToList();
-                else
-                {
-                    discard = new List<Card>(Src.HandCards);
-                    foreach (var i in Src.Equipages.Values)
-                    {
-                        if (discard.Count == count) break;
-                        if (i != null) discard.Add(i);
-                    }
-                }
-                await new Discard(Src, discard).Execute();
+                Timer.Instance.hint = "请弃置" + count + "张牌";
+                Timer.Instance.refusable = false;
+                Timer.Instance.AIDecision = AI.AutoDecision;
+                var _decision = await Timer.Instance.Run(Src, count, 0);
+                await new Discard(Src, _decision.cards).Execute();
             }
 
-            TurnSystem.Instance.SortDest(dests);
-            await base.Execute(dests, cards, other);
+            // 交换手牌
+            await new ExChange(decision.dests[0], decision.dests[1]).Execute();
+        }
+        public override Decision AIDecision()
+        {
+            // 将队友按手牌数量生序排列，敌人降序排列
+            var teammates = SgsMain.Instance.AlivePlayers.Where(x => x.team == Src.team && x != Src).OrderBy(x => x.HandCardCount).ToArray();
+            var dests = SgsMain.Instance.AlivePlayers.Where(x => x.team != Src.team).OrderBy(x => -x.HandCardCount).ToArray();
 
-            // List<Card> card0 = new List<Card>(dests[0].HandCards);
-            // List<Card> card1 = new List<Card>(dests[1].HandCards);
-            // await new LoseCard(dests[0], card0).Execute();
-            // await new LoseCard(dests[1], card1).Execute();
-            // await new GetCard(dests[0], card1).Execute();
-            // await new GetCard(dests[1], card0).Execute();
-            await new ExChange(dests[0], dests[1]).Execute();
+            if (teammates.Count() == 0) return new();
+            int i = 0, j = 0, diff = dests[j].HandCardCount - teammates[i].HandCardCount;
+
+            // 找到手牌相差最大的情况
+            while (diff > Src.CardCount && (i < teammates.Length - 1 || j < dests.Length - 1))
+            {
+                if (i == teammates.Length - 1) j++;
+                else if (j == dests.Length - 1) i++;
+                else if (teammates[i + 1].HandCardCount - teammates[i].HandCardCount < dests[j].HandCardCount - dests[j + 1].HandCardCount) i++;
+                else j++;
+                diff = dests[j].HandCardCount - teammates[i].HandCardCount;
+            }
+
+            if (diff < 0 || diff > Src.HandCardCount) return new();
+            Timer.Instance.temp.dests.Add(teammates[i]);
+            Timer.Instance.temp.dests.Add(dests[j]);
+            return base.AIDecision();
         }
     }
 

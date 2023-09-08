@@ -48,7 +48,7 @@ namespace View
 
             IsSelected = true;
             effect.SetActive(true);
-            Model.Operation.Instance.skill = model;
+            Model.Timer.Instance.temp.skill = model;
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace View
             if (!IsSelected) return;
             IsSelected = false;
             effect.SetActive(false);
-            Model.Operation.Instance.skill = null;
+            Model.Timer.Instance.temp.skill = null;
         }
 
         /// <summary>

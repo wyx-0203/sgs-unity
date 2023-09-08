@@ -1,7 +1,8 @@
 using System.Collections.Generic;
-using UnityEngine.Events;
+using System.Linq;
 using System.Threading.Tasks;
-using System;
+using UnityEngine;
+using UnityEngine.Events;
 
 namespace Model
 {
@@ -13,15 +14,8 @@ namespace Model
         public void Init()
         {
             // 初始化被跳过阶段,设置为否
-            SkipPhase = new Dictionary<Player, Dictionary<Phase, bool>>();
-            foreach (Player player in SgsMain.Instance.players)
-            {
-                SkipPhase.Add(player, new Dictionary<Phase, bool>());
-                foreach (Phase phase in System.Enum.GetValues(typeof(Phase)))
-                {
-                    SkipPhase[player].Add(phase, false);
-                }
-            }
+            foreach (Phase phase in System.Enum.GetValues(typeof(Phase))) SkipPhase.Add(phase, false);
+
 
             CurrentPlayer = SgsMain.Instance.players[0];
         }
@@ -32,7 +26,7 @@ namespace Model
         public Phase CurrentPhase { get; private set; }
 
         // 被跳过阶段
-        public Dictionary<Player, Dictionary<Phase, bool>> SkipPhase { get; set; }
+        public Dictionary<Phase, bool> SkipPhase { get; set; } = new();
 
         public int Round { get; private set; } = 0;
 
@@ -44,16 +38,19 @@ namespace Model
                 // 执行回合
                 await SgsMain.Instance.MoveSeat(CurrentPlayer);
                 StartTurnView?.Invoke();
-                BeforeTurn?.Invoke();
 
-                // 从准备阶段到结束阶段
-                for (CurrentPhase = Phase.Prepare; CurrentPhase <= Phase.End; CurrentPhase++)
+                try
                 {
-                    if (!Room.Instance.IsSingle) await Sync();
-                    await ExecutePhase();
-                    while (ExtraPhase.Count > 0) await ExeuteExtraPhase();
-                    if (GameOver.Instance.Check()) return;
+                    // 从准备阶段到结束阶段
+                    for (CurrentPhase = Phase.Prepare; CurrentPhase <= Phase.End; CurrentPhase++)
+                    {
+                        if (!Room.Instance.IsSingle) await Sync();
+                        await ExecutePhase();
+                        while (ExtraPhase.Count > 0) await ExeuteExtraPhase();
+                    }
                 }
+                catch (CurrentPlayerDie) { }
+
                 FinishTurnView?.Invoke();
                 AfterTurn?.Invoke();
 
@@ -77,7 +74,6 @@ namespace Model
 
         private async Task ExecutePhase()
         {
-            if (!CurrentPlayer.IsAlive) return;
             // 执行阶段开始时view事件
             StartPhaseView?.Invoke();
 
@@ -86,18 +82,18 @@ namespace Model
             var events = CurrentPlayer.events;
 
             // 阶段开始时判断是否跳过
-            if (SkipPhase[CurrentPlayer][CurrentPhase])
+            if (SkipPhase[CurrentPhase])
             {
-                SkipPhase[CurrentPlayer][CurrentPhase] = false;
+                SkipPhase[CurrentPhase] = false;
                 return;
             }
             // 执行阶段开始时事件
             await events.StartPhase[CurrentPhase].Execute();
 
             // 阶段中判断是否跳过
-            if (SkipPhase[CurrentPlayer][CurrentPhase])
+            if (SkipPhase[CurrentPhase])
             {
-                SkipPhase[CurrentPlayer][CurrentPhase] = false;
+                SkipPhase[CurrentPhase] = false;
                 return;
             }
 
@@ -119,8 +115,8 @@ namespace Model
                     break;
 
                 // 执行出牌阶段
-                case Phase.Perform:
-                    await Perform();
+                case Phase.Play:
+                    await Play();
                     break;
 
                 // 执行弃牌阶段
@@ -130,50 +126,88 @@ namespace Model
                     break;
             }
 
-            if (!CurrentPlayer.IsAlive) return;
-
             // 执行阶段结束时事件
             await events.FinishPhase[CurrentPhase].Execute();
             FinishPhaseView?.Invoke();
         }
 
-        private async Task Perform()
+        private async Task Play()
         {
             // 重置出杀次数
             CurrentPlayer.杀Count = 0;
             CurrentPlayer.酒Count = 0;
             CurrentPlayer.Use酒 = false;
 
-            bool action = true;
-            while (action && CurrentPlayer.IsAlive && !GameOver.Instance.Check())
+            while (true)
             {
                 // 暂停线程,显示进度条
                 var timer = Timer.Instance;
-                timer.Hint = "出牌阶段，请选择一张牌。";
-                timer.MaxDest = DestArea.Instance.MaxDest;
-                timer.MinDest = DestArea.Instance.MinDest;
-                timer.IsValidCard = CardArea.Instance.ValidCard;
-                timer.IsValidDest = DestArea.Instance.ValidDest;
-                timer.isPerformPhase = true;
-                action = await timer.Run(CurrentPlayer, 1, 0);
-                timer.isPerformPhase = false;
+                timer.hint = "出牌阶段，请选择一张牌。";
+                timer.maxCard = 1;
+                timer.minCard = 1;
+                timer.maxDest = DestArea.Instance.MaxDest;
+                timer.minDest = DestArea.Instance.MinDest;
+                timer.isValidCard = CardArea.Instance.ValidCard;
+                timer.isValidDest = DestArea.Instance.ValidDest;
+                timer.isPlayPhase = true;
 
-                if (CurrentPlayer.isAI) action = AI.Instance.Perform();
-
-                if (action)
+                timer.AIDecision = () =>
                 {
-                    // 使用技能
-                    if (timer.skill != null)
+                    var validCards = CurrentPlayer.HandCards.Where(x => CardArea.Instance.ValidCard(x));
+                    foreach (var i in validCards)
                     {
-                        await (timer.skill as Active).Execute(timer.dests, timer.cards, "");
+                        timer.temp.cards.Add(i);
+
+                        if (timer.maxDest() > 0)
+                        {
+                            var dests = AI.GetValidDest();
+                            if (dests.Count == 0 || dests[0].team == CurrentPlayer.team)
+                            {
+                                timer.temp.cards.Clear();
+                                continue;
+                            }
+
+                            timer.temp.dests.AddRange(dests);
+                        }
+                        timer.temp.action = true;
+                        PlayDecisions.Add(timer.SaveTemp());
                     }
-                    // 使用牌
-                    else
+
+                    var skills = CurrentPlayer.skills.Where(x => x is Active && x.IsValid);
+                    foreach (var i in skills)
                     {
-                        var card = timer.cards[0];
-                        if (card is 杀) CurrentPlayer.杀Count++;
-                        await card.UseCard(CurrentPlayer, timer.dests);
+                        timer.temp.skill = i;
+                        var decision = i.AIDecision();
+                        if (decision.action) PlayDecisions.Add(decision);
                     }
+
+                    if (PlayDecisions.Count == 0 || !AI.CertainValue) PlayDecisions.Add(new Decision());
+
+                    var decision1 = PlayDecisions[Random.Range(0, PlayDecisions.Count)];
+                    PlayDecisions.Clear();
+                    return decision1;
+                };
+
+
+                var decision = await timer.Run(CurrentPlayer);
+
+                if (!decision.action)
+                {
+                    FinishPerformView?.Invoke();
+                    break;
+                }
+
+                // 使用技能
+                if (decision.skill != null)
+                {
+                    await (decision.skill as Active).Execute(decision);
+                }
+                // 使用牌
+                else
+                {
+                    var card = decision.cards[0];
+                    if (card is 杀) CurrentPlayer.杀Count++;
+                    await card.UseCard(CurrentPlayer, decision.dests);
                 }
 
                 FinishPerformView?.Invoke();
@@ -183,12 +217,13 @@ namespace Model
             CurrentPlayer.杀Count = 0;
             CurrentPlayer.Use酒 = false;
 
-            AfterPerform?.Invoke();
+            AfterPlay?.Invoke();
         }
 
-        public Action BeforeTurn { get; set; }
-        public Action AfterTurn { get; set; }
-        public Action AfterPerform { get; set; }
+        public List<Decision> PlayDecisions { get; private set; } = new();
+
+        public System.Action AfterTurn { get; set; }
+        public System.Action AfterPlay { get; set; }
 
         public void SortDest(List<Player> dests)
         {
@@ -198,7 +233,7 @@ namespace Model
                 while (true)
                 {
                     if (x == i) return -1;
-                    else if (y == i) return 1;
+                    if (y == i) return 1;
                     i = i.next;
                 }
             });
@@ -214,13 +249,12 @@ namespace Model
             // 执行回合
             await SgsMain.Instance.MoveSeat(CurrentPlayer);
             StartTurnView?.Invoke();
-            BeforeTurn?.Invoke();
+
             for (CurrentPhase = Phase.Prepare; CurrentPhase <= Phase.End; CurrentPhase++)
             {
                 if (!Room.Instance.IsSingle) await Sync();
                 await ExecutePhase();
                 while (ExtraPhase.Count > 0) await ExeuteExtraPhase();
-                if (GameOver.Instance.Check()) return;
             }
             FinishTurnView?.Invoke();
             AfterTurn?.Invoke();

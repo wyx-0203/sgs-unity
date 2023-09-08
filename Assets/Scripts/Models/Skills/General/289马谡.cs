@@ -1,39 +1,45 @@
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Model
 {
     public class 散谣 : Active
     {
-        public 散谣(Player src) : base(src) { }
-
         public override int MaxCard => SgsMain.Instance.AlivePlayers.Where(x => x.Hp == MaxHp && x != Src).Count();
         public override int MinCard => 1;
-        public override int MaxDest => Operation.Instance.Cards.Count + Operation.Instance.Equips.Count;
-        public override int MinDest => Operation.Instance.Cards.Count + Operation.Instance.Equips.Count;
+        public override int MaxDest => Timer.Instance.temp.cards.Count;
+        public override int MinDest => Timer.Instance.temp.cards.Count;
 
-        public override bool IsValidDest(Player dest)
-        {
-            return dest.Hp == SgsMain.Instance.MaxHp(Src) && dest != Src;
-        }
+        public override bool IsValidDest(Player dest) => dest.Hp == SgsMain.Instance.MaxHp(Src) && dest != Src;
 
         private int MaxHp => SgsMain.Instance.MaxHp(Src);
 
-        public override async Task Execute(List<Player> dests, List<Card> cards, string other)
+        public override async Task Execute(Decision decision)
         {
-            TurnSystem.Instance.SortDest(dests);
-            await base.Execute(dests, cards, other);
+            TurnSystem.Instance.SortDest(decision.dests);
+            await base.Execute(decision);
 
-            await new Discard(Src, cards).Execute();
-            foreach (var i in dests) await new Damaged(i, Src).Execute();
+            await new Discard(Src, decision.cards).Execute();
+            foreach (var i in decision.dests) await new Damaged(i, Src).Execute();
+        }
+
+        public override Decision AIDecision()
+        {
+            var dests = AI.GetDestByTeam(!Src.team);
+
+            // 尽量选择更多的敌人
+            var cards = Src.HandCards.Union(Src.Equipments.Values).Where(x => x != null).ToList();
+            int count = UnityEngine.Mathf.Min(cards.Count, dests.Count());
+
+            Timer.Instance.temp.cards = AI.GetRandomItem(cards, count);
+            Timer.Instance.temp.dests.AddRange(dests.Take(MinDest));
+            return base.AIDecision();
         }
     }
 
     public class 制蛮 : Triggered
     {
-        public 制蛮(Player src) : base(src) { }
-
         public override int MaxDest => 1;
         public override int MinDest => 1;
         public override bool IsValidDest(Player dest1) => dest1 == dest;
@@ -58,27 +64,29 @@ namespace Model
         {
             if (damaged.Src is null || damaged.Src != Src) return;
             dest = damaged.player;
-            if (!await base.ShowTimer()) return;
-            Execute();
-            damaged.Value = 0;
-            if (!damaged.player.RegionHaveCard) return;
 
-            CardPanel.Instance.Title = "制蛮";
-            CardPanel.Instance.Hint = "对" + dest.posStr + "号位发动制蛮，获得其区域内一张牌";
-            var card = await CardPanel.Instance.SelectCard(Src, damaged.player, true);
-            if (card is DelayScheme && dest.JudgeArea.Contains((DelayScheme)card))
+            var decision = await WaitDecision();
+            if (!decision.action) return;
+            await Execute(decision);
+
+            if (!damaged.player.RegionIsEmpty)
             {
-                await new GetJudgeCard(Src, card).Execute();
+                CardPanel.Instance.Title = "制蛮";
+                CardPanel.Instance.Hint = "对" + dest.posStr + "号位发动制蛮，获得其区域内一张牌";
+
+                var card = await TimerAction.SelectCard(Src, damaged.player, true);
+                if (dest.JudgeArea.Contains(card[0])) await new GetJudgeCard(Src, card[0]).Execute();
+                else await new GetCardFromElse(Src, damaged.player, card).Execute();
             }
-            else await new GetCardFromElse(Src, damaged.player, new List<Card> { card }).Execute();
+            throw new PreventDamage();
         }
 
         private Player dest;
 
-        protected override bool AIResult()
+        public override Decision AIDecision()
         {
-            AI.Instance.SelectDest();
-            return dest.team == Src.team || dest.Equipages.Values.ToList().Find(x => x != null) != null;
+            if (dest.team != Src.team && (dest.RegionIsEmpty || UnityEngine.Random.value < 0.5f) || !AI.CertainValue) return new();
+            else return new Decision { action = true, dests = new List<Player> { dest } };
         }
     }
 }

@@ -6,17 +6,17 @@ using System.Linq;
 
 namespace Model
 {
-    public class Weapon : Equipage
+    public class Weapon : Equipment
     {
-        public override async Task AddEquipage(Player owner)
+        public override async Task Add(Player owner)
         {
             owner.AttackRange += range - 1;
-            await base.AddEquipage(owner);
+            await base.Add(owner);
         }
-        public override async Task RemoveEquipage()
+        public override async Task Remove()
         {
             Owner.AttackRange -= range - 1;
-            await base.RemoveEquipage();
+            await base.Remove();
         }
         protected int range;
 
@@ -47,16 +47,22 @@ namespace Model
 
         public override async Task ShaMiss(杀 sha, Player dest)
         {
-            Timer.Instance.GivenSkill = "青龙偃月刀";
-            Timer.Instance.Hint = "是否发动青龙偃月刀？";
-            Timer.Instance.IsValidCard = card => card is 杀;
-            Timer.Instance.IsValidDest = player => player == dest;
-            bool result = await Timer.Instance.Run(Owner, 1, 1);
+            Timer.Instance.givenSkill = "青龙偃月刀";
+            Timer.Instance.hint = "是否发动青龙偃月刀？";
+            Timer.Instance.isValidCard = card => card is 杀;
+            Timer.Instance.isValidDest = player => player == dest;
+            Timer.Instance.AIDecision = () =>
+            {
+                var card = Owner.HandCards.Find(x => Timer.Instance.isValidCard(x));
+                if (card is null || Owner.team == dest.team) return new Decision();
+                else return new Decision { action = true, cards = new List<Card> { card } };
+            };
+            var decision = await Timer.Instance.Run(Owner, 1, 1);
 
-            if (!result) return;
+            if (!decision.action) return;
 
             SkillView();
-            await Timer.Instance.cards[0].UseCard(Owner, new List<Player> { dest });
+            await decision.cards[0].UseCard(Owner, new List<Player> { dest });
         }
     }
 
@@ -71,21 +77,24 @@ namespace Model
         {
             if (dest.plusHorse is null && dest.subHorse is null) return;
 
-            Timer.Instance.GivenSkill = "麒麟弓";
-            Timer.Instance.Hint = "是否发动麒麟弓？";
-            bool result = await Timer.Instance.Run(Owner);
+            Timer.Instance.givenSkill = "麒麟弓";
+            Timer.Instance.hint = "是否发动麒麟弓？";
+            Timer.Instance.AIDecision = () => new Decision { action = Owner.team != dest.team };
+            var decision = await Timer.Instance.Run(Owner);
 
-            if (!result) return;
+            if (!decision.action) return;
 
             SkillView();
+            var list = new List<Card>();
+            if (dest.plusHorse != null) list.Add(dest.plusHorse);
+            if (dest.subHorse != null) list.Add(dest.subHorse);
+
             CardPanel.Instance.Title = "麒麟弓";
-            result = await CardPanel.Instance.Run(Owner, dest, TimerType.麒麟弓);
+            decision = await CardPanel.Instance.Run(Owner, dest, list);
 
-            Card horse;
-            if (result) horse = CardPanel.Instance.Cards[0];
-            else horse = dest.plusHorse is null ? dest.subHorse : dest.plusHorse;
+            // var horse = decision.action ? decision.cards[0] : (dest.plusHorse is null ? dest.subHorse : dest.plusHorse);
 
-            await new Discard(dest, new List<Card> { horse }).Execute();
+            await new Discard(dest, decision.cards).Execute();
         }
     }
 
@@ -101,9 +110,10 @@ namespace Model
             foreach (var i in sha.Dests)
             {
                 if (i.general.gender == sha.Src.general.gender) continue;
-                Timer.Instance.GivenSkill = "雌雄双股剑";
-                Timer.Instance.Hint = "是否对" + i.posStr + "号位发动雌雄双股剑？";
-                if (!await Timer.Instance.Run(Owner)) continue;
+                Timer.Instance.givenSkill = "雌雄双股剑";
+                Timer.Instance.hint = "是否对" + i.posStr + "号位发动雌雄双股剑？";
+                Timer.Instance.AIDecision = () => new Decision { action = true };
+                if (!(await Timer.Instance.Run(Owner)).action) continue;
 
                 SkillView();
                 if (i.HandCardCount == 0)
@@ -112,10 +122,10 @@ namespace Model
                     continue;
                 }
 
-                Timer.Instance.Hint = Src.posStr + "号位对你发动雌雄双股剑，请弃一张手牌或令其摸一张牌";
-                Timer.Instance.IsValidCard = card => i.HandCards.Contains(card);
-                bool result = await Timer.Instance.Run(i, 1, 0);
-                if (result) await new Discard(i, Timer.Instance.cards).Execute();
+                Timer.Instance.hint = Src.posStr + "号位对你发动雌雄双股剑，请弃一张手牌或令其摸一张牌";
+                Timer.Instance.isValidCard = card => i.HandCards.Contains(card);
+                var decision = await Timer.Instance.Run(i, 1, 0);
+                if (decision.action) await new Discard(i, decision.cards).Execute();
                 else await new GetCardFromPile(sha.Src, 1).Execute();
             }
         }
@@ -143,35 +153,25 @@ namespace Model
             range = 3;
         }
 
-        public override async Task AddEquipage(Player owner)
+        public override async Task Add(Player owner)
         {
-            skill = new ZBSMSkill(owner);
-            owner.skills.Add(skill);
-            await base.AddEquipage(owner);
+            skill = new ZBSMSkill();
+            skill.Init("丈八蛇矛", owner);
+            await base.Add(owner);
         }
 
-        public override async Task RemoveEquipage()
+        public override async Task Remove()
         {
-            Owner.skills.Remove(skill);
+            skill.Remove();
             skill = null;
-            await base.RemoveEquipage();
+            await base.Remove();
         }
 
         public ZBSMSkill skill { get; private set; }
 
         public class ZBSMSkill : Converted
         {
-            public ZBSMSkill(Player src) : base(src)
-            {
-                Name = "丈八蛇矛";
-            }
-
-            public override string CardName => "杀";
-
-            public override Card Execute(List<Card> cards)
-            {
-                return Card.Convert<杀>(cards);
-            }
+            public override Card Convert(List<Card> cards) => Card.Convert<杀>(cards);
 
             public override bool IsValidCard(Card card) => Src.HandCards.Contains(card) || card == Src.weapon;
 
@@ -187,16 +187,16 @@ namespace Model
         {
             range = 1;
         }
-        public override async Task AddEquipage(Player owner)
+        public override async Task Add(Player owner)
         {
-            await base.AddEquipage(owner);
-            owner.unlimitedCard += Effect;
+            await base.Add(owner);
+            owner.unlimitTimes += Effect;
         }
 
-        public override async Task RemoveEquipage()
+        public override async Task Remove()
         {
-            Owner.unlimitedCard -= Effect;
-            await base.RemoveEquipage();
+            Owner.unlimitTimes -= Effect;
+            await base.Remove();
         }
 
         private bool Effect(Card card)
@@ -219,12 +219,14 @@ namespace Model
 
         public override async Task ShaMiss(杀 sha, Player dest)
         {
-            Timer.Instance.GivenSkill = "贯石斧";
-            Timer.Instance.Hint = "是否发动贯石斧？";
-            Timer.Instance.IsValidCard = card => card != Owner.weapon && !card.IsConvert;
-            if (!await Timer.Instance.Run(Owner, 2, 0)) return;
+            Timer.Instance.givenSkill = "贯石斧";
+            Timer.Instance.hint = "是否发动贯石斧？";
+            Timer.Instance.isValidCard = card => card != Owner.weapon && !card.IsConvert;
 
-            await new Discard(Owner, Timer.Instance.cards).Execute();
+            var decision = await Timer.Instance.Run(Owner, 2, 0);
+            if (!decision.action) return;
+
+            await new Discard(Owner, decision.cards).Execute();
             sha.IsDamage = true;
         }
     }
@@ -252,9 +254,10 @@ namespace Model
         public async Task<bool> Skill(杀 sha)
         {
             if (sha is 火杀 || sha is 雷杀) return false;
-            Timer.Instance.GivenSkill = "朱雀羽扇";
-            Timer.Instance.Hint = "是否发动朱雀羽扇？";
-            if (!await Timer.Instance.Run(Owner)) return false;
+            Timer.Instance.givenSkill = "朱雀羽扇";
+            Timer.Instance.hint = "是否发动朱雀羽扇？";
+            Timer.Instance.AIDecision = () => new Decision { action = true };
+            if (!(await Timer.Instance.Run(Owner)).action) return false;
 
             SkillView();
             await Card.Convert<火杀>(new List<Card> { sha }).UseCard(sha.Src, sha.Dests);
@@ -288,18 +291,22 @@ namespace Model
         public override async Task WhenDamage(杀 sha, Player dest)
         {
             if (dest.CardCount == 0) return;
-            Timer.Instance.GivenSkill = "寒冰剑";
-            Timer.Instance.Hint = "是否发动寒冰剑？";
-            if (!await Timer.Instance.Run(Owner)) return;
+            Timer.Instance.givenSkill = "寒冰剑";
+            Timer.Instance.hint = "是否发动寒冰剑？";
+            Timer.Instance.AIDecision = () => new Decision { action = UnityEngine.Random.value < 0.5f };
+            if (!(await Timer.Instance.Run(Owner)).action) return;
 
             SkillView();
-            sha.DamageValue[dest.position] = 0;
-            var card = await CardPanel.Instance.SelectCard(Owner, dest);
-            await new Discard(dest, new List<Card> { card }).Execute();
+            var card = await TimerAction.SelectCard(Owner, dest);
+            await new Discard(dest, card).Execute();
 
-            if (dest.CardCount == 0) return;
-            card = await CardPanel.Instance.SelectCard(Owner, dest);
-            await new Discard(dest, new List<Card> { card }).Execute();
+            if (dest.CardCount > 0)
+            {
+                card = await TimerAction.SelectCard(Owner, dest);
+                await new Discard(dest, card).Execute();
+            }
+
+            throw new PreventDamage();
         }
     }
 }

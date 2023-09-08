@@ -1,29 +1,26 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Model
 {
     public class 武圣 : Converted
     {
-        public 武圣(Player src) : base(src) { }
-        public override string CardName => "杀";
+        public override Card Convert(List<Card> cards) => Card.Convert<杀>(cards);
 
-        public override Card Execute(List<Card> cards) => Card.Convert<杀>(cards);
-
-        public override bool IsValidCard(Card card) => (card.Suit == "红桃" || card.Suit == "方片")
-            && base.IsValidCard(card);
+        public override bool IsValidCard(Card card) => card.isRed && base.IsValidCard(card);
 
         public override void OnEnable()
         {
-            Src.unlimitedDst += IsUnlimited;
+            Src.unlimitDst += UnlimitDst;
         }
 
         public override void OnDisable()
         {
-            Src.unlimitedDst -= IsUnlimited;
+            Src.unlimitDst -= UnlimitDst;
         }
 
-        private bool IsUnlimited(Card card, Player dest) => card is 杀 && card.Suit == "方片";
+        private bool UnlimitDst(Card card, Player dest) => card is 杀 && card.suit == "方片" && card.IsConvert;
     }
 
     /// <summary>
@@ -31,8 +28,6 @@ namespace Model
     /// </summary>
     public class 义绝 : Active
     {
-        public 义绝(Player src) : base(src) { }
-
         public override int MaxCard => 1;
         public override int MinCard => 1;
         public override int MaxDest => 1;
@@ -40,62 +35,73 @@ namespace Model
 
         public override bool IsValidDest(Player dest) => dest.HandCardCount > 0 && dest != Src;
 
-        public override async Task Execute(List<Player> dests, List<Card> cards, string additional)
+        public override async Task Execute(Decision decision)
         {
-            Dest = dests[0];
-            await base.Execute(dests, cards, additional);
+            await base.Execute(decision);
+            dest = decision.dests[0];
 
             // 弃一张手牌
-            await new Discard(Src, cards).Execute();
+            await new Discard(Src, decision.cards).Execute();
+
             // 展示手牌
-            Timer.Instance.Hint = Src.posStr + "号位对你发动义绝，请展示一张手牌。";
-            var showCard = await TimerAction.ShowCardTimer(Dest);
+            Timer.Instance.hint = Src.posStr + "号位对你发动义绝，请展示一张手牌。";
+            var showCard = await TimerAction.ShowOneCard(dest);
 
             // 红色
-            if (showCard[0].Suit == "红桃" || showCard[0].Suit == "方片")
+            if (showCard[0].isRed)
             {
                 // 获得牌
-                await new GetCardFromElse(Src, Dest, showCard).Execute();
+                await new GetCardFromElse(Src, dest, showCard).Execute();
                 // 回复体力
-                if (Dest.Hp < Dest.HpLimit)
+                if (dest.Hp < dest.HpLimit)
                 {
-                    Timer.Instance.Hint = "是否让" + Dest.posStr + "号位回复一点体力？";
-                    bool result = await Timer.Instance.Run(Src);
-                    if (result) await new Recover(Dest).Execute();
+                    Timer.Instance.hint = "是否让" + dest.posStr + "号位回复一点体力？";
+                    Timer.Instance.AIDecision = () => new Decision { action = (dest.team == Src.team) == AI.CertainValue };
+                    if ((await Timer.Instance.Run(Src)).action) await new Recover(dest).Execute();
                 }
             }
             // 黑色
             else
             {
-                Dest.disabledCard += DisabledCard;
-                foreach (var i in Dest.skills) if (!i.Passive) i.SetActive(false);
-                TurnSystem.Instance.AfterTurn += ResetEffect;
-                Dest.events.WhenDamaged.AddEvent(Src, WhenDamaged);
-                isDone = false;
+                isBlack = true;
+                dest.disabledCard += DisabledCard;
+                foreach (var i in dest.skills) if (!i.isObey) i.SetActive(false);
+                dest.events.WhenDamaged.AddEvent(Src, WhenDamaged);
             }
         }
 
-        private bool isDone;
-        private Player Dest;
+        private bool isBlack;
+        private bool isDamaged;
+        private Player dest;
 
         public bool DisabledCard(Card card) => true;
 
         public async Task WhenDamaged(Damaged damaged)
         {
             await Task.Yield();
-            if (!isDone && damaged.Src == Src && damaged.SrcCard is 杀 && damaged.SrcCard.Suit == "红桃")
+            if (!isDamaged && damaged.Src == Src && damaged.SrcCard is 杀 && damaged.SrcCard.suit == "红桃")
             {
                 damaged.Value--;
-                isDone = true;
+                isDamaged = true;
             }
         }
 
-        public void ResetEffect()
+        protected override void ResetAfterTurn()
         {
-            Dest.disabledCard -= DisabledCard;
-            foreach (var i in Dest.skills) if (!i.Passive && i.Enabled < 1) i.SetActive(true);
-            Dest.events.WhenDamaged.RemoveEvent(Src);
-            TurnSystem.Instance.AfterTurn -= ResetEffect;
+            if (!isBlack) return;
+            isBlack = false;
+
+            isDamaged = false;
+            dest.disabledCard -= DisabledCard;
+            foreach (var i in dest.skills) if (!i.isObey && i.Enabled < 1) i.SetActive(true);
+            dest.events.WhenDamaged.RemoveEvent(Src);
+        }
+
+        public override Decision AIDecision()
+        {
+            Timer.Instance.temp.cards = AI.GetRandomCard();
+            Timer.Instance.temp.dests = AI.GetValidDest();
+            return base.AIDecision();
         }
     }
 }

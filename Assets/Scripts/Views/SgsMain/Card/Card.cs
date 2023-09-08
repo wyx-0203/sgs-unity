@@ -28,13 +28,13 @@ namespace View
 
         private async void Init(Model.Card model, bool known)
         {
-            Id = model.Id;
+            Id = model.id;
             this.model = model;
-            name = model.Name;
+            name = model.name;
 
             transform.SetParent(CardSystem.Instance.transform, false);
 
-            target.name = model.Name + "target";
+            target.name = model.name + "target";
             target.gameObject.AddComponent<Target>().Init(gameObject);
 
             if (!known) return;
@@ -50,9 +50,9 @@ namespace View
 
             suit.gameObject.SetActive(true);
             weight.gameObject.SetActive(true);
-            suit.sprite = sprites.cardSuit[model.Suit];
-            if (model.Suit == "黑桃" || model.Suit == "草花") weight.sprite = sprites.blackWeight[model.Weight];
-            else weight.sprite = sprites.redWeight[model.Weight];
+            suit.sprite = sprites.cardSuit[model.suit];
+            if (model.suit == "黑桃" || model.suit == "草花") weight.sprite = sprites.blackWeight[model.weight];
+            else weight.sprite = sprites.redWeight[model.weight];
         }
 
         public static Card New(Model.Card model, bool known)

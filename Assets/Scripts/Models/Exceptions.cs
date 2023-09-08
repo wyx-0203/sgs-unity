@@ -1,44 +1,41 @@
+using System;
 using UnityEngine.Events;
 
 namespace Model
 {
+
+    public class GameOverException : ApplicationException
+    {
+        public GameOverException(bool loser) => this.loser = loser;
+        public bool loser;
+    }
+
+    public class CurrentPlayerDie : System.ApplicationException { }
+
+    public class PlayerDie : System.ApplicationException { }
+
+    public class PreventDamage : System.ApplicationException { }
+
+
+
     public class GameOver : Singleton<GameOver>
     {
-        private bool isOver = false;
-        private bool isSurrender = false;
-
         public bool Loser { get; private set; }
 
-        public void Init(bool loser)
+        public void Run(bool loser)
         {
-            isOver = true;
+            // isOver = true;
             Loser = loser;
             foreach (var p in SgsMain.Instance.AlivePlayers)
             {
                 foreach (var s in p.skills) s.SetActive(false);
             }
-        }
-
-        public bool Check()
-        {
-            if (isOver) return true;
-            if (isSurrender)
-            {
-                Init(Loser);
-                return true;
-            }
-            return false;
-        }
-
-        public void Run()
-        {
             GameOverView?.Invoke();
         }
 
         public void Surrender(bool team)
         {
-            isSurrender = true;
-            Loser = team;
+            throw new GameOverException(team);
         }
 
         public void SendSurrender()

@@ -42,7 +42,7 @@ namespace View
             if (IsSelected) return;
             IsSelected = true;
             border.gameObject.SetActive(true);
-            Model.Operation.Instance.Dests.Add(model);
+            Model.Timer.Instance.temp.dests.Add(model);
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace View
             if (!IsSelected) return;
             IsSelected = false;
             border.gameObject.SetActive(false);
-            Model.Operation.Instance.Dests.Remove(model);
+            Model.Timer.Instance.temp.dests.Remove(model);
         }
 
         /// <summary>

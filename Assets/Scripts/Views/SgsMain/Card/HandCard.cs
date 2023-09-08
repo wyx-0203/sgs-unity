@@ -21,8 +21,8 @@ namespace View
 
         private Model.Card Converted
         {
-            get => Model.Operation.Instance.Converted;
-            set => Model.Operation.Instance.Converted = value;
+            get => Model.Timer.Instance.temp.converted;
+            set => Model.Timer.Instance.temp.converted = value;
         }
 
         public void Init()
@@ -59,10 +59,10 @@ namespace View
             if (IsSelected) return;
             IsSelected = true;
             GetComponent<RectTransform>().anchoredPosition += new Vector2(0, 20);
-            if (!model.IsConvert) Model.Operation.Instance.Cards.Add(model);
+            if (!model.IsConvert) Model.Timer.Instance.temp.cards.Add(model);
             else
             {
-                if (Converted != null) cardArea.ConvertCards[Converted.Name].Unselect();
+                if (Converted != null) cardArea.ConvertCards[Converted.name].Unselect();
                 Converted = model;
             }
         }
@@ -75,7 +75,7 @@ namespace View
             if (!IsSelected) return;
             IsSelected = false;
             GetComponent<RectTransform>().anchoredPosition -= new Vector2(0, 20);
-            if (!model.IsConvert) Model.Operation.Instance.Cards.Remove(model);
+            if (!model.IsConvert) Model.Timer.Instance.temp.cards.Remove(model);
             else Converted = null;
         }
 

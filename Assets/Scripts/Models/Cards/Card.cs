@@ -9,15 +9,15 @@ namespace Model
     public class Card
     {
         // 编号
-        public int Id { get; set; } = 0;
+        public int id { get; set; } = 0;
         // 花色
-        public string Suit { get; set; }
+        public string suit { get; set; }
         // 点数(1~13)
-        public int Weight { get; set; }
+        public int weight { get; set; }
         // 类别
-        public string Type { get; set; }
+        public string type { get; set; }
         // 卡牌名
-        public string Name { get; set; }
+        public string name { get; set; }
 
         // 使用者
         public Player Src { get; set; }
@@ -31,8 +31,7 @@ namespace Model
         {
             Src = src;
             Dests = dests;
-            string cardInfo = IsConvert ? "" : "【" + Suit + Weight.ToString() + "】";
-            Debug.Log(Src.posStr + "号位使用了" + Name + cardInfo);
+            Debug.Log(Src + "使用了" + this);
             UseCardView?.Invoke(this);
 
             // 目标角色排序
@@ -44,7 +43,7 @@ namespace Model
             // 使用者失去此手牌
             if (!IsConvert)
             {
-                if (!(this is Equipage)) CardPile.Instance.AddToDiscard(this);
+                if (!(this is Equipment)) CardPile.Instance.AddToDiscard(this);
                 await new LoseCard(Src, new List<Card> { this }).Execute();
             }
             else if (PrimiTives.Count != 0)
@@ -57,9 +56,9 @@ namespace Model
             await Src.events.WhenUseCard.Execute(this);
             // 指定目标后
             await Src.events.AfterUseCard.Execute(this);
-        }
 
-        public bool Disabled(Player dest) => dest.DisableForMe(this);
+            if (dests != null) foreach (var i in new List<Player>(Dests)) if (i.DisableForMe(this)) Dests.Remove(i);
+        }
 
         /// <summary>
         /// 打出牌
@@ -67,14 +66,14 @@ namespace Model
         public async Task Put(Player player)
         {
             Src = player;
-            string cardInfo = IsConvert ? "" : "【" + Suit + Weight.ToString() + "】";
-            Debug.Log(player.posStr + "号位打出了" + Name + cardInfo);
+            string cardInfo = IsConvert ? "" : "【" + suit + weight.ToString() + "】";
+            Debug.Log(player.posStr + "号位打出了" + name + cardInfo);
             UseCardView?.Invoke(this);
 
             // 使用者失去此手牌
             if (!IsConvert)
             {
-                if (!(this is Equipage)) CardPile.Instance.AddToDiscard(this);
+                if (!(this is Equipment)) CardPile.Instance.AddToDiscard(this);
                 await new LoseCard(player, new List<Card> { this }).Execute();
             }
             else if (PrimiTives.Count != 0)
@@ -86,7 +85,7 @@ namespace Model
 
         #region 转化牌
         public bool IsConvert { get; private set; } = false;
-        public List<Card> PrimiTives { get; private set; } = new List<Card>();
+        public List<Card> PrimiTives { get; private set; } = new();
 
         /// <summary>
         /// 转化牌
@@ -95,47 +94,35 @@ namespace Model
         /// <typeparam name="T">类型</typeparam>
         public static T Convert<T>(List<Card> primitives = null) where T : Card, new()
         {
-            if (primitives is null) primitives = new List<Card>();
+            if (primitives is null || primitives.Count == 0) return new T { IsConvert = true };
             // 二次转化
-            if (primitives.Count > 0 && primitives[0].IsConvert) return Convert<T>(primitives[0].PrimiTives);
+            if (primitives[0].IsConvert) return Convert<T>(primitives[0].PrimiTives);
 
-            var card = new T();
-            card.IsConvert = true;
-            card.PrimiTives = primitives;
-
-            if (primitives.Count == 0) return card;
-
-            card.Suit = primitives[0].Suit;
-            card.Weight = primitives[0].Weight;
+            var card = new T
+            {
+                IsConvert = true,
+                PrimiTives = primitives,
+                suit = primitives[0].suit,
+                weight = primitives[0].weight,
+            };
 
             foreach (var i in primitives)
             {
-                if (i.Suit == card.Suit) continue;
-                if (i.Suit == "黑桃" || i.Suit == "草花")
-                {
-                    if (card.Suit == "黑桃" || card.Suit == "草花" || card.Suit == "黑色") card.Suit = "黑色";
-                    else
-                    {
-                        card.Suit = "无花色";
-                        break;
-                    }
-                }
+                if (i.suit == card.suit) continue;
+                if (i.isBlack && card.isBlack) card.suit = "黑色";
+                else if (i.isRed && card.isRed) card.suit = "红色";
                 else
                 {
-                    if (card.Suit == "红桃" || card.Suit == "方片" || card.Suit == "红色") card.Suit = "红色";
-                    else
-                    {
-                        card.Suit = "无花色";
-                        break;
-                    }
+                    card.suit = "";
+                    break;
                 }
             }
 
             foreach (var i in primitives)
             {
-                if (i.Weight != card.Weight)
+                if (i.weight != card.weight)
                 {
-                    card.Weight = 0;
+                    card.weight = 0;
                     break;
                 }
             }
@@ -156,19 +143,25 @@ namespace Model
             }
 
             if (PrimiTives.Count == 0) return null;
-
             return PrimiTives.Where(x => CardPile.Instance.DiscardPile.Contains(x)).ToList();
         }
 
-        public virtual bool AIPerform()
-        {
-            if (!CardArea.Instance.ValidCard(this)) return false;
-
-            Operation.Instance.Cards.Add(this);
-
-            return AI.Instance.SelectDest();
-        }
-
         public static UnityAction<Card> UseCardView { get; set; }
+
+        public bool isRed => suit == "红桃" || suit == "方片" || suit == "红色";
+        public bool isBlack => suit == "黑桃" || suit == "草花" || suit == "黑色";
+
+        public override string ToString()
+        {
+            string suitSymbol = "";
+            switch (suit)
+            {
+                case "红桃": suitSymbol = "♥️"; break;
+                case "方片": suitSymbol = "♦️"; break;
+                case "黑桃": suitSymbol = "♠️"; break;
+                case "梅花": suitSymbol = "♣️"; break;
+            }
+            return "【" + name + suitSymbol + weight + "】";
+        }
     }
 }

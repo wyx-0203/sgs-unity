@@ -1,11 +1,11 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Model
 {
     public class 仁德 : Active
     {
-        public 仁德(Player src) : base(src) { }
         public override int TimeLimit => int.MaxValue;
 
         public override int MaxCard => int.MaxValue;
@@ -16,41 +16,70 @@ namespace Model
         public override bool IsValidCard(Card card) => Src.HandCards.Contains(card);
         public override bool IsValidDest(Player dest) => dest != Src && !invalidDest.Contains(dest);
 
-        private List<Player> invalidDest = new List<Player>();
+        private List<Player> invalidDest = new();
         private int count = 0;
         private bool done = false;
 
-        public override async Task Execute(List<Player> dests, List<Card> cards, string additional)
+        public override async Task Execute(Decision decision)
         {
-            await base.Execute(dests, cards, additional);
+            await base.Execute(decision);
 
-            count += cards.Count;
-            invalidDest.Add(dests[0]);
-            await new GetCardFromElse(dests[0], Src, cards).Execute();
+            count += decision.cards.Count;
+            invalidDest.Add(decision.dests[0]);
+            await new GetCardFromElse(decision.dests[0], Src, decision.cards).Execute();
             if (count < 2 || done) return;
 
             done = true;
-            var list = new List<Card>
-            {
-                Card.Convert<杀>(), Card.Convert<火杀>(), Card.Convert<雷杀>(), Card.Convert<酒>(), Card.Convert<桃>()
-            };
-            foreach (var i in list) Timer.Instance.MultiConvert.Add(i);
-            Timer.Instance.IsValidCard = CardArea.Instance.ValidCard;
-            Timer.Instance.MaxDest = DestArea.Instance.MaxDest;
-            Timer.Instance.MinDest = DestArea.Instance.MinDest;
-            Timer.Instance.IsValidDest = DestArea.Instance.ValidDest;
-            if (!await Timer.Instance.Run(Src)) return;
+            var list = new List<Card> { Card.Convert<杀>(), Card.Convert<火杀>(), Card.Convert<雷杀>(), Card.Convert<酒>(), Card.Convert<桃>() };
 
-            var card = list.Find(x => x.Name == Timer.Instance.other);
-            await card.UseCard(Src, Timer.Instance.dests);
+            Timer.Instance.multiConvert.AddRange(list);
+            Timer.Instance.isValidCard = CardArea.Instance.ValidCard;
+            Timer.Instance.maxDest = DestArea.Instance.MaxDest;
+            Timer.Instance.minDest = DestArea.Instance.MinDest;
+            Timer.Instance.isValidDest = DestArea.Instance.ValidDest;
+            Timer.Instance.AIDecision = () =>
+            {
+                List<Decision> decisions = new();
+                var validCards = Timer.Instance.multiConvert.Where(x => Timer.Instance.isValidCard(x)).ToList();
+                foreach (var i in validCards)
+                {
+                    Timer.Instance.temp.converted = i;
+
+                    if (Timer.Instance.maxDest() > 0)
+                    {
+                        var dests = AI.GetValidDest();
+                        if (dests is null || dests[0].team == Src.team) continue;
+
+                        Timer.Instance.temp.dests.AddRange(dests);
+                    }
+
+                    Timer.Instance.temp.action = true;
+                    decisions.Add(Timer.Instance.SaveTemp());
+                }
+
+                if (decisions.Count == 0 || !AI.CertainValue) decisions.Add(new Decision());
+                return AI.GetRandomItem(decisions)[0];
+            };
+
+            decision = await Timer.Instance.Run(Src);
+            if (!decision.action) return;
+
+            await decision.converted.UseCard(Src, decision.dests);
         }
 
-        protected override void Reset()
+        protected override void ResetAfterPlay()
         {
-            base.Reset();
+            base.ResetAfterPlay();
             count = 0;
             done = false;
             invalidDest.Clear();
+        }
+
+        public override Decision AIDecision()
+        {
+            Timer.Instance.temp.dests = AI.GetDestByTeam(Src.team).Take(1).ToList();
+            Timer.Instance.temp.cards = AI.GetRandomCard();
+            return base.AIDecision();
         }
     }
 }

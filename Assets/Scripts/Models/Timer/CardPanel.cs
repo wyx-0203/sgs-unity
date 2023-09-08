@@ -8,60 +8,57 @@ namespace Model
 {
     public class CardPanel : Singleton<CardPanel>
     {
-        private TaskCompletionSource<TimerMessage> waitAction;
-
         public Player player { get; private set; }
         public Player dest { get; private set; }
-        public TimerType timerType { get; private set; }
-        public bool judgeArea { get; private set; }
-        public bool display { get; set; } = false;
 
         public string Title { get; set; }
         public string Hint { get; set; }
         public int second { get; private set; } = 10;
 
-        public List<Card> Cards { get; private set; }
+        public List<Card> cards { get; private set; }
 
-        public async Task<bool> Run(Player player, Player dest, TimerType timerType, bool judgeArea = false)
+        public async Task<Decision> Run(Player player, Player dest, List<Card> cards)
         {
             this.player = player;
             this.dest = dest;
-            this.timerType = timerType;
-            this.judgeArea = judgeArea;
-
-            if (GameOver.Instance.Check()) return false;
+            this.cards = cards;
 
             StartTimerView?.Invoke(this);
             if (player.isSelf) SelfAutoResult();
             else if (player.isAI) AIAutoResult();
-            var result = await WaitAction();
-            StopTimerView?.Invoke(this);
+            var decision = await WaitAction();
 
+            StopTimerView?.Invoke(this);
             Hint = "";
             Title = "";
-            display = false;
 
-            return result;
+            if (!decision.action)
+            {
+                decision.action = true;
+                decision.cards = cards.GetRange(0, 1);
+            }
+
+            return decision;
         }
 
-        public void SetResult(List<int> cards)
-        {
-            Cards = cards.Select(x => CardPile.Instance.cards[x]).ToList();
-        }
-
-        public void SendResult(List<int> cards, bool result)
+        public void SendResult(List<Card> cards, bool result)
         {
             Delay.StopAll();
 
-            var json = new TimerMessage
+            if (Room.Instance.IsSingle)
             {
-                msg_type = "card_panel_result",
-                result = result,
-                cards = cards,
-            };
-
-            if (Room.Instance.IsSingle) waitAction.TrySetResult(json);
-            else WebSocket.Instance.SendMessage(json);
+                Decision.list.Add(new Decision { action = result, cards = cards });
+            }
+            else
+            {
+                var json = new TimerMessage
+                {
+                    msg_type = "card_panel_result",
+                    action = result,
+                    cards = cards.Select(x => x.id).ToList(),
+                };
+                WebSocket.Instance.SendMessage(json);
+            }
         }
 
         public void SendResult()
@@ -69,56 +66,29 @@ namespace Model
             SendResult(null, false);
         }
 
-        public async Task<bool> WaitAction()
+        public async Task<Decision> WaitAction()
         {
-            if (GameOver.Instance.Check()) return false;
-            TimerMessage json;
-            if (Room.Instance.IsSingle)
-            {
-                waitAction = new TaskCompletionSource<TimerMessage>();
-                json = await waitAction.Task;
-            }
-            else
+            if (!Room.Instance.IsSingle)
             {
                 var msg = await WebSocket.Instance.PopMessage();
-                json = JsonUtility.FromJson<TimerMessage>(msg);
+                var json = JsonUtility.FromJson<TimerMessage>(msg);
+
+                Decision.list.Add(new Decision { action = json.action, cards = json.cards.Select(x => CardPile.Instance.cards[x]).ToList() });
             }
 
-
-            if (json.result) SetResult(json.cards);
-            return json.result;
+            return await Decision.Pop();
         }
 
         private async void AIAutoResult()
         {
             if (!await new Delay(1).Run()) return;
-            SendResult();
+            SendResult(AI.GetRandomItem(cards), true);
         }
 
         private async void SelfAutoResult()
         {
             if (!await new Delay(second).Run()) return;
             SendResult();
-        }
-
-        public async Task<Card> SelectCard(Player player, Player dest, bool judgeArea = false)
-        {
-            if (player.teammate == dest) display = true;
-            bool result = await Run(player, dest, TimerType.Region, judgeArea);
-            Card card;
-            if (!result)
-            {
-                // var l=dest.Equipages.Values.Select(x=>x!=null);
-                // if(l.Count()>0)
-                if (dest.armor != null) card = dest.armor;
-                else if (dest.plusHorse != null) card = dest.plusHorse;
-                else if (dest.weapon != null) card = dest.weapon;
-                else if (dest.subHorse != null) card = dest.subHorse;
-                else if (dest.HandCardCount != 0) card = dest.HandCards[0];
-                else card = dest.JudgeArea[0];
-            }
-            else card = CardPanel.Instance.Cards[0];
-            return card;
         }
 
         public UnityAction<CardPanel> StartTimerView;

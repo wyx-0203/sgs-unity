@@ -77,7 +77,7 @@ namespace View
         private void ClickSurrender()
         {
             Model.GameOver.Instance.SendSurrender();
-            if (Model.Timer.Instance.isPerformPhase) Model.Timer.Instance.SendResult();
+            if (Model.Timer.Instance.isPlayPhase) Model.Timer.Instance.SendDecision();
         }
     }
 }

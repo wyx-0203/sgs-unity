@@ -4,27 +4,25 @@ namespace Model
 {
     public class 咆哮 : Triggered
     {
-        public 咆哮(Player src) : base(src) { }
-        public override bool Passive => true;
+        public override bool isObey => true;
 
         public bool Effect(Card card) => card is 杀;
 
         public override void OnEnable()
         {
-            Src.unlimitedCard += Effect;
+            Src.unlimitTimes += Effect;
             Src.events.WhenUseCard.AddEvent(Src, Execute);
         }
 
         public override void OnDisable()
         {
-            Src.unlimitedCard -= Effect;
+            Src.unlimitTimes -= Effect;
             Src.events.WhenUseCard.RemoveEvent(Src);
         }
 
         public async Task Execute(Card card)
         {
-            await Task.Yield();
-            if (card is 杀 && Src.杀Count > 0) Execute();
+            if (card is 杀 && Src.杀Count > 0) await Execute();
         }
     }
 }

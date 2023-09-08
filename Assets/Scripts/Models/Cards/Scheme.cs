@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Model
 {
@@ -10,8 +11,8 @@ namespace Model
     {
         public 无懈可击()
         {
-            Type = "锦囊牌";
-            Name = "无懈可击";
+            type = "锦囊牌";
+            name = "无懈可击";
         }
 
         private bool isCountered;
@@ -19,14 +20,14 @@ namespace Model
         public static async Task<bool> Call(Card card, Player dest)
         {
             string hint = dest != null ? "对" + dest.posStr + "号位" : "";
-            WxkjTimer.Instance.Hint = card.Name + "即将" + hint + "生效，是否使用无懈可击？";
+            WxkjTimer.Instance.hint = card.name + "即将" + hint + "生效，是否使用无懈可击？";
 
-            bool result = await WxkjTimer.Instance.Run();
-            if (result)
+            var decision = await WxkjTimer.Instance.Run(card);
+            if (decision.action)
             {
                 // Debug.Log(Timer.Instance.Cards[0].Name);
-                var wxkj = WxkjTimer.Instance.cards[0] as 无懈可击;
-                await wxkj.UseCard(WxkjTimer.Instance.Src);
+                var wxkj = decision.cards[0] as 无懈可击;
+                await wxkj.UseCard(decision.src);
                 if (!wxkj.isCountered) return true;
             }
             return false;
@@ -46,8 +47,8 @@ namespace Model
     {
         public 过河拆桥()
         {
-            Type = "锦囊牌";
-            Name = "过河拆桥";
+            type = "锦囊牌";
+            name = "过河拆桥";
         }
 
         public override async Task UseCard(Player src, List<Player> dests)
@@ -55,19 +56,19 @@ namespace Model
             await base.UseCard(src, dests);
             foreach (var dest in Dests)
             {
-                if (Disabled(dest)) continue;
+                // if (Disabled(dest)) continue;
                 if (await 无懈可击.Call(this, dest)) continue;
 
                 CardPanel.Instance.Title = "过河拆桥";
                 CardPanel.Instance.Hint = "对" + dest.posStr + "号位使用过河拆桥，弃置其一张牌";
-                var card = await CardPanel.Instance.SelectCard(src, dest, true);
+                var card = await TimerAction.SelectCard(src, dest, true);
 
-                if (card is DelayScheme && dest.JudgeArea.Contains(card as DelayScheme))
+                if (card[0] is DelayScheme delayScheme && dest.JudgeArea.Contains(delayScheme))
                 {
-                    (card as DelayScheme).RemoveToJudgeArea();
+                    delayScheme.RemoveToJudgeArea();
                     CardPile.Instance.AddToDiscard(card);
                 }
-                else await new Discard(dest, new List<Card> { card }).Execute();
+                else await new Discard(dest, card).Execute();
             }
         }
     }
@@ -79,8 +80,8 @@ namespace Model
     {
         public 顺手牵羊()
         {
-            Type = "锦囊牌";
-            Name = "顺手牵羊";
+            type = "锦囊牌";
+            name = "顺手牵羊";
         }
 
         public override async Task UseCard(Player src, List<Player> dests)
@@ -88,19 +89,19 @@ namespace Model
             await base.UseCard(src, dests);
             foreach (var dest in Dests)
             {
-                if (Disabled(dest)) continue;
+                // if (Disabled(dest)) continue;
                 if (await 无懈可击.Call(this, dest)) continue;
 
                 CardPanel.Instance.Title = "顺手牵羊";
                 CardPanel.Instance.Hint = "对" + dest.posStr + "号位使用顺手牵羊，获得其一张牌";
-                var card = await CardPanel.Instance.SelectCard(src, dest, true);
+                var card = await TimerAction.SelectCard(src, dest, true);
 
-                if (card is DelayScheme && dest.JudgeArea.Contains((DelayScheme)card))
+                if (card[0] is DelayScheme delayScheme && dest.JudgeArea.Contains(delayScheme))
                 {
                     // ((DelayScheme)card).RemoveToJudgeArea();
-                    await new GetJudgeCard(src, card).Execute();
+                    await new GetJudgeCard(src, delayScheme).Execute();
                 }
-                else await new GetCardFromElse(src, dest, new List<Card> { card }).Execute();
+                else await new GetCardFromElse(src, dest, card).Execute();
             }
         }
     }
@@ -112,8 +113,8 @@ namespace Model
     {
         public 决斗()
         {
-            Type = "锦囊牌";
-            Name = "决斗";
+            type = "锦囊牌";
+            name = "决斗";
         }
 
         public override async Task UseCard(Player src, List<Player> dests)
@@ -122,7 +123,7 @@ namespace Model
 
             foreach (var dest in Dests)
             {
-                if (Disabled(dest)) continue;
+                // if (Disabled(dest)) continue;
                 if (await 无懈可击.Call(this, dest)) continue;
 
                 var player = dest;
@@ -130,6 +131,8 @@ namespace Model
                 int shaCount = 0;
                 while (!done)
                 {
+
+                    Timer.Instance.AIDecision = src.team != dest.team ? AI.AutoDecision : () => new();
                     done = !await 杀.Call(player);
 
                     if (done) await new Damaged(player, player == dest ? src : dest, this).Execute();
@@ -158,8 +161,8 @@ namespace Model
     {
         public 南蛮入侵()
         {
-            Type = "锦囊牌";
-            Name = "南蛮入侵";
+            type = "锦囊牌";
+            name = "南蛮入侵";
         }
 
         public override async Task UseCard(Player src, List<Player> dests = null)
@@ -172,9 +175,10 @@ namespace Model
 
             foreach (var dest in Dests)
             {
-                if (Disabled(dest)) continue;
+                // if (Disabled(dest)) continue;
                 if (await 无懈可击.Call(this, dest)) continue;
 
+                Timer.Instance.AIDecision = AI.AutoDecision;
                 if (!await 杀.Call(dest)) await new Damaged(dest, src, this).Execute();
             }
         }
@@ -187,8 +191,8 @@ namespace Model
     {
         public 万箭齐发()
         {
-            Type = "锦囊牌";
-            Name = "万箭齐发";
+            type = "锦囊牌";
+            name = "万箭齐发";
         }
 
         public override async Task UseCard(Player src, List<Player> dests = null)
@@ -201,9 +205,10 @@ namespace Model
 
             foreach (var dest in Dests)
             {
-                if (Disabled(dest)) continue;
+                // if (Disabled(dest)) continue;
                 if (await 无懈可击.Call(this, dest)) continue;
 
+                // Timer.Instance.AIDecision = AI.AutoDecision;
                 if (!await 闪.Call(dest)) await new Damaged(dest, src, this).Execute();
             }
         }
@@ -216,8 +221,8 @@ namespace Model
     {
         public 桃园结义()
         {
-            Type = "锦囊牌";
-            Name = "桃园结义";
+            type = "锦囊牌";
+            name = "桃园结义";
         }
 
         public override async Task UseCard(Player src, List<Player> dests = null)
@@ -230,7 +235,7 @@ namespace Model
             foreach (var dest in Dests)
             {
                 if (dest.Hp >= dest.HpLimit) continue;
-                if (Disabled(dest)) continue;
+                // if (Disabled(dest)) continue;
                 if (await 无懈可击.Call(this, dest)) continue;
 
                 await new Recover(dest).Execute();
@@ -245,8 +250,8 @@ namespace Model
     {
         public 无中生有()
         {
-            Type = "锦囊牌";
-            Name = "无中生有";
+            type = "锦囊牌";
+            name = "无中生有";
         }
 
         public override async Task UseCard(Player src, List<Player> dests = null)
@@ -258,7 +263,7 @@ namespace Model
 
             foreach (var dest in Dests)
             {
-                if (Disabled(dest)) continue;
+                // if (Disabled(dest)) continue;
                 if (await 无懈可击.Call(this, dest)) continue;
 
                 await new GetCardFromPile(dest, 2).Execute();
@@ -270,32 +275,43 @@ namespace Model
     {
         public 借刀杀人()
         {
-            Type = "锦囊牌";
-            Name = "借刀杀人";
+            type = "锦囊牌";
+            name = "借刀杀人";
         }
 
         public Player ShaDest { get; private set; }
 
         public override async Task UseCard(Player src, List<Player> dests = null)
         {
-            ShaDest = dests[1];
-            dests.RemoveAt(1);
             await base.UseCard(src, dests);
 
-            if (Disabled(dests[0])) return;
-            if (await 无懈可击.Call(this, dests[0])) return;
-
-            Timer.Instance.IsValidCard = card => card is 杀;
-            Timer.Instance.IsValidDest = dest => dest == ShaDest;
-
-            var result = await Timer.Instance.Run(dests[0], 1, 1);
-            // 出杀
-            if (result)
+            foreach (var i in dests)
             {
-                await Timer.Instance.cards[0].UseCard(dests[0], Timer.Instance.dests);
+                // if (Disabled(i)) continue;
+                if (await 无懈可击.Call(this, i)) continue;
+
+                Timer.Instance.hint = "指定被杀的角色";
+                Timer.Instance.isValidDest = x => DestArea.Instance.UseSha(i, x);
+                Timer.Instance.refusable = false;
+                Timer.Instance.AIDecision = AI.AutoDecision;
+
+                var decision = await Timer.Instance.Run(src, 0, 1);
+                ShaDest = decision.dests[0];
+
+
+                Timer.Instance.isValidCard = card => card is 杀;
+                Timer.Instance.isValidDest = dest => dest == ShaDest;
+                Timer.Instance.AIDecision = src.team != ShaDest.team ? AI.AutoDecision : () => new();
+
+                decision = await Timer.Instance.Run(i, 1, 1);
+                // 出杀
+                if (decision.action)
+                {
+                    await decision.cards[0].UseCard(i, decision.dests);
+                }
+                // 获得武器
+                else await new GetCardFromElse(Src, i, new List<Card> { i.weapon }).Execute();
             }
-            // 获得武器
-            else await new GetCardFromElse(Src, dests[0], new List<Card> { dests[0].weapon }).Execute();
         }
     }
 
@@ -303,8 +319,8 @@ namespace Model
     {
         public 铁索连环()
         {
-            Type = "锦囊牌";
-            Name = "铁索连环";
+            type = "锦囊牌";
+            name = "铁索连环";
         }
 
         public override async Task UseCard(Player src, List<Player> dests = null)
@@ -321,7 +337,7 @@ namespace Model
 
             foreach (var i in Dests)
             {
-                if (Disabled(i)) continue;
+                // if (Disabled(i)) continue;
                 if (await 无懈可击.Call(this, i)) continue;
 
                 await new SetLock(i).Execute();
@@ -333,8 +349,8 @@ namespace Model
     {
         public 火攻()
         {
-            Type = "锦囊牌";
-            Name = "火攻";
+            type = "锦囊牌";
+            name = "火攻";
         }
 
         public override async Task UseCard(Player src, List<Player> dests = null)
@@ -343,18 +359,25 @@ namespace Model
 
             foreach (var dest in Dests)
             {
-                if (Disabled(dest)) continue;
+                // if (Disabled(dest)) continue;
                 if (await 无懈可击.Call(this, dest)) continue;
                 if (dest.HandCardCount == 0) continue;
 
-                Timer.Instance.Hint = Src.posStr + "号位对你使用火攻，请展示一张手牌。";
-                var showCard = (await TimerAction.ShowCardTimer(dest))[0];
+                Timer.Instance.hint = Src.posStr + "号位对你使用火攻，请展示一张手牌。";
+                var showCard = (await TimerAction.ShowOneCard(dest))[0];
 
-                Timer.Instance.Hint = "是否弃置手牌";
-                Timer.Instance.IsValidCard = card => card.Suit == showCard.Suit;
-                if (!await Timer.Instance.Run(Src, 1, 0)) return;
+                Timer.Instance.hint = "是否弃置手牌";
+                Timer.Instance.isValidCard = card => card.suit == showCard.suit;
+                Timer.Instance.AIDecision = () =>
+                {
+                    var card = src.HandCards.Find(x => Timer.Instance.isValidCard(x));
+                    if (card is null || src.team == dest.team) return new Decision();
+                    else return new Decision { action = true, cards = new List<Card> { card } };
+                };
+                var decision = await Timer.Instance.Run(Src, 1, 0);
 
-                await new Discard(Src, Timer.Instance.cards).Execute();
+                if (!decision.action) return;
+                await new Discard(Src, decision.cards).Execute();
                 await new Damaged(dest, Src, this, 1, DamageType.Fire).Execute();
             }
         }

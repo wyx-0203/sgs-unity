@@ -6,40 +6,40 @@ namespace Model
 
     public class 当先 : Triggered
     {
-        public 当先(Player src) : base(src) { }
-        public override bool Passive => true;
+        public override bool isObey => true;
 
         public override void OnEnable()
         {
             Src.events.StartPhase[Phase.Prepare].AddEvent(Src, Execute);
-            Src.events.StartPhase[Phase.Perform].AddEvent(Src, StartPerform);
+            Src.events.StartPhase[Phase.Play].AddEvent(Src, StartPerform);
         }
 
         public override void OnDisable()
         {
             Src.events.StartPhase[Phase.Prepare].RemoveEvent(Src);
-            Src.events.StartPhase[Phase.Perform].RemoveEvent(Src);
+            Src.events.StartPhase[Phase.Play].RemoveEvent(Src);
         }
 
-        public new async Task Execute()
+        public async Task Execute()
         {
-            base.Execute();
-            TurnSystem.Instance.ExtraPhase.Add(Phase.Perform);
+            await base.Execute();
+            TurnSystem.Instance.ExtraPhase.Add(Phase.Play);
             inSkill = true;
-            await Task.Yield();
         }
 
         private bool inSkill;
-        private bool change;
+        private bool fuliHasInvoked;
 
         public async Task StartPerform()
         {
             if (!inSkill) return;
             inSkill = false;
-            if (change)
+
+            if (fuliHasInvoked)
             {
-                Timer.Instance.Hint = "是否失去1点体力并从弃牌堆获得一张【杀】？";
-                if (!await Timer.Instance.Run(Src)) return;
+                Timer.Instance.hint = "是否失去1点体力并从弃牌堆获得一张【杀】？";
+                Timer.Instance.AIDecision = () => new Decision { action = Src.Hp > 1 && Src.FindCard<杀>() is null };
+                if (!(await Timer.Instance.Run(Src)).action) return;
             }
 
             await new UpdateHp(Src, -1).Execute();
@@ -47,12 +47,4 @@ namespace Model
             if (card != null) await new GetDisCard(Src, new List<Card> { card }).Execute();
         }
     }
-
-    // public class 伏枥 : Triggered
-    // {
-    //     public 伏枥(Player src) : base(src){}
-    //     public override bool Ultimate => true;
-
-    //     // 
-    // }
 }

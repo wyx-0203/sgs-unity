@@ -1,5 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace View
@@ -8,7 +8,7 @@ namespace View
     {
         public Dictionary<string, Equipage> Equips { get; private set; }
         private Model.Timer timer => Model.Timer.Instance;
-        private Model.Skill skill => Model.Operation.Instance.skill;
+        private Model.Skill skill => Model.Timer.Instance.temp.skill;
 
         private Player self => SgsMain.Instance.self;
 
@@ -23,8 +23,8 @@ namespace View
                 {"减一马", parent.transform.Find("减一马").GetComponent<Equipage>()}
             };
 
-            Model.Equipage.AddEquipView += ShowEquip;
-            Model.Equipage.RemoveEquipView += HideEquip;
+            Model.Equipment.AddEquipView += ShowEquip;
+            Model.Equipment.RemoveEquipView += HideEquip;
             Model.Timer.Instance.StopTimerView += Reset;
 
             Model.SgsMain.Instance.MoveSeatView += MoveSeat;
@@ -32,8 +32,8 @@ namespace View
 
         private void OnDestroy()
         {
-            Model.Equipage.AddEquipView -= ShowEquip;
-            Model.Equipage.RemoveEquipView -= HideEquip;
+            Model.Equipment.AddEquipView -= ShowEquip;
+            Model.Equipment.RemoveEquipView -= HideEquip;
             Model.Timer.Instance.StopTimerView -= Reset;
 
             Model.SgsMain.Instance.MoveSeatView -= MoveSeat;
@@ -41,16 +41,9 @@ namespace View
 
         public void Init()
         {
-            if (Model.Timer.Instance.GivenSkill != null)
+            if (Model.Timer.Instance.givenSkill != null)
             {
-                foreach (var i in Equips.Values)
-                {
-                    if (i.name == Model.Timer.Instance.GivenSkill)
-                    {
-                        i.Use();
-                        break;
-                    }
-                }
+                Equips.Values.FirstOrDefault(x => x.name == Model.Timer.Instance.givenSkill)?.Use();
             }
 
             if (CardArea.Instance.MaxCount == 0)
@@ -60,17 +53,14 @@ namespace View
 
             else if (skill != null)
             {
-                foreach (var i in Equips.Values) i.button.interactable = skill.IsValidCard(i.model);
+                foreach (var i in Equips.Values) i.button.interactable = i.gameObject.activeSelf && skill.IsValidCard(i.model);
             }
 
             else
             {
-                foreach (var i in Equips.Values)
-                {
-                    i.button.interactable = i.gameObject.activeSelf && timer.IsValidCard(i.model);
-                }
+                foreach (var i in Equips.Values) i.button.interactable = i.gameObject.activeSelf && timer.isValidCard(i.model);
 
-                if (Equips["武器"].name == "丈八蛇矛" && timer.IsValidCard(Model.Card.Convert<Model.杀>()))
+                if (Equips["武器"].name == "丈八蛇矛" && timer.isValidCard(Model.Card.Convert<Model.杀>()))
                 {
                     Equips["武器"].button.interactable = true;
                 }
@@ -80,39 +70,49 @@ namespace View
         public void Reset()
         {
             if (!timer.players.Contains(self.model)) return;
-            // if (self.model != timer.players) return;
+
             // 重置装备牌状态
             foreach (var card in Equips.Values) card.ResetCard();
         }
 
         public void MoveSeat(Model.Player model)
         {
-            foreach (var i in model.Equipages)
+            // foreach (var i in model.Equipages)
+            // {
+            //     var equip = Equips[i.Key];
+            //     if (i.Value is null) equip.gameObject.SetActive(false);
+            //     else
+            //     {
+            //         equip.gameObject.SetActive(true);
+            //         equip.Init(i.Value);
+            //     }
+            // }
+
+            foreach (var i in Equips)
             {
-                var equip = Equips[i.Key];
-                if (i.Value is null) equip.gameObject.SetActive(false);
+                if (!model.Equipments.ContainsKey(i.Key)) i.Value.gameObject.SetActive(false);
                 else
                 {
-                    equip.gameObject.SetActive(true);
-                    equip.Init(i.Value);
+                    i.Value.gameObject.SetActive(true);
+                    i.Value.Init(model.Equipments[i.Key]);
                 }
             }
         }
 
-        public void ShowEquip(Model.Equipage card)
+        public void ShowEquip(Model.Equipment card)
         {
             if (card.Src != self.model) return;
 
-            Equips[card.Type].gameObject.SetActive(true);
-            Equips[card.Type].Init(card);
+            Equips[card.type].gameObject.SetActive(true);
+            Equips[card.type].Init(card);
         }
 
-        public void HideEquip(Model.Equipage card)
+        public void HideEquip(Model.Equipment card)
         {
             if (card.Owner != self.model) return;
-            if (card.Id != Equips[card.Type].Id) return;
+            if (card.id != Equips[card.type].Id) return;
 
-            Equips[card.Type].gameObject.SetActive(false);
+            Equips[card.type].gameObject.SetActive(false);
         }
     }
 }

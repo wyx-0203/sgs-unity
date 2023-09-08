@@ -12,48 +12,74 @@ namespace Model
     /// </summary>
     public class Timer : Singleton<Timer>
     {
-        // 单机模式中使用tcs阻塞线程
-        protected TaskCompletionSource<TimerMessage> waitAction;
+        public List<Player> players { get; protected set; } = new();
 
-        // 以下属性用于规定玩家的操作方式，如可指定的目标，可选中的牌等
 
-        public List<Player> players { get; protected set; } = new List<Player>();
-        public int maxCard { get; set; } = 0;
-        public int minCard { get; set; } = 0;
-        public Func<int> MaxDest { get; set; }
-        public Func<int> MinDest { get; set; }
-        public Func<Card, bool> IsValidCard { get; set; } = card => !card.IsConvert;
-        public Func<Player, bool> IsValidDest { get; set; } = dest => true;
+        #region  以下属性用于规定玩家的操作方式，如可指定的目标，可选中的牌等
+
+        private int _maxCard;
+        private int _minCard;
+        private Func<int> _maxDest;
+        private Func<int> _minDest;
+        private Func<Card, bool> _isValidCard;
+        private Func<Player, bool> _isValidDest;
 
         // 是否处于出牌阶段，此属性用于控制出牌阶段技能
-        public bool isPerformPhase { get; set; } = false;
+        public bool isPlayPhase { get; set; } = false;
         // 可取消，即是否显示取消按钮
-        public bool Refusable { get; set; } = true;
+        public bool refusable { get; set; } = true;
         // 转换牌列表，如仁德选择一种基本牌
-        public List<Card> MultiConvert { get; set; } = new List<Card>();
+        public List<Card> multiConvert { get; private set; } = new();
 
-        public string GivenSkill { get; set; } = "";
-        public string Hint { get; set; }
+        public string givenSkill { get; set; }
+        public string hint { get; set; }
         public int second { get; protected set; }
 
-        // 以下属性用于保存操作结果
+        public int maxCard
+        {
+            get => temp.skill is null ? _maxCard : temp.skill.MaxCard;
+            set => _maxCard = value;
+        }
+        public int minCard
+        {
+            get => temp.skill is null ? _minCard : temp.skill.MinCard;
+            set => _minCard = value;
+        }
+        public Func<Card, bool> isValidCard
+        {
+            get => temp.skill is null ? _isValidCard : temp.skill.IsValidCard;
+            set => _isValidCard = value;
+        }
+        public Func<int> maxDest
+        {
+            get => temp.skill is null || temp.skill is Model.Converted ? _maxDest : () => temp.skill.MaxDest;
+            set => _maxDest = value;
+        }
+        public Func<int> minDest
+        {
+            get => temp.skill is null || temp.skill is Model.Converted ? _minDest : () => temp.skill.MinDest;
+            set => _minDest = value;
+        }
+        public Func<Player, bool> isValidDest
+        {
+            get => temp.skill is null || temp.skill is Model.Converted ? _isValidDest : temp.skill.IsValidDest;
+            set => _isValidDest = value;
+        }
 
-        public List<Card> cards { get; set; }
-        public List<Player> dests { get; set; }
-        public Skill skill { get; set; }
-        public string other { get; set; }
+        #endregion
+
+        public Decision temp { get; private set; } = new();
+
+        public Func<Decision> AIDecision { get; set; } = () => new Decision();
 
         /// <summary>
         /// 暂停主线程，等待玩家传入操作结果
         /// </summary>
-        /// <returns>是否有操作</returns>
-        public async Task<bool> Run(Player player)
+        public async Task<Decision> Run(Player player)
         {
             players.Clear();
             players.Add(player);
             second = minCard > 1 ? 10 + minCard : 15;
-
-            if (GameOver.Instance.Check()) return false;
 
             if (player.isSelf)
             {
@@ -62,119 +88,153 @@ namespace Model
             }
             else if (Room.Instance.IsSingle) AIAutoResult();
             StartTimerView?.Invoke();
-            bool result = await WaitResult();
+            var decision = await WaitResult();
 
             StopTimerView?.Invoke();
 
-            Operation.Instance.Clear();
-            if (Room.Instance.IsSingle && player.isAI) Operation.Instance.SetAITimer();
+            if (!decision.action && !refusable)
+            {
+                decision.action = true;
+                if (minCard > 0)
+                {
+                    var cards = player.HandCards.Union(player.Equipments.Values).Where(x => isValidCard(x));
+                    decision.cards = cards.ToList().GetRange(0, minCard);
+                }
+                if (minDest() > 0)
+                {
+                    var dests = SgsMain.Instance.AlivePlayers.Where(x => isValidDest(x));
+                    decision.dests = dests.ToList().GetRange(0, minDest());
+                }
+            }
 
             Reset();
 
-            if (skill is Converted)
+            if (decision.skill is Converted converted)
             {
-                cards = new List<Card> { (skill as Converted).Execute(cards) };
-                skill.Execute();
-                skill = null;
+                decision = new Decision
+                {
+                    action = true,
+                    cards = new List<Card> { converted.Convert(decision.cards) },
+                    dests = decision.dests,
+                };
+                await converted.Execute(decision);
             }
 
-            return result;
+            return decision;
         }
 
-        public async Task<bool> Run(Player player, int cardCount, int destCount)
+        public async Task<Decision> Run(Player player, int cardCount, int destCount)
         {
             this.maxCard = cardCount;
             this.minCard = cardCount;
 
             if (destCount > 0)
             {
-                this.MaxDest = () => destCount;
-                this.MinDest = () => destCount;
+                this.maxDest = () => destCount;
+                this.minDest = () => destCount;
             }
 
             return await Run(player);
         }
 
-        private async Task<bool> WaitResult()
+        private async Task<Decision> WaitResult()
         {
-            TimerMessage json;
-            if (Room.Instance.IsSingle)
+            if (!Room.Instance.IsSingle)
             {
-                // 若为单机模式，则通过tcs阻塞线程，等待操作结果
-                waitAction = new TaskCompletionSource<TimerMessage>();
-                json = await waitAction.Task;
-            }
-            else
-            {
-                // 若为多人模式，则等待ws通道传入消息
                 var message = await WebSocket.Instance.PopMessage();
-                json = JsonUtility.FromJson<TimerMessage>(message);
+                var json = JsonUtility.FromJson<TimerMessage>(message);
+
+                Decision.list.Add(new Decision
+                {
+                    action = json.action,
+                    cards = json.cards.Select(x => CardPile.Instance.cards[x]).ToList(),
+                    dests = json.dests.Select(x => SgsMain.Instance.players[x]).ToList(),
+                    skill = players[0].FindSkill(json.skill),
+                    converted = multiConvert.Find(x => x.name == json.other)
+                });
             }
 
-            if (json.result)
+            var decision = await Decision.Pop();
+            Debug.Log(2);
+            Delay.StopAll();
+            return decision;
+        }
+
+        public void SendDecision(Decision decision = null)
+        {
+            if (decision is null)
             {
-                cards = json.cards.Select(x => CardPile.Instance.cards[x]).ToList();
-                dests = json.dests.Select(x => SgsMain.Instance.players[x]).ToList();
-                skill = players[0].FindSkill(json.skill);
-                other = json.other;
+                decision = temp;
+                temp = new Decision();
             }
+
+            if (!decision.action)
+            {
+                decision.cards.Clear();
+                decision.dests.Clear();
+                decision.skill = null;
+                decision.converted = null;
+            }
+
+            if (Room.Instance.IsSingle) Decision.list.Add(decision);
             else
             {
-                cards = null;
-                dests = null;
-                skill = null;
-                other = "";
+                var json = new TimerMessage
+                {
+                    msg_type = "set_result",
+                    action = decision.action,
+                    cards = decision.cards.Select(x => x.id).ToList(),
+                    dests = decision.dests.Select(x => x.position).ToList(),
+                    skill = decision.skill?.Name,
+                    other = decision.converted?.name,
+                };
+                if (decision.src != null) json.src = decision.src.position;
+
+                WebSocket.Instance.SendMessage(json);
             }
-
-            return json.result;
         }
 
-        public void SendResult(List<int> cards, List<int> dests, string skill, string other, bool result = true)
+        public Decision SaveTemp()
         {
-            Delay.StopAll();
-            var json = new TimerMessage
-            {
-                msg_type = "set_result",
-                result = result,
-                cards = cards,
-                dests = dests,
-                skill = skill,
-                other = other,
-            };
-
-            if (Room.Instance.IsSingle) waitAction.TrySetResult(json);
-            else WebSocket.Instance.SendMessage(json);
-        }
-
-        public void SendResult()
-        {
-            SendResult(null, null, null, null, false);
+            var t = temp;
+            temp = new Decision();
+            return t;
         }
 
         private void Reset()
         {
-            Hint = "";
+            hint = "";
             maxCard = 0;
             minCard = 0;
-            MaxDest = () => 0;
-            MinDest = () => 0;
-            IsValidCard = card => !card.IsConvert;
-            IsValidDest = dest => true;
-            GivenSkill = "";
-            Refusable = true;
-            MultiConvert.Clear();
+            maxDest = () => 0;
+            minDest = () => 0;
+            isValidCard = card => !card.IsConvert;
+            isValidDest = dest => true;
+            givenSkill = "";
+            isPlayPhase = false;
+            refusable = true;
+            multiConvert.Clear();
+            AIDecision = () => new Decision();
         }
 
         private async void AIAutoResult()
         {
-            if (!await new Delay(1).Run()) return;
-            SendResult();
+            if (!await new Delay(1f).Run()) return;
+            if (givenSkill != "" && players[0].FindSkill(givenSkill) is Triggered triggered)
+            {
+                temp.skill = triggered;
+            }
+
+            SendDecision(AIDecision());
+            Debug.Log(1);
+            temp.skill = null;
+
         }
 
         private async void SelfAutoResult()
         {
             if (!await new Delay(second).Run()) return;
-            SendResult();
+            SendDecision();
         }
 
         public UnityAction StartTimerView { get; set; }

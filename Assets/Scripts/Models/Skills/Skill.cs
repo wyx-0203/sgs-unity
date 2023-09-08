@@ -1,6 +1,7 @@
-using System.Collections.Generic;
-using UnityEngine.Events;
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using UnityEngine.Events;
 
 namespace Model
 {
@@ -14,23 +15,41 @@ namespace Model
         // 技能名称
         public string Name { get; set; }
         // 锁定技
-        public virtual bool Passive => false;
+        public virtual bool isObey => false;
         // 限定技
         // public virtual bool Ultimate => false;
         // public bool UltimateIsDone { get; protected set; }
         // 限定次数
         public virtual int TimeLimit => int.MaxValue;
         // 已使用次数
-        public int Time { get; set; }
+        public int Time { get; protected set; }
 
-        public Skill(Player src)
+        // public Skill(Player src)
+        // {
+        //     Src = src;
+        //     // Name = name;
+        //     // Passive = passive;
+        //     // TimeLimit = timeLimit;
+
+        //     SetActive(true);
+        // }
+
+        public void Init(string name, Player src)
         {
+            Name = name;
             Src = src;
-            // Name = name;
-            // Passive = passive;
-            // TimeLimit = timeLimit;
-
+            src.skills.Add(this);
             SetActive(true);
+            TurnSystem.Instance.AfterTurn += ResetAfterTurn;
+            TurnSystem.Instance.AfterPlay += ResetAfterPlay;
+        }
+
+        public void Remove()
+        {
+            SetActive(false);
+            TurnSystem.Instance.AfterTurn -= ResetAfterTurn;
+            TurnSystem.Instance.AfterPlay -= ResetAfterPlay;
+            Src.skills.Remove(this);
         }
 
         /// <summary>
@@ -79,7 +98,7 @@ namespace Model
             }
             else
             {
-                if (Enabled <= 0) return;
+                // if (Enabled <= 0) return;
                 Enabled--;
                 if (Enabled <= 0) OnDisable();
             }
@@ -97,24 +116,22 @@ namespace Model
             && Enabled > 0
             && (this is not Ultimate || !(this as Ultimate).IsDone);
 
-        public virtual void Execute()
+        public virtual async Task Execute(Decision decision = null)
         {
+            await Task.Yield();
             Time++;
-            // if (this is Ultimate) (this as Ultimate).IsDone = true;
-            Dests = Timer.Instance.dests;
-            useSkillView(this);
+            Dests = decision?.dests;
+            useSkillView?.Invoke(this);
+            UnityEngine.Debug.Log(Src.posStr + "号位使用了" + Name);
         }
 
-        protected virtual void Reset()
-        {
-            Time = 0;
-        }
+        protected virtual void ResetAfterTurn() => Time = 0;
+
+        protected virtual void ResetAfterPlay() { }
 
         public List<Player> Dests { get; private set; }
 
-        protected Player firstDest => Operation.Instance.Dests.Count == 0 ? null : Operation.Instance.Dests[0];
-
-        protected bool isAI => Room.Instance.IsSingle && Src.isAI;
+        protected Player firstDest => Timer.Instance.temp.dests.Count == 0 ? null : Timer.Instance.temp.dests[0];
 
         private static UnityAction<Skill> useSkillView;
         public static event UnityAction<Skill> UseSkillView
@@ -122,6 +139,8 @@ namespace Model
             add => useSkillView += value;
             remove => useSkillView -= value;
         }
+
+        public virtual Decision AIDecision() => new Decision();
 
         public static Dictionary<string, Type> SkillMap { get; set; } = new Dictionary<string, Type>
         {
@@ -166,6 +185,9 @@ namespace Model
         };
     }
 
+    /// <summary>
+    /// 限定技
+    /// </summary>
     public interface Ultimate
     {
         public bool IsDone { get; set; }

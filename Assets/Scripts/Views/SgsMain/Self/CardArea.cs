@@ -18,16 +18,14 @@ namespace View
         private Model.Timer timer => Model.Timer.Instance;
 
         // 已选卡牌
-        private List<Model.Card> SelectedCard => Model.Operation.Instance.Cards;
-        // 已选装备
-        private List<Model.Card> SelectedEquip => Model.Operation.Instance.Equips;
+        private List<Model.Card> SelectedCard => Model.Timer.Instance.temp.cards;
         // 已选技能
-        private Model.Skill skill => Model.Operation.Instance.skill;
+        private Model.Skill skill => Model.Timer.Instance.temp.skill;
         // 转化牌
         private Model.Card Converted
         {
-            get => Model.Operation.Instance.Converted;
-            set => Model.Operation.Instance.Converted = value;
+            get => Model.Timer.Instance.temp.converted;
+            set => Model.Timer.Instance.temp.converted = value;
         }
 
         public int MaxCount { get; private set; }
@@ -124,16 +122,16 @@ namespace View
 
             foreach (var i in operation.Cards)
             {
-                if (!handcards.ContainsKey(i.Id)) continue;
+                if (!handcards.ContainsKey(i.id)) continue;
 
                 if (!operation.player.teammate.HandCards.Contains(i))
                 {
-                    Destroy(handcards[i.Id].gameObject);
-                    handcards.Remove(i.Id);
+                    Destroy(handcards[i.id].gameObject);
+                    handcards.Remove(i.id);
                 }
 
                 // 若卡牌还在队友手中，则不移除
-                else handcards[i.Id].gameObject.SetActive(self != operation.player);
+                else handcards[i.id].gameObject.SetActive(self != operation.player);
             }
             MoveAll(0.1f);
         }
@@ -144,17 +142,8 @@ namespace View
         public void Init()
         {
             // 可选卡牌数量
-
-            if (skill != null)
-            {
-                MaxCount = skill.MaxCard;
-                MinCount = skill.MinCard;
-            }
-            else
-            {
-                MaxCount = timer.maxCard;
-                MinCount = timer.minCard;
-            }
+            MaxCount = timer.maxCard;
+            MinCount = timer.minCard;
 
             // 无懈可击
             if (timer is Model.WxkjTimer)
@@ -197,44 +186,29 @@ namespace View
         /// </summary>
         public void Update_()
         {
-            int count = SelectedCard.Count + SelectedEquip.Count;
-
             // 若已选中手牌数量超出范围，取消第一张选中的手牌
-            while (count > MaxCount)
+            while (SelectedCard.Count > MaxCount)
             {
-                if (SelectedCard.Count > 0) handcards[SelectedCard[0].Id].Unselect();
-                else EquipArea.Instance.Equips.Values.ToList().Find(x => x.model == SelectedEquip[0]).Unselect();
-
-                count--;
+                if (handcards.ContainsKey(SelectedCard[0].id)) handcards[SelectedCard[0].id].Unselect();
+                else EquipArea.Instance.Equips.Values.First(x => x.model == SelectedCard[0]).Unselect();
             }
 
-            IsValid = count >= MinCount;
+            IsValid = SelectedCard.Count >= MinCount;
 
             // 转化牌
             if (IsValid && skill != null && skill is Model.Converted)
             {
-                Converted = (skill as Model.Converted).Execute(SelectedCard);
+                Converted = (skill as Model.Converted).Convert(SelectedCard);
             }
             else Converted = null;
 
             // 判断每张卡牌是否可选
             if (MaxCount > 0)
             {
-                if (skill != null)
+                foreach (var i in handcards.Values)
                 {
-                    foreach (var i in handcards.Values)
-                    {
-                        if (!i.gameObject.activeSelf) continue;
-                        i.button.interactable = skill.IsValidCard(i.model);
-                    }
-                }
-                else
-                {
-                    foreach (var i in handcards.Values)
-                    {
-                        if (!i.gameObject.activeSelf) continue;
-                        i.button.interactable = timer.IsValidCard(i.model);
-                    }
+                    if (!i.gameObject.activeSelf) continue;
+                    i.button.interactable = timer.isValidCard(i.model);
                 }
             }
 
@@ -248,19 +222,19 @@ namespace View
 
         public void InitConvertCard()
         {
-            ConvertIsValid = timer.MultiConvert.Count == 0;
+            ConvertIsValid = timer.multiConvert.Count == 0;
             if (!IsValid || ConvertIsValid) return;
 
             foreach (var i in handcards.Values) i.button.interactable = false;
-            foreach (var i in timer.MultiConvert)
+            foreach (var i in timer.multiConvert)
             {
                 var card = Card.NewHandCard(i);
                 card.SetParent(handCardArea);
-                ConvertCards.Add(i.Name, card.handCard);
+                ConvertCards.Add(i.name, card.handCard);
             }
             foreach (var i in ConvertCards.Values)
             {
-                i.button.interactable = timer.IsValidCard(i.model);
+                i.button.interactable = timer.isValidCard(i.model);
             }
 
             foreach (var i in ConvertCards.Values) if (i.gameObject.activeSelf) i.SetShadow();

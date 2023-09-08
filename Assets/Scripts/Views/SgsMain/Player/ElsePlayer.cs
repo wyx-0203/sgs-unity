@@ -41,8 +41,8 @@ namespace View
             Model.LoseCard.ActionView += UpdateHandCardCount;
 
             // 装备区
-            Model.Equipage.AddEquipView += ShowEquip;
-            Model.Equipage.RemoveEquipView += HideEquip;
+            Model.Equipment.AddEquipView += ShowEquip;
+            Model.Equipment.RemoveEquipView += HideEquip;
 
             player = GetComponentInParent<Player>();
 
@@ -75,8 +75,8 @@ namespace View
 
             Model.LoseCard.ActionView -= UpdateHandCardCount;
 
-            Model.Equipage.AddEquipView -= ShowEquip;
-            Model.Equipage.RemoveEquipView -= HideEquip;
+            Model.Equipment.AddEquipView -= ShowEquip;
+            Model.Equipment.RemoveEquipView -= HideEquip;
         }
 
         // private void OnEnable()
@@ -166,20 +166,20 @@ namespace View
             UpdateHandCardCount();
         }
 
-        private void ShowEquip(Model.Equipage card)
+        private void ShowEquip(Model.Equipment card)
         {
             if (card.Src != model) return;
 
-            equipages[card.Type].gameObject.SetActive(true);
-            equipages[card.Type].Init(card);
+            equipages[card.type].gameObject.SetActive(true);
+            equipages[card.type].Init(card);
         }
 
-        private void HideEquip(Model.Equipage card)
+        private void HideEquip(Model.Equipment card)
         {
             if (card.Owner != model) return;
-            if (card.Id != equipages[card.Type].Id) return;
+            if (card.id != equipages[card.type].Id) return;
 
-            equipages[card.Type].gameObject.SetActive(false);
+            equipages[card.type].gameObject.SetActive(false);
         }
 
         /// <summary>

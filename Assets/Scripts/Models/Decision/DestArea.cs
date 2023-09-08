@@ -2,8 +2,8 @@ namespace Model
 {
     public class DestArea : Singleton<DestArea>
     {
-        private Operation operation => Operation.Instance;
-        private Card card => operation.Converted is null ? operation.Cards[0] : operation.Converted;
+        // private Decision Timer.Instance.temp => Decision.temp;
+        private Card card => Timer.Instance.temp.converted is null ? Timer.Instance.temp.cards[0] : Timer.Instance.temp.converted;
 
         /// <summary>
         /// 根据玩家和卡牌id初始化目标数量
@@ -11,23 +11,21 @@ namespace Model
         /// <returns>目标数量最大值与最小值</returns>
         public int MaxDest()
         {
-            var player = Timer.Instance.players[0];
+            // var player = Timer.Instance.players[0];
 
-            switch (card.Name)
+            switch (card.name)
             {
-                case "杀" + "":
+                case "杀":
                 case "雷杀":
                 case "火杀":
-                    return ShaMaxDest(player);
                 case "决斗":
                 case "过河拆桥":
                 case "顺手牵羊":
                 case "乐不思蜀":
                 case "兵粮寸断":
                 case "火攻":
-                    return 1;
                 case "借刀杀人":
-                    return 2;
+                    return 1;
                 case "铁索连环":
                     return 2;
                 default:
@@ -38,7 +36,7 @@ namespace Model
         public int MinDest()
         {
 
-            switch (card.Name)
+            switch (card.name)
             {
                 case "杀":
                 case "雷杀":
@@ -49,9 +47,8 @@ namespace Model
                 case "乐不思蜀":
                 case "兵粮寸断":
                 case "火攻":
-                    return 1;
                 case "借刀杀人":
-                    return 2;
+                    return 1;
                 default:
                     return 0;
             }
@@ -60,7 +57,7 @@ namespace Model
         public int ShaMaxDest(Player player)
         {
             int maxCount = 1;
-            if (player.HandCardCount == 1 && player.Equipages["武器"] is 方天画戟) maxCount += 2;
+            if (player.HandCardCount == 1 && player.Equipments["武器"] is 方天画戟) maxCount += 2;
             return maxCount;
         }
 
@@ -71,9 +68,9 @@ namespace Model
         {
             var src = TurnSystem.Instance.CurrentPlayer;
             if (!dest.IsAlive) return false;
-            if (src != dest && src.UnlimitedDst(card, dest)) return true;
+            if (src != dest && src.UnlimitDst(card, dest)) return true;
 
-            switch (card.Name)
+            switch (card.name)
             {
                 case "杀":
                 case "火杀":
@@ -84,14 +81,20 @@ namespace Model
                     return src == dest;
 
                 case "过河拆桥":
-                    return src != dest && dest.RegionHaveCard;
+                    return src != dest && !dest.RegionIsEmpty;
 
                 case "顺手牵羊":
-                    return src.GetDistance(dest) == 1 && dest.RegionHaveCard;
+                    return src.GetDistance(dest) == 1 && !dest.RegionIsEmpty;
 
                 case "借刀杀人":
-                    if (operation.Dests.Count == 0) return src != dest && dest.weapon != null;
-                    else return UseSha(operation.Dests[0], dest);
+                    if (dest.weapon is null || src == dest) return false;
+                    foreach (var i in SgsMain.Instance.players)
+                    {
+                        if (UseSha(dest, i)) return true;
+                    }
+                    return false;
+                // if (operation.dests.Count == 0) return src != dest && dest.weapon != null;
+                // else return UseSha(operation.dests[0], dest);
 
                 case "决斗":
                     return src != dest;

@@ -40,6 +40,8 @@ namespace Model
         // 位置
         public int position { get; set; }
         public string posStr => (position + 1).ToString();
+
+        public override string ToString() => general.name;
         // 上家
         public Player last { get; set; }
         // 下家
@@ -58,14 +60,11 @@ namespace Model
         public bool IsLocked { get; set; } = false;
 
         // 装备区
-        public Dictionary<string, Equipage> Equipages { get; set; } = new Dictionary<string, Equipage>
-        {
-            { "武器", null }, { "防具", null }, { "加一马", null }, { "减一马", null }
-        };
-        public Weapon weapon { get => Equipages["武器"] as Weapon; }
-        public Armor armor { get => Equipages["防具"] as Armor; }
-        public Equipage plusHorse { get => Equipages["加一马"]; }
-        public Equipage subHorse { get => Equipages["减一马"]; }
+        public Dictionary<string, Equipment> Equipments { get; set; } = new();
+        public Weapon weapon => Equipments.ContainsKey("武器") ? Equipments["武器"] as Weapon : null;
+        public Armor armor => Equipments.ContainsKey("防具") ? Equipments["防具"] as Armor : null;
+        public PlusHorse plusHorse => Equipments.ContainsKey("加一马") ? Equipments["加一马"] as PlusHorse : null;
+        public SubHorse subHorse => Equipments.ContainsKey("减一马") ? Equipments["减一马"] as SubHorse : null;
 
         // 判定区
         public List<DelayScheme> JudgeArea { get; set; } = new List<DelayScheme>();
@@ -100,12 +99,14 @@ namespace Model
             return Mathf.Max(distance, 1);
         }
 
+        public bool DestInAttackRange(Player dest) => dest != this && AttackRange >= GetDistance(dest);
+
         /// <summary>
         /// 判断区域内是否有牌
         /// </summary>
-        public bool RegionHaveCard => CardCount > 0 || JudgeArea.Count > 0;
+        public bool RegionIsEmpty => CardCount + JudgeArea.Count == 0;
 
-        public int CardCount => HandCardCount + Equipages.Values.Where(x => x != null).Count();
+        public int CardCount => HandCardCount + Equipments.Values.Where(x => x != null).Count();
 
         /// <summary>
         /// 按类型查找手牌(人机)
@@ -143,19 +144,19 @@ namespace Model
             {
                 if (!Skill.SkillMap.ContainsKey(str)) continue;
 
-                var skill = (Activator.CreateInstance(Skill.SkillMap[str], this) as Skill);
-                skill.Name = str;
-                skills.Add(skill);
+                var skill = Activator.CreateInstance(Skill.SkillMap[str]) as Skill;
+                skill.Init(str, this);
+                // skills.Add(skill);
             }
         }
 
         /// <summary>
         /// 无次数限制
         /// </summary>
-        public Func<Card, bool> unlimitedCard = (card) => false;
-        public bool UnlimitedCard(Card card)
+        public Func<Card, bool> unlimitTimes = (card) => false;
+        public bool UnlimitTimes(Card card)
         {
-            foreach (Func<Card, bool> i in unlimitedCard.GetInvocationList())
+            foreach (Func<Card, bool> i in unlimitTimes.GetInvocationList())
             {
                 if (i(card)) return true;
             }
@@ -191,10 +192,10 @@ namespace Model
         /// <summary>
         /// 无距离限制
         /// </summary>
-        public Func<Card, Player, bool> unlimitedDst = (card, player) => false;
-        public bool UnlimitedDst(Card card, Player dest)
+        public Func<Card, Player, bool> unlimitDst = (card, player) => false;
+        public bool UnlimitDst(Card card, Player dest)
         {
-            foreach (Func<Card, Player, bool> i in unlimitedDst.GetInvocationList())
+            foreach (Func<Card, Player, bool> i in unlimitDst.GetInvocationList())
             {
                 if (i(card, dest)) return true;
             }

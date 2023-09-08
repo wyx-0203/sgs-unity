@@ -10,7 +10,7 @@ namespace View
         public GameObject cardGroupPrefab;
 
         // 存放场上除手牌区和弃牌区以外的卡牌
-        private Dictionary<int, Card> movingCards = new Dictionary<int, Card>();
+        private Dictionary<int, Card> movingCards = new();
 
         private Model.Player self => SgsMain.Instance.self.model;
 
@@ -81,7 +81,7 @@ namespace View
         /// </summary>
         private Vector3 SelfCardPos(Model.Card model)
         {
-            if (self.HandCards.Contains(model)) return CardArea.Instance.handcards[model.Id].transform.position;
+            if (self.HandCards.Contains(model)) return CardArea.Instance.handcards[model.id].transform.position;
             else return Self.Instance.transform.position;
         }
 
@@ -122,7 +122,7 @@ namespace View
                 {
                     var card = Card.New(i, true);
                     card.SetParent(cardGroup);
-                    movingCards.Add(i.Id, card);
+                    movingCards.Add(i.id, card);
                 }
 
                 // 等待一帧，使所有transform生效
@@ -131,8 +131,8 @@ namespace View
                 // 设置终点
                 foreach (var i in cards)
                 {
-                    DiscardArea.Instance.Add(movingCards[i.Id]);
-                    movingCards.Remove(i.Id);
+                    DiscardArea.Instance.Add(movingCards[i.id]);
+                    movingCards.Remove(i.id);
                 }
 
             }
@@ -160,7 +160,7 @@ namespace View
             {
                 var card = model.player == self ? Card.NewHandCard(i) : Card.New(i, model.player.isSelf);
                 card.SetParent(cardGroup);
-                movingCards.Add(i.Id, card);
+                movingCards.Add(i.id, card);
             }
 
             await UpdateCardGroup();
@@ -170,8 +170,8 @@ namespace View
             {
                 foreach (var i in model.Cards)
                 {
-                    CardArea.Instance.Add(movingCards[i.Id]);
-                    movingCards.Remove(i.Id);
+                    CardArea.Instance.Add(movingCards[i.id]);
+                    movingCards.Remove(i.id);
                 }
                 await MoveAll(0.3f);
             }
@@ -181,7 +181,7 @@ namespace View
             {
                 cardGroup.position = destPos;
                 await MoveAll(0.3f);
-                foreach (var i in model.Cards) movingCards.Remove(i.Id);
+                foreach (var i in model.Cards) movingCards.Remove(i.id);
             }
         }
 
@@ -199,7 +199,8 @@ namespace View
                 foreach (var i in cards)
                 {
                     var card = Card.NewHandCard(i);
-                    movingCards.Add(i.Id, card);
+                    while (movingCards.ContainsKey(i.id)) await Task.Yield();
+                    movingCards.Add(i.id, card);
                     card.SetParent(cardGroup);
                 }
 
@@ -208,8 +209,8 @@ namespace View
                 // 终点为手牌区
                 foreach (var i in cards)
                 {
-                    CardArea.Instance.Add(movingCards[i.Id]);
-                    movingCards.Remove(i.Id);
+                    CardArea.Instance.Add(movingCards[i.id]);
+                    movingCards.Remove(i.id);
                 }
 
                 await MoveAll(0.3f);
@@ -226,7 +227,7 @@ namespace View
                     card.transform.position = SelfCardPos(i);
 
                     card.SetParent(cardGroup);
-                    movingCards.Add(i.Id, card);
+                    movingCards.Add(i.id, card);
                 }
             }
 
@@ -238,7 +239,7 @@ namespace View
                 {
                     var card = Card.New(i, known);
                     card.SetParent(cardGroup);
-                    movingCards.Add(i.Id, card);
+                    movingCards.Add(i.id, card);
                 }
 
                 await UpdateCardGroup();
@@ -248,7 +249,7 @@ namespace View
             cardGroup.position = Pos(dest);
 
             await MoveAll(0.3f);
-            foreach (var i in cards) movingCards.Remove(i.Id);
+            foreach (var i in cards) movingCards.Remove(i.id);
         }
 
         private void GetCardFromElse(Model.GetCardFromElse model)
@@ -283,7 +284,7 @@ namespace View
                     var card = Card.NewHandCard(i);
 
                     // 起点为弃牌位置
-                    var discard = DiscardArea.Instance.Cards.Find(x => x.Id == i.Id);
+                    var discard = DiscardArea.Instance.Cards.Find(x => x.Id == i.id);
                     if (discard != null) card.transform.position = discard.transform.position;
 
                     // 终点为手牌区
@@ -301,16 +302,16 @@ namespace View
                     var card = Card.New(i, true);
 
                     // 起点为弃牌位置
-                    var discard = DiscardArea.Instance.Cards.Find(x => x.Id == i.Id);
+                    var discard = DiscardArea.Instance.Cards.Find(x => x.Id == i.id);
                     if (discard != null) card.transform.position = discard.transform.position;
 
                     // 终点为武将位置
                     card.SetParent(cardGroup);
-                    movingCards.Add(i.Id, card);
+                    movingCards.Add(i.id, card);
                 }
 
                 await MoveAll(0.3f);
-                foreach (var i in model.Cards) movingCards.Remove(i.Id);
+                foreach (var i in model.Cards) movingCards.Remove(i.id);
             }
         }
 

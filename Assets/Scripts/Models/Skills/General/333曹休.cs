@@ -7,8 +7,7 @@ namespace Model
 {
     public class 千驹 : Triggered
     {
-        public 千驹(Player src) : base(src) { }
-        public override bool Passive => true;
+        public override bool isObey => true;
 
         public override void OnEnable()
         {
@@ -37,8 +36,6 @@ namespace Model
     }
     public class 倾袭 : Triggered
     {
-        public 倾袭(Player src) : base(src) { }
-
         public override int MaxDest => 1;
         public override int MinDest => 1;
         public override bool IsValidDest(Player dest1) => dest1 == dest;
@@ -55,53 +52,39 @@ namespace Model
 
         public async Task Execute(Card card)
         {
-            var sha = card as 杀;
-            if (sha is null) return;
+            if (card is not 杀 sha) return;
             foreach (var i in card.Dests)
             {
-                // if (i.HandCardCount > Src.HandCardCount && i.Hp < Src.Hp) continue;
-
                 dest = i;
 
-                if (!await base.ShowTimer()) continue;
-                Execute();
+                if (!(await base.WaitDecision()).action) continue;
+                await Execute();
 
-                int count = SgsMain.Instance.AlivePlayers.Where(x => DestArea.Instance.UseSha(Src, x)).Count();
+                int count = SgsMain.Instance.AlivePlayers.Where(x => Src.DestInAttackRange(x)).Count();
                 count = Mathf.Min(count, Src.weapon is null ? 2 : 4);
-                Timer.Instance.Hint = "弃置" + count + "张手牌，然后弃置其武器牌，或令此牌伤害+1";
-                Timer.Instance.IsValidCard = x => i.HandCards.Contains(x);
-                bool result = await Timer.Instance.Run(i, count, 0);
 
-                // if(i.isAI)
-                // {
+                Timer.Instance.hint = "弃置" + count + "张手牌，然后弃置其武器牌，或令此牌伤害+1";
+                Timer.Instance.isValidCard = x => i.HandCards.Contains(x);
+                Timer.Instance.AIDecision = count <= 3 ? AI.AutoDecision : () => new();
 
-                // }
+                var decision = await Timer.Instance.Run(i, count, 0);
 
-                if (result)
+                if (decision.action)
                 {
-                    await new Discard(i, Timer.Instance.cards).Execute();
+                    await new Discard(i, decision.cards).Execute();
                     if (Src.weapon != null) await new Discard(Src, new List<Card> { Src.weapon }).Execute();
                 }
                 else
                 {
                     sha.DamageValue[i.position]++;
                     var judge = await new Judge().Execute();
-                    if (judge.Suit == "红桃" || judge.Suit == "方片") sha.ShanCount[i.position] = 0;
+                    if (judge.isRed) sha.ShanCount[i.position] = 0;
                 }
             }
         }
 
         private Player dest;
 
-
-        // protected override bool AIResult() => Src.team != dest.team;
-
-
-        protected override bool AIResult()
-        {
-            bool result = dest.team != Src.team;
-            if (result) AI.Instance.SelectDest();
-            return result;
-        }
+        public override Decision AIDecision() => new Decision { action = (dest.team != Src.team) == AI.CertainValue };
     }
 }

@@ -162,15 +162,15 @@ namespace View
             // var instance = ABManager.Instance.ABMap["sgsasset"].LoadAsset<GameObject>("判定牌");
             var instance = Instantiate(judgeCardPrefab);
             instance.transform.SetParent(judgeArea, false);
-            instance.name = card.Name;
-            instance.GetComponent<Image>().sprite = Sprites.Instance.judgeCard[card.Name];
+            instance.name = card.name;
+            instance.GetComponent<Image>().sprite = Sprites.Instance.judgeCard[card.name];
         }
 
         private void RemoveJudgeCard(Model.DelayScheme card)
         {
             if (card.Owner != model) return;
 
-            Destroy(judgeArea.Find(card.Name)?.gameObject);
+            Destroy(judgeArea.Find(card.name)?.gameObject);
         }
 
         private void OnLock(Model.SetLock setLock)

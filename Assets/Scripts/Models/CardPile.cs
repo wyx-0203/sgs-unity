@@ -29,11 +29,11 @@ namespace Model
                 if (!cardMap.ContainsKey(i.name)) continue;
 
                 var card = Activator.CreateInstance(cardMap[i.name]) as Card;
-                card.Id = i.id;
-                card.Suit = i.suit;
-                card.Weight = i.weight;
-                card.Type = i.type;
-                card.Name = i.name;
+                card.id = i.id;
+                card.suit = i.suit;
+                card.weight = i.weight;
+                card.type = i.type;
+                card.name = i.name;
 
                 cards[i.id] = card;
             }
@@ -81,7 +81,7 @@ namespace Model
         /// </summary>
         private async Task Shuffle()
         {
-            List<int> cardIds = DiscardPile.Select(x => x.Id).ToList();
+            List<int> cardIds = DiscardPile.Select(x => x.id).ToList();
 
             if (Room.Instance.IsSingle || TurnSystem.Instance.CurrentPlayer.isSelf)
             {

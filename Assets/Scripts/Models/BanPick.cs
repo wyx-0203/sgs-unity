@@ -134,7 +134,7 @@ namespace Model
 
         private async void BpAutoResult()
         {
-            if (!await new Delay(Current.isSelf ? second : 1).Run()) return;
+            if (!await new Delay(Current.isSelf ? second : 0.1f).Run()) return;
             SendBpResult(Pool[0].id);
         }
 
@@ -195,7 +195,7 @@ namespace Model
 
         private async void AIAutoResult()
         {
-            if (!await new Delay(1).Run()) return;
+            if (!await new Delay(0.1f).Run()) return;
 
             var team = !Self.Instance.team;
             var list = TeamPool[team].Keys.OrderBy(x => Random.value).ToList();

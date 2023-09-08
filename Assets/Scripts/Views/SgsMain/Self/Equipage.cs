@@ -19,7 +19,7 @@ namespace View
         public EquipArea equipArea => EquipArea.Instance;
         public OperationArea operationArea => OperationArea.Instance;
         public Model.Card model => Model.CardPile.Instance.cards[Id];
-        private Model.Skill skill { get => Model.Operation.Instance.skill; set => Model.Operation.Instance.skill = value; }
+        private Model.Skill skill { get => Model.Timer.Instance.temp.skill; set => Model.Timer.Instance.temp.skill = value; }
 
         private void Start()
         {
@@ -27,16 +27,16 @@ namespace View
             button.onClick.AddListener(ClickCard);
         }
 
-        public void Init(Model.Equipage card)
+        public void Init(Model.Equipment card)
         {
-            Id = card.Id;
-            name = card.Name;
+            Id = card.id;
+            name = card.name;
 
             var sprites = Sprites.Instance;
             cardImage.sprite = sprites.equipImage[name];
-            suit.sprite = sprites.cardSuit[card.Suit];
-            if (card.Suit == "黑桃" || card.Suit == "草花") weight.sprite = sprites.blackWeight[card.Weight];
-            else weight.sprite = sprites.redWeight[card.Weight];
+            suit.sprite = sprites.cardSuit[card.suit];
+            if (card.suit == "黑桃" || card.suit == "草花") weight.sprite = sprites.blackWeight[card.weight];
+            else weight.sprite = sprites.redWeight[card.weight];
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace View
         private void ClickCard()
         {
             // 可发动丈八蛇矛
-            if (name == "丈八蛇矛" && Model.Timer.Instance.IsValidCard(Model.Card.Convert<Model.杀>()))
+            if (name == "丈八蛇矛" && Model.Timer.Instance.isValidCard(Model.Card.Convert<Model.杀>()))
             {
                 // var skill = SkillArea.Instance.SelectedSkill;
                 if (skill is null)
@@ -83,7 +83,7 @@ namespace View
             IsSelected = true;
             GetComponent<RectTransform>().anchoredPosition += new Vector2(20, 0);
             // equipArea.SelectedCard.Add(this);
-            Model.Operation.Instance.Equips.Add(model);
+            Model.Timer.Instance.temp.cards.Add(model);
         }
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace View
             IsSelected = false;
             GetComponent<RectTransform>().anchoredPosition -= new Vector2(20, 0);
             // equipArea.SelectedCard.Remove(this);
-            Model.Operation.Instance.Equips.Remove(model);
+            Model.Timer.Instance.temp.cards.Remove(model);
         }
 
         /// <summary>

@@ -33,20 +33,15 @@ namespace Model
         /// </summary>
         /// <param name="player">玩家</param>
         /// <param name="cards">卡牌数组</param>
-        public GetCard(Player player, List<Card> cards) : base(player)
-        {
-            Cards = cards;
-        }
+        public GetCard(Player player, List<Card> cards) : base(player) => Cards = cards;
         public List<Card> Cards { get; protected set; }
 
         public async Task Execute()
         {
             // 获得牌
-            foreach (var card in Cards)
-            {
-                player.HandCards.Add(card);
-                card.Src = player;
-            }
+            player.HandCards.AddRange(Cards);
+            foreach (var i in Cards) i.Src = player;
+
             actionView?.Invoke(this);
 
             // 执行获得牌后事件
@@ -64,10 +59,7 @@ namespace Model
         /// </summary>
         /// <param name="player">玩家</param>
         /// <param name="count">摸牌数</param>
-        public GetCardFromPile(Player player, int count) : base(player, new List<Card>())
-        {
-            Count = count;
-        }
+        public GetCardFromPile(Player player, int count) : base(player, new List<Card>()) => Count = count;
         public int Count { get; set; }
 
         public new async Task Execute()
@@ -89,11 +81,13 @@ namespace Model
 
         public new async Task Execute()
         {
-            var list = new List<Card>(Cards);
-            Cards.Clear();
-            foreach (var i in list) Cards.AddRange(i.InDiscardPile());
+            // var list = new List<Card>(Cards);
+            // Cards.Clear();
+            // foreach (var i in list) Cards.AddRange(i.InDiscardPile());
+            if (Cards.Count == 0) return;
+
             foreach (var i in Cards) CardPile.Instance.DiscardPile.Remove(i);
-            if (Cards.Count > 0) await base.Execute();
+            await base.Execute();
         }
     }
 
@@ -118,10 +112,7 @@ namespace Model
         /// <summary>
         /// 失去牌
         /// </summary>
-        public LoseCard(Player player, List<Card> cards) : base(player)
-        {
-            Cards = cards;
-        }
+        public LoseCard(Player player, List<Card> cards) : base(player) => Cards = cards;
         public List<Card> Cards { get; private set; }
 
         public async Task Execute()
@@ -129,7 +120,7 @@ namespace Model
             foreach (var card in Cards)
             {
                 if (player.HandCards.Contains(card)) player.HandCards.Remove(card);
-                else if (card is Equipage) await (card as Equipage).RemoveEquipage();
+                else if (card is Equipment equipage) await equipage.Remove();
             }
 
             actionView?.Invoke(this);
@@ -153,7 +144,7 @@ namespace Model
         {
             if (Cards is null || Cards.Count == 0) return;
             string str = "";
-            foreach (var card in Cards) str += "【" + card.Name + card.Suit + card.Weight.ToString() + "】";
+            foreach (var card in Cards) str += "【" + card.name + card.suit + card.weight.ToString() + "】";
             Debug.Log(player.posStr + "号位弃置了" + str);
 
             CardPile.Instance.AddToDiscard(Cards);
@@ -220,13 +211,10 @@ namespace Model
         {
             actionView?.Invoke(this);
 
-            foreach (var i in player.skills) i.SetActive(false);
-            player.skills.Clear();
+            while (player.skills.Count > 0) player.skills[0].Remove();
             player.events.Clear();
 
             if (player.IsLocked) await new SetLock(player).Execute();
-
-            if (Room.Instance.IsSingle && player.isSelf) AI.Instance.DestList.Remove(player);
 
             player.IsAlive = false;
             player.next.last = player.last;
@@ -235,17 +223,19 @@ namespace Model
 
             // 弃置所有牌
             var cards = new List<Card>(player.HandCards);
-            cards.AddRange(player.Equipages.Values.Where(x => x != null));
+            cards.AddRange(player.Equipments.Values.Where(x => x != null));
             await new Discard(player, cards).Execute();
 
-            foreach (var i in player.JudgeArea)
+            foreach (var i in new List<DelayScheme>(player.JudgeArea))
             {
                 i.RemoveToJudgeArea();
                 CardPile.Instance.AddToDiscard(i);
             }
 
-            if (!player.teammate.IsAlive) GameOver.Instance.Init(player.team);
+            if (!player.teammate.IsAlive) throw new GameOverException(player.team);
             else await new GetCardFromPile(player.teammate, 1).Execute();
+
+            if (player == TurnSystem.Instance.CurrentPlayer) throw new CurrentPlayerDie();
         }
     }
 
@@ -302,24 +292,34 @@ namespace Model
 
         public new async Task Execute()
         {
-            // 受到伤害时
-            await player.events.WhenDamaged.Execute(this);
-
-            if (Value == 0) return;
-            if (player.armor != null && !(SrcCard is 杀 && (SrcCard as 杀).IgnoreArmor)) player.armor.WhenDamaged(this);
-
-            Debug.Log(player.posStr + "受到了" + (-Value).ToString() + "点伤害");
-
-            // 受到伤害
-            if (damageType != DamageType.Normal && player.IsLocked)
+            try
             {
-                await new SetLock(player, true).Execute();
-                if (!IsConDucted) conduct = true;
-            }
-            await base.Execute();
+                // 受到伤害时
+                try { await player.events.WhenDamaged.Execute(this); }
+                catch (PreventDamage) { return; }
 
-            // 受到伤害后
-            if (player.IsAlive) await player.events.AfterDamaged.Execute(this);
+                if (player.armor != null && !(SrcCard is 杀 sha && sha.IgnoreArmor)) player.armor.WhenDamaged(this);
+
+                Debug.Log(player.ToString() + "受到了" + (-Value) + "点伤害");
+
+                // 受到伤害
+                if (damageType != DamageType.Normal && player.IsLocked)
+                {
+                    await new SetLock(player, true).Execute();
+                    if (!IsConDucted) conduct = true;
+                }
+                await base.Execute();
+
+                // 受到伤害后
+                await player.events.AfterDamaged.Execute(this);
+            }
+            catch (PlayerDie) { }
+
+            catch (CurrentPlayerDie)
+            {
+                if (conduct) await Conduct();
+                throw;
+            }
 
             if (conduct) await Conduct();
         }
@@ -354,18 +354,13 @@ namespace Model
         }
         public Player Dest { get; private set; }
 
-        public List<Card> Equips { get; private set; } = new List<Card>();
-
         public new async Task Execute()
         {
             // 获得牌
-            foreach (var card in Cards)
-            {
-                player.HandCards.Add(card);
-                card.Src = player;
-                if (card is Equipage && Dest.Equipages.ContainsValue(card as Equipage)) Equips.Add(card);
-            }
-            actionView(this);
+            player.HandCards.AddRange(Cards);
+            foreach (var i in Cards) i.Src = player;
+
+            actionView?.Invoke(this);
 
             // 目标失去牌
             await new LoseCard(Dest, Cards).Execute();
@@ -384,7 +379,7 @@ namespace Model
         {
             var JudgeCard = await CardPile.Instance.Pop();
             CardPile.Instance.AddToDiscard(JudgeCard);
-            Debug.Log("判定结果为【" + JudgeCard.Name + JudgeCard.Suit + JudgeCard.Weight + "】");
+            Debug.Log("判定结果为【" + JudgeCard.name + JudgeCard.suit + JudgeCard.weight + "】");
 
             return JudgeCard;
         }
@@ -442,7 +437,7 @@ namespace Model
 
         public async Task<bool> Execute()
         {
-            Timer.Instance.Hint = "请选择一张手牌拼点";
+            Timer.Instance.hint = "请选择一张手牌拼点";
             if (player.team == dest.team)
             {
                 card0 = (await TimerAction.SelectHandCard(player, 1))[0];
@@ -450,9 +445,9 @@ namespace Model
             }
             else
             {
-                await CompeteTimer.Instance.Run(player, dest);
-                card0 = CompeteTimer.Instance.result[player];
-                card1 = CompeteTimer.Instance.result[dest];
+                var result = await CompeteTimer.Instance.Run(player, dest);
+                card0 = result[player];
+                card1 = result[dest];
             }
 
             CardPile.Instance.AddToDiscard(card0);
@@ -460,7 +455,7 @@ namespace Model
             await new LoseCard(player, new List<Card> { card0 }).Execute();
             await new LoseCard(dest, new List<Card> { card1 }).Execute();
 
-            return card0.Weight > card1.Weight;
+            return card0.weight > card1.weight;
         }
     }
 
@@ -476,9 +471,8 @@ namespace Model
         {
             foreach (var i in Skills)
             {
-                var skill = Activator.CreateInstance(Skill.SkillMap[i], player) as Skill;
-                skill.Name = i;
-                player.skills.Add(skill);
+                var skill = Activator.CreateInstance(Skill.SkillMap[i]) as Skill;
+                skill.Init(i, player);
             }
             actionView?.Invoke(this);
         }
@@ -488,11 +482,7 @@ namespace Model
             foreach (var i in Skills)
             {
                 var skill = player.FindSkill(i);
-                if (skill != null)
-                {
-                    skill.SetActive(false);
-                    player.skills.Remove(skill);
-                }
+                if (skill != null) skill.Remove();
             }
             actionView?.Invoke(this);
         }

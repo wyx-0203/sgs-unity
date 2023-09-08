@@ -22,6 +22,10 @@ public class Singleton<T> where T : new()
         instance = default;
         if (instance is null) Debug.Log("destroy " + typeof(T).ToString());
     }
+
+    // public static T SaveInstance() => instance;
+    public static void RemoveInstance() => instance = default;
+    public static void RestoreInstance(T _instance) => instance = _instance;
 }
 
 public class GlobalSingleton<T> where T : new()

@@ -108,7 +108,7 @@ public class BanpickMessage : WebsocketMessage
 [Serializable]
 public class TimerMessage : WebsocketMessage
 {
-    public bool result;
+    public bool action;
     public List<int> cards;
     public List<int> dests;
     public string skill;

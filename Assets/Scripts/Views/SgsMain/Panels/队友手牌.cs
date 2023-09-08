@@ -20,7 +20,7 @@ namespace View
             {
                 var card = Card.New(i, true);
                 card.transform.SetParent(handCardArea.transform, false);
-                handcards.Add(i.Id, card);
+                handcards.Add(i.id, card);
             }
 
             Model.GetCard.ActionView += AddHandCard;
@@ -66,15 +66,15 @@ namespace View
             // 实例化新卡牌，添加到手牌区，并根据卡牌id初始化
             foreach (var i in operation.Cards)
             {
-                if (handcards.ContainsKey(i.Id))
+                if (handcards.ContainsKey(i.id))
                 {
-                    handcards[i.Id].transform.SetAsLastSibling();
+                    handcards[i.id].transform.SetAsLastSibling();
                     continue;
                 }
 
                 var card = Card.New(i, true);
                 card.transform.SetParent(handCardArea.transform, false);
-                handcards.Add(i.Id, card);
+                handcards.Add(i.id, card);
             }
         }
 
@@ -84,13 +84,13 @@ namespace View
 
             foreach (var i in operation.Cards)
             {
-                if (!handcards.ContainsKey(i.Id)) continue;
+                if (!handcards.ContainsKey(i.id)) continue;
                 if (!operation.player.teammate.HandCards.Contains(i))
                 {
-                    Destroy(handcards[i.Id].gameObject);
-                    handcards.Remove(i.Id);
+                    Destroy(handcards[i.id].gameObject);
+                    handcards.Remove(i.id);
                 }
-                else handcards[i.Id].gameObject.SetActive(self != operation.player);
+                else handcards[i.id].gameObject.SetActive(self != operation.player);
             }
         }
 
