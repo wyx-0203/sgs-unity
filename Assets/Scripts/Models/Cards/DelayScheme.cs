@@ -11,6 +11,7 @@ namespace Model
         public override async Task UseCard(Player src, List<Player> dests = null)
         {
             await base.UseCard(src, dests);
+            if (!UseForeachDest(dests[0])) return;
             CardPile.Instance.RemoveToDiscard(this);
             AddToJudgeArea(dests[0]);
         }
@@ -21,14 +22,14 @@ namespace Model
         {
             Owner = owner;
             Src = owner;
-            Owner.JudgeArea.Insert(0, this);
-            AddJudgeView?.Invoke(this);
+            Owner.JudgeCards.Insert(0, this);
+            if (!MCTS.Instance.isRunning) AddJudgeView?.Invoke(this);
         }
 
         public void RemoveToJudgeArea()
         {
-            Owner.JudgeArea.Remove(this);
-            RemoveJudgeView?.Invoke(this);
+            Owner.JudgeCards.Remove(this);
+            if (!MCTS.Instance.isRunning) RemoveJudgeView?.Invoke(this);
         }
 
         public abstract Task Judge();
@@ -51,7 +52,7 @@ namespace Model
         {
             CardPile.Instance.AddToDiscard(this);
             RemoveToJudgeArea();
-            if (await 无懈可击.Call(this, Owner)) return;
+            if (await 无懈可击.Call(this)) return;
             judgeCard = await new Judge().Execute();
 
             if (judgeCard.suit != "红桃") TurnSystem.Instance.SkipPhase[Phase.Play] = true;
@@ -70,7 +71,7 @@ namespace Model
         {
             CardPile.Instance.AddToDiscard(this);
             RemoveToJudgeArea();
-            if (await 无懈可击.Call(this, Owner)) return;
+            if (await 无懈可击.Call(this)) return;
             judgeCard = await new Judge().Execute();
 
             if (judgeCard.suit != "草花") TurnSystem.Instance.SkipPhase[Phase.Get] = true;
@@ -93,7 +94,7 @@ namespace Model
         public override async Task Judge()
         {
             RemoveToJudgeArea();
-            if (await 无懈可击.Call(this, Owner))
+            if (await 无懈可击.Call(this))
             {
                 AddToJudgeArea(Owner.next);
                 return;

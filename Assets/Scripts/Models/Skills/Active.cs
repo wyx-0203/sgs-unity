@@ -9,7 +9,7 @@ namespace Model
     {
         public override int TimeLimit => 1;
 
-        public override bool IsValid => Timer.Instance.isPlayPhase && base.IsValid;
+        public override bool IsValid => Timer.Instance.type == Timer.Type.PlayPhase && base.IsValid;
 
         protected override void ResetAfterPlay()
         {

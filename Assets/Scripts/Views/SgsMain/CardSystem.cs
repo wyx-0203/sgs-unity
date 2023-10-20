@@ -49,7 +49,7 @@ namespace View
         private async Task UpdateCardGroup()
         {
             // 等待一帧，使所有Card.target.transform的改变生效 (通常 SetParent(cardGroup) 后需调用此方法)
-            await Util.Instance.WaitFrame();
+            await Util.WaitFrame();
 
             // 初始化卡牌位置 (使卡组中所有卡牌实体的位置等于目标位置)
             foreach (var i in movingCards.Values) i.Move(0);
@@ -63,7 +63,7 @@ namespace View
             CardArea.Instance.MoveAll(second);
             DiscardArea.Instance.MoveAll(second);
 
-            await Util.Instance.WaitFrame();
+            await Util.WaitFrame();
             foreach (var i in movingCards.Values) i.Move(second);
         }
 
@@ -73,7 +73,7 @@ namespace View
         private Vector3 Pos(Model.Player model)
         {
             if (model == self) return Self.Instance.transform.position;
-            else return SgsMain.Instance.players[model.position].transform.position;
+            else return SgsMain.Instance.players.Find(x => x.model == model).transform.position;
         }
 
         /// <summary>
@@ -260,8 +260,8 @@ namespace View
         private void Exchange(Model.ExChange model)
         {
             bool known = model.Dest.isSelf || model.player.isSelf;
-            GetCardFromElse(model.Dest.HandCards, model.Dest, model.player, known);
-            GetCardFromElse(model.player.HandCards, model.player, model.Dest, known);
+            GetCardFromElse(new List<Model.Card>(model.Dest.HandCards), model.Dest, model.player, known);
+            GetCardFromElse(new List<Model.Card>(model.player.HandCards), model.player, model.Dest, known);
         }
 
         private void GetJudgeCard(Model.GetCard model)

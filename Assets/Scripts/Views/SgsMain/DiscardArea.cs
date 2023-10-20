@@ -53,7 +53,7 @@ namespace View
         {
             UpdateSpacing();
 
-            await Util.Instance.WaitFrame();
+            await Util.WaitFrame();
             foreach (var i in Cards) i.Move(second);
         }
     }

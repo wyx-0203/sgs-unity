@@ -20,12 +20,12 @@ public class Singleton<T> where T : new()
     {
         UnityEngine.SceneManagement.SceneManager.sceneUnloaded -= OnSceneUnloaded;
         instance = default;
-        if (instance is null) Debug.Log("destroy " + typeof(T).ToString());
+        // if (instance is null) Debug.Log("destroy " + typeof(T).ToString());
     }
 
     // public static T SaveInstance() => instance;
-    public static void RemoveInstance() => instance = default;
-    public static void RestoreInstance(T _instance) => instance = _instance;
+    public static void NewInstance() => instance = new();
+    public static void SetInstance(T _instance) => instance = _instance;
 }
 
 public class GlobalSingleton<T> where T : new()

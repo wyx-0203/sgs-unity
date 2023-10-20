@@ -56,37 +56,16 @@ namespace Model
             await WaitResult();
             await WaitResult();
 
-            Delay.StopAll();
+            // Delay.StopAll();
             StopTimerView?.Invoke();
 
             currentInstance = null;
             return result;
         }
 
-        private async Task WaitResult()
-        {
-            if (!Room.Instance.IsSingle)
-            {
-                var message = await WebSocket.Instance.PopMessage();
-                var json = JsonUtility.FromJson<TimerMessage>(message);
-
-                Decision.list.Add(new Decision
-                {
-                    src = SgsMain.Instance.players[json.src],
-                    action = json.action,
-                    cards = json.cards.Select(x => CardPile.Instance.cards[x]).ToList(),
-                });
-            }
-
-            var decision = await Decision.Pop();
-
-            var card = decision.cards.Count == 1 ? decision.cards[0] : decision.src.HandCards[0];
-            result.Add(decision.src, card);
-        }
-
         private async void AIAutoResult()
         {
-            if (!await new Delay(1).Run()) return;
+            await new Delay(1).Run();
 
             foreach (var i in players)
             {
@@ -113,7 +92,7 @@ namespace Model
         // public new async Task<Decision> Pop() => await Singleton<Timer>.Instance.Pop();
 
         // public static new CompeteTimer SaveInstance() => instance;
-        public static new void RemoveInstance() => instance = default;
-        public static void RestoreInstance(CompeteTimer _instance) => instance = _instance;
+        public static new void NewInstance() => instance = new();
+        public static void SetInstance(CompeteTimer _instance) => instance = _instance;
     }
 }

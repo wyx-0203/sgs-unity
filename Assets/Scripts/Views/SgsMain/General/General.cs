@@ -1,14 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Threading.Tasks;
 
 namespace View
 {
     public class General : MonoBehaviour
     {
-        public int Id { get; private set; }
-
         // 武将信息
 
         public Image skin;
@@ -48,16 +45,29 @@ namespace View
         public void Init(Model.General model)
         {
             this.model = model;
-            Id = model.id;
 
             generalName.text = model.name;
             nationBack.sprite = nationBackSprite[nationDict[model.nation]];
             nation.sprite = nationSprite[nationDict[model.nation]];
 
-            InitHp(model.hp_limit);
+            SetHpLimit(model.hp_limit);
 
             // 计算得到SkinId,例如 2 => 100201
-            UpdateSkin(1 + Id.ToString().PadLeft(3, '0') + "01", "经典形象");
+            UpdateSkin(1 + model.id.ToString().PadLeft(3, '0') + "01", "经典形象");
+        }
+
+        public void Init(Model.Player model)
+        {
+            this.model = model.general;
+
+            generalName.text = model.general.name;
+            nationBack.sprite = nationBackSprite[nationDict[model.general.nation]];
+            nation.sprite = nationSprite[nationDict[model.general.nation]];
+
+            SetHpLimit(model.HpLimit);
+            SetHp(model.Hp, model.HpLimit);
+
+            UpdateSkin(model.currentSkin.id.ToString(), model.currentSkin.name);
         }
 
         /// <summary>
@@ -78,7 +88,7 @@ namespace View
         /// <summary>
         /// 更新体力上限
         /// </summary>
-        public void InitHp(int hpLimit)
+        public void SetHpLimit(int hpLimit)
         {
             // 若体力上限<=5，用阴阳鱼表示
             if (hpLimit <= 5)
@@ -95,14 +105,14 @@ namespace View
                 imageGroup.SetActive(false);
                 numberGroup.SetActive(true);
 
-                this.hpLimit.text = model.hp_limit.ToString();
+                this.hpLimit.text = hpLimit.ToString();
             }
         }
 
         /// <summary>
         /// 更新体力
         /// </summary>
-        public void UpdateHp(int hp, int hpLimit)
+        public void SetHp(int hp, int hpLimit)
         {
             // 阴阳鱼或数字颜色
             int colorIndex = GetColorIndex(hp, hpLimit);
@@ -112,7 +122,7 @@ namespace View
                 for (int i = 0; i < hpLimit; i++)
                 {
                     // 以损失体力设为黑色
-                    yinYangYu[i].sprite = 阴阳鱼Sprite[hp > i ? colorIndex : 0];
+                    yinYangYu[i].sprite = 阴阳鱼Sprite[hp > i ? colorIndex : 3];
                 }
             }
             else
@@ -130,11 +140,11 @@ namespace View
         {
             var ratio = hp / (float)hpLimit;
             // 红
-            if (ratio < 0.34) return 1;
+            if (ratio < 0.34) return 0;
             // 黄
-            if (ratio < 0.67) return 2;
+            if (ratio < 0.67) return 1;
             // 绿
-            return 3;
+            return 2;
         }
     }
 }

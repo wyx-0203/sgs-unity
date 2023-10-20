@@ -30,7 +30,9 @@ namespace Model
             // if (!enable) return false;
 
             Timer.Instance.hint = "是否发动八卦阵？";
-            Timer.Instance.AIDecision = () => new Decision { action = true };
+            Timer.Instance.equipSkill = this;
+            // Timer.Instance.equipSkill="八卦阵";
+            Timer.Instance.DefaultAI = () => new Decision { action = true };
             if (!(await Timer.Instance.Run(Owner)).action) return false;
 
             SkillView();
@@ -49,8 +51,8 @@ namespace Model
 
         public override async Task Remove()
         {
-            await base.Remove();
             Owner.disableForMe -= Disable;
+            await base.Remove();
         }
         public bool Disable(Card card) => card is 杀
             && card is not 雷杀
@@ -75,8 +77,8 @@ namespace Model
 
         public override async Task Remove()
         {
-            await base.Remove();
             Owner.disableForMe -= Disable;
+            await base.Remove();
         }
 
         public bool Disable(Card card) => card is 杀 && !(card as 杀).IgnoreArmor && (card.suit == "黑桃" || card.suit == "草花" || card.suit == "黑色");
@@ -86,8 +88,8 @@ namespace Model
     {
         public override async Task Remove()
         {
-            await base.Remove();
             await new Recover(Owner).Execute();
+            await base.Remove();
         }
         public override void WhenDamaged(Damaged damaged)
         {

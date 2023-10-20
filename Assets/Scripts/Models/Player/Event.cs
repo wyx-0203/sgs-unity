@@ -97,6 +97,7 @@ namespace Model
             if (events is null) events = new Dictionary<Player, Func<Task>>();
 
             if (!events.ContainsKey(player)) events.Add(player, request);
+            // else events[player] += request;
         }
 
         /// <summary>
@@ -113,7 +114,7 @@ namespace Model
         {
             // if (events is null) return;
 
-            await Util.Instance.Loop(async x =>
+            await Util.Loop(async x =>
             {
                 if (events.ContainsKey(x)) await events[x]();
             }, () => events != null);
@@ -163,7 +164,7 @@ namespace Model
         {
             // if (events is null) return;
 
-            await Util.Instance.Loop(async x =>
+            await Util.Loop(async x =>
             {
                 if (events.ContainsKey(x)) await events[x](param);
             }, () => events != null);

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -23,7 +22,7 @@ namespace Model
         public virtual async Task Add(Player owner)
         {
             Owner = owner;
-            AddEquipView?.Invoke(this);
+            if (!MCTS.Instance.isRunning) AddEquipView?.Invoke(this);
 
             if (Owner.Equipments.ContainsKey(type))
             {
@@ -39,13 +38,14 @@ namespace Model
         public virtual async Task Remove()
         {
             await Task.Yield();
-            RemoveEquipView?.Invoke(this);
+            if (!MCTS.Instance.isRunning) RemoveEquipView?.Invoke(this);
             Owner.Equipments.Remove(type);
+            Owner = null;
         }
 
         public void SkillView()
         {
-            Debug.Log(Owner + "号位发动了" + this);
+            Util.Print(Owner + "号位发动了" + this);
         }
 
         public static UnityAction<Equipment> AddEquipView { get; set; }

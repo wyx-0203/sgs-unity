@@ -19,14 +19,13 @@ namespace Model
         public override int MaxDest => getCardFromPile.Count;
         public override int MinDest => 1;
 
-        public override bool IsValidDest(Player dest) => dest.HandCardCount > 0;
+        public override bool IsValidDest(Player dest) => dest.HandCardCount > 0 && dest != Src;
 
         private GetCardFromPile getCardFromPile;
 
         public async Task Execute(GetCard getCard)
         {
-            getCardFromPile = getCard as GetCardFromPile;
-            if (getCardFromPile is null || !getCardFromPile.InGetCardPhase) return;
+            if (getCard is not GetCardFromPile getCardFromPile || !getCardFromPile.InGetCardPhase) return;
 
             var decision = await WaitDecision();
             if (!decision.action) return;
@@ -37,11 +36,10 @@ namespace Model
             foreach (var i in decision.dests)
             {
                 CardPanel.Instance.Title = "突袭";
-                CardPanel.Instance.Hint = "对" + i.posStr + "号位发动突袭，获得其一张牌";
+                CardPanel.Instance.Hint = "对" + i + "号位发动突袭，获得其一张牌";
 
                 decision = await CardPanel.Instance.Run(Src, i, i.HandCards);
-                var card = decision.action ? decision.cards : new List<Card> { i.HandCards[0] };
-                await new GetCardFromElse(Src, i, card).Execute();
+                await new GetCardFromElse(Src, i, decision.cards).Execute();
             }
         }
 

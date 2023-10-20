@@ -64,8 +64,8 @@ namespace Model
                 count = Mathf.Min(count, Src.weapon is null ? 2 : 4);
 
                 Timer.Instance.hint = "弃置" + count + "张手牌，然后弃置其武器牌，或令此牌伤害+1";
-                Timer.Instance.isValidCard = x => i.HandCards.Contains(x);
-                Timer.Instance.AIDecision = count <= 3 ? AI.AutoDecision : () => new();
+                Timer.Instance.isValidCard = x => x.IsHandCard;
+                Timer.Instance.DefaultAI = count <= 3 ? AI.TryAction : () => new();
 
                 var decision = await Timer.Instance.Run(i, count, 0);
 

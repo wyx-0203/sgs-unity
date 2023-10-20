@@ -37,17 +37,20 @@ namespace Model
                 if (card.isRed) await new Damaged(damaged.Src, Src).Execute();
 
                 // 黑色
-                else if (damaged.Src.CardCount == 0) continue;
-                CardPanel.Instance.Title = "刚烈";
-                CardPanel.Instance.Hint = "对" + damaged.Src.posStr + "号位发动刚烈，弃置其一张牌";
-                var c = await TimerAction.SelectCard(Src, damaged.Src);
-                await new Discard(damaged.Src, c).Execute();
+                else
+                {
+                    if (damaged.Src.CardCount == 0) continue;
+                    CardPanel.Instance.Title = "刚烈";
+                    CardPanel.Instance.Hint = "对" + damaged.Src + "发动刚烈，弃置其一张牌";
+                    var c = await TimerAction.SelectOneCard(Src, damaged.Src);
+                    await new Discard(damaged.Src, c).Execute();
+                }
             }
         }
 
         private Player dest;
 
-        public override Decision AIDecision() => dest.team != Src.team || !AI.CertainValue ? AI.AutoDecision() : new();
+        public override Decision AIDecision() => dest.team != Src.team || !AI.CertainValue ? AI.TryAction() : new();
     }
     public class 清俭 : Triggered
     {
@@ -72,8 +75,8 @@ namespace Model
 
         public async Task Execute(GetCard getCard)
         {
-            if (!IsValid || getCard is GetCardFromPile && (getCard as GetCardFromPile).InGetCardPhase) return;
             if (TurnSystem.Instance.Round == 0) return;
+            if (!IsValid || getCard is GetCardFromPile getCardFromPile && getCardFromPile.InGetCardPhase) return;
 
             var decision = await WaitDecision();
             if (!decision.action) return;
@@ -108,7 +111,7 @@ namespace Model
             var dests = AI.GetDestByTeam(Src.team).ToList();
             if (cards.Count == 0 || dests.Count == 0 || !AI.CertainValue) return new();
 
-            return new Decision { action = true, cards = cards, dests = AI.GetRandomItem(dests) };
+            return new Decision { action = true, cards = cards, dests = AI.Shuffle(dests) };
         }
     }
 }

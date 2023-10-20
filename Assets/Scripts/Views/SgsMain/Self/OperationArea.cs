@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
@@ -55,37 +54,32 @@ namespace View
         /// </summary>
         private void ClickConfirm()
         {
-            StopAllCoroutines();
+            // StopAllCoroutines();
 
             timer.temp.action = true;
-            timer.temp.src = timer.temp.cards.FirstOrDefault()?.Src;
+            if (timer.type == Model.Timer.Type.WXKJ) timer.temp.src = timer.temp.cards.FirstOrDefault()?.Src;
             timer.SendDecision();
         }
 
         /// <summary>
         /// 点击取消键
         /// </summary>
-        private void ClickCancel()
+        private async void ClickCancel()
         {
             // 取消技能
-            if (model.skill != null && timer.givenSkill is null)
+            if (model.skill != null && model.skill is not Model.Triggered)
             {
                 skillArea.Skills.Find(x => x.name == model.skill.Name).ClickSkill();
                 return;
             }
 
-            // SetResult
+            // var d = await Model.MCTS.Instance.Run();
+            // // Debug.Log(Model.Decision.List.Instance == Model.MCTS.Instance._decisionList);
+            // // Debug.Log(Model.Decision.List.Instance);
+            // timer.SendDecision(d);
+            // Debug.Log(Model.Decision.List.Instance);
 
-            if (timer is Model.WxkjTimer wxkjTimer)
-            {
-                HideTimer();
-                foreach (var i in Model.SgsMain.Instance.AlivePlayers.Where(x => x.team == self.model.team))
-                {
-                    wxkjTimer.temp.src = i;
-                    wxkjTimer.SendDecision();
-                }
-            }
-            else if (DebugAI) timer.SendDecision(timer.AIDecision());
+            if (Config.Instance.selfAI) timer.SendDecision(Config.Instance.EnableMCTS ? await Model.MCTS.Instance.Run(Model.MCTS.State.WaitTimer) : timer.DefaultAI());
             else timer.SendDecision();
         }
 
@@ -94,10 +88,13 @@ namespace View
         /// <summary>
         /// 点击回合结束键
         /// </summary>
-        private void ClickFinishPhase()
+        private async void ClickFinishPhase()
         {
-            StopAllCoroutines();
-            if (DebugAI) timer.SendDecision(timer.AIDecision());
+            // StopAllCoroutines();
+
+            if (Config.Instance.selfAI) timer.SendDecision(Config.Instance.EnableMCTS ? await Model.MCTS.Instance.Run(Model.MCTS.State.WaitTimer) : timer.DefaultAI());
+            // if (Config.Instance.selfAI) timer.SendDecision(Model.MCTS.Instance.state == Model.MCTS.State.Disable ? timer.DefaultAI() : await Model.MCTS.Instance.Run());
+            // if (Config.Instance.selfAI) timer.SendDecision(timer.DefaultAI());
             else timer.SendDecision();
         }
 
@@ -107,7 +104,7 @@ namespace View
         public async void ShowTimer()
         {
             if (!timer.players.Contains(self.model)) return;
-            await Util.Instance.WaitFrame(2);
+            await Util.WaitFrame(2);
 
             operationArea.SetActive(true);
             hint.text = timer.hint;
@@ -116,9 +113,9 @@ namespace View
 
             confirm.gameObject.SetActive(true);
             cancel.gameObject.SetActive(timer.refusable);
-            finishPhase.gameObject.SetActive(timer.isPlayPhase);
+            finishPhase.gameObject.SetActive(timer.type == Model.Timer.Type.PlayPhase);
 
-            skillArea.InitSkillArea();
+            skillArea.Init();
             cardArea.Init();
             cardArea.InitConvertCard();
             destArea.Init();
@@ -162,9 +159,10 @@ namespace View
         public void UpdateButtonArea()
         {
             // 启用确定键
+            // Debug.Log(cardArea.IsValid);
             confirm.interactable = cardArea.IsValid && destArea.IsValid;
             // 出牌阶段，取消键用于取消选中技能
-            cancel.interactable = !timer.isPlayPhase || model.skill != null;
+            cancel.interactable = timer.type != Model.Timer.Type.PlayPhase || model.skill != null;
         }
 
         public void UseSkill()
@@ -173,7 +171,7 @@ namespace View
             destArea.Reset();
             equipArea.Reset();
 
-            skillArea.InitSkillArea();
+            skillArea.Init();
             cardArea.Init();
             cardArea.InitConvertCard();
             destArea.Init();

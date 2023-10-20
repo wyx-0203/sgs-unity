@@ -25,7 +25,7 @@ namespace Model
             Timer.Instance.isValidDest = dest => dest == decision.dests[1];
 
             // 若阵营不同，则选择出杀
-            Timer.Instance.AIDecision = dest.team != decision.dests[1].team || !AI.CertainValue ? AI.AutoDecision : () => new();
+            Timer.Instance.DefaultAI = dest.team != decision.dests[1].team || !AI.CertainValue ? AI.TryAction : () => new();
 
             decision = await Timer.Instance.Run(dest, 0, 1);
             if (decision.action) await Card.Convert<杀>().UseCard(dest, decision.dests);

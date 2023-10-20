@@ -93,7 +93,7 @@ namespace Model
 
             CardPanel.Instance.Title = "利驭";
             CardPanel.Instance.Hint = "对" + dest.posStr + "号位发动利驭，获得其一张牌";
-            var card = await TimerAction.SelectCard(Src, damaged.player);
+            var card = await TimerAction.SelectOneCard(Src, damaged.player);
 
             // 获得牌
             await new GetCardFromElse(Src, dest, card).Execute();
@@ -107,7 +107,7 @@ namespace Model
                 Timer.Instance.hint = Src.posStr + "号位对你发动利驭，选择一名角色";
                 Timer.Instance.isValidDest = player => player != Src && player != dest;
                 Timer.Instance.refusable = false;
-                Timer.Instance.AIDecision = AI.AutoDecision;
+                Timer.Instance.DefaultAI = AI.TryAction;
                 decision = await Timer.Instance.Run(dest, 0, 1);
 
                 // 使用决斗

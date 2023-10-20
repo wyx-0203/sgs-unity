@@ -30,9 +30,10 @@ namespace Model
         public virtual async Task UseCard(Player src, List<Player> dests = null)
         {
             Src = src;
-            Dests = dests;
-            Debug.Log(Src + "使用了" + this);
-            UseCardView?.Invoke(this);
+            Dests = dests != null ? dests : new List<Player>();
+            string destStr = Dests.Count > 0 ? "对" + string.Join("、", Dests) : "";
+            Util.Print(Src + destStr + "使用了" + this);
+            if (!MCTS.Instance.isRunning) UseCardView?.Invoke(this);
 
             // 目标角色排序
             if (Dests != null && Dests.Count > 1)
@@ -57,8 +58,17 @@ namespace Model
             // 指定目标后
             await Src.events.AfterUseCard.Execute(this);
 
-            if (dests != null) foreach (var i in new List<Player>(Dests)) if (i.DisableForMe(this)) Dests.Remove(i);
+            // foreach (var i in new List<Player>(Dests)) if (i.DisableForMe(this)) Dests.Remove(i);
         }
+
+        protected bool UseForeachDest(Player dest)
+        {
+            if (dest.DisableForMe(this)) return false;
+            CurrentDest = dest;
+            return true;
+        }
+
+        public Player CurrentDest { get; private set; }
 
         /// <summary>
         /// 打出牌
@@ -66,9 +76,9 @@ namespace Model
         public async Task Put(Player player)
         {
             Src = player;
-            string cardInfo = IsConvert ? "" : "【" + suit + weight.ToString() + "】";
-            Debug.Log(player.posStr + "号位打出了" + name + cardInfo);
-            UseCardView?.Invoke(this);
+            // string cardInfo = IsConvert ? "" : "【" + suit + weight.ToString() + "】";
+            Util.Print(player + "打出了" + this);
+            if (!MCTS.Instance.isRunning) UseCardView?.Invoke(this);
 
             // 使用者失去此手牌
             if (!IsConvert)
@@ -94,6 +104,7 @@ namespace Model
         /// <typeparam name="T">类型</typeparam>
         public static T Convert<T>(List<Card> primitives = null) where T : Card, new()
         {
+            // 无转化牌
             if (primitives is null || primitives.Count == 0) return new T { IsConvert = true };
             // 二次转化
             if (primitives[0].IsConvert) return Convert<T>(primitives[0].PrimiTives);
@@ -139,12 +150,14 @@ namespace Model
             if (!IsConvert)
             {
                 if (CardPile.Instance.DiscardPile.Contains(this)) return new List<Card> { this };
-                else return null;
+                else return new();
             }
 
-            if (PrimiTives.Count == 0) return null;
+            // if (PrimiTives.Count == 0) return null;
             return PrimiTives.Where(x => CardPile.Instance.DiscardPile.Contains(x)).ToList();
         }
+
+        public bool IsHandCard => Src != null && Src.HandCards.Contains(this);
 
         public static UnityAction<Card> UseCardView { get; set; }
 
@@ -159,7 +172,7 @@ namespace Model
                 case "红桃": suitSymbol = "♥️"; break;
                 case "方片": suitSymbol = "♦️"; break;
                 case "黑桃": suitSymbol = "♠️"; break;
-                case "梅花": suitSymbol = "♣️"; break;
+                case "草花": suitSymbol = "♣️"; break;
             }
             return "【" + name + suitSymbol + weight + "】";
         }

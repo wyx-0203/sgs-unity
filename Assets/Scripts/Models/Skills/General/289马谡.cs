@@ -29,10 +29,10 @@ namespace Model
             var dests = AI.GetDestByTeam(!Src.team);
 
             // 尽量选择更多的敌人
-            var cards = Src.HandCards.Union(Src.Equipments.Values).Where(x => x != null).ToList();
+            var cards = Src.cards.ToList();
             int count = UnityEngine.Mathf.Min(cards.Count, dests.Count());
 
-            Timer.Instance.temp.cards = AI.GetRandomItem(cards, count);
+            Timer.Instance.temp.cards = AI.Shuffle(cards, count);
             Timer.Instance.temp.dests.AddRange(dests.Take(MinDest));
             return base.AIDecision();
         }
@@ -74,8 +74,8 @@ namespace Model
                 CardPanel.Instance.Title = "制蛮";
                 CardPanel.Instance.Hint = "对" + dest.posStr + "号位发动制蛮，获得其区域内一张牌";
 
-                var card = await TimerAction.SelectCard(Src, damaged.player, true);
-                if (dest.JudgeArea.Contains(card[0])) await new GetJudgeCard(Src, card[0]).Execute();
+                var card = await TimerAction.SelectOneCard(Src, damaged.player, true);
+                if (dest.JudgeCards.Contains(card[0])) await new GetJudgeCard(Src, card[0]).Execute();
                 else await new GetCardFromElse(Src, damaged.player, card).Execute();
             }
             throw new PreventDamage();

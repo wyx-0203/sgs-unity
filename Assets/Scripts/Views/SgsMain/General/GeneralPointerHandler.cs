@@ -5,8 +5,13 @@ namespace View
 {
     public class GeneralPointerHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
     {
-        public General general;
+        private General general;
         private static GeneralInfo generalInfo;
+
+        private void Start()
+        {
+            general = GetComponentInParent<General>();
+        }
 
         /// <summary>
         /// 长按一秒，显示武将信息

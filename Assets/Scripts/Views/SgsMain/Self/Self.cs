@@ -13,10 +13,7 @@ namespace View
         // 每阶段对应sprite
         public Sprite[] phaseSprite;
 
-        public Button changeSkin;
-        public Button changeBg;
         public Button teammate;
-        public Button surrender;
         public GameObject teammatePanel;
 
         private Model.Player model => SgsMain.Instance.self.model;
@@ -24,10 +21,7 @@ namespace View
         private void Start()
         {
             currentPhase.gameObject.SetActive(false);
-            changeSkin.onClick.AddListener(ChangeSkin);
-            changeBg.onClick.AddListener(ChangeBg);
             teammate.onClick.AddListener(ClickTeammate);
-            surrender.onClick.AddListener(ClickSurrender);
 
             Model.TurnSystem.Instance.StartPhaseView += ShowPhase;
             Model.TurnSystem.Instance.FinishPhaseView += HidePhase;
@@ -59,25 +53,9 @@ namespace View
             currentPhase.gameObject.SetActive(false);
         }
 
-        private void ChangeSkin()
-        {
-            model.SendChangeSkin();
-        }
-
-        private void ChangeBg()
-        {
-            SgsMain.Instance.ChangeBg();
-        }
-
         private void ClickTeammate()
         {
             teammatePanel.SetActive(true);
-        }
-
-        private void ClickSurrender()
-        {
-            Model.GameOver.Instance.SendSurrender();
-            if (Model.Timer.Instance.isPlayPhase) Model.Timer.Instance.SendDecision();
         }
     }
 }

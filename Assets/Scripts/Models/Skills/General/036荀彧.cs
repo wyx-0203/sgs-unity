@@ -30,7 +30,7 @@ namespace Model
             Timer.Instance.hint = "请选择一名角色";
             Timer.Instance.refusable = false;
             Timer.Instance.isValidDest = x => dest.DestInAttackRange(x);
-            Timer.Instance.AIDecision = AI.AutoDecision;
+            Timer.Instance.DefaultAI = AI.TryAction;
 
             decision = await Timer.Instance.Run(Src, 0, 1);
             await new Damaged(decision.dests[0], dest).Execute();

@@ -38,7 +38,7 @@ namespace Model
             if (fuliHasInvoked)
             {
                 Timer.Instance.hint = "是否失去1点体力并从弃牌堆获得一张【杀】？";
-                Timer.Instance.AIDecision = () => new Decision { action = Src.Hp > 1 && Src.FindCard<杀>() is null };
+                Timer.Instance.DefaultAI = () => new Decision { action = Src.Hp > 1 && Src.FindCard<杀>() is null };
                 if (!(await Timer.Instance.Run(Src)).action) return;
             }
 

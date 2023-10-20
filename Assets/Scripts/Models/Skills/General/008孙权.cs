@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Model
@@ -13,18 +13,19 @@ namespace Model
             await base.Execute(decision);
 
             int count = decision.cards.Count;
-            if (Src.HandCardCount > 0)
-            {
-                count++;
-                foreach (var i in Src.HandCards)
-                {
-                    if (!decision.cards.Contains(i))
-                    {
-                        count--;
-                        break;
-                    }
-                }
-            }
+            if (decision.cards.Where(x => x.IsHandCard).Count() == Src.HandCardCount) count++;
+            // if (Src.HandCardCount > 0)
+            // {
+            //     count++;
+            //     foreach (var i in Src.HandCards)
+            //     {
+            //         if (!decision.cards.Contains(i))
+            //         {
+            //             count--;
+            //             break;
+            //         }
+            //     }
+            // }
 
             await new Discard(Src, decision.cards).Execute();
             await new GetCardFromPile(Src, count).Execute();

@@ -13,7 +13,7 @@ namespace Model
         public override int MaxDest => 1;
         public override int MinDest => 1;
 
-        public override bool IsValidCard(Card card) => Src.HandCards.Contains(card);
+        public override bool IsValidCard(Card card) => card.IsHandCard;
         public override bool IsValidDest(Player dest) => dest != Src && !invalidDest.Contains(dest);
 
         private List<Player> invalidDest = new();
@@ -37,7 +37,7 @@ namespace Model
             Timer.Instance.maxDest = DestArea.Instance.MaxDest;
             Timer.Instance.minDest = DestArea.Instance.MinDest;
             Timer.Instance.isValidDest = DestArea.Instance.ValidDest;
-            Timer.Instance.AIDecision = () =>
+            Timer.Instance.DefaultAI = () =>
             {
                 List<Decision> decisions = new();
                 var validCards = Timer.Instance.multiConvert.Where(x => Timer.Instance.isValidCard(x)).ToList();
@@ -58,7 +58,7 @@ namespace Model
                 }
 
                 if (decisions.Count == 0 || !AI.CertainValue) decisions.Add(new Decision());
-                return AI.GetRandomItem(decisions)[0];
+                return AI.Shuffle(decisions)[0];
             };
 
             decision = await Timer.Instance.Run(Src);

@@ -10,18 +10,18 @@ namespace Model
     {
         // 单机模式
         public bool IsSingle { get; set; } = true;
-        public Mode mode { get; private set; } = Mode.统帅双军;
+        public Mode mode { get; private set; } = new ThreeVSThree();
         public User[] Users { get; private set; }
         public User self { get; private set; }
         public List<int> players { get; private set; }
 
-        public async void JoinRoom(Mode mode)
+        public async void JoinRoom(string mode)
         {
-            var msg = await WebRequest.GetWithToken(Url.DOMAIN_NAME + "joinRoom?mode=" + ((int)mode).ToString());
+            var msg = await WebRequest.GetWithToken(Url.DOMAIN_NAME + "joinRoom?mode=" + mode);
             var json = JsonUtility.FromJson<JoinRoomResponse>(msg);
 
-            this.mode = json.mode;
-            Users = new User[mode is Mode.欢乐成双 ? 4 : 2];
+            this.mode = Mode.modeMap[json.mode];
+            Users = new User[2];
             foreach (var i in json.players)
             {
                 Users[i.position] = i;
@@ -84,14 +84,15 @@ namespace Model
         public void StartGame(StartGameMessage json)
         {
             // 从服务器获得userid列表，以确定位置
-            players = json.players;
+            // players = json.players;
+            Self.Instance.team = json.first_id == Self.Instance.UserId ? Team.BLUE : Team.RED;
 
             // 若为统帅模式，则补充三、四号位
-            if (mode is Mode.统帅双军)
-            {
-                players.Add(players[1]);
-                players.Add(players[0]);
-            }
+            // if (mode is Mode.统帅双军)
+            // {
+            //     players.Add(players[1]);
+            //     players.Add(players[0]);
+            // }
             IsSingle = false;
             StartGameView();
         }

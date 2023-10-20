@@ -18,7 +18,7 @@ namespace Model
 
         private List<Card> primitives;
 
-        public override bool IsValidCard(Card card) => Src.HandCards.Contains(card) && base.IsValidCard(card);
+        public override bool IsValidCard(Card card) => card.IsHandCard && base.IsValidCard(card);
 
         public override void OnEnable()
         {

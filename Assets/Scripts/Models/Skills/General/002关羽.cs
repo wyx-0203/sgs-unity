@@ -56,7 +56,7 @@ namespace Model
                 if (dest.Hp < dest.HpLimit)
                 {
                     Timer.Instance.hint = "是否让" + dest.posStr + "号位回复一点体力？";
-                    Timer.Instance.AIDecision = () => new Decision { action = (dest.team == Src.team) == AI.CertainValue };
+                    Timer.Instance.DefaultAI = () => new Decision { action = (dest.team == Src.team) == AI.CertainValue };
                     if ((await Timer.Instance.Run(Src)).action) await new Recover(dest).Execute();
                 }
             }
@@ -65,7 +65,7 @@ namespace Model
             {
                 isBlack = true;
                 dest.disabledCard += DisabledCard;
-                foreach (var i in dest.skills) if (!i.isObey) i.SetActive(false);
+                foreach (var i in dest.skills.Where(x => !x.isObey)) i.SetActive(false);
                 dest.events.WhenDamaged.AddEvent(Src, WhenDamaged);
             }
         }

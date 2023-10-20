@@ -33,7 +33,7 @@ namespace Model
 
             Timer.Instance.hint = "请弃置一张基本牌，否则此【杀】对刘禅无效。";
             Timer.Instance.isValidCard = x => x.type == "基本牌" && !x.IsConvert;
-            Timer.Instance.AIDecision = () => card.Src.team != Src.team ? AI.AutoDecision() : new(); ;
+            Timer.Instance.DefaultAI = () => card.Src.team != Src.team ? AI.TryAction() : new(); ;
 
             var decision = await Timer.Instance.Run(card.Src, 1, 0);
             if (decision.action) await new Discard(card.Src, decision.cards).Execute();
@@ -41,7 +41,12 @@ namespace Model
         }
 
         private bool disableForMe;
-        public bool DisableForMe(Card card) => card is 杀 && disableForMe;
+        public bool DisableForMe(Card card)
+        {
+            if (card is not 杀 || !disableForMe) return false;
+            disableForMe = false;
+            return true;
+        }
     }
 
     public class 放权 : Triggered
@@ -75,12 +80,12 @@ namespace Model
             if (!invoked || Src.HandCardCount == 0) return;
 
             Timer.Instance.hint = "弃置一张手牌并令一名其他角色获得一个额外的回合";
-            Timer.Instance.isValidCard = x => Src.HandCards.Contains(x);
+            Timer.Instance.isValidCard = x => x.IsHandCard;
             Timer.Instance.isValidDest = x => x != Src;
-            Timer.Instance.AIDecision = () =>
+            Timer.Instance.DefaultAI = () =>
             {
                 var dests = AI.GetDestByTeam(Src.team).Take(1);
-                if (dests.Count() == 0 || AI.CertainValue) return new();
+                if (dests.Count() == 0 || !AI.CertainValue) return new();
 
                 var cards = AI.GetRandomCard();
                 return new Decision { action = true, cards = cards, dests = dests.ToList() };
@@ -96,9 +101,9 @@ namespace Model
 
         public override Decision AIDecision()
         {
-            if (SgsMain.Instance.AlivePlayers.Where(x => x.team == Src.team).Count() < 2) return new();
+            if (Src.team.GetAllPlayers().Count() < 2) return new();
             else if (Src.HandCardCount - Src.HandCardLimit > 2 && AI.CertainValue) return new();
-            else return AI.AutoDecision();
+            else return AI.TryAction();
         }
     }
 }

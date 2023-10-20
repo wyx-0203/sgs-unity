@@ -29,7 +29,7 @@ public class SignInResponse : HttpResponse
 [Serializable]
 public class JoinRoomResponse : HttpResponse
 {
-    public Mode mode;
+    public string mode;
     public int owner_pos;
     public List<Model.User> players;
 
@@ -83,7 +83,7 @@ public class SetAlreadyMessage : WebsocketMessage
 [Serializable]
 public class StartGameMessage : WebsocketMessage
 {
-    public List<int> players;
+    public int first_id;
 }
 
 [Serializable]
@@ -101,19 +101,9 @@ public class GeneralPoolMessage : WebsocketMessage
 [Serializable]
 public class BanpickMessage : WebsocketMessage
 {
-    public int position;
-    public int general;
-}
-
-[Serializable]
-public class TimerMessage : WebsocketMessage
-{
-    public bool action;
-    public List<int> cards;
-    public List<int> dests;
-    public string skill;
-    public int src;
-    public string other;
+    // public int position;
+    public bool team;
+    public List<int> generals;
 }
 
 [Serializable]

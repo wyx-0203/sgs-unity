@@ -8,7 +8,7 @@ namespace View
     {
         public Dictionary<string, Equipage> Equips { get; private set; }
         private Model.Timer timer => Model.Timer.Instance;
-        private Model.Skill skill => Model.Timer.Instance.temp.skill;
+        // private Model.Skill skill => Model.Timer.Instance.temp.skill;
 
         private Player self => SgsMain.Instance.self;
 
@@ -23,8 +23,8 @@ namespace View
                 {"减一马", parent.transform.Find("减一马").GetComponent<Equipage>()}
             };
 
-            Model.Equipment.AddEquipView += ShowEquip;
-            Model.Equipment.RemoveEquipView += HideEquip;
+            Model.Equipment.AddEquipView += AddEquip;
+            Model.Equipment.RemoveEquipView += RemoveEquip;
             Model.Timer.Instance.StopTimerView += Reset;
 
             Model.SgsMain.Instance.MoveSeatView += MoveSeat;
@@ -32,8 +32,8 @@ namespace View
 
         private void OnDestroy()
         {
-            Model.Equipment.AddEquipView -= ShowEquip;
-            Model.Equipment.RemoveEquipView -= HideEquip;
+            Model.Equipment.AddEquipView -= AddEquip;
+            Model.Equipment.RemoveEquipView -= RemoveEquip;
             Model.Timer.Instance.StopTimerView -= Reset;
 
             Model.SgsMain.Instance.MoveSeatView -= MoveSeat;
@@ -41,29 +41,22 @@ namespace View
 
         public void Init()
         {
-            if (Model.Timer.Instance.givenSkill != null)
-            {
-                Equips.Values.FirstOrDefault(x => x.name == Model.Timer.Instance.givenSkill)?.Use();
-            }
+            var equipSkill = Model.Timer.Instance.equipSkill;
+            if (equipSkill != null && Equips.ContainsKey(equipSkill.name)) Equips[equipSkill.name].Use();
 
-            if (CardArea.Instance.MaxCount == 0)
+            if (timer.maxCard == 0)
             {
                 foreach (var i in Equips.Values) i.button.interactable = false;
             }
-
-            else if (skill != null)
-            {
-                foreach (var i in Equips.Values) i.button.interactable = i.gameObject.activeSelf && skill.IsValidCard(i.model);
-            }
-
             else
             {
                 foreach (var i in Equips.Values) i.button.interactable = i.gameObject.activeSelf && timer.isValidCard(i.model);
 
-                if (Equips["武器"].name == "丈八蛇矛" && timer.isValidCard(Model.Card.Convert<Model.杀>()))
-                {
-                    Equips["武器"].button.interactable = true;
-                }
+            }
+
+            if (Equips["武器"].model is Model.丈八蛇矛 zbsm && (zbsm.skill.IsValid || Model.Timer.Instance.temp.skill == zbsm.skill))
+            {
+                Equips["武器"].button.interactable = true;
             }
         }
 
@@ -72,22 +65,11 @@ namespace View
             if (!timer.players.Contains(self.model)) return;
 
             // 重置装备牌状态
-            foreach (var card in Equips.Values) card.ResetCard();
+            foreach (var card in Equips.Values) card.Reset();
         }
 
         public void MoveSeat(Model.Player model)
         {
-            // foreach (var i in model.Equipages)
-            // {
-            //     var equip = Equips[i.Key];
-            //     if (i.Value is null) equip.gameObject.SetActive(false);
-            //     else
-            //     {
-            //         equip.gameObject.SetActive(true);
-            //         equip.Init(i.Value);
-            //     }
-            // }
-
             foreach (var i in Equips)
             {
                 if (!model.Equipments.ContainsKey(i.Key)) i.Value.gameObject.SetActive(false);
@@ -99,19 +81,20 @@ namespace View
             }
         }
 
-        public void ShowEquip(Model.Equipment card)
+        public void AddEquip(Model.Equipment card)
         {
-            if (card.Src != self.model) return;
+            if (card.Owner != self.model) return;
 
             Equips[card.type].gameObject.SetActive(true);
             Equips[card.type].Init(card);
         }
 
-        public void HideEquip(Model.Equipment card)
+        public void RemoveEquip(Model.Equipment card)
         {
             if (card.Owner != self.model) return;
             if (card.id != Equips[card.type].Id) return;
 
+            Equips[card.type].model = null;
             Equips[card.type].gameObject.SetActive(false);
         }
     }

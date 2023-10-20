@@ -74,5 +74,10 @@ namespace View
             Unselect();
             skin.color = new Color(1, 1, 1);
         }
+
+        // private void OnDestroy()
+        // {
+        //     DestArea.Instance.players.Remove(this);
+        // }
     }
 }

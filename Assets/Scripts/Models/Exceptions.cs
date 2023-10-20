@@ -6,23 +6,25 @@ namespace Model
 
     public class GameOverException : ApplicationException
     {
-        public GameOverException(bool loser) => this.loser = loser;
-        public bool loser;
+        public GameOverException(Team loser) => this.loser = loser;
+        public Team loser;
     }
 
-    public class CurrentPlayerDie : System.ApplicationException { }
+    public class CurrentPlayerDie : ApplicationException { }
 
-    public class PlayerDie : System.ApplicationException { }
+    public class PlayerDie : ApplicationException { }
 
-    public class PreventDamage : System.ApplicationException { }
+    public class PreventDamage : ApplicationException { }
+
+    public class FinishSimulation : ApplicationException { }
 
 
 
     public class GameOver : Singleton<GameOver>
     {
-        public bool Loser { get; private set; }
+        public Team Loser { get; private set; }
 
-        public void Run(bool loser)
+        public void Run(Team loser)
         {
             // isOver = true;
             Loser = loser;
@@ -33,24 +35,24 @@ namespace Model
             GameOverView?.Invoke();
         }
 
-        public void Surrender(bool team)
+        public void Surrender(Team team)
         {
             throw new GameOverException(team);
         }
 
-        public void SendSurrender()
-        {
-            if (Room.Instance.IsSingle) Surrender(Self.Instance.team);
-            else
-            {
-                var json = new SurrenderMessage
-                {
-                    msg_type = "surrender",
-                    team = Self.Instance.team,
-                };
-                WebSocket.Instance.SendMessage(json);
-            }
-        }
+        // public void SendSurrender()
+        // {
+        //     if (Room.Instance.IsSingle) Surrender(Self.Instance.team);
+        //     else
+        //     {
+        //         var json = new SurrenderMessage
+        //         {
+        //             msg_type = "surrender",
+        //             team = Self.Instance.team,
+        //         };
+        //         WebSocket.Instance.SendMessage(json);
+        //     }
+        // }
 
         public UnityAction GameOverView { get; set; }
     }

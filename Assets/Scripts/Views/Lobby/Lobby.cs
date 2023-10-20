@@ -13,7 +13,7 @@ namespace View
         // 欢乐模式
         public Toggle tssj;
 
-        private Mode mode;
+        private string mode = "2v2";
         public Image modeBg;
         public Sprite hlcsImg;
         public Sprite tssjImg;
@@ -38,13 +38,13 @@ namespace View
             model.ExitRoomView += ExitRoom;
             model.StartGameView += StartGame;
 
-            hlcs.onValueChanged.AddListener(Hlcs);
-            tssj.onValueChanged.AddListener(Tssj);
+            // hlcs.onValueChanged.AddListener(Hlcs);
+            // tssj.onValueChanged.AddListener(Tssj);
             quickJoin.onClick.AddListener(ClickQuickJoin);
             general.onClick.AddListener(ClickGeneral);
             personal.onClick.AddListener(ClickPersonal);
 
-            Tssj(true);
+            // Tssj(true);
 
             BGM.Instance.Load(Url.AUDIO + "bgm/outbgm_2.mp3");
             WebSocket.Instance.Connect();
@@ -62,26 +62,26 @@ namespace View
             model.StartGameView -= StartGame;
         }
 
-        private void Hlcs(bool value)
-        {
-            if (value)
-            {
-                mode = Mode.欢乐成双;
-                modeBg.sprite = hlcsImg;
-            }
-            hlcs.GetComponent<Text>().fontStyle = value ? FontStyle.Bold : FontStyle.Normal;
-        }
+        // private void Hlcs(bool value)
+        // {
+        //     if (value)
+        //     {
+        //         mode = Mode.欢乐成双;
+        //         modeBg.sprite = hlcsImg;
+        //     }
+        //     hlcs.GetComponent<Text>().fontStyle = value ? FontStyle.Bold : FontStyle.Normal;
+        // }
 
-        private void Tssj(bool value)
-        {
-            Debug.Log(value);
-            if (value)
-            {
-                mode = Mode.统帅双军;
-                modeBg.sprite = tssjImg;
-            }
-            tssj.GetComponent<Text>().fontStyle = value ? FontStyle.Bold : FontStyle.Normal;
-        }
+        // private void Tssj(bool value)
+        // {
+        //     Debug.Log(value);
+        //     if (value)
+        //     {
+        //         mode = Mode.统帅双军;
+        //         modeBg.sprite = tssjImg;
+        //     }
+        //     tssj.GetComponent<Text>().fontStyle = value ? FontStyle.Bold : FontStyle.Normal;
+        // }
 
         private void ClickQuickJoin()
         {

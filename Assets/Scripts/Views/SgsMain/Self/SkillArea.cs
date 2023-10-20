@@ -22,17 +22,26 @@ namespace View
 
         private void Start()
         {
-            Model.SgsMain.Instance.GeneralView += Init;
-            Model.UpdateSkill.ActionView += Init;
+            Model.SgsMain.Instance.AfterBanPickView += InitSkillButton;
+            Model.UpdateSkill.ActionView += InitSkillButton;
             Model.Timer.Instance.StopTimerView += Reset;
 
             Model.SgsMain.Instance.MoveSeatView += MoveSeat;
         }
 
+        private void OnDestroy()
+        {
+            Model.SgsMain.Instance.AfterBanPickView -= InitSkillButton;
+            Model.UpdateSkill.ActionView -= InitSkillButton;
+            Model.Timer.Instance.StopTimerView -= Reset;
+
+            Model.SgsMain.Instance.MoveSeatView -= MoveSeat;
+        }
+
         /// <summary>
         /// 初始化技能区
         /// </summary>
-        public void Init()
+        public void InitSkillButton()
         {
             Skills.Clear();
             foreach (Transform i in Long) if (i.name != "Short") Destroy(i.gameObject);
@@ -72,10 +81,10 @@ namespace View
             MoveSeat(Model.SgsMain.Instance.AlivePlayers.Find(x => x.isSelf));
         }
 
-        public void Init(Model.UpdateSkill model)
+        public void InitSkillButton(Model.UpdateSkill model)
         {
             // Debug.Log("a");
-            if (model.player.team == self.model.team) Init();
+            if (model.player.team == self.model.team) InitSkillButton();
         }
 
         public void MoveSeat(Model.Player model)
@@ -86,13 +95,22 @@ namespace View
         /// <summary>
         /// 显示进度条时更新技能区
         /// </summary>
-        public void InitSkillArea()
+        public void Init()
         {
-            if (timer.givenSkill != null) Skills.Find(x => x.name == timer.givenSkill)?.Select();
+            // if (timer.temp.skill != null) Skills.Find(x => x.model == timer.temp.skill)?.effect.SetActive(true);
 
             if (SelectedSkill != null)
             {
-                foreach (var i in Skills) i.button.interactable = i.model == SelectedSkill;
+                var skill = Skills.Find(x => x.model == SelectedSkill);
+                // if(skill is null) return;
+                if (skill != null) skill.button.interactable = true;
+                // if (SelectedSkill is Model.Converted) skill.Select();
+                // foreach (var i in Skills)
+                // {
+                //     if (i.model != SelectedSkill) continue;
+                //     if (i.model is not Model.Triggered) i.button.interactable = true;
+                //     else i.effect.SetActive(true);
+                // }
             }
             else
             {

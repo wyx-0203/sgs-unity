@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,28 +8,41 @@ namespace View
 {
     public class BanPick : SingletonMono<BanPick>
     {
-        public List<GeneralBP> Pool;
-        public List<GeneralBP> All { get; private set; }
-        public GameObject SelfPool;
+        public List<GeneralBP> generals { get; private set; } = new();
         // 倒计时读条
         public Slider timer;
         // 提示
         public Text hint;
 
         private Model.BanPick model => Model.BanPick.Instance;
-        private bool selfTeam => Model.Self.Instance.team;
+        private Team selfTeam => Model.Self.Instance.team;
 
-        private void Start()
+        public GameObject generalPrefab;
+        public Transform pool;
+        public Transform selfPool;
+
+        private async void Start()
         {
-            for (int i = 0; i < 12; i++) Pool[i].Init(model.Pool[i]);
-            All = new List<GeneralBP>(Pool);
-
             model.StartPickView += StartPick;
             model.OnPickView += OnPick;
             model.StartBanView += StartBan;
             model.OnBanView += OnBan;
             model.StartSelfPickView += SelfPick;
-            Model.SgsMain.Instance.GeneralView += Destroy;
+
+            foreach (var i in model.Pool)
+            {
+                var general = Instantiate(generalPrefab, pool).GetComponent<GeneralBP>();
+                general.Init(i);
+                generals.Add(general);
+            }
+
+            contentSizeFitter = pool.GetComponent<ContentSizeFitter>();
+            gridLayoutGroup = pool.GetComponent<GridLayoutGroup>();
+
+            await Util.WaitFrame();
+
+            contentSizeFitter.enabled = false;
+            gridLayoutGroup.enabled = false;
         }
 
         private void OnDestroy()
@@ -38,82 +52,81 @@ namespace View
             model.StartBanView -= StartBan;
             model.OnBanView -= OnBan;
             model.StartSelfPickView -= SelfPick;
-            Model.SgsMain.Instance.GeneralView -= Destroy;
         }
 
         private void StartPick()
         {
             StartCoroutine(StartTimer(model.second));
-            if (model.Current.isSelf)
+
+            if (model.Current == selfTeam)
             {
-                foreach (var i in Pool) i.button.interactable = true;
+                foreach (var i in generals.Where(x => x.state == GeneralBP.State.Selectable)) i.button.interactable = true;
                 hint.text = "请点击选择武将";
             }
-
-            else
-            {
-                foreach (var i in Pool) i.button.interactable = false;
-                hint.text = model.Current.team == selfTeam ? "等待队友选将" : "等待对方选将";
-            }
+            else hint.text = "等待对方选将";
         }
 
-        private void OnPick(int id)
+        private void OnPick(Model.General general)
         {
-            StopAllCoroutines();
-
-            var general = Pool.Find(x => x.Id == id);
-            if (general is null) return;
-
-            general.button.interactable = false;
-            Pool.Remove(general);
-            if (model.Current.team == selfTeam)
-            {
-                general.transform.SetParent(SelfPool.transform, false);
-            }
-
-            general.OnPick(model.Current.team == selfTeam);
+            Reset();
+            generals.Find(x => x.model == general)?.OnPick(model.Current == selfTeam);
         }
 
         private void StartBan()
         {
             StartCoroutine(StartTimer(model.second));
 
-            if (model.Current.isSelf)
+            if (model.Current == selfTeam)
             {
-                foreach (var i in Pool) i.button.interactable = true;
+                foreach (var i in generals.Where(x => x.state == GeneralBP.State.Selectable)) i.button.interactable = true;
                 hint.text = "请点击禁用武将";
             }
-            else
-            {
-                foreach (var i in Pool) i.button.interactable = false;
-                hint.text = model.Current.team == selfTeam ? "等待队友禁将" : "等待对方禁将";
-            }
+            else hint.text = "等待对方禁将";
         }
 
-        private void OnBan(int id)
+        private void OnBan(Model.General general)
         {
-            StopAllCoroutines();
-
-            var general = Pool.Find(x => x.Id == id);
-            if (general is null) return;
-
-            general.button.interactable = false;
-            Pool.Remove(general);
-            general.OnBan();
+            Reset();
+            generals.Find(x => x.model == general)?.OnBan();
         }
 
-        private void SelfPick()
+
+        private GridLayoutGroup gridLayoutGroup;
+        private ContentSizeFitter contentSizeFitter;
+
+        public Button commit;
+        public Transform seatParent;
+        public GameObject seatPrefab;
+        public List<SelfPickSeat> seats { get; private set; }
+
+
+        private async void SelfPick()
         {
             hint.text = "请选择己方要出场的武将";
+            commit.onClick.AddListener(ClickCommit);
+
+            foreach (var i in BanPick.Instance.generals)
+            {
+                // 销毁被禁的武将
+                if (i.state == GeneralBP.State.Ban) Destroy(i.gameObject);
+                // 设置己方武将
+                else if (i.state == GeneralBP.State.Self) i.ToSelfPick();
+            }
+            Destroy(selfPool.gameObject);
+
+            // 设置屏幕底部的座位
+            foreach (var i in selfTeam.GetAllPlayers()) Instantiate(seatPrefab, seatParent).GetComponent<SelfPickSeat>().Init(i);
+            seats = seatParent.Cast<Transform>().Select(x => x.GetComponent<SelfPickSeat>()).ToList();
+
             StartCoroutine(StartTimer(model.second));
 
-            SelfPool.SetActive(false);
-            GetComponent<SelfPick>().enabled = true;
-        }
+            gridLayoutGroup.enabled = true;
+            contentSizeFitter.enabled = true;
 
-        private void Destroy()
-        {
-            Destroy(gameObject);
+            await Util.WaitFrame();
+
+            contentSizeFitter.enabled = false;
+            gridLayoutGroup.enabled = false;
         }
 
         private IEnumerator StartTimer(int second)
@@ -124,6 +137,24 @@ namespace View
                 timer.value -= Time.deltaTime / second;
                 yield return null;
             }
+        }
+
+        private void Reset()
+        {
+            StopAllCoroutines();
+            foreach (var i in generals) i.button.interactable = false;
+        }
+
+        public void UpdateCommitButton()
+        {
+            commit.gameObject.SetActive(seats.FirstOrDefault(x => x.general is null) is null);
+        }
+
+        private async void ClickCommit()
+        {
+            await System.Threading.Tasks.Task.Yield();
+            Model.BanPick.Instance.SendSelfResult(selfTeam, seats.Select(x => x.general.model.id).ToList());
+            commit.gameObject.SetActive(false);
         }
     }
 }

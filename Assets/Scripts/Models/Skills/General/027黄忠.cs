@@ -41,7 +41,7 @@ namespace Model
 
         private bool IsUnlimited(Card card, Player dest) => card is 杀 && card.weight >= Src.GetDistance(dest);
 
-        public override Decision AIDecision() => dest.team != Src.team || !AI.CertainValue ? AI.AutoDecision() : new();
+        public override Decision AIDecision() => dest.team != Src.team || !AI.CertainValue ? AI.TryAction() : new();
 
     }
 }

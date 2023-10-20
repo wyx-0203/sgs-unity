@@ -57,10 +57,10 @@ public class WebSocket : GlobalSingletonMono<WebSocket>
                     Model.Room.Instance.StartGame(startGameMessage);
                     break;
 
-                case "surrender":
-                    var team = JsonUtility.FromJson<SurrenderMessage>(message).team;
-                    Model.GameOver.Instance.Surrender(team);
-                    break;
+                // case "surrender":
+                //     var team = JsonUtility.FromJson<SurrenderMessage>(message).team;
+                //     Model.GameOver.Instance.Surrender(team);
+                //     break;
 
                 case "change_skin":
                     var changeSkinMessage = JsonUtility.FromJson<ChangeSkinMessage>(message);

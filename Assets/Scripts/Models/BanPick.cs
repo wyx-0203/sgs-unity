@@ -9,23 +9,20 @@ namespace Model
     public class BanPick : Singleton<BanPick>
     {
         public List<General> Pool { get; private set; }
-        public Dictionary<bool, Dictionary<int, General>> TeamPool { get; private set; }
-
-        private Mode mode;
-        private Player[] players => SgsMain.Instance.players;
+        public Dictionary<Team, List<General>> TeamPool { get; private set; } = new();
 
         public async Task Run()
         {
             string url = Url.JSON + "general.json";
-            List<General> generalList = JsonList<General>.FromJson(await WebRequest.Get(url));
+            var generalList = JsonList<General>.FromJson(await WebRequest.Get(url));
 
             if (Room.Instance.IsSingle)
             {
-                Pool = generalList.OrderBy(x => Random.value).Take(12).ToList();
+                Pool = AI.Shuffle(generalList, 18);
 #if UNITY_EDITOR
-                string name = "夏侯惇";
-                General self = generalList.Find(x => x.name == name);
-                if (!Pool.Contains(self)) Pool[11] = self;
+                // string name = "夏侯惇";
+                // General self = generalList.Find(x => x.name == name);
+                // if (!Pool.Contains(self)) Pool[11] = self;
 #endif
             }
             else
@@ -47,24 +44,22 @@ namespace Model
                 Pool = generalIds.Select(x => generalList.Find(y => y.id == x)).ToList();
             }
 
-            TeamPool = new Dictionary<bool, Dictionary<int, General>>
-            {
-                { Team.BLUE, new Dictionary<int, General>()},
-                { Team.RED, new Dictionary<int, General>()}
-            };
+            TeamPool.Add(Team.BLUE, new());
+            TeamPool.Add(Team.RED, new());
 
             ShowPanelView?.Invoke();
 
             await Task.Yield();
 
-            Current = SgsMain.Instance.players[3];
+            Current = Team.BLUE;
             await Ban();
 
-            Current = SgsMain.Instance.players[2];
+            Current = Team.RED;
             await Ban();
-            Current = SgsMain.Instance.players[0];
+            Current = Team.BLUE;
             while (Pool.Count > 0)
             {
+                if (TeamPool[Current].Count == TeamPool[!Current].Count + 1) Current = !Current;
                 await Pick();
             }
 
@@ -73,34 +68,35 @@ namespace Model
 
 
         private TaskCompletionSource<BanpickMessage> tcs;
-        public Player Current { get; private set; }
+        public Team Current { get; private set; }
         public int second => 15;
 
         private async Task Ban()
         {
-            if (Current.isSelf || Room.Instance.IsSingle) BpAutoResult();
+            if (Current == Self.Instance.team || Room.Instance.IsSingle) BpAutoResult();
             StartBanView();
             int id = await WaitBp();
             var general = Pool.Find(x => x.id == id);
             Pool.Remove(general);
 
             while (OnBanView is null) await Task.Yield();
-            OnBanView(id);
+            OnBanView?.Invoke(general);
             Delay.StopAll();
         }
 
         private async Task Pick()
         {
-            if (Current.isSelf || Room.Instance.IsSingle) BpAutoResult();
+            if (Current == Self.Instance.team || Room.Instance.IsSingle) BpAutoResult();
             StartPickView();
             int id = await WaitBp();
             var general = Pool.Find(x => x.id == id);
             Pool.Remove(general);
 
-            TeamPool[Current.team].Add(id, general);
-            OnPickView(id);
+            TeamPool[Current].Add(general);
+            OnPickView?.Invoke(general);
             Delay.StopAll();
-            Current = Current.next;
+            // Debug.Log(Current.isSelf);
+            // Current = Current;
         }
 
         public void SendBpResult(int general)
@@ -108,7 +104,7 @@ namespace Model
             var json = new BanpickMessage
             {
                 msg_type = "ban_pick_result",
-                general = general,
+                generals = new List<int> { general },
             };
 
             if (Room.Instance.IsSingle) tcs.TrySetResult(json);
@@ -129,31 +125,32 @@ namespace Model
                 json = JsonUtility.FromJson<BanpickMessage>(msg);
             }
 
-            return json.general;
+            return json.generals[0];
         }
 
         private async void BpAutoResult()
         {
-            if (!await new Delay(Current.isSelf ? second : 0.1f).Run()) return;
+            if (!await new Delay(Current == Self.Instance.team ? second : 0.1f).Run()) return;
             SendBpResult(Pool[0].id);
         }
 
         private async Task SelfPick()
         {
-            StartSelfPickView();
+            StartSelfPickView?.Invoke();
             SelfAutoResult();
             if (Room.Instance.IsSingle) AIAutoResult();
-            for (int i = 0; i < 4; i++) await WaitSelfPick();
+            await WaitSelfPick();
+            await WaitSelfPick();
             Delay.StopAll();
         }
 
-        public void SendSelfResult(int position, int general)
+        public void SendSelfResult(Team team, List<int> generals)
         {
             var json = new BanpickMessage
             {
                 msg_type = "self_pick_result",
-                position = position,
-                general = general,
+                team = team.value,
+                generals = generals,
             };
 
             if (Room.Instance.IsSingle) tcs.TrySetResult(json);
@@ -174,23 +171,19 @@ namespace Model
                 json = JsonUtility.FromJson<BanpickMessage>(msg);
             }
 
-            var general = TeamPool[SgsMain.Instance.players[json.position].team][json.general];
-            SgsMain.Instance.players[json.position].InitGeneral(general);
-
-            SelfPickView?.Invoke(json.position);
+            Team team = json.team ? Team.RED : Team.BLUE;
+            var players = team.GetAllPlayers().ToArray();
+            for (int i = 0; i < players.Length; i++) generals.Add(players[i], TeamPool[team].Find(x => x.id == json.generals[i]));
         }
+
+        public Dictionary<Player, General> generals { get; private set; } = new();
 
         private async void SelfAutoResult()
         {
             if (!await new Delay(second).Run()) return;
 
             var team = Self.Instance.team;
-            var list = TeamPool[team].Keys.OrderBy(x => Random.value).ToList();
-            for (int i = 0; i < 4; i++)
-            {
-                if (!SgsMain.Instance.players[i].isSelf) continue;
-                SendSelfResult(i, list[i]);
-            }
+            SendSelfResult(team, TeamPool[team].Select(x => x.id).Take(team.GetAllPlayers().Count()).ToList());
         }
 
         private async void AIAutoResult()
@@ -198,20 +191,14 @@ namespace Model
             if (!await new Delay(0.1f).Run()) return;
 
             var team = !Self.Instance.team;
-            var list = TeamPool[team].Keys.OrderBy(x => Random.value).ToList();
-            for (int i = 0; i < 4; i++)
-            {
-                if (SgsMain.Instance.players[i].team != team) continue;
-                SendSelfResult(i, list[i]);
-            }
+            SendSelfResult(team, TeamPool[team].Select(x => x.id).OrderBy(x => Random.value).Take(team.GetAllPlayers().Count()).ToList());
         }
 
-        public UnityAction ShowPanelView;
-        public UnityAction StartBanView;
-        public UnityAction<int> OnBanView;
-        public UnityAction StartPickView;
-        public UnityAction<int> OnPickView;
-        public UnityAction<int> SelfPickView;
-        public UnityAction StartSelfPickView;
+        public UnityAction ShowPanelView { get; set; }
+        public UnityAction StartBanView { get; set; }
+        public UnityAction<General> OnBanView { get; set; }
+        public UnityAction StartPickView { get; set; }
+        public UnityAction<General> OnPickView { get; set; }
+        public UnityAction StartSelfPickView { get; set; }
     }
 }

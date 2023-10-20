@@ -15,12 +15,11 @@ namespace Model
             this.player = player;
         }
 
-        protected static UnityAction<T> actionView;
-        public static event UnityAction<T> ActionView
+        protected static void actionView(T arg)
         {
-            add => actionView += value;
-            remove => actionView -= value;
+            if (!MCTS.Instance.isRunning) ActionView?.Invoke(arg);
         }
+        public static UnityAction<T> ActionView { get; set; }
     }
 
     /// <summary>
@@ -42,7 +41,7 @@ namespace Model
             player.HandCards.AddRange(Cards);
             foreach (var i in Cards) i.Src = player;
 
-            actionView?.Invoke(this);
+            actionView(this);
 
             // 执行获得牌后事件
             await player.events.AfterGetCard.Execute(this);
@@ -66,7 +65,7 @@ namespace Model
         {
             await player.events.WhenGetCard.Execute(this);
             if (Count == 0) return;
-            Debug.Log(player.posStr + "号位摸了" + Count.ToString() + "张牌");
+            Util.Print(player + "摸了" + Count + "张牌");
             // 摸牌
             for (int i = 0; i < Count; i++) Cards.Add(await CardPile.Instance.Pop());
             await base.Execute();
@@ -81,11 +80,9 @@ namespace Model
 
         public new async Task Execute()
         {
-            // var list = new List<Card>(Cards);
-            // Cards.Clear();
-            // foreach (var i in list) Cards.AddRange(i.InDiscardPile());
             if (Cards.Count == 0) return;
 
+            Util.Print(player + "从弃牌堆获得了" + string.Join("、", Cards));
             foreach (var i in Cards) CardPile.Instance.DiscardPile.Remove(i);
             await base.Execute();
         }
@@ -100,6 +97,7 @@ namespace Model
             var card = Cards[0];
 
             (card as DelayScheme).RemoveToJudgeArea();
+            Util.Print(player + "获得了" + string.Join("、", Cards));
             await base.Execute();
         }
     }
@@ -123,7 +121,7 @@ namespace Model
                 else if (card is Equipment equipage) await equipage.Remove();
             }
 
-            actionView?.Invoke(this);
+            actionView(this);
 
             // 执行失去牌后事件
             await player.events.LoseCard.Execute(this);
@@ -143,9 +141,7 @@ namespace Model
         public new async Task Execute()
         {
             if (Cards is null || Cards.Count == 0) return;
-            string str = "";
-            foreach (var card in Cards) str += "【" + card.name + card.suit + card.weight.ToString() + "】";
-            Debug.Log(player.posStr + "号位弃置了" + str);
+            Util.Print(player + "弃置了" + string.Join("、", Cards));
 
             CardPile.Instance.AddToDiscard(Cards);
 
@@ -169,17 +165,22 @@ namespace Model
         {
             // 更新体力
             player.Hp += Value;
-            actionView?.Invoke(this);
+            actionView(this);
 
             // 濒死
             if (player.Hp < 1 && Value < 0) await NearDeath();
 
             // 失去体力
-            if (Value < 0 && this is not Damaged) await player.events.AfterLoseHp.Execute(this);
+            if (Value < 0 && this is not Damaged)
+            {
+                Util.Print(player + "失去了了" + (-Value) + "点体力");
+                await player.events.AfterLoseHp.Execute(this);
+            }
         }
 
         private async Task NearDeath()
         {
+            Util.Print(player + "进入濒死状态");
             var currentPlayer = TurnSystem.Instance.CurrentPlayer;
             bool t = true;
             for (var i = currentPlayer; i != currentPlayer || t; i = i.next)
@@ -191,7 +192,7 @@ namespace Model
                 }
             }
 
-            await new Die(player, this is Damaged ? (this as Damaged).Src : null).Execute();
+            await new Die(player, this is Damaged damaged && damaged.Src != player ? damaged.Src : null).Execute();
         }
     }
 
@@ -209,7 +210,7 @@ namespace Model
 
         public async Task Execute()
         {
-            actionView?.Invoke(this);
+            actionView(this);
 
             while (player.skills.Count > 0) player.skills[0].Remove();
             player.events.Clear();
@@ -222,18 +223,21 @@ namespace Model
             SgsMain.Instance.AlivePlayers.Remove(player);
 
             // 弃置所有牌
-            var cards = new List<Card>(player.HandCards);
-            cards.AddRange(player.Equipments.Values.Where(x => x != null));
-            await new Discard(player, cards).Execute();
+            // var cards = player.HandCards.Union(player.Equipments.Values).ToList();
+            await new Discard(player, player.cards.ToList()).Execute();
 
-            foreach (var i in new List<DelayScheme>(player.JudgeArea))
+            foreach (var i in new List<DelayScheme>(player.JudgeCards))
             {
                 i.RemoveToJudgeArea();
                 CardPile.Instance.AddToDiscard(i);
             }
 
-            if (!player.teammate.IsAlive) throw new GameOverException(player.team);
-            else await new GetCardFromPile(player.teammate, 1).Execute();
+            player.teammates.Remove(player);
+
+            await Mode.Instance.WhenPlayerDie(player, DamageSrc);
+
+            // if (player.teammates.Count == 0) throw new GameOverException(player.team);
+            // else if (SgsMain.Instance.mode is Mode.统帅双军) await new GetCardFromPile(player.teammates[0], 1).Execute();
 
             if (player == TurnSystem.Instance.CurrentPlayer) throw new CurrentPlayerDie();
         }
@@ -258,7 +262,7 @@ namespace Model
                 if (Value == 0) return;
             }
 
-            Debug.Log(player.posStr + "回复了" + Value.ToString() + "点体力");
+            Util.Print(player + "回复了" + Value + "点体力");
 
             // 回复体力
             await base.Execute();
@@ -292,36 +296,34 @@ namespace Model
 
         public new async Task Execute()
         {
+            // 受到伤害时
+            try { await player.events.WhenDamaged.Execute(this); }
+            catch (PreventDamage) { return; }
+
+            // 藤甲 白银狮子
+            if (player.armor != null && !(SrcCard is 杀 sha && sha.IgnoreArmor)) player.armor.WhenDamaged(this);
+
+            Util.Print(player + "受到了" + (-Value) + "点伤害");
+
+            // 解锁
+            if (damageType != DamageType.Normal && player.IsLocked)
+            {
+                await new SetLock(player, true).Execute();
+                if (!IsConDucted) conduct = true;
+            }
+
             try
             {
-                // 受到伤害时
-                try { await player.events.WhenDamaged.Execute(this); }
-                catch (PreventDamage) { return; }
-
-                if (player.armor != null && !(SrcCard is 杀 sha && sha.IgnoreArmor)) player.armor.WhenDamaged(this);
-
-                Debug.Log(player.ToString() + "受到了" + (-Value) + "点伤害");
-
                 // 受到伤害
-                if (damageType != DamageType.Normal && player.IsLocked)
-                {
-                    await new SetLock(player, true).Execute();
-                    if (!IsConDucted) conduct = true;
-                }
                 await base.Execute();
-
                 // 受到伤害后
                 await player.events.AfterDamaged.Execute(this);
             }
             catch (PlayerDie) { }
+            catch (CurrentPlayerDie) { throw; }
 
-            catch (CurrentPlayerDie)
-            {
-                if (conduct) await Conduct();
-                throw;
-            }
-
-            if (conduct) await Conduct();
+            // 铁锁传导
+            finally { if (conduct) await Conduct(); }
         }
 
         /// <summary>
@@ -338,7 +340,7 @@ namespace Model
                 await damaged.Execute();
             };
 
-            await Util.Instance.Loop(func);
+            await Util.Loop(func);
         }
     }
 
@@ -357,10 +359,11 @@ namespace Model
         public new async Task Execute()
         {
             // 获得牌
+            Util.Print(player + "获得了" + Dest + "的" + Cards.Count + "张牌");
             player.HandCards.AddRange(Cards);
             foreach (var i in Cards) i.Src = player;
 
-            actionView?.Invoke(this);
+            actionView(this);
 
             // 目标失去牌
             await new LoseCard(Dest, Cards).Execute();
@@ -379,7 +382,7 @@ namespace Model
         {
             var JudgeCard = await CardPile.Instance.Pop();
             CardPile.Instance.AddToDiscard(JudgeCard);
-            Debug.Log("判定结果为【" + JudgeCard.name + JudgeCard.suit + JudgeCard.weight + "】");
+            Util.Print("判定结果为" + JudgeCard);
 
             return JudgeCard;
         }
@@ -399,7 +402,8 @@ namespace Model
         public async Task Execute()
         {
             await Task.Yield();
-            actionView?.Invoke(this);
+            Util.Print(player + "展示了" + string.Join("、", Cards));
+            actionView(this);
         }
     }
 
@@ -418,7 +422,7 @@ namespace Model
         public async Task Execute()
         {
             player.IsLocked = !player.IsLocked;
-            actionView?.Invoke(this);
+            actionView(this);
             await Task.Yield();
         }
     }
@@ -474,7 +478,7 @@ namespace Model
                 var skill = Activator.CreateInstance(Skill.SkillMap[i]) as Skill;
                 skill.Init(i, player);
             }
-            actionView?.Invoke(this);
+            actionView(this);
         }
 
         public void Remove()
@@ -484,7 +488,7 @@ namespace Model
                 var skill = player.FindSkill(i);
                 if (skill != null) skill.Remove();
             }
-            actionView?.Invoke(this);
+            actionView(this);
         }
     }
 

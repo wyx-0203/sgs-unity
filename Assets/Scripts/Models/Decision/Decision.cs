@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Model
@@ -12,14 +14,80 @@ namespace Model
         public Card converted;
         public Player src;
 
-        public static List<Decision> list = new();
-        public static int index;
+        public Message ToMessage() => new Message(this);
 
-        // public void Add(Decision decision) => _list.Add(decision);
-        public static async Task<Decision> Pop()
+        public override string ToString()
         {
-            while (index == list.Count) await Task.Yield();
-            return list[index++];
+            string str = "action=" + action;
+            if (!action) return str + '\n';
+
+            str += "\ncards=" + string.Join(' ', cards);
+            str += "\ndests=" + string.Join(' ', dests);
+            str += "\nskill=" + skill?.Name;
+            str += "\nsrc=" + src;
+            return str + '\n';
+        }
+
+
+        [Serializable]
+        public class Message : WebsocketMessage
+        {
+            public bool action;
+            public List<int> cards;
+            public List<int> dests;
+            public string skill;
+            public int src;
+            public string other;
+
+            public Message(Decision decision)
+            {
+                action = decision.action;
+                cards = decision.cards.Select(x => x.id).ToList();
+                dests = decision.dests.Select(x => x.position).ToList();
+                skill = decision.skill?.Name;
+                other = decision.converted?.name;
+                src = decision.src is Player p ? p.position : 0;
+                msg_type = "set_result";
+            }
+
+            public Decision ToDecision() => new Decision
+            {
+                action = action,
+                cards = cards.Select(x => CardPile.Instance.cards[x]).ToList(),
+                dests = dests.Select(x => SgsMain.Instance.players[x]).ToList(),
+                skill = Timer.Instance.players.FirstOrDefault()?.FindSkill(skill),
+                converted = Timer.Instance.multiConvert.Find(x => x.name == other),
+                src = SgsMain.Instance.players[src],
+            };
+
+            public override string ToString() => ToDecision().ToString();
+        }
+
+        public class List : Singleton<List>
+        {
+            private List<Message> list = new();
+            private int index;
+
+            public async Task<Decision> Pop()
+            {
+                // UnityEngine.Debug.Log(111);
+                while (index == list.Count)
+                {
+                    // if (this == MCTS.Instance._decisionList) 
+                    // UnityEngine.Debug.Log(this);
+                    // UnityEngine.Debug.Log(this == MCTS.Instance._decisionList);
+                    await Task.Yield();
+                };
+                return list[index++].ToDecision();
+            }
+
+            public void Push(Decision decision) => list.Add(decision.ToMessage());
+            public void Push(Message message) => list.Add(message);
+            public bool IsEmpty => index == list.Count;
+
+            public void AddRange(List listInstance) => list.AddRange(listInstance.list);
+
+            public override string ToString() => "index=" + index + "\ncount=" + list.Count + '\n' + string.Join("\n", list);
         }
     }
 }

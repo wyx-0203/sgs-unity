@@ -48,8 +48,8 @@ namespace Model
                 await Execute(decision);
 
                 Timer.Instance.hint = "交给法正一张手牌，或失去一点体力";
-                Timer.Instance.isValidCard = card => damaged.Src.HandCards.Contains(card);
-                Timer.Instance.AIDecision = () =>
+                Timer.Instance.isValidCard = card => card.IsHandCard;
+                Timer.Instance.DefaultAI = () =>
                 {
                     var cards = AI.GetRandomCard();
                     if (cards.Count == 0 || !AI.CertainValue) return new();
@@ -72,7 +72,7 @@ namespace Model
         public override Decision AIDecision()
         {
             if (!triggerByDamage && dest.team != Src.team && AI.CertainValue) return new();
-            return AI.AutoDecision();
+            return AI.TryAction();
         }
     }
 
@@ -93,7 +93,7 @@ namespace Model
         public override int MaxDest => 2;
         public override int MinDest => 2;
 
-        public override bool IsValidCard(Card card) => Src.HandCards.Contains(card);
+        public override bool IsValidCard(Card card) => card.IsHandCard;
 
         public override bool IsValidDest(Player dest) => Timer.Instance.temp.dests.Count > 0 || dest != Src;
 
@@ -116,10 +116,10 @@ namespace Model
             Timer.Instance.multiConvert.AddRange(list);
             Timer.Instance.isValidCard = card => true;
             Timer.Instance.isValidDest = player => player == dest1;
-            Timer.Instance.AIDecision = () =>
+            Timer.Instance.DefaultAI = () =>
             {
                 if (!AI.CertainValue) return new();
-                var card = AI.GetRandomItem(list)[0];
+                var card = AI.Shuffle(list)[0];
                 return new Decision { action = true, converted = card, dests = new List<Player> { dest1 } };
             };
             decision = await Timer.Instance.Run(dest0, 0, 1);

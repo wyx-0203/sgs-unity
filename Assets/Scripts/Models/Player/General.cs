@@ -22,7 +22,8 @@ namespace Model
         public List<string> skill;
         public List<string> discribe;
         // 皮肤
-        // public List<int> /skin;
+        // public List<Skin> skins;
+
     }
 
     [Serializable]

@@ -65,7 +65,7 @@ namespace Model
         /// <summary>
         /// 判断卡牌是否可选
         /// </summary>
-        public virtual bool IsValidCard(Card card) => true;
+        public virtual bool IsValidCard(Card card) => !card.IsConvert;
 
         /// <summary>
         /// 最大目标数
@@ -114,15 +114,16 @@ namespace Model
         /// </summary>
         public virtual bool IsValid => Time < TimeLimit
             && Enabled > 0
-            && (this is not Ultimate || !(this as Ultimate).IsDone);
+            && (this is not Ultimate ultimate || !ultimate.IsDone);
 
         public virtual async Task Execute(Decision decision = null)
         {
             await Task.Yield();
             Time++;
             Dests = decision?.dests;
-            useSkillView?.Invoke(this);
-            UnityEngine.Debug.Log(Src.posStr + "号位使用了" + Name);
+            useSkillView(this);
+            string destStr = Dests != null && Dests.Count > 0 ? "对" + string.Join("、", Dests) : "";
+            Util.Print(Src + destStr + "使用了" + Name);
         }
 
         protected virtual void ResetAfterTurn() => Time = 0;
@@ -133,12 +134,11 @@ namespace Model
 
         protected Player firstDest => Timer.Instance.temp.dests.Count == 0 ? null : Timer.Instance.temp.dests[0];
 
-        private static UnityAction<Skill> useSkillView;
-        public static event UnityAction<Skill> UseSkillView
+        private static void useSkillView(Skill skill)
         {
-            add => useSkillView += value;
-            remove => useSkillView -= value;
+            if (!MCTS.Instance.isRunning) UseSkillView?.Invoke(skill);
         }
+        public static UnityAction<Skill> UseSkillView { get; set; }
 
         public virtual Decision AIDecision() => new Decision();
 

@@ -11,12 +11,13 @@ namespace Model
         /// </summary>
         protected async Task<Decision> WaitDecision()
         {
-            Timer.Instance.givenSkill = Name;
+            // Timer.Instance.givenSkill = Name;
+            Timer.Instance.temp.skill = this;
             Timer.Instance.hint = "是否发动" + Name + "？";
-            Timer.Instance.AIDecision = AIDecision;
+            Timer.Instance.DefaultAI = AIDecision;
             return await Timer.Instance.Run(Src);
         }
 
-        public override Decision AIDecision() => AI.AutoDecision();
+        public override Decision AIDecision() => AI.TryAction();
     }
 }

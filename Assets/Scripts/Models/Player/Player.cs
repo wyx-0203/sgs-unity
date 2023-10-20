@@ -1,24 +1,29 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
-using System.Collections.Generic;
-using System;
-using System.Linq;
 
 namespace Model
 {
     public class Player
     {
-        public Player(bool team)
+        public Player(Team team, int turnOrder, bool isMaster = false)
         {
             this.team = team;
+            this.turnOrder = turnOrder;
+            this.isMaster = isMaster;
         }
 
         public PlayerEvents events { get; private set; } = new PlayerEvents();
 
+        // public int position { get; set; }
         public bool isSelf { get; set; } = false;
         public bool isAI { get; set; } = false;
-        public Player teammate { get; set; }
-        public bool team { get; private set; }
+        public List<Player> teammates { get; set; }
+        public Team team { get; private set; }
+        public bool isMaster { get; private set; }
 
         // 武将
         public General general { get; private set; }
@@ -39,6 +44,7 @@ namespace Model
         public int Hp { get; set; }
         // 位置
         public int position { get; set; }
+        public int turnOrder { get; private set; }
         public string posStr => (position + 1).ToString();
 
         public override string ToString() => general.name;
@@ -67,7 +73,9 @@ namespace Model
         public SubHorse subHorse => Equipments.ContainsKey("减一马") ? Equipments["减一马"] as SubHorse : null;
 
         // 判定区
-        public List<DelayScheme> JudgeArea { get; set; } = new List<DelayScheme>();
+        public List<DelayScheme> JudgeCards { get; set; } = new List<DelayScheme>();
+
+        public IEnumerable<Card> cards => HandCards.Union(Equipments.Values);
 
         // 其他角色计算与你的距离(+1)
         public int DstPlus { get; set; } = 0;
@@ -104,29 +112,23 @@ namespace Model
         /// <summary>
         /// 判断区域内是否有牌
         /// </summary>
-        public bool RegionIsEmpty => CardCount + JudgeArea.Count == 0;
+        public bool RegionIsEmpty => CardCount + JudgeCards.Count == 0;
 
         public int CardCount => HandCardCount + Equipments.Values.Where(x => x != null).Count();
 
         /// <summary>
         /// 按类型查找手牌(人机)
         /// </summary>
-        public T FindCard<T>() where T : Card
-        {
-            foreach (var card in HandCards)
-            {
-                if (card is T && !DisabledCard(card)) return (T)card;
-            }
-            return null;
-        }
+        public T FindCard<T>() where T : Card => HandCards.Find(x => x is T && !DisabledCard(x)) as T;
 
         /// <summary>
         /// 初始化武将
         /// </summary>
-        public async void InitGeneral(General general)
+        public async Task InitGeneral(General general)
         {
             this.general = general;
             HpLimit = general.hp_limit;
+            if (isMaster) HpLimit++;
             Hp = HpLimit;
             InitSkill();
 
@@ -224,5 +226,19 @@ namespace Model
         }
 
         public UnityAction<string, string> ChangeSkinView { get; set; }
+
+        public string DebugInfo()
+        {
+            string str = ToString();
+            str += "\nhp:" + Hp;
+            str += "\nhandcards:" + string.Join(' ', HandCards);
+            str += "\nequipments:" + string.Join(' ', Equipments.Values);
+            str += "\njudges:" + string.Join(' ', JudgeCards) + '\n';
+            return str;
+        }
+
+        // public override bool Equals(object obj) => obj is Player player && player.position == position;
+
+        // public override int GetHashCode() => position.GetHashCode();
     }
 }

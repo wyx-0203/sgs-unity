@@ -27,18 +27,18 @@ namespace Model
 
         public static List<Card> GetRandomCard()
         {
-            var cards = player.HandCards.Union(player.Equipments.Values).Where(x => x != null && Timer.Instance.isValidCard(x)).ToList();
+            var cards = player.cards.Where(x => Timer.Instance.isValidCard(x)).ToList();
             if (cards.Count < Timer.Instance.minCard) return cards;
 
             int count = Mathf.Min(cards.Count, Timer.Instance.maxCard);
             if (count > Timer.Instance.minCard) count = Random.Range(Timer.Instance.minCard, count);
 
-            return GetRandomItem(cards, count);
+            return Shuffle(cards, count);
         }
 
-        public static IEnumerable<Player> GetDestByTeam(bool team)
+        public static IEnumerable<Player> GetDestByTeam(Team team)
         {
-            return SgsMain.Instance.AlivePlayers.Where(x => x.team == team && Timer.Instance.isValidDest(x));
+            return team.GetAllPlayers().Where(x => Timer.Instance.isValidDest(x));
         }
 
 
@@ -47,7 +47,7 @@ namespace Model
             return SgsMain.Instance.AlivePlayers.Where(x => Timer.Instance.isValidDest(x));
         }
 
-        public static Decision AutoDecision()
+        public static Decision TryAction()
         {
             if (!CertainValue) return new();
 
@@ -61,7 +61,7 @@ namespace Model
         private const float certainX = 1f;
         public static bool CertainValue => Random.value < certainX;
 
-        public static List<T> GetRandomItem<T>(List<T> list, int count = 1)
+        public static List<T> Shuffle<T>(List<T> list, int count = 1)
         {
             // 随机取一个元素与第i个元素交换
             for (int i = 0; i < count; i++)

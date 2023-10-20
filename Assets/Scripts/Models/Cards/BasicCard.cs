@@ -45,6 +45,7 @@ namespace Model
             {
                 // 仁王盾 藤甲
                 // if (Disabled(dest)) continue;
+                if (!UseForeachDest(dest)) continue;
 
                 IsDamage = false;
                 if (ShanCount[dest.position] == 0) IsDamage = true;
@@ -65,16 +66,19 @@ namespace Model
 
                 if (IsDamage)
                 {
-                    if (src.weapon != null) await src.weapon.WhenDamage(this, dest);
-                    if (!IsDamage) continue;
+                    if (src.weapon != null)
+                    {
+                        try { await src.weapon.WhenDamage(this, dest); }
+                        catch (PreventDamage) { continue; }
+                    }
                     DamageType type = this is 火杀 ? DamageType.Fire : this is 雷杀 ? DamageType.Thunder : DamageType.Normal;
                     await new Damaged(dest, Src, this, DamageValue[dest.position], type).Execute();
                 }
             }
         }
 
-        public int[] ShanCount { get; set; } = new int[4];
-        public int[] DamageValue { get; set; } = new int[4];
+        public int[] ShanCount { get; set; } = new int[8];
+        public int[] DamageValue { get; set; } = new int[8];
         public bool IgnoreArmor { get; set; }
         public bool IsDamage { get; set; }
 
@@ -89,6 +93,8 @@ namespace Model
             await decision.cards[0].Put(player);
             return true;
         }
+
+        // public void 
     }
 
     /// <summary>
@@ -104,7 +110,7 @@ namespace Model
 
         public static async Task<bool> Call(Player player, 杀 sha = null)
         {
-            if (player.Equipments["防具"] is 八卦阵 baguazhen && (sha is null || !sha.IgnoreArmor))
+            if (player.armor is 八卦阵 baguazhen && (sha is null || !sha.IgnoreArmor))
             {
                 bool result = await baguazhen.Skill();
                 if (result) return true;
@@ -112,7 +118,7 @@ namespace Model
 
             Timer.Instance.hint = "请使用一张闪。";
             Timer.Instance.isValidCard = card => card is 闪 && !player.DisabledCard(card);
-            Timer.Instance.AIDecision = AI.AutoDecision;
+            Timer.Instance.DefaultAI = AI.TryAction;
 
             var decision = await Timer.Instance.Run(player, 1, 0);
 
@@ -151,15 +157,15 @@ namespace Model
             Timer.Instance.isValidCard = card => (card is 桃 || card is 酒 && dest == player)
                 && !player.DisabledCard(card);
             Timer.Instance.isValidDest = player => player == dest;
-            Timer.Instance.AIDecision = () =>
-            {
-                Card card = null;
-                if (player == dest) card = player.FindCard<酒>();
-                if (card is null && player.team == dest.team) card = player.FindCard<桃>();
+            Timer.Instance.DefaultAI = player.team == dest.team ? AI.TryAction : () => new();
+            // {
+            //     Card card = null;
+            //     if (player == dest) card = player.FindCard<酒>();
+            //     if (card is null && player.team == dest.team) card = player.FindCard<桃>();
 
-                if (card is null || Random.value < 0.1f) return new Decision();
-                return new Decision { cards = new List<Card> { card } };
-            };
+            //     if (card is null || !AI.CertainValue) return new Decision();
+            //     return new Decision { cards = new List<Card> { card } };
+            // };
             var decision = await Timer.Instance.Run(player, 1, 1);
 
             // if (player.isAI && (player == dest || player.team == dest.team))

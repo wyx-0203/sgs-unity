@@ -4,7 +4,7 @@ namespace Model
     {
         public int UserId { get; private set; }
         public string Token { get; private set; }
-        public bool team { get; set; }
+        public Team team { get; set; }
 
         public void Init(SignInResponse signInResponse)
         {

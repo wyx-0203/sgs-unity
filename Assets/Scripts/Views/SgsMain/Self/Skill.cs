@@ -27,16 +27,10 @@ namespace View
         /// </summary>
         public void ClickSkill()
         {
-            if (!IsSelected)
-            {
-                Select();
-                operationArea.UseSkill();
-            }
-            else
-            {
-                Unselect();
-                operationArea.UseSkill();
-            }
+            if (model is Model.Triggered) return;
+            if (!IsSelected) Select();
+            else Unselect();
+            operationArea.UseSkill();
         }
 
         /// <summary>

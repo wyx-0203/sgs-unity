@@ -16,18 +16,27 @@ namespace Model
             // 初始化被跳过阶段,设置为否
             foreach (Phase phase in System.Enum.GetValues(typeof(Phase))) SkipPhase.Add(phase, false);
 
-
-            CurrentPlayer = SgsMain.Instance.players[0];
+            // CurrentPlayer = SgsMain.Instance.players[0];
+            actionQueue = SgsMain.Instance.players.OrderBy(x => x.turnOrder).ToArray();
+            CurrentPlayer = actionQueue[0];
         }
 
         // 当前执行回合的玩家
         public Player CurrentPlayer { get; private set; }
         // 当前阶段
         public Phase CurrentPhase { get; private set; }
+        private Player[] actionQueue;
+        // private int actionQueueIndex;
+        // private void GetNextPlayer()
+        // {
+        //     do CurrentPlayer=CurrentPlayer[(System.Array.IndexOf(actionQueue,CurrentPlayer)+1)%]
+        //     return actionQueue[]
+        // }
 
         // 被跳过阶段
         public Dictionary<Phase, bool> SkipPhase { get; set; } = new();
 
+        // public List<Player> finishedList { get; private set; } = new();
         public int Round { get; private set; } = 0;
 
         public async Task Run()
@@ -54,11 +63,17 @@ namespace Model
                 FinishTurnView?.Invoke();
                 AfterTurn?.Invoke();
 
+                if (MCTS.Instance.state == MCTS.State.Simulating) throw new FinishSimulation();
+
                 // 额外回合
                 if (ExtraTurn != null) await ExecuteExtraTurn();
 
-                if (CurrentPlayer.position > CurrentPlayer.next.position) Round++;
-                CurrentPlayer = CurrentPlayer.next;
+                int pos = CurrentPlayer.turnOrder;
+
+                do CurrentPlayer = actionQueue[(CurrentPlayer.turnOrder + 1) % actionQueue.Length];
+                while (!CurrentPlayer.IsAlive);
+
+                if (CurrentPlayer.turnOrder < pos) Round++;
             }
         }
 
@@ -101,9 +116,9 @@ namespace Model
             {
                 // 执行判定阶段
                 case Phase.Judge:
-                    while (CurrentPlayer.JudgeArea.Count != 0)
+                    while (CurrentPlayer.JudgeCards.Count != 0)
                     {
-                        await CurrentPlayer.JudgeArea[0].Judge();
+                        await CurrentPlayer.JudgeCards[0].Judge();
                     }
                     break;
 
@@ -149,9 +164,9 @@ namespace Model
                 timer.minDest = DestArea.Instance.MinDest;
                 timer.isValidCard = CardArea.Instance.ValidCard;
                 timer.isValidDest = DestArea.Instance.ValidDest;
-                timer.isPlayPhase = true;
+                timer.type = Timer.Type.PlayPhase;
 
-                timer.AIDecision = () =>
+                timer.DefaultAI = () =>
                 {
                     var validCards = CurrentPlayer.HandCards.Where(x => CardArea.Instance.ValidCard(x));
                     foreach (var i in validCards)
@@ -198,9 +213,9 @@ namespace Model
                 }
 
                 // 使用技能
-                if (decision.skill != null)
+                if (decision.skill is Active active)
                 {
-                    await (decision.skill as Active).Execute(decision);
+                    await active.Execute(decision);
                 }
                 // 使用牌
                 else

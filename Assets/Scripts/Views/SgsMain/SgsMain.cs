@@ -8,13 +8,17 @@ namespace View
     {
         public RawImage background;
 
-        public GameObject[] players;
-        public Player self { get; private set; }
+        public List<Player> players { get; private set; } = new();
+        public Player self;
         public GameObject gameOver;
         public RectTransform border;
         public GameObject bp;
 
         public GameObject cardPanel;
+
+        public GameObject playerPrefab;
+        public Transform _selfs;
+        public Transform _enemys;
 
         protected override void Awake()
         {
@@ -27,34 +31,37 @@ namespace View
 #endif
         }
 
-        private void Start()
+        private async void Start()
         {
             bgIndex = Random.Range(0, bgUrl.Count);
             ChangeBg();
             BGM.Instance.Load(Url.AUDIO + "bgm/bgm_1.mp3");
 
-            Model.SgsMain.Instance.PositionView += InitPlayers;
+            // Model.SgsMain.Instance.PositionView += InitPlayers;
 
             Model.CardPanel.Instance.StartTimerView += ShowPanel;
             Model.CardPanel.Instance.StopTimerView += HidePanel;
 
             Model.BanPick.Instance.ShowPanelView += ShowBP;
+            Model.SgsMain.Instance.AfterBanPickView += Init;
 
             Model.SgsMain.Instance.MoveSeatView += MoveSeat;
 
             Model.GameOver.Instance.GameOverView += GameOver;
 
+            await Model.SgsMain.Instance.Init();
             Model.SgsMain.Instance.Run();
         }
 
         private void OnDestroy()
         {
-            Model.SgsMain.Instance.PositionView -= InitPlayers;
+            // Model.SgsMain.Instance.PositionView -= InitPlayers;
 
             Model.CardPanel.Instance.StartTimerView -= ShowPanel;
             Model.CardPanel.Instance.StopTimerView -= HidePanel;
 
             Model.BanPick.Instance.ShowPanelView -= ShowBP;
+            Model.SgsMain.Instance.AfterBanPickView -= Init;
 
             Model.SgsMain.Instance.MoveSeatView -= MoveSeat;
 
@@ -79,24 +86,26 @@ namespace View
         /// <summary>
         /// 初始化每个View.Player
         /// </summary>
-        private void InitPlayers(Model.Player[] model)
+        private void Init()
         {
-            // int i;
-            for (int i = 0; i < 4; i++)
+            Destroy(bp);
+            border.gameObject.SetActive(true);
+
+            foreach (var i in Model.SgsMain.Instance.players)
             {
-                players[i].GetComponent<Player>().Init(model[i]);
+                var player = Instantiate(playerPrefab).GetComponent<Player>();
+                player.transform.localScale = new Vector3(0.9f, 0.9f, 1f);
+                player.Init(i);
+                players.Add(player);
+                player.transform.SetParent(i.isSelf ? _selfs : _enemys, false);
             }
 
-            foreach (var i in players)
-            {
-                if (i.GetComponent<Player>().model.isSelf)
-                {
-                    MoveSeat(i.GetComponent<Player>().model);
-                    // Debug.Log("moveseat");
-                    break;
-                }
-            }
+            self.Init(Model.SgsMain.Instance.AlivePlayers.Find(x => x.isSelf));
         }
+
+        // private void AfterBanPick()
+        // {
+        // }
 
         private void GameOver()
         {
@@ -108,53 +117,55 @@ namespace View
         /// </summary>
         private void MoveSeat(Model.Player model)
         {
-            if (self != null)
-            {
-                self.transform.Find("其他角色").gameObject.SetActive(true);
-            }
+            // if (self != null)
+            // {
+            //     self.transform.Find("其他角色").gameObject.SetActive(true);
+            // }
 
-            self = players[model.position].GetComponent<Player>();
-            self.transform.Find("其他角色").gameObject.SetActive(false);
+            // self = players[model.position].GetComponent<Player>();
+            // self.transform.Find("其他角色").gameObject.SetActive(false);
+            self.Init(model);
+            // self.general.Init(model);
 
-            int i = model.position;
-            SelfPos(players[i++]);
-            RightPos(players[i++ % 4]);
-            TopPos(players[i++ % 4]);
-            LeftPos(players[i % 4]);
+            // int i = model.position;
+            // SelfPos(players[i++]);
+            // RightPos(players[i++ % 4]);
+            // TopPos(players[i++ % 4]);
+            // LeftPos(players[i % 4]);
         }
 
-        private void SelfPos(GameObject player)
-        {
-            RectTransform rectTransform = player.GetComponent<RectTransform>();
-            rectTransform.anchorMax = new Vector2(1, 0);
-            rectTransform.anchorMin = new Vector2(1, 0);
-            // rectTransform.pivot = new Vector2(1, 0);
-            rectTransform.anchoredPosition = new Vector2(-125f, 160);
-        }
-        private void RightPos(GameObject player)
-        {
-            RectTransform rectTransform = player.GetComponent<RectTransform>();
-            rectTransform.anchorMax = new Vector2(1, 0.5f);
-            rectTransform.anchorMin = new Vector2(1, 0.5f);
-            // rectTransform.pivot = new Vector2(1, 0.5f);
-            rectTransform.anchoredPosition = new Vector2(-125f, 150);
-        }
-        private void TopPos(GameObject player)
-        {
-            RectTransform rectTransform = player.GetComponent<RectTransform>();
-            rectTransform.anchorMax = new Vector2(0.5f, 1);
-            rectTransform.anchorMin = new Vector2(0.5f, 1);
-            // rectTransform.pivot = new Vector2(0.5f, 1);
-            rectTransform.anchoredPosition = new Vector2(0, -150);
-        }
-        private void LeftPos(GameObject player)
-        {
-            RectTransform rectTransform = player.GetComponent<RectTransform>();
-            rectTransform.anchorMax = new Vector2(0, 0.5f);
-            rectTransform.anchorMin = new Vector2(0, 0.5f);
-            // rectTransform.pivot = new Vector2(0, 0.5f);
-            rectTransform.anchoredPosition = new Vector2(125, 150);
-        }
+        // private void SelfPos(GameObject player)
+        // {
+        //     RectTransform rectTransform = player.GetComponent<RectTransform>();
+        //     rectTransform.anchorMax = new Vector2(1, 0);
+        //     rectTransform.anchorMin = new Vector2(1, 0);
+        //     // rectTransform.pivot = new Vector2(1, 0);
+        //     rectTransform.anchoredPosition = new Vector2(-125f, 160);
+        // }
+        // private void RightPos(GameObject player)
+        // {
+        //     RectTransform rectTransform = player.GetComponent<RectTransform>();
+        //     rectTransform.anchorMax = new Vector2(1, 0.5f);
+        //     rectTransform.anchorMin = new Vector2(1, 0.5f);
+        //     // rectTransform.pivot = new Vector2(1, 0.5f);
+        //     rectTransform.anchoredPosition = new Vector2(-125f, 150);
+        // }
+        // private void TopPos(GameObject player)
+        // {
+        //     RectTransform rectTransform = player.GetComponent<RectTransform>();
+        //     rectTransform.anchorMax = new Vector2(0.5f, 1);
+        //     rectTransform.anchorMin = new Vector2(0.5f, 1);
+        //     // rectTransform.pivot = new Vector2(0.5f, 1);
+        //     rectTransform.anchoredPosition = new Vector2(0, -150);
+        // }
+        // private void LeftPos(GameObject player)
+        // {
+        //     RectTransform rectTransform = player.GetComponent<RectTransform>();
+        //     rectTransform.anchorMax = new Vector2(0, 0.5f);
+        //     rectTransform.anchorMin = new Vector2(0, 0.5f);
+        //     // rectTransform.pivot = new Vector2(0, 0.5f);
+        //     rectTransform.anchoredPosition = new Vector2(125, 150);
+        // }
 
         // private GameObject panel;
 

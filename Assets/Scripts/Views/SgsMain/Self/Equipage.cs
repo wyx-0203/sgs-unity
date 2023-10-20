@@ -18,43 +18,43 @@ namespace View
 
         public EquipArea equipArea => EquipArea.Instance;
         public OperationArea operationArea => OperationArea.Instance;
-        public Model.Card model => Model.CardPile.Instance.cards[Id];
+        public Model.Card model { get; set; }
         private Model.Skill skill { get => Model.Timer.Instance.temp.skill; set => Model.Timer.Instance.temp.skill = value; }
 
         private void Start()
         {
             // button.interactable = false;
-            button.onClick.AddListener(ClickCard);
+            button.onClick.AddListener(OnClick);
         }
 
         public void Init(Model.Equipment card)
         {
             Id = card.id;
             name = card.name;
+            model = Model.CardPile.Instance.cards[Id];
 
             var sprites = Sprites.Instance;
             cardImage.sprite = sprites.equipImage[name];
             suit.sprite = sprites.cardSuit[card.suit];
-            if (card.suit == "黑桃" || card.suit == "草花") weight.sprite = sprites.blackWeight[card.weight];
-            else weight.sprite = sprites.redWeight[card.weight];
+            weight.sprite = card.isBlack ? sprites.blackWeight[card.weight] : sprites.redWeight[card.weight];
         }
 
         /// <summary>
         /// 点击卡牌
         /// </summary>
-        private void ClickCard()
+        private void OnClick()
         {
             // 可发动丈八蛇矛
-            if (name == "丈八蛇矛" && Model.Timer.Instance.isValidCard(Model.Card.Convert<Model.杀>()))
+            if (model is Model.丈八蛇矛 zbsm && (zbsm.skill.IsValid || skill == zbsm.skill))
             {
                 // var skill = SkillArea.Instance.SelectedSkill;
                 if (skill is null)
                 {
-                    skill = (model as Model.丈八蛇矛).skill;
+                    skill = zbsm.skill;
                     operationArea.UseSkill();
                     Use();
                 }
-                else if (skill == (model as Model.丈八蛇矛).skill)
+                else if (skill == zbsm.skill)
                 {
                     skill = null;
                     operationArea.UseSkill();
@@ -101,7 +101,7 @@ namespace View
         /// <summary>
         /// 重置卡牌
         /// </summary>
-        public void ResetCard()
+        public void Reset()
         {
             button.interactable = false;
             Unselect();

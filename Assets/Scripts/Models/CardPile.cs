@@ -12,16 +12,21 @@ namespace Model
         // 卡牌数组
         public Card[] cards { get; private set; }
         // 牌堆
-        private List<Card> remainPile;
+        public List<Card> RemainPile { get; private set; } = new();
         // 弃牌堆
         public List<Card> DiscardPile { get; private set; }
         // 牌堆数
-        public int PileCount => remainPile.Count;
+        public int PileCount => RemainPile.Count;
+
+        private static List<CardJson> cardJsons;
 
         public async Task Init()
         {
-            string url = Url.JSON + "card.json";
-            var cardJsons = JsonList<CardJson>.FromJson(await WebRequest.Get(url));
+            if (!MCTS.Instance.isRunning)
+            {
+                string url = Url.JSON + "card.json";
+                cardJsons = JsonList<CardJson>.FromJson(await WebRequest.Get(url));
+            }
             cards = new Card[cardJsons.Count];
 
             foreach (var i in cardJsons)
@@ -40,7 +45,8 @@ namespace Model
 
             DiscardPile = new List<Card>(cards);
             DiscardPile.RemoveAt(0);
-            await Shuffle();
+
+            if (Mode.Instance is ThreeVSThree) RemainPile.RemoveAll(x => x is 闪电);
         }
 
         /// <summary>
@@ -48,13 +54,13 @@ namespace Model
         /// </summary>
         public async Task<Card> Pop()
         {
-            Card T = remainPile[0];
-            remainPile.RemoveAt(0);
-
             if (PileCount == 0) await Shuffle();
-            PileCountView?.Invoke();
 
-            return T;
+            var card = RemainPile[0];
+            RemainPile.RemoveAt(0);
+
+            PileCountView?.Invoke();
+            return card;
         }
 
         /// <summary>
@@ -81,40 +87,35 @@ namespace Model
         /// </summary>
         private async Task Shuffle()
         {
-            List<int> cardIds = DiscardPile.Select(x => x.id).ToList();
-
-            if (Room.Instance.IsSingle || TurnSystem.Instance.CurrentPlayer.isSelf)
+            if (MCTS.Instance.state == MCTS.State.Restoring)
             {
-                // 随机取一个元素与第i个元素交换
-                for (int i = 0; i < cardIds.Count; i++)
-                {
-                    int t = UnityEngine.Random.Range(i, cardIds.Count);
-                    var card = cardIds[i];
-                    cardIds[i] = cardIds[t];
-                    cardIds[t] = card;
-                }
-
-                // 发送洗牌请求
-                if (!Room.Instance.IsSingle)
-                {
-                    var json = new ShuffleMessage
-                    {
-                        msg_type = "shuffle",
-                        cards = cardIds,
-                    };
-                    WebSocket.Instance.SendMessage(json);
-                }
+                if (Decision.List.Instance.IsEmpty) MCTS.Instance.state = MCTS.State.WaitShuffle;
             }
 
-            // 等待消息
-            if (!Room.Instance.IsSingle)
+            else if (Room.Instance.IsSingle)
             {
+                // Debug.Log("shuffle");
+                var discards = AI.Shuffle(DiscardPile, DiscardPile.Count);
+                Decision.List.Instance.Push(new Decision { cards = discards });
+            }
+
+            else
+            {
+                if (TurnSystem.Instance.CurrentPlayer.isSelf)
+                {
+                    // 发送洗牌请求
+                    var discards = AI.Shuffle(DiscardPile, DiscardPile.Count);
+                    var json = new Decision { cards = discards }.ToMessage();
+                    WebSocket.Instance.SendMessage(json);
+                }
+
+                // 等待消息
                 var msg = await WebSocket.Instance.PopMessage();
-                cardIds = JsonUtility.FromJson<ShuffleMessage>(msg).cards;
+                Decision.List.Instance.Push(JsonUtility.FromJson<Decision.Message>(msg));
             }
 
             DiscardPile.Clear();
-            remainPile = cardIds.Select(x => cards[x]).ToList();
+            RemainPile.AddRange((await Decision.List.Instance.Pop()).cards);
         }
 
         public UnityAction<List<Card>> DiscardView { get; set; }

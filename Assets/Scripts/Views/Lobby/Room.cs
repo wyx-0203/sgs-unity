@@ -32,8 +32,9 @@ namespace View
 
         private void OnEnable()
         {
-            if (model.mode is Mode.统帅双军) seats = allSeats[0..2];
-            else seats = allSeats[2..6];
+            // if (model.mode is Mode.统帅双军) 
+            seats = allSeats[0..2];
+            // else seats = allSeats[2..6];
 
             for (int i = 0; i < seats.Length; i++)
             {

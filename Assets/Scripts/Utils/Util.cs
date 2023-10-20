@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 using System;
 
 public class Util : GlobalSingletonMono<Util>
 {
-    public async Task WaitFrame(int count = 1)
+    public static async Task WaitFrame(int count = 1)
     {
         int t = Time.frameCount + count;
         while (t != Time.frameCount) await Task.Yield();
@@ -15,12 +16,12 @@ public class Util : GlobalSingletonMono<Util>
     /// <summary>
     /// 队友位置
     /// </summary>
-    public int TeammatePos(int position) => 3 - position;
+    public static int TeammatePos(int position) => 3 - position;
 
     /// <summary>
     /// 从当前回合玩家开始，循环执行操作
     /// </summary>
-    public async Task Loop(Func<Model.Player, Task> func, Func<bool> condition = null)
+    public static async Task Loop(Func<Model.Player, Task> func, Func<bool> condition = null)
     {
         var currentPlayer = Model.TurnSystem.Instance.CurrentPlayer;
         if (!currentPlayer.IsAlive) currentPlayer = currentPlayer.next;
@@ -34,6 +35,24 @@ public class Util : GlobalSingletonMono<Util>
             if (condition != null && !condition()) return;
             await func(i);
         }
+    }
+
+    public static void Print(object str)
+    {
+        if (!Model.MCTS.Instance.isRunning)
+            Debug.Log(str);
+    }
+    // public static string CardsToString(List<Model.Card> cards)
+    // {
+    //     // 
+    // }
+    public static string GetGameInfo()
+    {
+        string str = "GameInfo:";
+        str += "\nMCTS.state=" + Model.MCTS.Instance.state;
+        str += "\nplayers:\n" + string.Join("\n", Model.SgsMain.Instance.AlivePlayers.Select(x => x.DebugInfo()));
+        str += "\ndecisions:\n" + Model.Decision.List.Instance;
+        return str;
     }
 }
 
@@ -55,6 +74,7 @@ public class Delay
     /// </summary>
     public async Task<bool> Run()
     {
+        if (Model.MCTS.Instance.isRunning) return true;
         list.Add(this);
         coroutine = RunCoroutine(second);
         Util.Instance.StartCoroutine(coroutine);
@@ -71,6 +91,7 @@ public class Delay
 
     public static void StopAll()
     {
+        if (Model.MCTS.Instance.isRunning) return;
         Util.Instance.StopAllCoroutines();
         foreach (var i in list)
         {

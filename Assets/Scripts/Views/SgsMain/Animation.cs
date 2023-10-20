@@ -22,8 +22,9 @@ namespace View
         /// </summary>
         private Vector3 Pos(Model.Player model)
         {
-            if (model == SgsMain.Instance.self.model) return Self.Instance.transform.position;
-            else return SgsMain.Instance.players[model.position].transform.position;
+            // if (model == SgsMain.Instance.self.model) return Self.Instance.transform.position;
+            // else 
+            return SgsMain.Instance.players.Find(x => x.model == model).transform.position;
         }
 
         private void UseCard(Model.Card card)
@@ -64,18 +65,11 @@ namespace View
             line.SetPosition(0, src);
             line.SetPosition(1, src);
 
-            var x = dest - src;
+            var speed = (dest - src).magnitude / 0.3f;
+
             while ((line.GetPosition(1)) != dest)
             {
-                var dx = x / 0.3f * Time.deltaTime;
-
-                if (dx.magnitude < (dest - line.GetPosition(1)).magnitude)
-                    line.SetPosition(1, line.GetPosition(1) + dx);
-
-                else
-                {
-                    line.SetPosition(1, dest);
-                }
+                line.SetPosition(1, Vector3.MoveTowards(line.GetPosition(1), dest, speed * Time.deltaTime));
                 yield return null;
             }
 
@@ -83,17 +77,11 @@ namespace View
 
             while ((line.GetPosition(0)) != dest)
             {
-                var dx = x / 0.3f * Time.deltaTime;
-
-                if (dx.magnitude < (dest - line.GetPosition(0)).magnitude)
-                    line.SetPosition(0, line.GetPosition(0) + dx);
-
-                else
-                {
-                    line.SetPosition(0, dest);
-                }
+                line.SetPosition(0, Vector3.MoveTowards(line.GetPosition(0), dest, speed * Time.deltaTime));
                 yield return null;
             }
+
+            Destroy(line.gameObject);
         }
     }
 }

@@ -18,21 +18,20 @@ namespace View
         private Model.Timer timer => Model.Timer.Instance;
 
         // 已选卡牌
-        private List<Model.Card> SelectedCard => Model.Timer.Instance.temp.cards;
+        private List<Model.Card> SelectedCards => Model.Timer.Instance.temp.cards;
         // 已选技能
-        private Model.Skill skill => Model.Timer.Instance.temp.skill;
-        // 转化牌
-        private Model.Card Converted
-        {
-            get => Model.Timer.Instance.temp.converted;
-            set => Model.Timer.Instance.temp.converted = value;
-        }
+        // private Model.Skill skill => Model.Timer.Instance.temp.skill;
+        // // 转化牌
+        // private Model.Card Converted
+        // {
+        //     get => Model.Timer.Instance.temp.converted;
+        //     set => Model.Timer.Instance.temp.converted = value;
+        // }
 
         public int MaxCount { get; private set; }
         public int MinCount { get; private set; }
         // 是否已设置
         public bool IsValid { get; private set; } = false;
-
 
         private void Start()
         {
@@ -87,11 +86,11 @@ namespace View
         }
 
         /// <summary>
-        /// 添加队友手牌 (统帅模式)
+        /// 添加队友手牌
         /// </summary>
         public void TeammateAdd(Model.GetCard operation)
         {
-            if (operation.player != self.teammate) return;
+            if (!operation.player.isSelf || operation.player == self) return;
 
             foreach (var i in operation.Cards)
             {
@@ -124,14 +123,14 @@ namespace View
             {
                 if (!handcards.ContainsKey(i.id)) continue;
 
-                if (!operation.player.teammate.HandCards.Contains(i))
+                // 若卡牌还在队友手中，则不移除
+                if (i.IsHandCard && i.Src.isSelf) handcards[i.id].gameObject.SetActive(self != operation.player);
+
+                else
                 {
                     Destroy(handcards[i.id].gameObject);
                     handcards.Remove(i.id);
                 }
-
-                // 若卡牌还在队友手中，则不移除
-                else handcards[i.id].gameObject.SetActive(self != operation.player);
             }
             MoveAll(0.1f);
         }
@@ -146,7 +145,7 @@ namespace View
             MinCount = timer.minCard;
 
             // 无懈可击
-            if (timer is Model.WxkjTimer)
+            if (timer.type == Model.Timer.Type.WXKJ)
             {
                 foreach (var i in handcards.Values) i.gameObject.SetActive(i.name == "无懈可击");
                 MoveAll(0);
@@ -164,7 +163,7 @@ namespace View
 
             // 重置手牌状态
             foreach (var card in handcards.Values) if (card.gameObject.activeSelf) card.Reset();
-            if (timer is Model.WxkjTimer)
+            if (timer.type == Model.Timer.Type.WXKJ)
             {
                 foreach (var i in handcards.Values) i.gameObject.SetActive(self.HandCards.Contains(i.model));
                 MoveAll(0);
@@ -178,7 +177,7 @@ namespace View
             }
 
             IsValid = false;
-            Converted = null;
+            // timer.temp.converted = null;
         }
 
         /// <summary>
@@ -187,20 +186,16 @@ namespace View
         public void Update_()
         {
             // 若已选中手牌数量超出范围，取消第一张选中的手牌
-            while (SelectedCard.Count > MaxCount)
+            while (SelectedCards.Count > MaxCount)
             {
-                if (handcards.ContainsKey(SelectedCard[0].id)) handcards[SelectedCard[0].id].Unselect();
-                else EquipArea.Instance.Equips.Values.First(x => x.model == SelectedCard[0]).Unselect();
+                if (handcards.ContainsKey(SelectedCards[0].id)) handcards[SelectedCards[0].id].Unselect();
+                else EquipArea.Instance.Equips.Values.First(x => x.model == SelectedCards[0]).Unselect();
             }
 
-            IsValid = SelectedCard.Count >= MinCount;
+            IsValid = SelectedCards.Count >= MinCount;
 
             // 转化牌
-            if (IsValid && skill != null && skill is Model.Converted)
-            {
-                Converted = (skill as Model.Converted).Convert(SelectedCard);
-            }
-            else Converted = null;
+            if (IsValid) timer.temp.converted = (timer.temp.skill as Model.Converted)?.Convert(SelectedCards);
 
             // 判断每张卡牌是否可选
             if (MaxCount > 0)
@@ -214,6 +209,8 @@ namespace View
 
             // 对已禁用的手牌设置阴影
             foreach (var card in handcards.Values) if (card.gameObject.activeSelf) card.SetShadow();
+
+            // Debug.Log(SelectedCard.Count);
         }
 
 
@@ -243,7 +240,7 @@ namespace View
 
         public void UpdateConvertCard()
         {
-            ConvertIsValid = Converted != null;
+            ConvertIsValid = timer.temp.converted != null;
         }
 
         public GridLayoutGroup gridLayoutGroup;
@@ -270,7 +267,7 @@ namespace View
         public async void MoveAll(float second)
         {
             UpdateSpacing();
-            await Util.Instance.WaitFrame();
+            await Util.WaitFrame();
             foreach (var i in handcards.Values) i.card.Move(second);
             if (IsValid && !ConvertIsValid) foreach (var i in ConvertCards.Values) i.card.Move(0);
         }

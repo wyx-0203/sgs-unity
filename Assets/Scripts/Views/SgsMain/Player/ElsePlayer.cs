@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace View
@@ -14,9 +15,7 @@ namespace View
         public Text handCardCount;
 
         public ElsePlayerEquip[] equipArray;
-        public Dictionary<string, ElsePlayerEquip> equipages;
-
-        // private Sprites sprites => Sprites.Instance;
+        private Dictionary<string, ElsePlayerEquip> equipages;
 
         private Player player;
         private Model.Player model => player.model;
@@ -44,7 +43,7 @@ namespace View
             Model.Equipment.AddEquipView += ShowEquip;
             Model.Equipment.RemoveEquipView += HideEquip;
 
-            player = GetComponentInParent<Player>();
+            player = GetComponent<Player>();
 
             currentPhase.gameObject.SetActive(false);
             slider.gameObject.SetActive(false);
@@ -58,6 +57,8 @@ namespace View
             };
 
             UpdateHandCardCount();
+
+            if (model.isSelf) handCardCount.transform.parent.gameObject.AddComponent<HandCardPointerHandler>();
             // phaseSprite = Sprites.Instance.phase;
         }
 
@@ -79,11 +80,6 @@ namespace View
             Model.Equipment.RemoveEquipView -= HideEquip;
         }
 
-        // private void OnEnable()
-        // {
-        //     handCardCount.text = model?.HandCardCount.ToString();
-        // }
-
         /// <summary>
         /// 显示倒计时进度条
         /// </summary>
@@ -102,8 +98,7 @@ namespace View
 
         private void ShowTimer(Model.CardPanel cardPanel)
         {
-            if (!gameObject.activeSelf) return;
-            if (cardPanel.player != model) return;
+            if (!gameObject.activeSelf || cardPanel.player != model) return;
             ShowTimer(cardPanel.second);
         }
 
@@ -113,7 +108,6 @@ namespace View
         private void HideTimer()
         {
             if (!gameObject.activeSelf || !timer.players.Contains(model)) return;
-            // if (!timer.isWxkj && timer.players != model) return;
             StopAllCoroutines();
             slider.gameObject.SetActive(false);
         }
@@ -168,7 +162,7 @@ namespace View
 
         private void ShowEquip(Model.Equipment card)
         {
-            if (card.Src != model) return;
+            if (card.Owner != model) return;
 
             equipages[card.type].gameObject.SetActive(true);
             equipages[card.type].Init(card);
@@ -194,4 +188,32 @@ namespace View
             }
         }
     }
+
+    class HandCardPointerHandler : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
+    {
+        private Player player;
+        private TeammateHandCardPanel teammateHandCardPanel;
+
+        private void Start()
+        {
+            player = GetComponentInParent<Player>();
+            teammateHandCardPanel = SgsMain.Instance.transform.Find("队友手牌Panel").GetComponent<TeammateHandCardPanel>();
+        }
+
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            teammateHandCardPanel.Show(player.model);
+        }
+
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            teammateHandCardPanel.Show(player.model);
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            teammateHandCardPanel.gameObject.SetActive(false);
+        }
+    }
+
 }

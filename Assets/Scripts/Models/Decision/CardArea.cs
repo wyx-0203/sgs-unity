@@ -5,7 +5,7 @@ namespace Model
         public bool ValidCard(Card card)
         {
             var player = TurnSystem.Instance.CurrentPlayer;
-            if (!player.HandCards.Contains(card) && !card.IsConvert) return false;
+            if (!card.IsHandCard && !card.IsConvert) return false;
             if (player.DisabledCard(card)) return false;
             switch (card.name)
             {
@@ -22,8 +22,7 @@ namespace Model
                     return UseSha(player, card);
 
                 case "闪电":
-                    foreach (var i in player.JudgeArea) if (i is 闪电) return false;
-                    return true;
+                    return player.JudgeCards.Find(x => x is 闪电) is null;
 
                 case "酒":
                     return player.酒Count < 1 || player.UnlimitTimes(card);

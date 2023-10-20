@@ -1,15 +1,15 @@
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace View
 {
     public class DestArea : SingletonMono<DestArea>
     {
-        public List<Dest> players;
+        private List<Dest> players;
 
         private List<Model.Player> SelectedPlayer => Model.Timer.Instance.temp.dests;
-        private Model.Skill skill => Model.Timer.Instance.temp.skill;
-        private Player self => SgsMain.Instance.self;
+        // private Model.Skill skill => Model.Timer.Instance.temp.skill;
+        // private Player self => ;
         private Model.Timer timer => Model.Timer.Instance;
 
         private int maxCount;
@@ -19,6 +19,7 @@ namespace View
         private void Start()
         {
             Model.Timer.Instance.StopTimerView += Reset;
+            players = SgsMain.Instance.players.Select(x => x.GetComponent<Dest>()).ToList();
         }
 
         private void OnDestroy()
@@ -54,7 +55,7 @@ namespace View
         /// </summary>
         public void Reset()
         {
-            if (!timer.players.Contains(self.model)) return;
+            if (!timer.players.Contains(SgsMain.Instance.self.model)) return;
 
             // 重置目标按键状态
             foreach (var i in players) i.Reset();
@@ -70,22 +71,14 @@ namespace View
             IsValid = SelectedPlayer.Count >= minCount;
             if (maxCount == 0) return;
 
-            // 每指定一个角色，都要更新不能指定的角色，例如明策指定一个目标后，第二个目标需在第一个的攻击范围内
+            foreach (var i in players)
+            {
+                // 每指定一个角色，都要更新不能指定的角色，例如明策指定一个目标后，第二个目标需在第一个的攻击范围内
+                i.button.interactable = Model.Timer.Instance.isValidDest(i.model);
 
-            // if (skill != null && skill is not Model.Converted)
-            // {
-            //     foreach (var player in players)
-            //     {
-            //         player.button.interactable = skill.IsValidDest(player.model);
-            //     }
-            // }
-            // else
-            // {
-            foreach (var i in players) i.button.interactable = Model.Timer.Instance.isValidDest(i.model);
-            // }
-
-            // 对不能选择的角色设置阴影
-            foreach (var player in players) player.AddShadow();
+                // 对不能选择的角色设置阴影
+                i.AddShadow();
+            }
         }
     }
 }

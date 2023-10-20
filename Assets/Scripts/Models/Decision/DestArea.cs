@@ -103,7 +103,10 @@ namespace Model
                     return dest.HandCardCount != 0;
 
                 case "兵粮寸断":
-                    return src.GetDistance(dest) == 1;
+                    return src.GetDistance(dest) == 1 && dest.JudgeCards.Find(x => x is 兵粮寸断) is null;
+
+                case "乐不思蜀":
+                    return src != dest && dest.JudgeCards.Find(x => x is 乐不思蜀) is null;
 
                 default:
                     return true;

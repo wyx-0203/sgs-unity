@@ -11,9 +11,9 @@ namespace Model
         /// </summary>
         public static async Task<List<Card>> SelectHandCard(Player player, int count)
         {
-            Timer.Instance.isValidCard = card => player.HandCards.Contains(card);
+            Timer.Instance.isValidCard = card => card.IsHandCard;
             Timer.Instance.refusable = false;
-            Timer.Instance.AIDecision = () => new Decision { action = true, cards = AI.GetRandomCard() };
+            Timer.Instance.DefaultAI = () => new Decision { action = true, cards = AI.GetRandomCard() };
 
             return (await Timer.Instance.Run(player, count, 0)).cards;
         }
@@ -41,12 +41,12 @@ namespace Model
 
 
 
-        public static async Task<List<Card>> SelectCard(Player player, Player dest, bool judgeArea = false)
+        public static async Task<List<Card>> SelectOneCard(Player player, Player dest, bool judgeArea = false)
         {
-            var cards = dest.HandCards.Union(dest.Equipments.Values).Where(x => x != null);
-            if (judgeArea) cards = cards.Union(dest.JudgeArea);
+            var cards = dest.cards.ToList();
+            if (judgeArea) cards.AddRange(dest.JudgeCards);
 
-            return (await CardPanel.Instance.Run(player, dest, cards.ToList())).cards;
+            return (await CardPanel.Instance.Run(player, dest, cards)).cards;
         }
 
         // public static async Task Compete(Player src,Player dest)

@@ -71,7 +71,7 @@ namespace View
             //         break;
             // }
 
-            string skinId = SgsMain.Instance.players[model.dest.position].GetComponent<General>().SkinId;
+            int skinId = model.dest.currentSkin.id;
             string url = Url.GENERAL_IMAGE + "Window/" + skinId + ".png";
             var texture = await WebRequest.GetTexture(url);
 
@@ -102,7 +102,7 @@ namespace View
             if (selectCard != null)
             {
                 StopAllCoroutines();
-                Model.CardPanel.Instance.SendResult(new List<Model.Card> { selectCard.model }, true);
+                Model.CardPanel.Instance.SendResult(new List<Model.Card> { selectCard.model });
             }
         }
 
@@ -123,7 +123,7 @@ namespace View
                 yield return new WaitForSeconds(0.1f);
             }
             // StopAllCoroutines();
-            Model.CardPanel.Instance.SendResult();
+            // Model.CardPanel.Instance.SendResult();
         }
 
         /// <summary>

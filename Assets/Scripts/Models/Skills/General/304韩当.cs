@@ -31,7 +31,7 @@ namespace Model
             if (decision.cards[0] is not Equipment) return;
             Timer.Instance.hint = "弃置一名其他角色的一张牌";
             Timer.Instance.isValidDest = x => x != Src && x.CardCount > 0;
-            Timer.Instance.AIDecision = AI.AutoDecision;
+            Timer.Instance.DefaultAI = AI.TryAction;
 
             decision = await Timer.Instance.Run(Src, 0, 1);
             if (!decision.action) return;
@@ -39,7 +39,7 @@ namespace Model
             CardPanel.Instance.Title = "弓骑";
             CardPanel.Instance.Hint = "弃置其一张牌";
             var dest = decision.dests[0];
-            var card = await TimerAction.SelectCard(Src, dest);
+            var card = await TimerAction.SelectOneCard(Src, dest);
             await new Discard(dest, card).Execute();
         }
 
@@ -85,7 +85,7 @@ namespace Model
                 if (decision.action) await new Discard(x, decision.cards).Execute();
                 else await new GetCardFromPile(dest, 1).Execute();
             };
-            await Util.Instance.Loop(func);
+            await Util.Loop(func);
         }
 
         public override Decision AIDecision()

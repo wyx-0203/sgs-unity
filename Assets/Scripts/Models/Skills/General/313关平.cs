@@ -42,7 +42,7 @@ namespace Model
         public override Decision AIDecision()
         {
             if (Src.CardCount == 0 || dest.team != Src.team && (!sha.isRed || UnityEngine.Random.value < 0.7f)) return new();
-            return AI.AutoDecision();
+            return AI.TryAction();
         }
     }
 

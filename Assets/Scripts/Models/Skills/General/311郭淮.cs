@@ -24,7 +24,7 @@ namespace Model
             if (cards.Select(x => x.suit).Distinct().Count() < Src.Hp)
             {
                 Timer.Instance.hint = "点击确定执行一个额外的摸牌阶段，点击取消执行出牌阶段";
-                Timer.Instance.AIDecision = () => new Decision { action = UnityEngine.Random.value < 0.5f };
+                Timer.Instance.DefaultAI = () => new Decision { action = AI.CertainValue };
                 TurnSystem.Instance.ExtraPhase.Add((await Timer.Instance.Run(Src)).action ? Phase.Get : Phase.Play);
             }
             else

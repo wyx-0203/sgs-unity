@@ -43,9 +43,9 @@ namespace Model
 
             Timer.Instance.hint = "请选择" + count + "张手牌，交给一名手牌最少的角色";
             Timer.Instance.isValidDest = dest => dest.HandCardCount == min;
-            Timer.Instance.isValidCard = card => Src.HandCards.Contains(card);
+            Timer.Instance.isValidCard = card => card.IsHandCard;
             Timer.Instance.refusable = false;
-            Timer.Instance.AIDecision = () => new Decision
+            Timer.Instance.DefaultAI = () => new Decision
             {
                 action = true,
                 cards = AI.GetRandomCard(),
@@ -83,7 +83,7 @@ namespace Model
             {
                 Timer.Instance.hint = "请弃置" + count + "张牌";
                 Timer.Instance.refusable = false;
-                Timer.Instance.AIDecision = AI.AutoDecision;
+                Timer.Instance.DefaultAI = AI.TryAction;
                 var _decision = await Timer.Instance.Run(Src, count, 0);
                 await new Discard(Src, _decision.cards).Execute();
             }
@@ -95,7 +95,7 @@ namespace Model
         {
             // 将队友按手牌数量生序排列，敌人降序排列
             var teammates = SgsMain.Instance.AlivePlayers.Where(x => x.team == Src.team && x != Src).OrderBy(x => x.HandCardCount).ToArray();
-            var dests = SgsMain.Instance.AlivePlayers.Where(x => x.team != Src.team).OrderBy(x => -x.HandCardCount).ToArray();
+            var dests = (!Src.team).GetAllPlayers().OrderBy(x => -x.HandCardCount).ToArray();
 
             if (teammates.Count() == 0) return new();
             int i = 0, j = 0, diff = dests[j].HandCardCount - teammates[i].HandCardCount;
@@ -129,12 +129,12 @@ namespace Model
         public async Task Execute()
         {
             actionView(this);
-            List<Card> card0 = new List<Card>(player.HandCards);
-            List<Card> card1 = new List<Card>(Dest.HandCards);
-            await new LoseCard(player, card0).Execute();
-            await new LoseCard(Dest, card1).Execute();
-            await new GetCard(player, card1).Execute();
-            await new GetCard(Dest, card0).Execute();
+            var cards0 = new List<Card>(player.HandCards);
+            var cards1 = new List<Card>(Dest.HandCards);
+            await new LoseCard(player, cards0).Execute();
+            await new LoseCard(Dest, cards1).Execute();
+            await new GetCard(player, cards1).Execute();
+            await new GetCard(Dest, cards0).Execute();
         }
     }
 }

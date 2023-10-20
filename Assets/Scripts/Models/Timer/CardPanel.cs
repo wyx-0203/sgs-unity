@@ -24,8 +24,7 @@ namespace Model
             this.cards = cards;
 
             StartTimerView?.Invoke(this);
-            if (player.isSelf) SelfAutoResult();
-            else if (player.isAI) AIAutoResult();
+            await AutoDecision();
             var decision = await WaitAction();
 
             StopTimerView?.Invoke(this);
@@ -35,35 +34,35 @@ namespace Model
             if (!decision.action)
             {
                 decision.action = true;
-                decision.cards = cards.GetRange(0, 1);
+                decision.cards.Add(cards[0]);
             }
 
             return decision;
         }
 
-        public void SendResult(List<Card> cards, bool result)
+        public void SendResult(Decision decision)
         {
             Delay.StopAll();
 
             if (Room.Instance.IsSingle)
             {
-                Decision.list.Add(new Decision { action = result, cards = cards });
+                Decision.List.Instance.Push(decision);
             }
             else
             {
-                var json = new TimerMessage
-                {
-                    msg_type = "card_panel_result",
-                    action = result,
-                    cards = cards.Select(x => x.id).ToList(),
-                };
-                WebSocket.Instance.SendMessage(json);
+                // var json = new Decision.Message
+                // {
+                //     msg_type = "card_panel_result",
+                //     action = decision.action,
+                //     cards = decision.cards.Select(x => x.id).ToList(),
+                // };
+                WebSocket.Instance.SendMessage(decision.ToMessage());
             }
         }
 
-        public void SendResult()
+        public void SendResult(List<Card> cards)
         {
-            SendResult(null, false);
+            SendResult(new Decision { action = true, cards = cards });
         }
 
         public async Task<Decision> WaitAction()
@@ -71,25 +70,89 @@ namespace Model
             if (!Room.Instance.IsSingle)
             {
                 var msg = await WebSocket.Instance.PopMessage();
-                var json = JsonUtility.FromJson<TimerMessage>(msg);
+                var json = JsonUtility.FromJson<Decision.Message>(msg);
 
-                Decision.list.Add(new Decision { action = json.action, cards = json.cards.Select(x => CardPile.Instance.cards[x]).ToList() });
+                Decision.List.Instance.Push(json);
             }
 
-            return await Decision.Pop();
+            return await Decision.List.Instance.Pop();
         }
 
-        private async void AIAutoResult()
+        private async Task AutoDecision()
         {
-            if (!await new Delay(1).Run()) return;
-            SendResult(AI.GetRandomItem(cards), true);
+            Decision decision = null;
+            switch (MCTS.Instance.state)
+            {
+                case MCTS.State.Disable:
+                    if (player.isSelf)
+                    {
+                        if (!await new Delay(second).Run()) return;
+                        decision = new();
+                        // SendResult();
+                        // decision = new Decision();
+                    }
+                    else if (player.isAI)
+                    {
+                        await new Delay(1f).Run();
+                        decision = new Decision { action = true, cards = AI.Shuffle(cards) };
+                        // SendResult(AI.Shuffle(cards), true);
+                        // decision = await MonteCarloTreeSearch.Instance.Run();
+                    }
+                    break;
+                // if (players[0].isSelf)
+                // {
+                //     if (!await new Delay(second).Run()) return;
+                //     decision = new Decision();
+                // }
+                // else if(players[0].isAI)
+                // {
+                //     await new Delay(1f).Run();
+                //     decision = DefaultAI();
+                // }
+                // break;
+                case MCTS.State.Ready:
+                    if (player.isSelf)
+                    {
+                        if (!await new Delay(second).Run()) return;
+                        decision = new();
+                        // SendResult();
+                        // decision = new Decision();
+                    }
+                    else if (player.isAI)
+                    {
+                        await new Delay(1f).Run();
+                        decision = await MCTS.Instance.Run(MCTS.State.WaitCardPanel);
+                        // SendResult(AI.Shuffle(cards), true);
+                        // decision = await MonteCarloTreeSearch.Instance.Run();
+                    }
+                    break;
+                case MCTS.State.Restoring:
+                    if (Decision.List.Instance.IsEmpty) MCTS.Instance.state = MCTS.State.WaitCardPanel;
+                    return;
+                case MCTS.State.Simulating:
+                    decision = new Decision { action = true, cards = AI.Shuffle(cards) };
+                    // decision = DefaultAI();
+                    break;
+            }
+            SendResult(decision);
+            // if (MCTS.Instance.isRunning) return;
+            // if (player.isSelf)
+            // {
+            //     if (!await new Delay(second).Run()) return;
+            //     SendResult();
+            // }
+            // else if (player.isAI)
+            // {
+            //     await new Delay(1).Run();
+            //     SendResult(AI.Shuffle(cards), true);
+            // }
         }
 
-        private async void SelfAutoResult()
-        {
-            if (!await new Delay(second).Run()) return;
-            SendResult();
-        }
+        // private async void SelfAutoResult()
+        // {
+        //     if (!await new Delay(second).Run()) return;
+        //     SendResult();
+        // }
 
         public UnityAction<CardPanel> StartTimerView;
         public UnityAction<CardPanel> StopTimerView;
