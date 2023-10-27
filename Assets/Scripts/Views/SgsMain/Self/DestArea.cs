@@ -30,7 +30,7 @@ namespace View
         /// <summary>
         /// 初始化目标区
         /// </summary>
-        public void Init()
+        public void OnStartPlay()
         {
             if (!CardArea.Instance.IsValid || !CardArea.Instance.ConvertIsValid) return;
 

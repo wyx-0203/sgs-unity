@@ -1,50 +1,54 @@
+using Model;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Model
+
+public class 当先 : Triggered
 {
+    public override bool isObey => true;
 
-    public class 当先 : Triggered
+    protected override bool OnPhaseStart(Phase phase) => phase == Phase.Prepare || phase == Phase.Play && inSkill;
+
+    private bool inSkill;
+    private bool fuliIsInvoked;
+
+    public override async Task Invoke(object arg)
     {
-        public override bool isObey => true;
 
-        public override void OnEnable()
+        // 准备阶段
+        if (TurnSystem.Instance.CurrentPhase == Phase.Prepare)
         {
-            Src.events.StartPhase[Phase.Prepare].AddEvent(Src, Execute);
-            Src.events.StartPhase[Phase.Play].AddEvent(Src, StartPerform);
-        }
-
-        public override void OnDisable()
-        {
-            Src.events.StartPhase[Phase.Prepare].RemoveEvent(Src);
-            Src.events.StartPhase[Phase.Play].RemoveEvent(Src);
-        }
-
-        public async Task Execute()
-        {
-            await base.Execute();
-            TurnSystem.Instance.ExtraPhase.Add(Phase.Play);
+            Execute();
             inSkill = true;
+            TurnSystem.Instance.ExtraPhase.Add(Phase.Play);
         }
-
-        private bool inSkill;
-        private bool fuliHasInvoked;
-
-        public async Task StartPerform()
+        // 出牌阶段
+        else
         {
-            if (!inSkill) return;
             inSkill = false;
-
-            if (fuliHasInvoked)
+            if (fuliIsInvoked)
             {
-                Timer.Instance.hint = "是否失去1点体力并从弃牌堆获得一张【杀】？";
-                Timer.Instance.DefaultAI = () => new Decision { action = Src.Hp > 1 && Src.FindCard<杀>() is null };
-                if (!(await Timer.Instance.Run(Src)).action) return;
+                var decision = await WaitDecision();
+                if (!decision.action) return;
             }
+            Execute();
 
-            await new UpdateHp(Src, -1).Execute();
+            await new UpdateHp(src, -1).Execute();
             var card = CardPile.Instance.DiscardPile.Find(x => x is 杀);
-            if (card != null) await new GetDisCard(Src, new List<Card> { card }).Execute();
+            if (card != null) await new GetDisCard(src, new List<Card> { card }).Execute();
         }
     }
+
+    public override Decision AIDecision() => new Decision { action = src.Hp > 1 && src.FindCard<杀>() is null };
+}
+
+public class 伏枥 : Triggered, Ultimate
+{
+    public bool IsDone { get; set; } = false;
+
+    // public async Task Execute()
+    // {
+
+    // }
 }

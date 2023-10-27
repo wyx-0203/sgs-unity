@@ -1,77 +1,56 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Model;
+using System;
 using System.Threading.Tasks;
-namespace Model
+
+public class 龙吟 : Triggered
 {
-    public class 龙吟 : Triggered
+    public override bool OnEveryUseCard(Card card) => card is 杀 && card.Src == TurnSystem.Instance.CurrentPlayer;
+    public override int MaxCard => 1;
+    public override int MinCard => 1;
+    public override bool IsValidDest(Player dest) => dest == this.dest;
+
+    private Card card;
+    private Player dest;
+
+    public override async Task Invoke(object arg)
     {
-        public override int MaxCard => 1;
-        public override int MinCard => 1;
+        card = arg as Card;
+        dest = card.Src;
 
-        public override bool IsValidDest(Player dest1) => dest1 == dest;
+        var decision = await WaitDecision();
+        if (!decision.action) return;
+        Execute(decision);
 
-        public override void OnEnable()
-        {
-            foreach (var i in SgsMain.Instance.AlivePlayers) i.events.WhenUseCard.AddEvent(Src, Execute);
-        }
-
-        public override void OnDisable()
-        {
-            foreach (var i in SgsMain.Instance.AlivePlayers) i.events.WhenUseCard.RemoveEvent(Src);
-        }
-
-        public async Task Execute(Card card)
-        {
-            if (card is not 杀 || card.Src != TurnSystem.Instance.CurrentPlayer) return;
-            dest = card.Src;
-            sha = card;
-            var decision = await WaitDecision();
-            if (!decision.action) return;
-            await Execute(decision);
-
-            await new Discard(Src, decision.cards).Execute();
-            dest.杀Count--;
-            if (card.isRed) await new GetCardFromPile(Src, 1).Execute();
-            if (decision.cards[0].weight == card.weight) (Src.skills.Find(x => x is 竭忠) as 竭忠).IsDone = false;
-        }
-
-        private Player dest;
-        private Card sha;
-
-        public override Decision AIDecision()
-        {
-            if (Src.CardCount == 0 || dest.team != Src.team && (!sha.isRed || UnityEngine.Random.value < 0.7f)) return new();
-            return AI.TryAction();
-        }
+        await new Discard(src, decision.cards).Execute();
+        dest.shaCount--;
+        if (card.isRed) await new GetCardFromPile(src, 1).Execute();
+        if (decision.cards[0].weight == card.weight) (src.skills.Find(x => x is 竭忠) as 竭忠).IsDone = false;
     }
 
-    public class 竭忠 : Triggered, Ultimate
+
+    public override Decision AIDecision()
     {
-        // public 竭忠(Player src) : base(src) { }
-
-        public override void OnEnable()
-        {
-            Src.events.StartPhase[Phase.Play].AddEvent(Src, Execute);
-        }
-
-        public override void OnDisable()
-        {
-            Src.events.StartPhase[Phase.Play].RemoveEvent(Src);
-        }
-
-        public bool IsDone { get; set; } = false;
-
-        public async Task Execute()
-        {
-            int count = Src.HpLimit - Src.HandCardCount;
-            if (count < 1 || !(await base.WaitDecision()).action) return;
-            await base.Execute();
-
-            IsDone = true;
-            await new GetCardFromPile(Src, count).Execute();
-        }
-
-        public override Decision AIDecision() => new Decision { action = Src.HpLimit - Src.HandCardCount > 1 };
+        if (src.CardCount == 0 || dest.team != src.team && (!card.isRed || UnityEngine.Random.value < 0.7f)) return new();
+        return AI.TryAction();
     }
+}
+
+public class 竭忠 : Triggered, Ultimate
+{
+    protected override bool OnPhaseStart(Phase phase) => phase == Phase.Play && count > 0;
+
+    public bool IsDone { get; set; } = false;
+
+    private int count => src.HpLimit - src.HandCardCount;
+
+    public override async Task Invoke(object arg)
+    {
+        var decision = await WaitDecision();
+        if (!decision.action) return;
+        Execute();
+        IsDone = true;
+        await new GetCardFromPile(src, count).Execute();
+    }
+
+    public override Decision AIDecision() => new Decision { action = count > 1 };
 }

@@ -21,29 +21,7 @@ public class Team
     public IEnumerable<Model.Player> GetAllPlayers() => Model.SgsMain.Instance.AlivePlayers.Where(x => this == x.team);
 }
 
-public enum Phase
-{
-    Prepare,    // 准备阶段
-    Judge,      // 判定阶段
-    Get,        // 摸牌阶段
-    Play,    // 出牌阶段
-    Discard,    // 弃牌阶段
-    End,        // 结束阶段
-}
 
-public enum TimerType
-{
-    Region,
-    HandCard,
-    麒麟弓,
-}
-
-public enum DamageType
-{
-    Normal,
-    Fire,
-    Thunder
-}
 
 // public enum Mode
 // {

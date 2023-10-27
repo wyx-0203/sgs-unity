@@ -44,7 +44,7 @@ namespace Model
             actionView(this);
 
             // 执行获得牌后事件
-            await player.events.AfterGetCard.Execute(this);
+            await EventSystem.Instance.Invoke(x => x.OnEveryGetCard, this);
         }
     }
 
@@ -63,7 +63,8 @@ namespace Model
 
         public new async Task Execute()
         {
-            await player.events.WhenGetCard.Execute(this);
+            await EventSystem.Instance.Invoke(x => x.BeforeEveryGetCardFromPile, this);
+
             if (Count == 0) return;
             Util.Print(player + "摸了" + Count + "张牌");
             // 摸牌
@@ -71,7 +72,7 @@ namespace Model
             await base.Execute();
         }
 
-        public bool InGetCardPhase { get; set; } = false;
+        public bool inGetPhase { get; set; } = false;
     }
 
     public class GetDisCard : GetCard
@@ -124,7 +125,7 @@ namespace Model
             actionView(this);
 
             // 执行失去牌后事件
-            await player.events.LoseCard.Execute(this);
+            await EventSystem.Instance.Invoke(x => x.OnEveryLoseCard, this);
         }
     }
 
@@ -145,7 +146,6 @@ namespace Model
 
             CardPile.Instance.AddToDiscard(Cards);
 
-            // losecard
             await base.Execute();
         }
     }
@@ -157,35 +157,35 @@ namespace Model
         /// </summary>
         public UpdateHp(Player player, int value) : base(player)
         {
-            Value = value;
+            this.value = value;
         }
-        public int Value { get; set; }
+        public int value { get; set; }
 
         public async Task Execute()
         {
             // 更新体力
-            player.Hp += Value;
+            player.Hp += value;
             actionView(this);
 
-            // 濒死
-            if (player.Hp < 1 && Value < 0) await NearDeath();
-
             // 失去体力
-            if (Value < 0 && this is not Damaged)
+            if (value < 0 && this is not Damaged)
             {
-                Util.Print(player + "失去了了" + (-Value) + "点体力");
-                await player.events.AfterLoseHp.Execute(this);
+                Util.Print(player + "失去了" + (-value) + "点体力");
             }
+
+            // 濒死
+            if (player.Hp < 1 && value < 0) await NearDeath();
+
+            // 改变体力后事件
+            await EventSystem.Instance.Invoke(x => x.OnEveryUpdateHp, this);
         }
 
         private async Task NearDeath()
         {
             Util.Print(player + "进入濒死状态");
-            var currentPlayer = TurnSystem.Instance.CurrentPlayer;
-            bool t = true;
-            for (var i = currentPlayer; i != currentPlayer || t; i = i.next)
+
+            foreach (var i in SgsMain.Instance.AlivePlayers.OrderBy(x => x.orderKey))
             {
-                t = false;
                 while (await 桃.Call(i, player))
                 {
                     if (player.Hp >= 1) return;
@@ -212,34 +212,30 @@ namespace Model
         {
             actionView(this);
 
+            // 清除技能
             while (player.skills.Count > 0) player.skills[0].Remove();
-            player.events.Clear();
 
-            if (player.IsLocked) await new SetLock(player).Execute();
+            // 解锁
+            if (player.locked) await new SetLock(player).Execute();
 
-            player.IsAlive = false;
+            // 修改位置关系
+            player.alive = false;
             player.next.last = player.last;
             player.last.next = player.next;
+            player.teammates.Remove(player);
             SgsMain.Instance.AlivePlayers.Remove(player);
 
             // 弃置所有牌
-            // var cards = player.HandCards.Union(player.Equipments.Values).ToList();
             await new Discard(player, player.cards.ToList()).Execute();
-
             foreach (var i in new List<DelayScheme>(player.JudgeCards))
             {
                 i.RemoveToJudgeArea();
                 CardPile.Instance.AddToDiscard(i);
             }
 
-            player.teammates.Remove(player);
-
-            await Mode.Instance.WhenPlayerDie(player, DamageSrc);
-
-            // if (player.teammates.Count == 0) throw new GameOverException(player.team);
-            // else if (SgsMain.Instance.mode is Mode.统帅双军) await new GetCardFromPile(player.teammates[0], 1).Execute();
-
-            if (player == TurnSystem.Instance.CurrentPlayer) throw new CurrentPlayerDie();
+            // 执行当前模式的阵亡时事件
+            await Mode.Instance.OnPlayerDie(player, DamageSrc);
+            throw new PlayerDie();
         }
     }
 
@@ -255,20 +251,20 @@ namespace Model
         public new async Task Execute()
         {
             // 判断体力是否超过上限
-            int t = player.Hp + Value - player.HpLimit;
+            int t = player.Hp + value - player.HpLimit;
             if (t > 0)
             {
-                Value -= t;
-                if (Value == 0) return;
+                value -= t;
+                if (value == 0) return;
             }
 
-            Util.Print(player + "回复了" + Value + "点体力");
+            Util.Print(player + "回复了" + value + "点体力");
 
             // 回复体力
             await base.Execute();
 
             // 执行事件
-            await player.events.Recover.Execute(this);
+            await EventSystem.Instance.Invoke(x => x.OnEveryRecover, this);
         }
     }
 
@@ -280,36 +276,51 @@ namespace Model
         /// <param name="player">玩家</param>
         /// <param name="src">伤害来源</param>
         /// <param name="value">伤害量</param>
-        public Damaged(Player player, Player src, Card srcCard = null, int value = 1, DamageType type = DamageType.Normal)
+        public Damaged(Player player, Player src, Card srcCard = null, int value = 1, Type type = Type.Normal)
             : base(player, -value)
         {
             Src = src;
             SrcCard = srcCard;
-            damageType = type;
+            this.type = type;
+        }
+
+        public enum Type
+        {
+            Normal,
+            Fire,
+            Thunder
         }
 
         public Player Src { get; private set; }
         public Card SrcCard { get; private set; }
-        public DamageType damageType { get; private set; }
-        public bool IsConDucted { get; set; } = false;
+        public Type type { get; private set; }
+        public bool isConDucted { get; set; } = false;
         private bool conduct = false;
+        public new int value { get => -base.value; set => base.value = -value; }
 
         public new async Task Execute()
         {
             // 受到伤害时
-            try { await player.events.WhenDamaged.Execute(this); }
+            try { await EventSystem.Instance.Invoke(x => x.BeforeEveryDamaged, this); }
             catch (PreventDamage) { return; }
 
-            // 藤甲 白银狮子
-            if (player.armor != null && !(SrcCard is 杀 sha && sha.IgnoreArmor)) player.armor.WhenDamaged(this);
-
-            Util.Print(player + "受到了" + (-Value) + "点伤害");
+            // 藤甲 义绝
+            value += player.effects.OffsetDamageValue.Invoke(this);
+            player.effects.OffsetDamageValue.TryExecute();
+            // value += OffsetDamageValue.Instance.Invoke(this);
+            // 白银狮子
+            if (value > 1 && player.armor is 白银狮子 bysz)
+            {
+                value = 1;
+                bysz.Execute();
+            }
+            Util.Print(player + "受到了" + value + "点伤害");
 
             // 解锁
-            if (damageType != DamageType.Normal && player.IsLocked)
+            if (type != Type.Normal && player.locked)
             {
                 await new SetLock(player, true).Execute();
-                if (!IsConDucted) conduct = true;
+                if (!isConDucted) conduct = true;
             }
 
             try
@@ -317,13 +328,14 @@ namespace Model
                 // 受到伤害
                 await base.Execute();
                 // 受到伤害后
-                await player.events.AfterDamaged.Execute(this);
+                // await EventSystem.Instance.Invoke(x => x.OnEveryDamaged, this);
             }
             catch (PlayerDie) { }
-            catch (CurrentPlayerDie) { throw; }
+            // catch (CurrentPlayerDie) { throw; }
 
             // 铁锁传导
-            finally { if (conduct) await Conduct(); }
+            if (conduct) await Conduct();
+            // finally { if (conduct) await Conduct(); }
         }
 
         /// <summary>
@@ -331,16 +343,12 @@ namespace Model
         /// </summary>
         private async Task Conduct()
         {
-            Func<Player, Task> func = async x =>
+            foreach (var i in SgsMain.Instance.AlivePlayers.Where(x => x.locked).OrderBy(x => x.orderKey))
             {
-                if (!x.IsLocked) return;
-
-                var damaged = new Damaged(x, Src, SrcCard, -Value, damageType);
-                damaged.IsConDucted = true;
+                var damaged = new Damaged(i, Src, SrcCard, value, type);
+                damaged.isConDucted = true;
                 await damaged.Execute();
-            };
-
-            await Util.Loop(func);
+            }
         }
     }
 
@@ -351,25 +359,25 @@ namespace Model
     {
         public GetCardFromElse(Player player, Player dest, List<Card> cards) : base(player, cards)
         {
-            Dest = dest;
+            this.dest = dest;
             Cards = cards;
         }
-        public Player Dest { get; private set; }
+        public Player dest { get; private set; }
 
         public new async Task Execute()
         {
             // 获得牌
-            Util.Print(player + "获得了" + Dest + "的" + Cards.Count + "张牌");
+            Util.Print(player + "获得了" + dest + "的" + Cards.Count + "张牌");
             player.HandCards.AddRange(Cards);
             foreach (var i in Cards) i.Src = player;
 
             actionView(this);
 
             // 目标失去牌
-            await new LoseCard(Dest, Cards).Execute();
+            await new LoseCard(dest, Cards).Execute();
 
             // 执行获得牌后事件
-            await player.events.AfterGetCard.Execute(this);
+            await EventSystem.Instance.Invoke(x => x.OnEveryGetCard, this);
         }
     }
 
@@ -421,48 +429,15 @@ namespace Model
 
         public async Task Execute()
         {
-            player.IsLocked = !player.IsLocked;
+            player.locked = !player.locked;
             actionView(this);
             await Task.Yield();
         }
     }
 
-    public class Compete : PlayerAction<Compete>
-    {
-        public Compete(Player player, Player dest) : base(player)
-        {
-            this.dest = dest;
-        }
-
-        private Player dest;
-        private Card card0;
-        private Card card1;
-        private bool Result;
-
-        public async Task<bool> Execute()
-        {
-            Timer.Instance.hint = "请选择一张手牌拼点";
-            if (player.team == dest.team)
-            {
-                card0 = (await TimerAction.SelectHandCard(player, 1))[0];
-                card1 = (await TimerAction.SelectHandCard(dest, 1))[0];
-            }
-            else
-            {
-                var result = await CompeteTimer.Instance.Run(player, dest);
-                card0 = result[player];
-                card1 = result[dest];
-            }
-
-            CardPile.Instance.AddToDiscard(card0);
-            CardPile.Instance.AddToDiscard(card1);
-            await new LoseCard(player, new List<Card> { card0 }).Execute();
-            await new LoseCard(dest, new List<Card> { card1 }).Execute();
-
-            return card0.weight > card1.weight;
-        }
-    }
-
+    /// <summary>
+    /// 获得或失去技能
+    /// </summary>
     public class UpdateSkill : PlayerAction<UpdateSkill>
     {
         public UpdateSkill(Player player, List<string> skills) : base(player)
@@ -473,11 +448,7 @@ namespace Model
 
         public void Add()
         {
-            foreach (var i in Skills)
-            {
-                var skill = Activator.CreateInstance(Skill.SkillMap[i]) as Skill;
-                skill.Init(i, player);
-            }
+            foreach (var i in Skills) Skill.New(i, player);
             actionView(this);
         }
 
@@ -492,5 +463,37 @@ namespace Model
         }
     }
 
+    public class ExChange : PlayerAction<ExChange>
+    {
+        public ExChange(Player player, Player dest) : base(player)
+        {
+            Dest = dest;
+        }
+
+        public Player Dest { get; private set; }
+
+        public async Task Execute()
+        {
+            actionView(this);
+            var cards0 = new List<Card>(player.HandCards);
+            var cards1 = new List<Card>(Dest.HandCards);
+            await new LoseCard(player, cards0).Execute();
+            await new LoseCard(Dest, cards1).Execute();
+            await new GetCard(player, cards1).Execute();
+            await new GetCard(Dest, cards0).Execute();
+        }
+    }
+
     // 翻面
+    public class TurnOver : PlayerAction<TurnOver>
+    {
+        public TurnOver(Player player) : base(player) { }
+
+        public async Task Execute()
+        {
+            player.turnOver = !player.turnOver;
+            actionView(this);
+            await EventSystem.Instance.Invoke(x => x.OnEveryTurnOver, this);
+        }
+    }
 }

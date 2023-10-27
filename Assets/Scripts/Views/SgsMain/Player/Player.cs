@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Threading.Tasks;
+using System;
 
 namespace View
 {
@@ -26,8 +27,10 @@ namespace View
         public Sprite oppoDead;
         public Material gray;
 
-        //横置
+        // 横置
         public GameObject Lock;
+        // 翻面
+        public GameObject TurnOver;
 
         // 回合内边框
         public Image turnBorder;
@@ -63,6 +66,8 @@ namespace View
 
             // 横置
             Model.SetLock.ActionView += OnLock;
+            // 翻面
+            Model.TurnOver.ActionView += OnTurnOver;
 
             // 换肤
             model.ChangeSkinView += general.UpdateSkin;
@@ -93,8 +98,9 @@ namespace View
 
             // 横置
             Model.SetLock.ActionView -= OnLock;
+            Model.TurnOver.ActionView -= OnTurnOver;
 
-            model.ChangeSkinView += general.UpdateSkin;
+            model.ChangeSkinView -= general.UpdateSkin;
         }
 
         /// <summary>
@@ -187,7 +193,13 @@ namespace View
         private void OnLock(Model.SetLock setLock)
         {
             if (setLock.player != model) return;
-            Lock.SetActive(setLock.player.IsLocked);
+            Lock.SetActive(setLock.player.locked);
+        }
+
+        private void OnTurnOver(Model.TurnOver turnOver)
+        {
+            if (turnOver.player != model) return;
+            TurnOver.SetActive(model.turnOver);
         }
     }
 }

@@ -1,107 +1,76 @@
+using Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Model
+public class 武圣 : Converted
 {
-    public class 武圣 : Converted
+    // 转化牌
+    public override Card Convert(List<Card> cards) => Card.Convert<杀>(cards);
+    public override bool IsValidCard(Card card) => card.isRed && base.IsValidCard(card);
+
+    // 无距离限制
+    protected override void Init(string name, Player src)
     {
-        public override Card Convert(List<Card> cards) => Card.Convert<杀>(cards);
+        base.Init(name, src);
+        src.effects.NoDistanceLimit.Add((x, y) => x is 杀 && x.suit == "方片" && x.IsConvert, this);
+    }
+}
 
-        public override bool IsValidCard(Card card) => card.isRed && base.IsValidCard(card);
+/// <summary>
+/// 义绝
+/// </summary>
+public class 义绝 : Active
+{
+    public override int MaxCard => 1;
+    public override int MinCard => 1;
+    public override int MaxDest => 1;
+    public override int MinDest => 1;
 
-        public override void OnEnable()
+    public override bool IsValidDest(Player dest) => dest.HandCardCount > 0 && dest != src;
+
+    public override async Task Use(Decision decision)
+    {
+        Execute(decision);
+        var dest = decision.dests[0];
+
+        // 弃一张手牌
+        await new Discard(src, decision.cards).Execute();
+
+        // 展示手牌
+        Timer.Instance.hint = src + "对你发动义绝，请展示一张手牌。";
+        var showCard = await TimerAction.ShowOneCard(dest);
+
+        // 红色
+        if (showCard[0].isRed)
         {
-            Src.unlimitDst += UnlimitDst;
+            // 获得牌
+            await new GetCardFromElse(src, dest, showCard).Execute();
+            // 回复体力
+            if (dest.Hp < dest.HpLimit)
+            {
+                Timer.Instance.hint = "是否让" + dest + "回复一点体力？";
+                Timer.Instance.DefaultAI = () => new Decision { action = (dest.team == src.team) == AI.CertainValue };
+                if ((await Timer.Instance.Run(src)).action) await new Recover(dest).Execute();
+            }
         }
-
-        public override void OnDisable()
+        // 黑色
+        else
         {
-            Src.unlimitDst -= UnlimitDst;
+            // 禁用手牌
+            dest.effects.DisableCard.Add(x => x.isHandCard, LifeType.UntilTurnEnd);
+            // 禁用非锁定技
+            dest.effects.DisableSkill.Add(x => !x.isObey, LifeType.UntilTurnEnd);
+            // 下次受到杀的伤害+1
+            dest.effects.OffsetDamageValue.Add(x => x.Src == src && x.SrcCard is 杀 sha && sha.suit == "红桃" ? 1 : 0, LifeType.UntilTurnEnd, true);
         }
-
-        private bool UnlimitDst(Card card, Player dest) => card is 杀 && card.suit == "方片" && card.IsConvert;
     }
 
-    /// <summary>
-    /// 义绝
-    /// </summary>
-    public class 义绝 : Active
+    public override Decision AIDecision()
     {
-        public override int MaxCard => 1;
-        public override int MinCard => 1;
-        public override int MaxDest => 1;
-        public override int MinDest => 1;
-
-        public override bool IsValidDest(Player dest) => dest.HandCardCount > 0 && dest != Src;
-
-        public override async Task Execute(Decision decision)
-        {
-            await base.Execute(decision);
-            dest = decision.dests[0];
-
-            // 弃一张手牌
-            await new Discard(Src, decision.cards).Execute();
-
-            // 展示手牌
-            Timer.Instance.hint = Src.posStr + "号位对你发动义绝，请展示一张手牌。";
-            var showCard = await TimerAction.ShowOneCard(dest);
-
-            // 红色
-            if (showCard[0].isRed)
-            {
-                // 获得牌
-                await new GetCardFromElse(Src, dest, showCard).Execute();
-                // 回复体力
-                if (dest.Hp < dest.HpLimit)
-                {
-                    Timer.Instance.hint = "是否让" + dest.posStr + "号位回复一点体力？";
-                    Timer.Instance.DefaultAI = () => new Decision { action = (dest.team == Src.team) == AI.CertainValue };
-                    if ((await Timer.Instance.Run(Src)).action) await new Recover(dest).Execute();
-                }
-            }
-            // 黑色
-            else
-            {
-                isBlack = true;
-                dest.disabledCard += DisabledCard;
-                foreach (var i in dest.skills.Where(x => !x.isObey)) i.SetActive(false);
-                dest.events.WhenDamaged.AddEvent(Src, WhenDamaged);
-            }
-        }
-
-        private bool isBlack;
-        private bool isDamaged;
-        private Player dest;
-
-        public bool DisabledCard(Card card) => true;
-
-        public async Task WhenDamaged(Damaged damaged)
-        {
-            await Task.Yield();
-            if (!isDamaged && damaged.Src == Src && damaged.SrcCard is 杀 && damaged.SrcCard.suit == "红桃")
-            {
-                damaged.Value--;
-                isDamaged = true;
-            }
-        }
-
-        protected override void ResetAfterTurn()
-        {
-            if (!isBlack) return;
-            isBlack = false;
-
-            isDamaged = false;
-            dest.disabledCard -= DisabledCard;
-            foreach (var i in dest.skills) if (!i.isObey && i.Enabled < 1) i.SetActive(true);
-            dest.events.WhenDamaged.RemoveEvent(Src);
-        }
-
-        public override Decision AIDecision()
-        {
-            Timer.Instance.temp.cards = AI.GetRandomCard();
-            Timer.Instance.temp.dests = AI.GetValidDest();
-            return base.AIDecision();
-        }
+        Timer.Instance.temp.cards = AI.GetRandomCard();
+        Timer.Instance.temp.dests = AI.GetValidDest();
+        return base.AIDecision();
     }
 }

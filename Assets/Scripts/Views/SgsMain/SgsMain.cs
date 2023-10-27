@@ -1,6 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
 
 namespace View
 {
@@ -37,8 +37,6 @@ namespace View
             ChangeBg();
             BGM.Instance.Load(Url.AUDIO + "bgm/bgm_1.mp3");
 
-            // Model.SgsMain.Instance.PositionView += InitPlayers;
-
             Model.CardPanel.Instance.StartTimerView += ShowPanel;
             Model.CardPanel.Instance.StopTimerView += HidePanel;
 
@@ -47,7 +45,7 @@ namespace View
 
             Model.SgsMain.Instance.MoveSeatView += MoveSeat;
 
-            Model.GameOver.Instance.GameOverView += GameOver;
+            Model.SgsMain.Instance.GameOverView += GameOver;
 
             await Model.SgsMain.Instance.Init();
             Model.SgsMain.Instance.Run();
@@ -55,8 +53,6 @@ namespace View
 
         private void OnDestroy()
         {
-            // Model.SgsMain.Instance.PositionView -= InitPlayers;
-
             Model.CardPanel.Instance.StartTimerView -= ShowPanel;
             Model.CardPanel.Instance.StopTimerView -= HidePanel;
 
@@ -65,7 +61,7 @@ namespace View
 
             Model.SgsMain.Instance.MoveSeatView -= MoveSeat;
 
-            Model.GameOver.Instance.GameOverView -= GameOver;
+            Model.SgsMain.Instance.GameOverView -= GameOver;
         }
 
         private void SetBorder()
@@ -103,10 +99,6 @@ namespace View
             self.Init(Model.SgsMain.Instance.AlivePlayers.Find(x => x.isSelf));
         }
 
-        // private void AfterBanPick()
-        // {
-        // }
-
         private void GameOver()
         {
             gameOver.SetActive(true);
@@ -117,71 +109,18 @@ namespace View
         /// </summary>
         private void MoveSeat(Model.Player model)
         {
-            // if (self != null)
-            // {
-            //     self.transform.Find("其他角色").gameObject.SetActive(true);
-            // }
-
-            // self = players[model.position].GetComponent<Player>();
-            // self.transform.Find("其他角色").gameObject.SetActive(false);
             self.Init(model);
-            // self.general.Init(model);
-
-            // int i = model.position;
-            // SelfPos(players[i++]);
-            // RightPos(players[i++ % 4]);
-            // TopPos(players[i++ % 4]);
-            // LeftPos(players[i % 4]);
         }
-
-        // private void SelfPos(GameObject player)
-        // {
-        //     RectTransform rectTransform = player.GetComponent<RectTransform>();
-        //     rectTransform.anchorMax = new Vector2(1, 0);
-        //     rectTransform.anchorMin = new Vector2(1, 0);
-        //     // rectTransform.pivot = new Vector2(1, 0);
-        //     rectTransform.anchoredPosition = new Vector2(-125f, 160);
-        // }
-        // private void RightPos(GameObject player)
-        // {
-        //     RectTransform rectTransform = player.GetComponent<RectTransform>();
-        //     rectTransform.anchorMax = new Vector2(1, 0.5f);
-        //     rectTransform.anchorMin = new Vector2(1, 0.5f);
-        //     // rectTransform.pivot = new Vector2(1, 0.5f);
-        //     rectTransform.anchoredPosition = new Vector2(-125f, 150);
-        // }
-        // private void TopPos(GameObject player)
-        // {
-        //     RectTransform rectTransform = player.GetComponent<RectTransform>();
-        //     rectTransform.anchorMax = new Vector2(0.5f, 1);
-        //     rectTransform.anchorMin = new Vector2(0.5f, 1);
-        //     // rectTransform.pivot = new Vector2(0.5f, 1);
-        //     rectTransform.anchoredPosition = new Vector2(0, -150);
-        // }
-        // private void LeftPos(GameObject player)
-        // {
-        //     RectTransform rectTransform = player.GetComponent<RectTransform>();
-        //     rectTransform.anchorMax = new Vector2(0, 0.5f);
-        //     rectTransform.anchorMin = new Vector2(0, 0.5f);
-        //     // rectTransform.pivot = new Vector2(0, 0.5f);
-        //     rectTransform.anchoredPosition = new Vector2(125, 150);
-        // }
-
-        // private GameObject panel;
 
         private void ShowPanel(Model.CardPanel model)
         {
             if (self.model != model.player) return;
-
-            // panel = Instantiate(ABManager.Instance.GetGameAsset("CardPanel"));
-            // panel.transform.SetParent(transform, false);
             cardPanel.SetActive(true);
         }
 
         private void HidePanel(Model.CardPanel model)
         {
             if (self.model != model.player) return;
-            // Destroy(panel);
             cardPanel.SetActive(false);
         }
 

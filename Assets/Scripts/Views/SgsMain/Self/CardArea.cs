@@ -19,14 +19,6 @@ namespace View
 
         // 已选卡牌
         private List<Model.Card> SelectedCards => Model.Timer.Instance.temp.cards;
-        // 已选技能
-        // private Model.Skill skill => Model.Timer.Instance.temp.skill;
-        // // 转化牌
-        // private Model.Card Converted
-        // {
-        //     get => Model.Timer.Instance.temp.converted;
-        //     set => Model.Timer.Instance.temp.converted = value;
-        // }
 
         public int MaxCount { get; private set; }
         public int MinCount { get; private set; }
@@ -124,7 +116,7 @@ namespace View
                 if (!handcards.ContainsKey(i.id)) continue;
 
                 // 若卡牌还在队友手中，则不移除
-                if (i.IsHandCard && i.Src.isSelf) handcards[i.id].gameObject.SetActive(self != operation.player);
+                if (i.isHandCard && i.Src.isSelf) handcards[i.id].gameObject.SetActive(self != operation.player);
 
                 else
                 {
@@ -138,7 +130,7 @@ namespace View
         /// <summary>
         /// 初始化手牌区
         /// </summary>
-        public void Init()
+        public void OnStartPlay()
         {
             // 可选卡牌数量
             MaxCount = timer.maxCard;
@@ -152,6 +144,7 @@ namespace View
             }
 
             Update_();
+            InitConvertCard();
         }
 
         /// <summary>

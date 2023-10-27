@@ -1,17 +1,15 @@
+using System;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Events;
 using System.Threading.Tasks;
+using UnityEngine.Events;
 
 namespace Model
 {
-    public class Equipment : Card
+    public class Equipment : Card, Executable
     {
-        public override async Task UseCard(Player src, List<Player> dests = null)
+        protected override async Task AfterInit()
         {
-            await base.UseCard(src);
-
-            await Add(src);
+            await Add(Src);
         }
 
         public Player Owner { get; private set; }
@@ -39,17 +37,22 @@ namespace Model
         {
             await Task.Yield();
             if (!MCTS.Instance.isRunning) RemoveEquipView?.Invoke(this);
+            OnRemove?.Invoke();
             Owner.Equipments.Remove(type);
             Owner = null;
         }
 
-        public void SkillView()
+        public void Execute()
         {
             Util.Print(Owner + "号位发动了" + this);
         }
 
+        public Action OnRemove { get; set; }
+
         public static UnityAction<Equipment> AddEquipView { get; set; }
         public static UnityAction<Equipment> RemoveEquipView { get; set; }
+
+        public virtual bool enabled => true;
     }
 
     public class PlusHorse : Equipment

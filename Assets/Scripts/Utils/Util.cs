@@ -1,9 +1,10 @@
+using Model;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
-using System;
 
 public class Util : GlobalSingletonMono<Util>
 {
@@ -13,29 +14,32 @@ public class Util : GlobalSingletonMono<Util>
         while (t != Time.frameCount) await Task.Yield();
     }
 
-    /// <summary>
-    /// 队友位置
-    /// </summary>
-    public static int TeammatePos(int position) => 3 - position;
 
     /// <summary>
     /// 从当前回合玩家开始，循环执行操作
     /// </summary>
-    public static async Task Loop(Func<Model.Player, Task> func, Func<bool> condition = null)
-    {
-        var currentPlayer = Model.TurnSystem.Instance.CurrentPlayer;
-        if (!currentPlayer.IsAlive) currentPlayer = currentPlayer.next;
-        bool t = true;
+    // public static async Task Loop(Func<Model.Player, Task> func, Func<bool> condition = null)
+    // {
+    //     var currentPlayer = Model.TurnSystem.Instance.CurrentPlayer;
+    //     if (!currentPlayer.IsAlive) currentPlayer = currentPlayer.next;
+    //     bool t = true;
 
-        for (var i = currentPlayer; i != currentPlayer || t; i = i.next)
-        {
-            t = false;
+    //     for (var i = currentPlayer; i != currentPlayer || t; i = i.next)
+    //     {
+    //         t = false;
 
-            // if (condition?.Invoke() == false) return;
-            if (condition != null && !condition()) return;
-            await func(i);
-        }
-    }
+    //         // if (condition?.Invoke() == false) return;
+    //         if (condition != null && !condition()) return;
+    //         await func(i);
+    //     }
+    // }
+
+    // public static IEnumerable<Model.Player> PlayersOrderbyPosition()
+    // {
+    //     var currentPlayer = Model.TurnSystem.Instance.CurrentPlayer;
+    //     var length = Model.SgsMain.Instance.players.Length;
+    //     return Model.SgsMain.Instance.AlivePlayers.OrderBy(x => (x.position - currentPlayer.position + length) % length);
+    // }
 
     public static void Print(object str)
     {

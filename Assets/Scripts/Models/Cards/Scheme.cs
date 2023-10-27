@@ -5,10 +5,10 @@ namespace Model
 {
     public class Scheme : Card
     {
-        protected new async Task<bool> UseForeachDest(Player dest)
-        {
-            return base.UseForeachDest(dest) && !await 无懈可击.Call(this);
-        }
+        // protected new async Task<bool> UseForeachDest(Player dest)
+        // {
+        //     return base.UseForeachDest(dest) && !await 无懈可击.Call(this);
+        // }
     }
     /// <summary>
     /// 无懈可击
@@ -38,9 +38,8 @@ namespace Model
             return false;
         }
 
-        public override async Task UseCard(Player src, List<Player> dests = null)
+        protected override async Task AfterInit()
         {
-            await base.UseCard(src, dests);
             if (!MCTS.Instance.isRunning) await new Delay(0.2f).Run();
             isCountered = await Call(this);
         }
@@ -57,26 +56,18 @@ namespace Model
             name = "过河拆桥";
         }
 
-        public override async Task UseCard(Player src, List<Player> dests)
+        protected override async Task UseForeachDest()
         {
-            await base.UseCard(src, dests);
-            foreach (var dest in Dests)
+            CardPanel.Instance.Title = "过河拆桥";
+            CardPanel.Instance.Hint = "对" + dest + "使用过河拆桥，弃置其一张牌";
+            var card = await TimerAction.SelectOneCard(Src, dest, true);
+
+            if (card[0] is DelayScheme delayScheme && dest.JudgeCards.Contains(delayScheme))
             {
-                // if (Disabled(dest)) continue;
-                if (!await UseForeachDest(dest)) continue;
-                // if (await 无懈可击.Call(this, dest)) continue;
-
-                CardPanel.Instance.Title = "过河拆桥";
-                CardPanel.Instance.Hint = "对" + dest.posStr + "号位使用过河拆桥，弃置其一张牌";
-                var card = await TimerAction.SelectOneCard(src, dest, true);
-
-                if (card[0] is DelayScheme delayScheme && dest.JudgeCards.Contains(delayScheme))
-                {
-                    delayScheme.RemoveToJudgeArea();
-                    CardPile.Instance.AddToDiscard(card);
-                }
-                else await new Discard(dest, card).Execute();
+                delayScheme.RemoveToJudgeArea();
+                CardPile.Instance.AddToDiscard(card);
             }
+            else await new Discard(dest, card).Execute();
         }
     }
 
@@ -91,26 +82,17 @@ namespace Model
             name = "顺手牵羊";
         }
 
-        public override async Task UseCard(Player src, List<Player> dests)
+        protected override async Task UseForeachDest()
         {
-            await base.UseCard(src, dests);
-            foreach (var dest in Dests)
+            CardPanel.Instance.Title = "顺手牵羊";
+            CardPanel.Instance.Hint = "对" + dest + "使用顺手牵羊，获得其一张牌";
+            var card = await TimerAction.SelectOneCard(Src, dest, true);
+
+            if (card[0] is DelayScheme delayScheme && dest.JudgeCards.Contains(delayScheme))
             {
-                // if (Disabled(dest)) continue;
-                if (!await UseForeachDest(dest)) continue;
-                // if (await 无懈可击.Call(this, dest)) continue;
-
-                CardPanel.Instance.Title = "顺手牵羊";
-                CardPanel.Instance.Hint = "对" + dest.posStr + "号位使用顺手牵羊，获得其一张牌";
-                var card = await TimerAction.SelectOneCard(src, dest, true);
-
-                if (card[0] is DelayScheme delayScheme && dest.JudgeCards.Contains(delayScheme))
-                {
-                    // ((DelayScheme)card).RemoveToJudgeArea();
-                    await new GetJudgeCard(src, delayScheme).Execute();
-                }
-                else await new GetCardFromElse(src, dest, card).Execute();
+                await new GetJudgeCard(Src, delayScheme).Execute();
             }
+            else await new GetCardFromElse(Src, dest, card).Execute();
         }
     }
 
@@ -125,42 +107,36 @@ namespace Model
             name = "决斗";
         }
 
-        public override async Task UseCard(Player src, List<Player> dests)
+        protected override async Task UseForeachDest()
         {
-            await base.UseCard(src, dests);
+            var player = dest;
+            bool done = false;
+            int shaCount = 0;
+            SrcShaCount = 1;
+            DestShaCount = 1;
 
-            foreach (var dest in Dests)
+            while (!done)
             {
-                // if (Disabled(dest)) continue;
-                if (!await UseForeachDest(dest)) continue;
-                // if (await 无懈可击.Call(this, dest)) continue;
 
-                var player = dest;
-                bool done = false;
-                int shaCount = 0;
-                while (!done)
+                Timer.Instance.DefaultAI = Src.team != dest.team ? AI.TryAction : () => new();
+                done = !await 杀.Call(player);
+
+                if (done) await new Damaged(player, player == dest ? Src : dest, this).Execute();
+                else
                 {
+                    shaCount++;
 
-                    Timer.Instance.DefaultAI = src.team != dest.team ? AI.TryAction : () => new();
-                    done = !await 杀.Call(player);
-
-                    if (done) await new Damaged(player, player == dest ? src : dest, this).Execute();
-                    else
+                    if (shaCount >= (player == Src ? SrcShaCount : DestShaCount))
                     {
-                        shaCount++;
-
-                        if (shaCount >= (player == src ? SrcShaCount : DestShaCount))
-                        {
-                            player = player == dest ? src : dest;
-                            shaCount = 0;
-                        }
+                        player = player == dest ? Src : dest;
+                        shaCount = 0;
                     }
                 }
             }
         }
 
-        public int SrcShaCount { get; set; } = 1;
-        public int DestShaCount { get; set; } = 1;
+        public int SrcShaCount { get; set; }
+        public int DestShaCount { get; set; }
     }
 
     /// <summary>
@@ -174,23 +150,17 @@ namespace Model
             name = "南蛮入侵";
         }
 
-        public override async Task UseCard(Player src, List<Player> dests = null)
+        protected override async Task BeforeUse()
         {
-            dests = new List<Player>();
-            foreach (var i in SgsMain.Instance.AlivePlayers) dests.Add(i);
-            dests.Remove(src);
+            Dests = new List<Player>(SgsMain.Instance.AlivePlayers);
+            Dests.Remove(Src);
+            await Task.Yield();
+        }
 
-            await base.UseCard(src, dests);
-
-            foreach (var dest in Dests)
-            {
-                // if (Disabled(dest)) continue;
-                if (!await UseForeachDest(dest)) continue;
-                // if (await 无懈可击.Call(this, dest)) continue;
-
-                Timer.Instance.DefaultAI = AI.TryAction;
-                if (!await 杀.Call(dest)) await new Damaged(dest, src, this).Execute();
-            }
+        protected override async Task UseForeachDest()
+        {
+            Timer.Instance.DefaultAI = AI.TryAction;
+            if (!await 杀.Call(dest)) await new Damaged(dest, Src, this).Execute();
         }
     }
 
@@ -205,23 +175,17 @@ namespace Model
             name = "万箭齐发";
         }
 
-        public override async Task UseCard(Player src, List<Player> dests = null)
+        protected override async Task BeforeUse()
         {
-            dests = new List<Player>();
-            foreach (var i in SgsMain.Instance.AlivePlayers) dests.Add(i);
-            dests.Remove(src);
+            Dests = new List<Player>(SgsMain.Instance.AlivePlayers);
+            Dests.Remove(Src);
+            await Task.Yield();
+        }
 
-            await base.UseCard(src, dests);
-
-            foreach (var dest in Dests)
-            {
-                // if (Disabled(dest)) continue;
-                if (!await UseForeachDest(dest)) continue;
-                // if (await 无懈可击.Call(this, dest)) continue;
-
-                // Timer.Instance.AIDecision = AI.AutoDecision;
-                if (!await 闪.Call(dest)) await new Damaged(dest, src, this).Execute();
-            }
+        protected override async Task UseForeachDest()
+        {
+            Timer.Instance.DefaultAI = AI.TryAction;
+            if (!await 闪.Call(dest)) await new Damaged(dest, Src, this).Execute();
         }
     }
 
@@ -236,22 +200,21 @@ namespace Model
             name = "桃园结义";
         }
 
-        public override async Task UseCard(Player src, List<Player> dests = null)
+        protected override async Task BeforeUse()
         {
-            dests = new List<Player>();
-            foreach (var i in SgsMain.Instance.AlivePlayers) dests.Add(i);
+            Dests = new List<Player>(SgsMain.Instance.AlivePlayers);
+            await Task.Yield();
+        }
 
-            await base.UseCard(src, dests);
+        protected override async Task AfterInit()
+        {
+            Dests.RemoveAll(x => x.Hp == x.HpLimit);
+            await Task.Yield();
+        }
 
-            foreach (var dest in Dests)
-            {
-                if (dest.Hp >= dest.HpLimit) continue;
-                // if (Disabled(dest)) continue;
-                if (!await UseForeachDest(dest)) continue;
-                // if (await 无懈可击.Call(this, dest)) continue;
-
-                await new Recover(dest).Execute();
-            }
+        protected override async Task UseForeachDest()
+        {
+            await new Recover(dest).Execute();
         }
     }
 
@@ -266,21 +229,15 @@ namespace Model
             name = "无中生有";
         }
 
-        public override async Task UseCard(Player src, List<Player> dests = null)
+        protected override async Task BeforeUse()
         {
-            // 默认将目标设为使用者
-            if (dests is null || dests.Count == 0) dests = new List<Player> { src };
+            if (Dests.Count == 0) Dests.Add(Src);
+            await Task.Yield();
+        }
 
-            await base.UseCard(src, dests);
-
-            foreach (var dest in Dests)
-            {
-                // if (Disabled(dest)) continue;
-                if (!await UseForeachDest(dest)) continue;
-                // if (await 无懈可击.Call(this, dest)) continue;
-
-                await new GetCardFromPile(dest, 2).Execute();
-            }
+        protected override async Task UseForeachDest()
+        {
+            await new GetCardFromPile(dest, 2).Execute();
         }
     }
 
@@ -294,38 +251,29 @@ namespace Model
 
         public Player ShaDest { get; private set; }
 
-        public override async Task UseCard(Player src, List<Player> dests = null)
+        protected override async Task UseForeachDest()
         {
-            await base.UseCard(src, dests);
+            Timer.Instance.hint = "指定被杀的角色";
+            Timer.Instance.isValidDest = x => DestArea.Instance.UseSha(dest, x);
+            Timer.Instance.refusable = false;
+            Timer.Instance.DefaultAI = AI.TryAction;
 
-            foreach (var i in dests)
+            var decision = await Timer.Instance.Run(Src, 0, 1);
+            ShaDest = decision.dests[0];
+
+
+            Timer.Instance.isValidCard = card => card is 杀;
+            Timer.Instance.isValidDest = dest => dest == ShaDest;
+            Timer.Instance.DefaultAI = Src.team != ShaDest.team ? AI.TryAction : () => new();
+
+            decision = await Timer.Instance.Run(dest, 1, 1);
+            // 出杀
+            if (decision.action)
             {
-                // if (Disabled(i)) continue;
-                if (!await UseForeachDest(i)) continue;
-                // if (await 无懈可击.Call(this, i)) continue;
-
-                Timer.Instance.hint = "指定被杀的角色";
-                Timer.Instance.isValidDest = x => DestArea.Instance.UseSha(i, x);
-                Timer.Instance.refusable = false;
-                Timer.Instance.DefaultAI = AI.TryAction;
-
-                var decision = await Timer.Instance.Run(src, 0, 1);
-                ShaDest = decision.dests[0];
-
-
-                Timer.Instance.isValidCard = card => card is 杀;
-                Timer.Instance.isValidDest = dest => dest == ShaDest;
-                Timer.Instance.DefaultAI = src.team != ShaDest.team ? AI.TryAction : () => new();
-
-                decision = await Timer.Instance.Run(i, 1, 1);
-                // 出杀
-                if (decision.action)
-                {
-                    await decision.cards[0].UseCard(i, decision.dests);
-                }
-                // 获得武器
-                else await new GetCardFromElse(Src, i, new List<Card> { i.weapon }).Execute();
+                await decision.cards[0].UseCard(dest, decision.dests);
             }
+            // 获得武器
+            else await new GetCardFromElse(Src, dest, new List<Card> { dest.weapon }).Execute();
         }
     }
 
@@ -337,26 +285,20 @@ namespace Model
             name = "铁索连环";
         }
 
-        public override async Task UseCard(Player src, List<Player> dests = null)
+        protected override async Task BeforeUse()
         {
-            if (dests is null || dests.Count == 0)
-            {
-                CardPile.Instance.AddToDiscard(this);
-                await new LoseCard(src, new List<Card> { this }).Execute();
-                await new GetCardFromPile(src, 1).Execute();
-                return;
-            }
+            if (Dests.Count > 0) return;
 
-            await base.UseCard(src, dests);
+            Util.Print(Src + "重铸了" + this);
+            CardPile.Instance.AddToDiscard(this);
+            await new LoseCard(Src, new List<Card> { this }).Execute();
+            await new GetCardFromPile(Src, 1).Execute();
+            throw new CancelUseCard();
+        }
 
-            foreach (var i in Dests)
-            {
-                // if (Disabled(i)) continue;
-                if (!await UseForeachDest(i)) continue;
-                // if (await 无懈可击.Call(this, i)) continue;
-
-                await new SetLock(i).Execute();
-            }
+        protected override async Task UseForeachDest()
+        {
+            await new SetLock(dest).Execute();
         }
     }
 
@@ -368,29 +310,21 @@ namespace Model
             name = "火攻";
         }
 
-        public override async Task UseCard(Player src, List<Player> dests = null)
+        protected override async Task UseForeachDest()
         {
-            await base.UseCard(src, dests);
+            if (dest.HandCardCount == 0) return;
 
-            foreach (var dest in Dests)
-            {
-                // if (Disabled(dest)) continue;
-                if (!await UseForeachDest(dest)) continue;
-                // if (await 无懈可击.Call(this, dest)) continue;
-                if (dest.HandCardCount == 0) continue;
+            Timer.Instance.hint = Src + "对你使用火攻，请展示一张手牌。";
+            var showCard = (await TimerAction.ShowOneCard(dest))[0];
 
-                Timer.Instance.hint = Src.posStr + "号位对你使用火攻，请展示一张手牌。";
-                var showCard = (await TimerAction.ShowOneCard(dest))[0];
+            Timer.Instance.hint = "是否弃置手牌";
+            Timer.Instance.isValidCard = card => card.isHandCard && card.suit == showCard.suit;
+            Timer.Instance.DefaultAI = () => Src.team != dest.team || !AI.CertainValue ? AI.TryAction() : new Decision();
+            var decision = await Timer.Instance.Run(Src, 1, 0);
 
-                Timer.Instance.hint = "是否弃置手牌";
-                Timer.Instance.isValidCard = card => card.IsHandCard && card.suit == showCard.suit;
-                Timer.Instance.DefaultAI = () => src.team != dest.team || !AI.CertainValue ? AI.TryAction() : new Decision();
-                var decision = await Timer.Instance.Run(Src, 1, 0);
-
-                if (!decision.action) return;
-                await new Discard(Src, decision.cards).Execute();
-                await new Damaged(dest, Src, this, 1, DamageType.Fire).Execute();
-            }
+            if (!decision.action) return;
+            await new Discard(Src, decision.cards).Execute();
+            await new Damaged(dest, Src, this, 1, Damaged.Type.Fire).Execute();
         }
     }
 }

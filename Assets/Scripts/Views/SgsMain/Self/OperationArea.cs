@@ -39,14 +39,16 @@ namespace View
 
             HideTimer();
 
-            Model.Timer.Instance.StartTimerView += ShowTimer;
+            Model.Timer.Instance.StartTimerView += OnStartPlay;
             Model.Timer.Instance.StopTimerView += HideTimer;
+            Model.SgsMain.Instance.GameOverView += OnGameOver;
         }
 
         private void OnDestroy()
         {
-            Model.Timer.Instance.StartTimerView -= ShowTimer;
+            Model.Timer.Instance.StartTimerView -= OnStartPlay;
             Model.Timer.Instance.StopTimerView -= HideTimer;
+            Model.SgsMain.Instance.GameOverView -= OnGameOver;
         }
 
         /// <summary>
@@ -69,7 +71,7 @@ namespace View
             // 取消技能
             if (model.skill != null && model.skill is not Model.Triggered)
             {
-                skillArea.Skills.Find(x => x.name == model.skill.Name).ClickSkill();
+                skillArea.ClickSkill(model.skill);
                 return;
             }
 
@@ -101,7 +103,7 @@ namespace View
         /// <summary>
         /// 显示倒计时进度条
         /// </summary>
-        public async void ShowTimer()
+        public async void OnStartPlay()
         {
             if (!timer.players.Contains(self.model)) return;
             await Util.WaitFrame(2);
@@ -115,11 +117,11 @@ namespace View
             cancel.gameObject.SetActive(timer.refusable);
             finishPhase.gameObject.SetActive(timer.type == Model.Timer.Type.PlayPhase);
 
-            skillArea.Init();
-            cardArea.Init();
-            cardArea.InitConvertCard();
-            destArea.Init();
-            equipArea.Init();
+            skillArea.OnStartPlay();
+            cardArea.OnStartPlay();
+            // cardArea.InitConvertCard();
+            destArea.OnStartPlay();
+            equipArea.OnStartPlay();
 
             UpdateButtonArea();
             StartCoroutine(StartTimer(timer.second));
@@ -159,7 +161,6 @@ namespace View
         public void UpdateButtonArea()
         {
             // 启用确定键
-            // Debug.Log(cardArea.IsValid);
             confirm.interactable = cardArea.IsValid && destArea.IsValid;
             // 出牌阶段，取消键用于取消选中技能
             cancel.interactable = timer.type != Model.Timer.Type.PlayPhase || model.skill != null;
@@ -171,13 +172,18 @@ namespace View
             destArea.Reset();
             equipArea.Reset();
 
-            skillArea.Init();
-            cardArea.Init();
-            cardArea.InitConvertCard();
-            destArea.Init();
-            equipArea.Init();
+            skillArea.OnStartPlay();
+            cardArea.OnStartPlay();
+            // cardArea.InitConvertCard();
+            destArea.OnStartPlay();
+            equipArea.OnStartPlay();
 
             UpdateButtonArea();
+        }
+
+        private void OnGameOver()
+        {
+            operationArea.SetActive(false);
         }
     }
 }

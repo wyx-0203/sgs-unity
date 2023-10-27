@@ -1,9 +1,9 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
-using System.Threading.Tasks;
-using System;
-using System.Linq;
 
 namespace Model
 {
@@ -22,8 +22,8 @@ namespace Model
         private int _minCard;
         private Func<int> _maxDest = () => 0;
         private Func<int> _minDest = () => 0;
-        private Func<Card, bool> _isValidCard = x => !x.IsConvert;
-        private Func<Player, bool> _isValidDest = x => true;
+        private Predicate<Card> _isValidCard = x => x.discardable;
+        private Predicate<Player> _isValidDest = x => true;
 
         public int maxCard
         {
@@ -35,7 +35,7 @@ namespace Model
             get => temp.skill is null ? _minCard : temp.skill.MinCard;
             set => _minCard = value;
         }
-        public Func<Card, bool> isValidCard
+        public Predicate<Card> isValidCard
         {
             get => temp.skill is null ? _isValidCard : temp.skill.IsValidCard;
             set => _isValidCard = value;
@@ -50,7 +50,7 @@ namespace Model
             get => temp.skill is null || temp.skill is Model.Converted ? _minDest : () => temp.skill.MinDest;
             set => _minDest = value;
         }
-        public Func<Player, bool> isValidDest
+        public Predicate<Player> isValidDest
         {
             get => temp.skill is null || temp.skill is Model.Converted ? _isValidDest : temp.skill.IsValidDest;
             set => _isValidDest = value;
@@ -118,8 +118,7 @@ namespace Model
 
             if (decision.skill is Converted converted)
             {
-                decision.cards = new List<Card> { converted.Convert(decision.cards) };
-                await converted.Execute(decision);
+                decision.cards = new List<Card> { converted.Use(decision.cards) };
             }
 
             return decision;
@@ -203,7 +202,7 @@ namespace Model
             minCard = 0;
             maxDest = () => 0;
             minDest = () => 0;
-            isValidCard = card => !card.IsConvert;
+            isValidCard = card => card.discardable;
             isValidDest = dest => true;
             equipSkill = null;
             type = Type.Normal;
@@ -255,7 +254,7 @@ namespace Model
         public async Task<Decision> RunWxkj(Card scheme, Team team)
         {
             players.AddRange(team.GetAllPlayers());
-            hint = scheme + "即将对" + scheme.CurrentDest + "生效，是否使用无懈可击？";
+            hint = scheme + "即将对" + scheme.dest + "生效，是否使用无懈可击？";
             maxCard = 1;
             minCard = 1;
             isValidCard = x => x is 无懈可击;
@@ -278,6 +277,24 @@ namespace Model
             Reset();
             return decision;
         }
+
+        // public async Task<Decision> RunCompete(Player player0,Player player1)
+        // {
+        //     players.Add(player0);
+        //     players.Add(player1);
+        //     hint = "请选择一张手牌拼点";
+        //     maxCard = 1;
+        //     minCard = 1;
+        //     isValidCard = x => x.IsHandCard;
+        //     type = Type.Compete;
+        //     DefaultAI = () =>
+
+        //     StartTimerView?.Invoke();
+        //     await AutoDecision();
+        //     var decision = await WaitResult();
+        //     Reset();
+        //     return decision;
+        // }
 
 
         public UnityAction StartTimerView { get; set; }

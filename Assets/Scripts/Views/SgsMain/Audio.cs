@@ -76,16 +76,16 @@ namespace View
 
         private async void OnDamage(Model.UpdateHp model)
         {
-            if (!(model is Model.Damaged)) return;
-            DamageType type = (model as Model.Damaged).damageType;
-            string url = type == DamageType.Thunder ? "spell86_1" : type == DamageType.Fire ? "spell87_1" : "hurtSound";
+            if (model is not Model.Damaged damaged) return;
+            var type = damaged.type;
+            string url = type == Model.Damaged.Type.Thunder ? "spell86_1" : type == Model.Damaged.Type.Fire ? "spell87_1" : "hurtSound";
             url = Url.AUDIO + "spell/" + url + ".mp3";
             effect.PlayOneShot(await WebRequest.GetClip(url));
         }
 
-        private async void SkillVoice(Model.Skill model)
+        private async void SkillVoice(Model.Skill model, List<Model.Player> dests)
         {
-            var voice = model.Src.currentSkin.voice.Find(x => x.name == model.Name)?.url;
+            var voice = model.src.currentSkin.voice.Find(x => x.name == model.name)?.url;
             if (voice is null) return;
 
             string url = Url.AUDIO + "skin/" + voice[Random.Range(0, voice.Count)] + ".mp3";

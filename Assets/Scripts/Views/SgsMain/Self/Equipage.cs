@@ -67,7 +67,7 @@ namespace View
                 if (!IsSelected) Select();
                 else Unselect();
                 CardArea.Instance.Update_();
-                DestArea.Instance.Init();
+                DestArea.Instance.OnStartPlay();
                 OperationArea.Instance.UpdateButtonArea();
             }
 

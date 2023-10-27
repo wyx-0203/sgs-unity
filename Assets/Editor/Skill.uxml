@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <Style src="project://database/Assets/Editor/GeneralManager.uss?fileID=7433441132597879392&amp;guid=863ba7338145043c99cdebe6704c42aa&amp;type=3#GeneralManager" />
+    <ui:VisualElement name="skill" style="flex-direction: column; background-color: rgb(65, 65, 65); padding-top: 5px; padding-bottom: 5px; height: auto;">
+        <ui:TextField picking-mode="Ignore" label="名称" name="skill-name" binding-path="_name" />
+        <ui:TextField picking-mode="Ignore" label="描述" name="skill-describe" multiline="true" binding-path="describe" style="height: auto;" />
+    </ui:VisualElement>
+</ui:UXML>

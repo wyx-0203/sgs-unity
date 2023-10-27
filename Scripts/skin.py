@@ -4,7 +4,7 @@ import json
 audio_dir = "Assets/StreamingAssets/Audio/skin/"
 
 
-def voice(dir, voice):
+def skin_voice(dir, voice):
     s = "https://web.sanguosha.com/10/pc/res/assets/runtime/voice/skin/"
 
     for i in voice:
@@ -69,7 +69,7 @@ data["voice"] = [
 ]
 
 dir = "caoxiu04"
-voice(dir, data["voice"])
+skin_voice(dir, data["voice"])
 # original(data["voice"])
 
 

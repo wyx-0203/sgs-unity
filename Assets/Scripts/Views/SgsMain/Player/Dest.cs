@@ -61,7 +61,7 @@ namespace View
         /// </summary>
         public void AddShadow()
         {
-            if (!button.interactable && !IsSelected && model.IsAlive) skin.color = new Color(0.5f, 0.5f, 0.5f);
+            if (!button.interactable && !IsSelected && model.alive) skin.color = new Color(0.5f, 0.5f, 0.5f);
             else skin.color = new Color(1, 1, 1);
         }
 

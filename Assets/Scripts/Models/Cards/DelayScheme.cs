@@ -1,19 +1,16 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using UnityEngine;
 using UnityEngine.Events;
 
 namespace Model
 {
     public abstract class DelayScheme : Card
     {
-        public override async Task UseCard(Player src, List<Player> dests = null)
+        protected override async Task UseForeachDest()
         {
-            await base.UseCard(src, dests);
-            if (!UseForeachDest(dests[0])) return;
             CardPile.Instance.RemoveToDiscard(this);
-            AddToJudgeArea(dests[0]);
+            AddToJudgeArea(dest);
+            await Task.Yield();
         }
 
         public Player Owner { get; private set; }
@@ -55,7 +52,7 @@ namespace Model
             if (await 无懈可击.Call(this)) return;
             judgeCard = await new Judge().Execute();
 
-            if (judgeCard.suit != "红桃") TurnSystem.Instance.SkipPhase[Phase.Play] = true;
+            if (judgeCard.suit != "红桃") TurnSystem.Instance.SkipPhase.Add(Phase.Play);
         }
     }
 
@@ -74,7 +71,7 @@ namespace Model
             if (await 无懈可击.Call(this)) return;
             judgeCard = await new Judge().Execute();
 
-            if (judgeCard.suit != "草花") TurnSystem.Instance.SkipPhase[Phase.Get] = true;
+            if (judgeCard.suit != "草花") TurnSystem.Instance.SkipPhase.Add(Phase.Get);
         }
     }
 
@@ -86,9 +83,10 @@ namespace Model
             name = "闪电";
         }
 
-        public override async Task UseCard(Player src, List<Player> dests = null)
+        protected override async Task BeforeUse()
         {
-            await base.UseCard(src, new List<Player> { src });
+            if (Dests.Count == 0) Dests.Add(Src);
+            await Task.Yield();
         }
 
         public override async Task Judge()
@@ -104,7 +102,7 @@ namespace Model
             if (judgeCard.suit == "黑桃" && judgeCard.weight >= 2 && judgeCard.weight <= 9)
             {
                 CardPile.Instance.AddToDiscard(this);
-                await new Damaged(Owner, null, this, 3, DamageType.Thunder).Execute();
+                await new Damaged(Owner, null, this, 3, Damaged.Type.Thunder).Execute();
             }
             else AddToJudgeArea(Owner.next);
         }

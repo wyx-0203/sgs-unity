@@ -94,7 +94,7 @@ namespace View
                 if (handcards.Find(x => x.model == i) is not Card card) continue;
 
                 // 若卡牌还在队友手中，则不移除
-                if (card.model.IsHandCard && card.model.Src.isSelf) card.gameObject.SetActive(false);
+                if (card.model.isHandCard && card.model.Src.isSelf) card.gameObject.SetActive(false);
 
                 else
                 {

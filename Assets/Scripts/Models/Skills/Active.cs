@@ -5,16 +5,11 @@ namespace Model
     /// <summary>
     /// 主动技
     /// </summary>
-    public class Active : Skill
+    public abstract class Active : Skill
     {
-        public override int TimeLimit => 1;
+        public override int timeLimit => 1;
 
         public override bool IsValid => Timer.Instance.type == Timer.Type.PlayPhase && base.IsValid;
-
-        protected override void ResetAfterPlay()
-        {
-            Time = 0;
-        }
 
         public override Decision AIDecision()
         {
@@ -25,5 +20,16 @@ namespace Model
 
             return Timer.Instance.SaveTemp();
         }
+
+        public abstract Task Use(Decision decision);
+        // {
+        //     await Task.Yield();
+        //     time++;
+        //     // Dests = decision?.dests;
+        //     this.decision = decision;
+        //     if (!MCTS.Instance.isRunning) UseSkillView?.Invoke(this);
+        //     string destStr = decision != null && decision.dests.Count > 0 ? "对" + string.Join("、", decision.dests) : "";
+        //     Util.Print(src + destStr + "使用了" + name);
+        // }
     }
 }

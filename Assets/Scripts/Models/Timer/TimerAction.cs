@@ -1,6 +1,7 @@
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Model
 {
@@ -9,11 +10,11 @@ namespace Model
         /// <summary>
         /// 选择x张手牌
         /// </summary>
-        public static async Task<List<Card>> SelectHandCard(Player player, int count)
+        public static async Task<List<Card>> SelectHandCard(Player player, int count, Func<Decision> defaultAI = null)
         {
-            Timer.Instance.isValidCard = card => card.IsHandCard;
+            Timer.Instance.isValidCard = card => card.isHandCard;
             Timer.Instance.refusable = false;
-            Timer.Instance.DefaultAI = () => new Decision { action = true, cards = AI.GetRandomCard() };
+            Timer.Instance.DefaultAI = defaultAI != null ? defaultAI : () => new Decision { action = true, cards = AI.GetRandomCard() };
 
             return (await Timer.Instance.Run(player, count, 0)).cards;
         }
@@ -40,7 +41,9 @@ namespace Model
         }
 
 
-
+        /// <summary>
+        /// 选择其他角色的一张牌
+        /// </summary>
         public static async Task<List<Card>> SelectOneCard(Player player, Player dest, bool judgeArea = false)
         {
             var cards = dest.cards.ToList();
@@ -53,5 +56,30 @@ namespace Model
         // {
         //     // 
         // }
+        public static async Task<Card[]> Compete(Player src, Player dest)
+        {
+            Timer.Instance.hint = "对" + dest + "拼点，请选择一张手牌。";
+            Timer.Instance.DefaultAI = () =>
+            {
+                var card = src.HandCards.OrderBy(x => src.team == dest.team ? x.weight : -x.weight).First();
+                return new Decision { action = true, cards = new List<Card> { card } };
+            };
+            var srcCard = await TimerAction.SelectHandCard(src, 1);
+
+            Timer.Instance.hint = src + "对你拼点，请选择一张手牌。";
+            Timer.Instance.DefaultAI = () =>
+            {
+                var card = dest.HandCards.OrderBy(x => src.team == dest.team ? x.weight : -x.weight).First();
+                return new Decision { action = true, cards = new List<Card> { card } };
+            };
+            var destCard = await TimerAction.SelectHandCard(dest, 1);
+
+            CardPile.Instance.AddToDiscard(srcCard);
+            CardPile.Instance.AddToDiscard(destCard);
+            await new LoseCard(src, srcCard).Execute();
+            await new LoseCard(dest, destCard).Execute();
+
+            return new Card[] { srcCard[0], destCard[0] };
+        }
     }
 }

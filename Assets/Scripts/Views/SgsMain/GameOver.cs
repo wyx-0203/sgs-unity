@@ -9,7 +9,7 @@ namespace View
 
         private void Start()
         {
-            if (Model.GameOver.Instance.Loser == Model.Self.Instance.team) lose.SetActive(true);
+            if (Model.SgsMain.Instance.loser == Model.Self.Instance.team) lose.SetActive(true);
             else win.SetActive(true);
         }
 

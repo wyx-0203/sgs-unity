@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace Model
@@ -8,48 +11,38 @@ namespace Model
     /// <summary>
     /// 技能基类
     /// </summary>
-    public class Skill
+    public class Skill : Executable
     {
         // 所属玩家
-        public Player Src { get; private set; }
+        public Player src { get; private set; }
         // 技能名称
-        public string Name { get; set; }
+        public string name { get; private set; }
         // 锁定技
         public virtual bool isObey => false;
-        // 限定技
-        // public virtual bool Ultimate => false;
-        // public bool UltimateIsDone { get; protected set; }
         // 限定次数
-        public virtual int TimeLimit => int.MaxValue;
+        public virtual int timeLimit => int.MaxValue;
         // 已使用次数
-        public int Time { get; protected set; }
+        public int time { get; protected set; }
 
-        // public Skill(Player src)
-        // {
-        //     Src = src;
-        //     // Name = name;
-        //     // Passive = passive;
-        //     // TimeLimit = timeLimit;
-
-        //     SetActive(true);
-        // }
-
-        public void Init(string name, Player src)
+        protected virtual void Init(string name, Player src)
         {
-            Name = name;
-            Src = src;
+            this.name = name;
+            this.src = src;
             src.skills.Add(this);
-            SetActive(true);
+            // EventSystem.Instance.skills.Add(this);
             TurnSystem.Instance.AfterTurn += ResetAfterTurn;
             TurnSystem.Instance.AfterPlay += ResetAfterPlay;
+            // OnStart();
         }
 
-        public void Remove()
+        public virtual void Remove()
         {
-            SetActive(false);
             TurnSystem.Instance.AfterTurn -= ResetAfterTurn;
             TurnSystem.Instance.AfterPlay -= ResetAfterPlay;
-            Src.skills.Remove(this);
+            src.skills.Remove(this);
+            // EventSystem.Instance.skills.Remove(this);
+            // if (this is Triggered triggered) EventSystem.Instance.skills.Remove(triggered);
+            OnRemove?.Invoke();
         }
 
         /// <summary>
@@ -65,7 +58,7 @@ namespace Model
         /// <summary>
         /// 判断卡牌是否可选
         /// </summary>
-        public virtual bool IsValidCard(Card card) => !card.IsConvert;
+        public virtual bool IsValidCard(Card card) => card.discardable;
 
         /// <summary>
         /// 最大目标数
@@ -86,103 +79,116 @@ namespace Model
         /// <summary>
         /// 是否有效
         /// </summary>
-        public int Enabled { get; set; } = 0;
+        public bool enabled => !src.effects.DisableSkill.Invoke(this);
+        // public bool enabled => !DisableSkill.Instance.Invoke(this);
 
-        public void SetActive(bool valid)
-        {
-            if (valid)
-            {
-                if (Enabled > 0) return;
-                Enabled++;
-                if (Enabled > 0) OnEnable();
-            }
-            else
-            {
-                // if (Enabled <= 0) return;
-                Enabled--;
-                if (Enabled <= 0) OnDisable();
-            }
-
-        }
-
-        public virtual void OnEnable() { }
-
-        public virtual void OnDisable() { }
+        // protected virtual void OnStart() { }
+        // protected virtual void OnDestroy() { }
+        public Action OnRemove { get; set; }
 
         /// <summary>
         /// 技能是否满足条件
         /// </summary>
-        public virtual bool IsValid => Time < TimeLimit
-            && Enabled > 0
-            && (this is not Ultimate ultimate || !ultimate.IsDone);
+        public virtual bool IsValid => enabled && time < timeLimit && (this is not Ultimate ultimate || !ultimate.IsDone);
 
-        public virtual async Task Execute(Decision decision = null)
+        public void Execute(Decision decision)
         {
-            await Task.Yield();
-            Time++;
-            Dests = decision?.dests;
-            useSkillView(this);
-            string destStr = Dests != null && Dests.Count > 0 ? "对" + string.Join("、", Dests) : "";
-            Util.Print(Src + destStr + "使用了" + Name);
+            time++;
+            // Dests = decision?.dests;
+            // this.decision = decision;
+            if (!MCTS.Instance.isRunning) UseSkillView?.Invoke(this, decision?.dests);
+            string destStr = decision != null && decision.dests.Count > 0 ? "对" + string.Join("、", decision.dests) : "";
+            Util.Print(src + destStr + "使用了" + name);
         }
+        public void Execute() => Execute(null);
 
-        protected virtual void ResetAfterTurn() => Time = 0;
+        public virtual async Task Invoke(object arg) { await Task.Yield(); }
+
+        protected virtual void ResetAfterTurn() => time = 0;
 
         protected virtual void ResetAfterPlay() { }
 
-        public List<Player> Dests { get; private set; }
+        // public Decision decision { get; protected set; }
 
         protected Player firstDest => Timer.Instance.temp.dests.Count == 0 ? null : Timer.Instance.temp.dests[0];
 
-        private static void useSkillView(Skill skill)
-        {
-            if (!MCTS.Instance.isRunning) UseSkillView?.Invoke(skill);
-        }
-        public static UnityAction<Skill> UseSkillView { get; set; }
+        public static UnityAction<Skill, List<Player>> UseSkillView { get; set; }
 
         public virtual Decision AIDecision() => new Decision();
 
-        public static Dictionary<string, Type> SkillMap { get; set; } = new Dictionary<string, Type>
+        public static Skill New(string name, Player src)
         {
-            { "仁德", typeof(仁德) },
-            { "武圣", typeof(武圣) },
-            { "义绝", typeof(义绝) },
-            { "咆哮", typeof(咆哮) },
-            { "制衡", typeof(制衡) },
-            { "苦肉", typeof(苦肉) },
-            { "诈降", typeof(诈降) },
-            { "奸雄", typeof(奸雄) },
-            { "刚烈", typeof(刚烈) },
-            { "清俭", typeof(清俭) },
-            { "突袭", typeof(突袭) },
-            { "无双", typeof(无双) },
-            { "利驭", typeof(利驭) },
-            { "离间", typeof(离间) },
-            { "闭月", typeof(闭月) },
-            { "驱虎", typeof(驱虎) },
-            { "节命", typeof(节命) },
-            { "好施", typeof(好施) },
-            { "缔盟", typeof(缔盟) },
-            { "恩怨", typeof(恩怨) },
-            { "眩惑", typeof(眩惑) },
-            { "散谣", typeof(散谣) },
-            { "制蛮", typeof(制蛮) },
-            { "明策", typeof(明策) },
-            { "智迟", typeof(智迟) },
-            { "烈弓", typeof(烈弓) },
-            { "乱击", typeof(乱击) },
-            { "父魂", typeof(父魂) },
-            { "享乐", typeof(享乐) },
-            { "放权", typeof(放权) },
-            // { "当先", typeof(当先) },
-            { "弓骑", typeof(弓骑) },
-            { "解烦", typeof(解烦) },
-            { "精策", typeof(精策) },
-            { "龙吟", typeof(龙吟) },
-            { "竭忠", typeof(竭忠) },
-            { "千驹", typeof(千驹) },
-            { "倾袭", typeof(倾袭) },
-        };
+            Debug.Log($"{Application.dataPath}/../HybridCLRData/HotUpdateDlls/Android/GeneralSkill.dll");
+            Assembly hotUpdateAss = System.AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.GetName().Name == "GeneralSkill");
+            // if (hotUpdateAss is null)
+            // hotUpdateAss = Assembly.Load(File.ReadAllBytes($"{Application.dataPath}/../HybridCLRData/HotUpdateDlls/Android/GeneralSkill.dll"));
+            var skill = Activator.CreateInstance(hotUpdateAss.GetType(name)) as Skill;
+            skill.Init(name, src);
+            return skill;
+        }
+
+        // 阶段开始时调用
+        public bool OnEveryPhaseStart(Tuple<Player, Phase> tuple) => OnEveryPhaseStart(tuple.Item1, tuple.Item2);
+        protected virtual bool OnEveryPhaseStart(Player player, Phase phase) => player == src && OnPhaseStart(phase);
+        protected virtual bool OnPhaseStart(Phase phase) => false;
+        // 阶段结束时调用
+        public bool OnEveryPhaseOver(Tuple<Player, Phase> tuple)
+        {
+            if (this is Active && tuple.Item2 == Phase.Play) time = 0;
+            if (this is not Active && tuple.Item2 == Phase.End) time = 0;
+            return OnEveryPhaseOver(tuple.Item1, tuple.Item2);
+        }
+        protected virtual bool OnEveryPhaseOver(Player player, Phase phase) => player == src && OnPhaseOver(phase);
+        protected virtual bool OnPhaseOver(Phase phase) => false;
+        // 摸牌时调用
+        public virtual bool BeforeEveryGetCardFromPile(GetCardFromPile g) => g.player == src && BeforeGetCardFromPile(g);
+        protected virtual bool BeforeGetCardFromPile(GetCardFromPile getCardFromPile) => getCardFromPile.inGetPhase && BeforeGetCardInGetPhase(getCardFromPile);
+        protected virtual bool BeforeGetCardInGetPhase(GetCardFromPile getCardFromPile) => false;
+        // 获得牌后调用
+        public bool OnEveryGetCard(GetCard getCard) => TurnSystem.Instance.Round > 0
+            && (getCard.player == src && OnGetCard(getCard)
+            || getCard is GetCardFromElse getCardFromElse && OnEveryGetCardFromElse(getCardFromElse));
+        protected virtual bool OnEveryGetCardFromElse(GetCardFromElse getCardFromElse) => getCardFromElse.player == src && OnGetCardFromElse(getCardFromElse);
+        protected virtual bool OnGetCard(GetCard getCard) => false;
+        protected virtual bool OnGetCardFromElse(GetCardFromElse getCardFromElse) => false;
+        // 失去牌后调用
+        public virtual bool OnEveryLoseCard(LoseCard loseCard) => loseCard.player == src && OnLoseCard(loseCard);
+        protected virtual bool OnLoseCard(LoseCard loseCard) => false;
+        // 回复体力后调用
+        public bool OnEveryUpdateHp(UpdateHp updateHp)
+            // 回复体力
+            => updateHp is Recover recover && OnEveryRecover(recover)
+            // 受到伤害
+            || updateHp is Damaged damaged && OnEveryDamaged(damaged)
+            // 失去体力
+            || updateHp.value < 0 && OnEveryLoseHp(updateHp)
+            // 改变体力
+            || updateHp.player == src && OnUpdateHp(updateHp);
+        protected virtual bool OnUpdateHp(UpdateHp updateHp) => false;
+
+        public virtual bool OnEveryRecover(Recover recover) => recover.player == src && OnRecover(recover);
+        protected virtual bool OnRecover(Recover recover) => false;
+        // 受到伤害时调用
+        public virtual bool BeforeEveryDamaged(Damaged damaged) => damaged.player == src && BeforeDamaged(damaged);
+        protected virtual bool BeforeDamaged(Damaged damaged) => false;
+        // 受到伤害后调用
+        public virtual bool OnEveryDamaged(Damaged damaged) => damaged.player == src && OnDamaged(damaged);
+        protected virtual bool OnDamaged(Damaged damaged) => false;
+        // 失去体力后调用
+        public virtual bool OnEveryLoseHp(UpdateHp updateHp) => updateHp.player == src && OnLoseHp(updateHp);
+        protected virtual bool OnLoseHp(UpdateHp updateHp) => false;
+        // 使用牌时调用
+        public virtual bool OnEveryUseCard(Card card) => card.Src == src && OnUseCard(card);
+        protected virtual bool OnUseCard(Card card) => false;
+        // 使用牌后调用
+        public virtual bool AfterUseCard(Card card) => card.Src == src && AfterSetCardTarget(card);
+        protected virtual bool AfterSetCardTarget(Card card) => false;
+        // 翻面时调用
+        public virtual bool OnEveryTurnOver(TurnOver turnOver) => turnOver.player == src && OnTurnOver(turnOver);
+        protected virtual bool OnTurnOver(TurnOver turnOver) => false;
+
+        public virtual bool OnShaUsing(杀 sha) => false;
+        public virtual bool OnEveryJuedouUsing(决斗 juedou) => false;
     }
 
     /// <summary>
@@ -192,4 +198,7 @@ namespace Model
     {
         public bool IsDone { get; set; }
     }
+
+
+    // public interface
 }

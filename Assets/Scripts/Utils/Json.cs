@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 
+[Serializable]
 public class JsonList<T>
 {
     public List<T> list;
@@ -110,7 +111,7 @@ public class BanpickMessage : WebsocketMessage
 public class PhaseMessage : WebsocketMessage
 {
     public int position;
-    public Phase phase;
+    public Model.Phase phase;
 }
 
 [Serializable]

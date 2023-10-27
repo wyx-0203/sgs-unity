@@ -20,22 +20,20 @@ namespace Model
         //     return false;
         // }
 
-        public virtual void WhenDamaged(Damaged damaged) { }
+        // public virtual void WhenDamaged(Damaged damaged) { }
     }
 
     public class 八卦阵 : Armor
     {
         public async Task<bool> Skill()
         {
-            // if (!enable) return false;
-
             Timer.Instance.hint = "是否发动八卦阵？";
             Timer.Instance.equipSkill = this;
             // Timer.Instance.equipSkill="八卦阵";
             Timer.Instance.DefaultAI = () => new Decision { action = true };
             if (!(await Timer.Instance.Run(Owner)).action) return false;
 
-            SkillView();
+            Execute();
             var card = await new Judge().Execute();
             return card.suit == "红桃" || card.suit == "方片";
         }
@@ -46,25 +44,19 @@ namespace Model
         public override async Task Add(Player owner)
         {
             await base.Add(owner);
-            Owner.disableForMe += Disable;
+            Owner.effects.InvalidForDest.Add(InvalidForDest, this);
+            Owner.effects.OffsetDamageValue.Add(OffsetDamageValue, this);
         }
 
-        public override async Task Remove()
-        {
-            Owner.disableForMe -= Disable;
-            await base.Remove();
-        }
-        public bool Disable(Card card) => card is 杀
+        private bool InvalidForDest(Card card) => card is 杀 sha
             && card is not 雷杀
             && card is not 火杀
-            && !(card as 杀).IgnoreArmor
+            && !sha.IgnoreArmor
             || card is 南蛮入侵
             || card is 万箭齐发;
 
-        public override void WhenDamaged(Damaged damaged)
-        {
-            if (damaged.damageType == DamageType.Fire) damaged.Value--;
-        }
+        private int OffsetDamageValue(Damaged damage) => damage.type == Damaged.Type.Fire
+            && (damage.SrcCard is not 火杀 sha || !sha.IgnoreArmor) ? 1 : 0;
     }
 
     public class 仁王盾 : Armor
@@ -72,16 +64,8 @@ namespace Model
         public override async Task Add(Player owner)
         {
             await base.Add(owner);
-            Owner.disableForMe += Disable;
+            Owner.effects.InvalidForDest.Add(x => x is 杀 sha && !sha.IgnoreArmor && sha.isBlack, this);
         }
-
-        public override async Task Remove()
-        {
-            Owner.disableForMe -= Disable;
-            await base.Remove();
-        }
-
-        public bool Disable(Card card) => card is 杀 && !(card as 杀).IgnoreArmor && (card.suit == "黑桃" || card.suit == "草花" || card.suit == "黑色");
     }
 
     public class 白银狮子 : Armor
@@ -90,11 +74,6 @@ namespace Model
         {
             await new Recover(Owner).Execute();
             await base.Remove();
-        }
-        public override void WhenDamaged(Damaged damaged)
-        {
-            if (damaged.Value == -1) return;
-            damaged.Value = -1;
         }
     }
 }

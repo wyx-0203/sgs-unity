@@ -14,7 +14,7 @@ namespace Model
         //     return playersOrderByAction[(index + 1) % playersOrderByAction.Length];
         // }
 
-        public abstract Task WhenPlayerDie(Player player, Player src);
+        public abstract Task OnPlayerDie(Player player, Player src);
 
         public Player[] GetActionQueue()
         {
@@ -59,7 +59,7 @@ namespace Model
         };
 
 
-        public async override Task WhenPlayerDie(Player player, Player src)
+        public async override Task OnPlayerDie(Player player, Player src)
         {
             if (player.teammates.Count == 0) throw new GameOverException(player.team);
             await new GetCardFromPile(player.teammates[0], 1).Execute();
@@ -79,7 +79,7 @@ namespace Model
             new Player(Team.RED, 3),
         };
 
-        public async override Task WhenPlayerDie(Player player, Player src)
+        public async override Task OnPlayerDie(Player player, Player src)
         {
             if (player.isMaster) throw new GameOverException(player.team);
             if (src.team != player.team) await new GetCardFromPile(src, 2).Execute();

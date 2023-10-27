@@ -2,17 +2,10 @@ namespace Model
 {
     public class DestArea : Singleton<DestArea>
     {
-        // private Decision Timer.Instance.temp => Decision.temp;
         private Card card => Timer.Instance.temp.converted is null ? Timer.Instance.temp.cards[0] : Timer.Instance.temp.converted;
 
-        /// <summary>
-        /// 根据玩家和卡牌id初始化目标数量
-        /// </summary>
-        /// <returns>目标数量最大值与最小值</returns>
         public int MaxDest()
         {
-            // var player = Timer.Instance.players[0];
-
             switch (card.name)
             {
                 case "杀":
@@ -25,7 +18,7 @@ namespace Model
                 case "兵粮寸断":
                 case "火攻":
                 case "借刀杀人":
-                    return 1;
+                    return 1 + card.Src.effects.ExtraDestCount.Invoke(card);
                 case "铁索连环":
                     return 2;
                 default:
@@ -54,21 +47,14 @@ namespace Model
             }
         }
 
-        public int ShaMaxDest(Player player)
-        {
-            int maxCount = 1;
-            if (player.HandCardCount == 1 && player.Equipments["武器"] is 方天画戟) maxCount += 2;
-            return maxCount;
-        }
-
         /// <summary>
         /// 判断dest是否能成为src的目标
         /// </summary>
         public bool ValidDest(Player dest)
         {
             var src = TurnSystem.Instance.CurrentPlayer;
-            if (!dest.IsAlive) return false;
-            if (src != dest && src.UnlimitDst(card, dest)) return true;
+            if (!dest.alive) return false;
+            if (src != dest && src.effects.NoDistanceLimit.Invoke(card, dest)) return true;
 
             switch (card.name)
             {

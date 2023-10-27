@@ -47,7 +47,7 @@ namespace View
             else cardArea.UpdateConvertCard();
 
             DestArea.Instance.Reset();
-            DestArea.Instance.Init();
+            DestArea.Instance.OnStartPlay();
             OperationArea.Instance.UpdateButtonArea();
         }
 

@@ -1,8 +1,8 @@
+using System;
 using System.Collections.Generic;
-using UnityEngine;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine.Events;
-using System.Linq;
 
 namespace Model
 {
@@ -27,24 +27,32 @@ namespace Model
         /// <summary>
         /// 使用牌
         /// </summary>
-        public virtual async Task UseCard(Player src, List<Player> dests = null)
+        public async Task UseCard(Player src, List<Player> dests = null)
         {
             Src = src;
             Dests = dests != null ? dests : new List<Player>();
-            string destStr = Dests.Count > 0 ? "对" + string.Join("、", Dests) : "";
-            Util.Print(Src + destStr + "使用了" + this);
-            if (!MCTS.Instance.isRunning) UseCardView?.Invoke(this);
+            damageOffset = new int[8];
+            invalidDests.Clear();
+
+            try { await BeforeUse(); }
+            catch (CancelUseCard) { return; }
 
             // 目标角色排序
-            if (Dests != null && Dests.Count > 1)
+            if (Dests.Count > 1) Dests.Sort();
+
+            string destStr = Dests.Count > 0 ? "对" + string.Join("、", Dests) : "";
+            Util.Print(Src + destStr + "使用了" + this);
+            if (!MCTS.Instance.isRunning)
             {
-                TurnSystem.Instance.SortDest(Dests);
+                UseCardView?.Invoke(this);
+                src.effects.ExtraDestCount.TryExecute();
+                src.effects.NoTimesLimit.TryExecute();
             }
 
             // 使用者失去此手牌
             if (!IsConvert)
             {
-                if (!(this is Equipment)) CardPile.Instance.AddToDiscard(this);
+                if (this is not Equipment) CardPile.Instance.AddToDiscard(this);
                 await new LoseCard(Src, new List<Card> { this }).Execute();
             }
             else if (PrimiTives.Count != 0)
@@ -54,21 +62,38 @@ namespace Model
             }
 
             // 指定目标时
-            await Src.events.WhenUseCard.Execute(this);
+            await EventSystem.Instance.Invoke(x => x.OnEveryUseCard, this);
+
             // 指定目标后
-            await Src.events.AfterUseCard.Execute(this);
+            foreach (var i in Dests)
+            {
+                dest = i;
+                await EventSystem.Instance.Invoke(x => x.AfterUseCard, this);
+            }
 
-            // foreach (var i in new List<Player>(Dests)) if (i.DisableForMe(this)) Dests.Remove(i);
+            await AfterInit();
+
+            foreach (var i in Dests)
+            {
+                if (invalidDests.Contains(i) || i.effects.InvalidForDest.Invoke(this)) continue;
+                dest = i;
+
+                if (this is Scheme && await 无懈可击.Call(this)) continue;
+
+                await UseForeachDest();
+            }
+
+            AfterUse?.Invoke();
         }
 
-        protected bool UseForeachDest(Player dest)
-        {
-            if (dest.DisableForMe(this)) return false;
-            CurrentDest = dest;
-            return true;
-        }
+        protected virtual async Task BeforeUse() { await Task.Yield(); }
 
-        public Player CurrentDest { get; private set; }
+        protected virtual async Task AfterInit() { await Task.Yield(); }
+
+        protected virtual async Task UseForeachDest() { await Task.Yield(); }
+
+
+        public Player dest { get; private set; }
 
         /// <summary>
         /// 打出牌
@@ -76,7 +101,6 @@ namespace Model
         public async Task Put(Player player)
         {
             Src = player;
-            // string cardInfo = IsConvert ? "" : "【" + suit + weight.ToString() + "】";
             Util.Print(player + "打出了" + this);
             if (!MCTS.Instance.isRunning) UseCardView?.Invoke(this);
 
@@ -157,7 +181,36 @@ namespace Model
             return PrimiTives.Where(x => CardPile.Instance.DiscardPile.Contains(x)).ToList();
         }
 
-        public bool IsHandCard => Src != null && Src.HandCards.Contains(this);
+        protected int[] damageOffset;
+        public void AddDamageValue(Player dest, int offset) => damageOffset[dest.position] += offset;
+
+        private List<Player> invalidDests = new();
+        public void SetInvalidDest(Player dest)
+        {
+            if (!invalidDests.Contains(dest)) invalidDests.Add(dest);
+        }
+
+        /// <summary>
+        /// 是否为手牌
+        /// </summary>
+        public bool isHandCard => Src != null && Src.HandCards.Contains(this);
+
+        /// <summary>
+        /// 是否可弃置
+        /// </summary>
+        public bool discardable => !IsConvert;
+
+        /// <summary>
+        /// 是否可使用
+        /// </summary>
+        public bool useable => Src is null || !Src.effects.DisableCard.Invoke(this);
+
+        public Action AfterUse { get; set; }
+
+        /// <summary>
+        /// 是否为T类型且可使用
+        /// </summary>
+        // public bool Useable<T>() where T : Card => this is T && useable;
 
         public static UnityAction<Card> UseCardView { get; set; }
 
@@ -166,15 +219,15 @@ namespace Model
 
         public override string ToString()
         {
-            string suitSymbol = "";
+            string symbol = "";
             switch (suit)
             {
-                case "红桃": suitSymbol = "♥️"; break;
-                case "方片": suitSymbol = "♦️"; break;
-                case "黑桃": suitSymbol = "♠️"; break;
-                case "草花": suitSymbol = "♣️"; break;
+                case "红桃": symbol = "♥️"; break;
+                case "方片": symbol = "♦️"; break;
+                case "黑桃": symbol = "♠️"; break;
+                case "草花": symbol = "♣️"; break;
             }
-            return "【" + name + suitSymbol + weight + "】";
+            return "【" + name + symbol + weight + "】";
         }
     }
 }

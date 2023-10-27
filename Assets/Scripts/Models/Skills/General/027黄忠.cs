@@ -1,47 +1,38 @@
+using Model;
 using System.Threading.Tasks;
 
-namespace Model
+public class 烈弓 : Triggered
 {
-    public class 烈弓 : Triggered
+    protected override bool AfterSetCardTarget(Card card) => card is 杀
+        && (card.dest.HandCardCount <= src.HandCardCount || card.dest.Hp >= src.Hp);
+
+    public override int MaxDest => 1;
+    public override int MinDest => 1;
+    public override bool IsValidDest(Player dest1) => dest1 == dest;
+
+    private Player dest;
+
+    public override async Task Invoke(object arg)
     {
-        public override int MaxDest => 1;
-        public override int MinDest => 1;
-        public override bool IsValidDest(Player dest1) => dest1 == dest;
+        var sha = arg as 杀;
+        dest = sha.dest;
 
-        public override void OnEnable()
-        {
-            Src.events.AfterUseCard.AddEvent(Src, Execute);
-            Src.unlimitDst += IsUnlimited;
-        }
+        var decision = await WaitDecision();
+        if (!decision.action) return;
+        Execute(decision);
 
-        public override void OnDisable()
-        {
-            Src.events.AfterUseCard.RemoveEvent(Src);
-            Src.unlimitDst -= IsUnlimited;
-        }
+        // 不可闪避
+        if (dest.HandCardCount <= src.HandCardCount) sha.shanCount = 0;
+        // 伤害+1
+        if (dest.Hp >= src.Hp) sha.AddDamageValue(dest, 1);
+    }
 
-        public async Task Execute(Card card)
-        {
-            if (card is not 杀 sha) return;
-            foreach (var i in card.Dests)
-            {
-                if (i.HandCardCount > Src.HandCardCount && i.Hp < Src.Hp) continue;
-                dest = i;
+    public override Decision AIDecision() => dest.team != src.team || !AI.CertainValue ? AI.TryAction() : new();
 
-                var decision = await WaitDecision();
-                if (!decision.action) continue;
-                await Execute(decision);
-
-                if (i.HandCardCount <= Src.HandCardCount) sha.ShanCount[i.position] = 0;
-                if (i.Hp >= Src.Hp) sha.DamageValue[i.position]++;
-            }
-        }
-
-        private Player dest;
-
-        private bool IsUnlimited(Card card, Player dest) => card is 杀 && card.weight >= Src.GetDistance(dest);
-
-        public override Decision AIDecision() => dest.team != Src.team || !AI.CertainValue ? AI.TryAction() : new();
-
+    // 无视距离
+    protected override void Init(string name, Player src)
+    {
+        base.Init(name, src);
+        src.effects.NoDistanceLimit.Add((x, y) => x is 杀 && x.weight >= src.GetDistance(y), this);
     }
 }

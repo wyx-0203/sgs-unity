@@ -23,7 +23,7 @@ namespace Model
 
             str += "\ncards=" + string.Join(' ', cards);
             str += "\ndests=" + string.Join(' ', dests);
-            str += "\nskill=" + skill?.Name;
+            str += "\nskill=" + skill?.name;
             str += "\nsrc=" + src;
             return str + '\n';
         }
@@ -44,10 +44,19 @@ namespace Model
                 action = decision.action;
                 cards = decision.cards.Select(x => x.id).ToList();
                 dests = decision.dests.Select(x => x.position).ToList();
-                skill = decision.skill?.Name;
+                skill = decision.skill?.name;
                 other = decision.converted?.name;
                 src = decision.src is Player p ? p.position : 0;
                 msg_type = "set_result";
+            }
+
+            /// <summary>
+            /// 投降消息
+            /// </summary>
+            public Message(Team team)
+            {
+                other = team == Team.BLUE ? "blue" : "red";
+                msg_type = "surrender";
             }
 
             public Decision ToDecision() => new Decision
@@ -71,14 +80,10 @@ namespace Model
             public async Task<Decision> Pop()
             {
                 // UnityEngine.Debug.Log(111);
-                while (index == list.Count)
-                {
-                    // if (this == MCTS.Instance._decisionList) 
-                    // UnityEngine.Debug.Log(this);
-                    // UnityEngine.Debug.Log(this == MCTS.Instance._decisionList);
-                    await Task.Yield();
-                };
-                return list[index++].ToDecision();
+                while (index == list.Count) await Task.Yield();
+                var message = list[index++];
+                if (message.msg_type == "surrender") throw new GameOverException(message.other == "blue" ? Team.BLUE : Team.RED);
+                return message.ToDecision();
             }
 
             public void Push(Decision decision) => list.Add(decision.ToMessage());

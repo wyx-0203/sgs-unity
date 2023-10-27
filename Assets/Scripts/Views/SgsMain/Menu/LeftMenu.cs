@@ -8,14 +8,14 @@ namespace View
         public Button changeSkin;
         public Button changeBg;
         public Button debug;
-        // public Button surrender;
+        public Button surrender;
 
         void Start()
         {
             changeSkin.onClick.AddListener(ChangeSkin);
             changeBg.onClick.AddListener(ChangeBg);
             debug.onClick.AddListener(ClickDebug);
-            // surrender.onClick.AddListener(ClickSurrender);
+            surrender.onClick.AddListener(ClickSurrender);
         }
 
         private void ChangeSkin()
@@ -30,10 +30,10 @@ namespace View
 
         public void ClickDebug() => Debug.Log(Util.GetGameInfo());
 
-        // private void ClickSurrender()
-        // {
-        //     Model.GameOver.Instance.SendSurrender();
-        //     if (Model.Timer.Instance.isPlayPhase) Model.Timer.Instance.SendDecision();
-        // }
+        private void ClickSurrender()
+        {
+            Model.SgsMain.Instance.SendSurrender();
+            Model.Timer.Instance.SendDecision();
+        }
     }
 }

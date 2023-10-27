@@ -17,7 +17,7 @@ namespace View
             {
                 var skill = Instantiate(skillPrefab, skillParent).GetComponent<SkillInfo>();
                 skill.title.text = general.skill[i];
-                skill.discribe.text = general.discribe[i];
+                skill.discribe.text = general.describe[i];
             }
 
             string url = Url.GENERAL_IMAGE + "Window/" + skinId + ".png";

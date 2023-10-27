@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace View
@@ -22,8 +23,6 @@ namespace View
         /// </summary>
         private Vector3 Pos(Model.Player model)
         {
-            // if (model == SgsMain.Instance.self.model) return Self.Instance.transform.position;
-            // else 
             return SgsMain.Instance.players.Find(x => x.model == model).transform.position;
         }
 
@@ -40,14 +39,14 @@ namespace View
             }
         }
 
-        private void UseSkill(Model.Skill skill)
+        private void UseSkill(Model.Skill skill, List<Model.Player> dests)
         {
-            if (skill.Dests is null || skill is Model.Converted) return;
+            if (dests is null || skill is Model.Converted) return;
 
-            Vector3 src = Pos(skill.Src);
-            foreach (var i in skill.Dests)
+            Vector3 src = Pos(skill.src);
+            foreach (var i in dests)
             {
-                if (i == skill.Src) continue;
+                if (i == skill.src) continue;
                 Vector3 dest = Pos(i);
                 StartCoroutine(DrawLine(src, dest));
             }

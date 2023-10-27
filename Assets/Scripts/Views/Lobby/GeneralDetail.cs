@@ -63,7 +63,7 @@ namespace View
             {
                 var skill = Instantiate(skillPrefab, skillParent).GetComponent<SkillInfo>();
                 skill.title.text = model.skill[i];
-                skill.discribe.text = model.discribe[i];
+                skill.discribe.text = model.describe[i];
             }
 
             // 皮肤

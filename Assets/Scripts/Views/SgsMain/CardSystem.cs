@@ -254,7 +254,7 @@ namespace View
 
         private void GetCardFromElse(Model.GetCardFromElse model)
         {
-            GetCardFromElse(model.Cards, model.Dest, model.player, model.Dest.isSelf || model.player.isSelf);
+            GetCardFromElse(model.Cards, model.dest, model.player, model.dest.isSelf || model.player.isSelf);
         }
 
         private void Exchange(Model.ExChange model)

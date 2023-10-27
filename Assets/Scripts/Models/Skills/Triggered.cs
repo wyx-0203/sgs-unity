@@ -9,15 +9,27 @@ namespace Model
         /// <summary>
         /// 询问是否发动技能
         /// </summary>
-        protected async Task<Decision> WaitDecision()
+        public async Task<Decision> WaitDecision()
         {
             // Timer.Instance.givenSkill = Name;
             Timer.Instance.temp.skill = this;
-            Timer.Instance.hint = "是否发动" + Name + "？";
+            Timer.Instance.hint = "是否发动" + name + "？";
             Timer.Instance.DefaultAI = AIDecision;
-            return await Timer.Instance.Run(Src);
+            return await Timer.Instance.Run(src);
         }
 
+        // public object arg { get; set; }
+        // public 
+        // public override async Task Execute(Decision decision)
+        // {
+        //     arg = null;
+        //     await base.Execute(decision);
+        // }
+
         public override Decision AIDecision() => AI.TryAction();
+
+        // public virtual async Task Execute(){await Task.Yield();}
+
+
     }
 }

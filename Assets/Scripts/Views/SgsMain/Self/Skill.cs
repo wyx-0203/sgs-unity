@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,16 +15,18 @@ namespace View
         public OperationArea operationArea => OperationArea.Instance;
         public SkillArea skillArea => SkillArea.Instance;
 
-        // Start is called before the first frame update
-        void Start()
+        public void Init(Model.Skill model)
         {
-            button.onClick.AddListener(ClickSkill);
+            this.model = model;
+            name = model.name;
+            text.text = model.name;
+            button.onClick.AddListener(OnClick);
         }
 
         /// <summary>
         /// 点击技能
         /// </summary>
-        public void ClickSkill()
+        public void OnClick()
         {
             if (model is Model.Triggered) return;
             if (!IsSelected) Select();
@@ -36,7 +37,7 @@ namespace View
         /// <summary>
         /// 选中技能
         /// </summary>
-        public void Select()
+        private void Select()
         {
             if (IsSelected) return;
 
@@ -48,7 +49,7 @@ namespace View
         /// <summary>
         /// 取消选中
         /// </summary>
-        public void Unselect()
+        private void Unselect()
         {
             if (!IsSelected) return;
             IsSelected = false;
@@ -59,7 +60,7 @@ namespace View
         /// <summary>
         /// 重置技能
         /// </summary>
-        public void ResetSkill()
+        public void Reset()
         {
             button.interactable = false;
             Unselect();

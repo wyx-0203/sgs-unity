@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Model
 {
@@ -20,10 +19,14 @@ namespace Model
         public int hp_limit;
         // 技能
         public List<string> skill;
-        public List<string> discribe;
+        public List<string> describe;
         // 皮肤
         // public List<Skin> skins;
 
+        public static async Task<List<General>> GetList()
+        {
+            return JsonList<General>.FromJson(await WebRequest.Get(Url.JSON + "general.json"));
+        }
     }
 
     [Serializable]

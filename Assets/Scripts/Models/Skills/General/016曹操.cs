@@ -1,33 +1,26 @@
-using System.Collections.Generic;
+using Model;
 using System.Threading.Tasks;
 
-namespace Model
+public class 奸雄 : Triggered
 {
-    public class 奸雄 : Triggered
+    protected override bool OnDamaged(Damaged damaged) => true;
+
+    public override async Task Invoke(object arg)
     {
-        public override void OnEnable()
+        var decision = await WaitDecision();
+        if (!decision.action) return;
+
+        Execute(decision);
+        var srcCard = (arg as Damaged).SrcCard;
+
+        // 若伤害来源牌在弃牌堆
+        if (srcCard != null)
         {
-            Src.events.AfterDamaged.AddEvent(Src, Execute);
+            var cards = srcCard.InDiscardPile();
+            await new GetDisCard(src, cards).Execute();
         }
 
-        public override void OnDisable()
-        {
-            Src.events.AfterDamaged.RemoveEvent(Src);
-        }
-
-        public async Task Execute(Damaged damaged)
-        {
-            var decision = await WaitDecision();
-            if (!decision.action) return;
-            await Execute(decision);
-
-            if (damaged.SrcCard != null)
-            {
-                var cards = damaged.SrcCard.InDiscardPile();
-                await new GetDisCard(Src, cards).Execute();
-            }
-
-            await new GetCardFromPile(Src, 1).Execute();
-        }
+        // 摸一张牌
+        await new GetCardFromPile(src, 1).Execute();
     }
 }

@@ -62,7 +62,6 @@ namespace Model
                 CardPile.NewInstance();
                 TurnSystem.NewInstance();
                 Timer.NewInstance();
-                CompeteTimer.NewInstance();
                 CardPanel.NewInstance();
                 Decision.List.NewInstance();
 
@@ -133,7 +132,6 @@ namespace Model
             CardPile.SetInstance(_cardPile);
             TurnSystem.SetInstance(_turnSystem);
             Timer.SetInstance(_timer);
-            CompeteTimer.SetInstance(_competeTimer);
             CardPanel.SetInstance(_cardPanel);
             Decision.List.SetInstance(_decisionList);
 
@@ -196,10 +194,10 @@ namespace Model
 
                     if (player.team != dest.team)
                     {
-                        var handcard = validCards.FirstOrDefault(x => x.IsHandCard);
+                        var handcard = validCards.FirstOrDefault(x => x.isHandCard);
                         if (handcard != null)
                         {
-                            validCards = validCards.Where(x => !x.IsHandCard).ToList();
+                            validCards = validCards.Where(x => !x.isHandCard).ToList();
                             validCards.Add(handcard);
                         }
                     }
@@ -394,7 +392,6 @@ namespace Model
             _cardPile = CardPile.Instance;
             _turnSystem = TurnSystem.Instance;
             _timer = Timer.Instance;
-            _competeTimer = CompeteTimer.Instance;
             _cardPanel = CardPanel.Instance;
             _decisionList = Decision.List.Instance;
         }
@@ -403,7 +400,6 @@ namespace Model
         private CardPile _cardPile;
         private TurnSystem _turnSystem;
         public Timer _timer;
-        private CompeteTimer _competeTimer;
         private CardPanel _cardPanel;
         public Decision.List _decisionList;
 

@@ -95,8 +95,6 @@ namespace Model
             TeamPool[Current].Add(general);
             OnPickView?.Invoke(general);
             Delay.StopAll();
-            // Debug.Log(Current.isSelf);
-            // Current = Current;
         }
 
         public void SendBpResult(int general)

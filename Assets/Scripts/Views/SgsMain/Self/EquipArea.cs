@@ -39,7 +39,7 @@ namespace View
             Model.SgsMain.Instance.MoveSeatView -= MoveSeat;
         }
 
-        public void Init()
+        public void OnStartPlay()
         {
             var equipSkill = Model.Timer.Instance.equipSkill;
             if (equipSkill != null && Equips.ContainsKey(equipSkill.name)) Equips[equipSkill.name].Use();

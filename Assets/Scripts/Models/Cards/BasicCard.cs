@@ -16,76 +16,62 @@ namespace Model
             name = "杀";
         }
 
-        public override async Task UseCard(Player src, List<Player> dests = null)
+        protected override async Task BeforeUse()
         {
-            if (src.weapon != null)
-            {
-                Src = src;
-                Dests = dests;
-                if (src.weapon is 朱雀羽扇 zqys && await zqys.Skill(this)) return;
-                src.weapon.WhenUseSha(this);
-            }
-
-            for (int i = 0; i < ShanCount.Length; i++) ShanCount[i] = 1;
-            for (int i = 0; i < DamageValue.Length; i++) DamageValue[i] = 1;
+            shanCount = 1;
             IgnoreArmor = false;
+            await Task.Yield();
+        }
 
-            await base.UseCard(src, dests);
-
-            if (src.Use酒)
-            {
-                src.Use酒 = false;
-                for (int i = 0; i < DamageValue.Length; i++) DamageValue[i]++;
-            }
-
+        protected override async Task AfterInit()
+        {
             // 青釭剑 雌雄双股剑
-            if (src.weapon != null) await src.weapon.AfterUseSha(this);
+            if (Src.weapon != null) await Src.weapon.BeforeUseSha(this);
 
-            foreach (var dest in Dests)
+            if (Src.useJiu)
             {
-                // 仁王盾 藤甲
-                // if (Disabled(dest)) continue;
-                if (!UseForeachDest(dest)) continue;
-
-                IsDamage = false;
-                if (ShanCount[dest.position] == 0) IsDamage = true;
-                else
-                {
-                    for (int i = 0; i < ShanCount[dest.position]; i++)
-                    {
-                        // Timer.Instance.AIDecision = AI.AutoDecision;
-                        if (!await 闪.Call(dest, this))
-                        {
-                            IsDamage = true;
-                            break;
-                        }
-                    }
-                }
-
-                if (!IsDamage && src.weapon != null) await src.weapon.ShaMiss(this, dest);
-
-                if (IsDamage)
-                {
-                    if (src.weapon != null)
-                    {
-                        try { await src.weapon.WhenDamage(this, dest); }
-                        catch (PreventDamage) { continue; }
-                    }
-                    DamageType type = this is 火杀 ? DamageType.Fire : this is 雷杀 ? DamageType.Thunder : DamageType.Normal;
-                    await new Damaged(dest, Src, this, DamageValue[dest.position], type).Execute();
-                }
+                Src.useJiu = false;
+                for (int i = 0; i < damageOffset.Length; i++) damageOffset[i]++;
             }
         }
 
-        public int[] ShanCount { get; set; } = new int[8];
-        public int[] DamageValue { get; set; } = new int[8];
+        protected override async Task UseForeachDest()
+        {
+            IsDamage = false;
+            if (shanCount == 0 || Src.effects.Unmissable.Invoke(this, dest)) IsDamage = true;
+            else
+            {
+                for (int i = 0; i < shanCount; i++)
+                {
+                    // Timer.Instance.AIDecision = AI.AutoDecision;
+                    if (!await 闪.Call(dest, this))
+                    {
+                        IsDamage = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!IsDamage && Src.weapon != null) await Src.weapon.OnShaMissed(this);
+
+            if (IsDamage)
+            {
+                try { if (Src.weapon != null) await Src.weapon.OnShaDamage(this); }
+                catch (PreventDamage) { return; }
+
+                Damaged.Type type = this is 火杀 ? Damaged.Type.Fire : this is 雷杀 ? Damaged.Type.Thunder : Damaged.Type.Normal;
+                await new Damaged(dest, Src, this, 1 + damageOffset[dest.position], type).Execute();
+            }
+        }
+
+        public int shanCount { get; set; }
         public bool IgnoreArmor { get; set; }
         public bool IsDamage { get; set; }
 
         public static async Task<bool> Call(Player player)
         {
             Timer.Instance.hint = "请打出一张杀。";
-            Timer.Instance.isValidCard = card => card is 杀 && !player.DisabledCard(card);
+            Timer.Instance.isValidCard = card => card is 杀 && card.useable;
 
             var decision = await Timer.Instance.Run(player, 1, 0);
             if (!decision.action) return false;
@@ -93,8 +79,6 @@ namespace Model
             await decision.cards[0].Put(player);
             return true;
         }
-
-        // public void 
     }
 
     /// <summary>
@@ -117,7 +101,7 @@ namespace Model
             }
 
             Timer.Instance.hint = "请使用一张闪。";
-            Timer.Instance.isValidCard = card => card is 闪 && !player.DisabledCard(card);
+            Timer.Instance.isValidCard = card => card is 闪 && card.useable;
             Timer.Instance.DefaultAI = AI.TryAction;
 
             var decision = await Timer.Instance.Run(player, 1, 0);
@@ -140,46 +124,25 @@ namespace Model
             name = "桃";
         }
 
-        public override async Task UseCard(Player src, List<Player> dests = null)
+        protected override async Task BeforeUse()
         {
-            // 默认将目标设为使用者
-            if (dests is null || dests.Count == 0) dests = new List<Player> { src };
+            if (Dests.Count == 0) Dests.Add(Src);
+            await Task.Yield();
+        }
 
-            await base.UseCard(src, dests);
-
-            // 回复体力
-            foreach (var dest in Dests) await new Recover(dest).Execute();
+        protected override async Task UseForeachDest()
+        {
+            await new Recover(dest).Execute();
         }
 
         public static async Task<bool> Call(Player player, Player dest)
         {
             Timer.Instance.hint = "请使用一张桃。";
-            Timer.Instance.isValidCard = card => (card is 桃 || card is 酒 && dest == player)
-                && !player.DisabledCard(card);
+            Timer.Instance.isValidCard = card => (card is 桃 || card is 酒 && dest == player) && card.useable;
             Timer.Instance.isValidDest = player => player == dest;
             Timer.Instance.DefaultAI = player.team == dest.team ? AI.TryAction : () => new();
-            // {
-            //     Card card = null;
-            //     if (player == dest) card = player.FindCard<酒>();
-            //     if (card is null && player.team == dest.team) card = player.FindCard<桃>();
 
-            //     if (card is null || !AI.CertainValue) return new Decision();
-            //     return new Decision { cards = new List<Card> { card } };
-            // };
             var decision = await Timer.Instance.Run(player, 1, 1);
-
-            // if (player.isAI && (player == dest || player.team == dest.team))
-            // {
-            //     var card = player.FindCard<酒>() as Card;
-            //     if (card is null) card = player.FindCard<桃>();
-            //     if (card != null)
-            //     {
-            //         Timer.Instance.cards = new List<Card> { card };
-            //         // Timer.Instance.Cards.Add(card);
-            //         result = true;
-            //     }
-            // }
-
             if (!decision.action) return false;
 
             await decision.cards[0].UseCard(player, new List<Player> { dest });
@@ -213,18 +176,19 @@ namespace Model
             name = "酒";
         }
 
-        public override async Task UseCard(Player src, List<Player> dests = null)
+        protected override async Task BeforeUse()
         {
-            // 默认将目标设为使用者
-            if (dests is null || dests.Count == 0) dests = new List<Player> { src };
+            if (Dests.Count == 0) Dests.Add(Src);
+            await Task.Yield();
+        }
 
-            await base.UseCard(src, dests);
-
-            if (Dests[0].Hp < 1) await new Recover(Dests[0]).Execute();
+        protected override async Task UseForeachDest()
+        {
+            if (dest.Hp < 1) await new Recover(dest).Execute();
             else
             {
-                Dests[0].Use酒 = true;
-                Dests[0].酒Count++;
+                dest.useJiu = true;
+                dest.jiuCount++;
             }
         }
     }

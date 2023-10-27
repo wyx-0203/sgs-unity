@@ -7,23 +7,24 @@ using UnityEngine.Events;
 
 namespace Model
 {
-    public class Player
+    public class Player : IComparable<Player>
     {
         public Player(Team team, int turnOrder, bool isMaster = false)
         {
             this.team = team;
             this.turnOrder = turnOrder;
             this.isMaster = isMaster;
+            effects = new EffectCollection(this);
         }
 
-        public PlayerEvents events { get; private set; } = new PlayerEvents();
+        // public PlayerEvents events { get; private set; } = new PlayerEvents();
 
-        // public int position { get; set; }
         public bool isSelf { get; set; } = false;
         public bool isAI { get; set; } = false;
         public List<Player> teammates { get; set; }
         public Team team { get; private set; }
         public bool isMaster { get; private set; }
+        public override string ToString() => general.name;
 
         // 武将
         public General general { get; private set; }
@@ -34,9 +35,9 @@ namespace Model
 
         // 技能
         public List<Skill> skills { get; private set; } = new List<Skill>();
-        public Skill FindSkill(string name) => skills.Find(x => x.Name == name);
+        public Skill FindSkill(string name) => skills.Find(x => x.name == name);
         // 是否存活
-        public bool IsAlive { get; set; } = true;
+        public bool alive { get; set; } = true;
 
         // 体力上限
         public int HpLimit { get; set; }
@@ -44,10 +45,9 @@ namespace Model
         public int Hp { get; set; }
         // 位置
         public int position { get; set; }
+        // 回合顺序
         public int turnOrder { get; private set; }
-        public string posStr => (position + 1).ToString();
 
-        public override string ToString() => general.name;
         // 上家
         public Player last { get; set; }
         // 下家
@@ -63,7 +63,9 @@ namespace Model
         public int HandCardLimitOffset { get; set; } = 0;
 
         // 铁锁
-        public bool IsLocked { get; set; } = false;
+        public bool locked { get; set; } = false;
+        // 翻面
+        public bool turnOver { get; set; } = false;
 
         // 装备区
         public Dictionary<string, Equipment> Equipments { get; set; } = new();
@@ -75,6 +77,9 @@ namespace Model
         // 判定区
         public List<DelayScheme> JudgeCards { get; set; } = new List<DelayScheme>();
 
+        /// <summary>
+        /// 所有手牌和装备牌
+        /// </summary>
         public IEnumerable<Card> cards => HandCards.Union(Equipments.Values);
 
         // 其他角色计算与你的距离(+1)
@@ -84,16 +89,18 @@ namespace Model
         // 攻击范围
         public int AttackRange { get; set; } = 1;
         // 出杀次数
-        public int 杀Count { get; set; }
-        public bool Use酒 { get; set; } = false;
-        public int 酒Count { get; set; }
+        public int shaCount { get; set; }
+        public bool useJiu { get; set; } = false;
+        public int jiuCount { get; set; }
+
+        public EffectCollection effects { get; private set; }
 
         /// <summary>
         /// 计算距离
         /// </summary>
         public int GetDistance(Player dest)
         {
-            if (!dest.IsAlive || dest == this) return 0;
+            if (!dest.alive || dest == this) return 0;
             int distance = 1 + dest.DstPlus - DstSub;
 
             Player n = next, l = last;
@@ -119,7 +126,8 @@ namespace Model
         /// <summary>
         /// 按类型查找手牌(人机)
         /// </summary>
-        public T FindCard<T>() where T : Card => HandCards.Find(x => x is T && !DisabledCard(x)) as T;
+        public T FindCard<T>() where T : Card => HandCards.Find(x => x is T && !effects.DisableCard.Invoke(x)) as T;
+        // public T FindCard<T>() where T : Card => HandCards.Find(x => x is T && !DisableCard.Instance.Invoke(this, x)) as T;
 
         /// <summary>
         /// 初始化武将
@@ -133,8 +141,12 @@ namespace Model
             InitSkill();
 
             string url = Url.JSON + "skin/" + general.id.ToString().PadLeft(3, '0') + ".json";
-            skins = JsonList<Model.Skin>.FromJson(await WebRequest.Get(url));
-            currentSkin = skins[0];
+            try
+            {
+                skins = JsonList<Model.Skin>.FromJson(await WebRequest.Get(url));
+                currentSkin = skins[0];
+            }
+            catch (Exception e) { Util.Print(e); }
         }
 
         /// <summary>
@@ -142,67 +154,63 @@ namespace Model
         /// </summary>
         private void InitSkill()
         {
-            foreach (var str in general.skill)
-            {
-                if (!Skill.SkillMap.ContainsKey(str)) continue;
-
-                var skill = Activator.CreateInstance(Skill.SkillMap[str]) as Skill;
-                skill.Init(str, this);
-                // skills.Add(skill);
-            }
+            foreach (var name in general.skill) Skill.New(name, this);
         }
+
+        public int orderKey => (position - TurnSystem.Instance.CurrentPlayer.position + SgsMain.Instance.players.Length) % SgsMain.Instance.players.Length;
+        public int CompareTo(Player other) => orderKey.CompareTo(other.orderKey);
 
         /// <summary>
         /// 无次数限制
         /// </summary>
-        public Func<Card, bool> unlimitTimes = (card) => false;
-        public bool UnlimitTimes(Card card)
-        {
-            foreach (Func<Card, bool> i in unlimitTimes.GetInvocationList())
-            {
-                if (i(card)) return true;
-            }
-            return false;
-        }
+        // public Func<Card, bool> unlimitTimes = (card) => false;
+        // public bool UnlimitTimes(Card card)
+        // {
+        //     foreach (Func<Card, bool> i in unlimitTimes.GetInvocationList())
+        //     {
+        //         if (i(card)) return true;
+        //     }
+        //     return false;
+        // }
 
         /// <summary>
         /// 禁用卡牌
         /// </summary>
-        public Func<Card, bool> disabledCard = (card) => false;
-        public bool DisabledCard(Card card)
-        {
-            foreach (Func<Card, bool> i in disabledCard.GetInvocationList())
-            {
-                if (i(card)) return true;
-            }
-            return false;
-        }
+        // public Func<Card, bool> disabledCard = (card) => false;
+        // public bool DisabledCard(Card card)
+        // {
+        //     foreach (Func<Card, bool> i in disabledCard.GetInvocationList())
+        //     {
+        //         if (i(card)) return true;
+        //     }
+        //     return false;
+        // }
 
         /// <summary>
         /// 卡牌对你无效
         /// </summary>
-        public Func<Card, bool> disableForMe = (card) => false;
-        public bool DisableForMe(Card card)
-        {
-            foreach (Func<Card, bool> i in disableForMe.GetInvocationList())
-            {
-                if (i(card)) return true;
-            }
-            return false;
-        }
+        // public Func<Card, bool> disableForMe = (card) => false;
+        // public bool DisableForMe(Card card)
+        // {
+        //     foreach (Func<Card, bool> i in disableForMe.GetInvocationList())
+        //     {
+        //         if (i(card)) return true;
+        //     }
+        //     return false;
+        // }
 
         /// <summary>
         /// 无距离限制
         /// </summary>
-        public Func<Card, Player, bool> unlimitDst = (card, player) => false;
-        public bool UnlimitDst(Card card, Player dest)
-        {
-            foreach (Func<Card, Player, bool> i in unlimitDst.GetInvocationList())
-            {
-                if (i(card, dest)) return true;
-            }
-            return false;
-        }
+        // public Func<Card, Player, bool> unlimitDst = (card, player) => false;
+        // public bool UnlimitDst(Card card, Player dest)
+        // {
+        //     foreach (Func<Card, Player, bool> i in unlimitDst.GetInvocationList())
+        //     {
+        //         if (i(card, dest)) return true;
+        //     }
+        //     return false;
+        // }
 
         private int skinIndex = 0;
         public void SendChangeSkin()
@@ -236,9 +244,5 @@ namespace Model
             str += "\njudges:" + string.Join(' ', JudgeCards) + '\n';
             return str;
         }
-
-        // public override bool Equals(object obj) => obj is Player player && player.position == position;
-
-        // public override int GetHashCode() => position.GetHashCode();
     }
 }
