@@ -23,10 +23,18 @@ public static class WebRequest
         return await Send(www) ? www.downloadHandler.text : null;
     }
 
+    public static async Task<byte[]> GetBytes(string url)
+    {
+        UnityWebRequest www = UnityWebRequest.Get(url);
+        return await Send(www) ? www.downloadHandler.data : null;
+    }
+
+    public static string token { get; set; }
+
     public static async Task<string> GetWithToken(string url)
     {
         UnityWebRequest www = UnityWebRequest.Get(url);
-        www.SetRequestHeader("Authorization", Model.Self.Instance.Token);
+        www.SetRequestHeader("Authorization", token);
         return await Send(www) ? www.downloadHandler.text : null;
     }
 

@@ -8,7 +8,7 @@ public class ABManager : GlobalSingleton<ABManager>
     private AssetBundleManifest manifest = null;
 
     // 已加载的AssetBundles字典
-    public Dictionary<string, AssetBundle> ABMap { get; private set; } = new Dictionary<string, AssetBundle>();
+    public Dictionary<string, AssetBundle> ABMap { get; } = new();
 
     /// <summary>
     /// 从服务端获取AssetBundle并加入ABMap
@@ -65,7 +65,7 @@ public class ABManager : GlobalSingleton<ABManager>
         ABMap.Remove(abName);
     }
 
-    public void LoadSgsMain()
+    public void LoadGameScene()
     {
         string url = Application.streamingAssetsPath + "/AssetBundles/";
         if (!ABManager.Instance.ABMap.ContainsKey("sprite"))

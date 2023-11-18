@@ -60,7 +60,7 @@ data["voice"] = [
     #     "name": "竭忠",
     #     "url": ["GuanPing_JieZhong_01", "GuanPing_JieZhong_02"],
     # },
-    # {
+    # {https://web.sanguosha.com/10/pc/res/assets/runtime/voice/skin/1-spell/spell426_1.mp3
     #     "name": "咆哮",
     #     "url": ["XinGuanXingZhangBao_PaoXiao_01", "XinGuanXingZhangBao_PaoXiao_02"],
     # },

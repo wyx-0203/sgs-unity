@@ -1,4 +1,4 @@
-using Model;
+// using GameCore;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -43,21 +43,22 @@ public class Util : GlobalSingletonMono<Util>
 
     public static void Print(object str)
     {
-        if (!Model.MCTS.Instance.isRunning)
-            Debug.Log(str);
+        // if (!GameCore.MCTS.Instance.isRunning)
+        Debug.Log(str);
     }
     // public static string CardsToString(List<Model.Card> cards)
     // {
     //     // 
     // }
-    public static string GetGameInfo()
-    {
-        string str = "GameInfo:";
-        str += "\nMCTS.state=" + Model.MCTS.Instance.state;
-        str += "\nplayers:\n" + string.Join("\n", Model.SgsMain.Instance.AlivePlayers.Select(x => x.DebugInfo()));
-        str += "\ndecisions:\n" + Model.Decision.List.Instance;
-        return str;
-    }
+    // public static string GetGameInfo()
+    // {
+    //     string str = "GameInfo:";
+    //     str += "\nMCTS.state=" + GameCore.MCTS.Instance.state;
+    //     str += "\nplayers:\n" + string.Join("\n", GameCore.SgsMain.Instance.AlivePlayers.Select(x => x.DebugInfo()));
+    //     str += "\ndecisions:\n" + GameCore.Decision.List.Instance;
+    //     return str;
+    // }
+
 }
 
 public class Delay
@@ -78,7 +79,7 @@ public class Delay
     /// </summary>
     public async Task<bool> Run()
     {
-        if (Model.MCTS.Instance.isRunning) return true;
+        // if (GameCore.MCTS.Instance.isRunning) return true;
         list.Add(this);
         coroutine = RunCoroutine(second);
         Util.Instance.StartCoroutine(coroutine);
@@ -95,7 +96,7 @@ public class Delay
 
     public static void StopAll()
     {
-        if (Model.MCTS.Instance.isRunning) return;
+        // if (GameCore.MCTS.Instance.isRunning) return;
         Util.Instance.StopAllCoroutines();
         foreach (var i in list)
         {
@@ -111,3 +112,4 @@ public class Delay
         isDone = true;
     }
 }
+

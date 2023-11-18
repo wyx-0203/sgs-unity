@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 
-// [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/General", order = 1)]
 public class General : ScriptableObject
 {
     // 编号
@@ -21,7 +20,7 @@ public class General : ScriptableObject
     // 技能
     public List<Skill> skills = new();
 
-    public void Init(Model.General model)
+    public General Init(GameCore.General model)
     {
         id = model.id;
         _name = model.name;
@@ -36,6 +35,7 @@ public class General : ScriptableObject
             skill.src = this;
             skills.Add(skill);
         }
+        return this;
     }
 }
 
@@ -72,6 +72,57 @@ public class Skill : ScriptableObject
             evt.menu.AppendAction("移除技能", x =>
             {
                 src.skills.Remove(this);
+                element.parent.hierarchy.Remove(element);
+            });
+        });
+
+        return element;
+    }
+}
+
+public class Skin : ScriptableObject
+{
+    public int general_id;
+    // 编号
+    public int id;
+    // 皮肤名
+    public string _name;
+    public List<Voice> voices = new();
+}
+
+public class Voice : ScriptableObject
+{
+    public string skill_name;
+    public string url1;
+    public string url2;
+
+    private static VisualTreeAsset template;
+
+    public VisualElement NewElement(SkinManager skinManager)
+    {
+        if (template is null) template = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Editor/voice.uxml");
+        var element = template.CloneTree();
+
+        var skillName = element.Q<TextField>("skill-name");
+        var voice_url1 = element.Q<TextField>("voice-url1");
+        var voice_url2 = element.Q<TextField>("voice-url2");
+
+        var serializedObject = new SerializedObject(this);
+        skillName.BindProperty(serializedObject);
+        voice_url1.BindProperty(serializedObject);
+        voice_url2.BindProperty(serializedObject);
+
+        element.RegisterCallback((ContextualMenuPopulateEvent evt) =>
+        {
+            evt.menu.AppendAction("新建技能", x =>
+            {
+                var newVoice = ScriptableObject.CreateInstance<Voice>();
+                skinManager.voices.Add(newVoice);
+                element.parent.hierarchy.Add(newVoice.NewElement(skinManager));
+            });
+            evt.menu.AppendAction("移除技能", x =>
+            {
+                skinManager.voices.Remove(this);
                 element.parent.hierarchy.Remove(element);
             });
         });

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
@@ -41,13 +40,7 @@ public class GeneralManager : EditorWindow
         VisualElement labelFromUXML = visualTree.Instantiate();
         root.Add(labelFromUXML);
 
-        generals = JsonList<Model.General>.FromJson(await WebRequest.Get(Url.JSON + "general1.json")).Select(x =>
-        {
-            var general = ScriptableObject.CreateInstance<General>();
-            general.Init(x);
-            return general;
-        }).ToList();
-
+        // 获取元素
         listView = root.Q<ListView>("ListView");
         id = root.Q<IntegerField>("id");
         _name = root.Q<TextField>("name");
@@ -57,28 +50,31 @@ public class GeneralManager : EditorWindow
         hp_limit = root.Q<IntegerField>("hp_limit");
         skills = root.Q<VisualElement>("skills").Q<VisualElement>("unity-content");
         save = root.Q<Button>("save");
+        save.clicked += Save;
 
-        id.RegisterValueChangedCallback(x =>
-        {
-            generals.Sort((x, y) => x.id.CompareTo(y.id));
-            listView.Rebuild();
-        });
-        _name.RegisterValueChangedCallback(x => listView.Rebuild());
-
+        // 初始化武将列表
+        generals = (await GameCore.General.GetList()).Select(x => ScriptableObject.CreateInstance<General>().Init(x)).ToList();
         listView.itemsSource = generals;
         listView.makeItem = MakeListItem;
         listView.bindItem = BindListItem;
         listView.onSelectionChange += OnSelectItem;
         listView.SetSelection(0);
 
-        save.clicked += Save;
+        // 修改id、name时更新武将列表
+        id.RegisterValueChangedCallback(x =>
+        {
+            generals.Sort((x, y) => x.id.CompareTo(y.id));
+            listView.Rebuild();
+        });
+        _name.RegisterValueChangedCallback(x => listView.Rebuild());
     }
 
     private void Save()
     {
-        var list = new JsonList<Model.General>
+        // 将列表转化为json字符串
+        var list = new JsonList<GameCore.General>
         {
-            list = generals.Select(x => new Model.General
+            list = generals.Select(x => new GameCore.General
             {
                 id = x.id,
                 name = x._name,
@@ -90,22 +86,21 @@ public class GeneralManager : EditorWindow
             }).OrderBy(x => x.id).ToList()
         };
         string json = JsonUtility.ToJson(list);
-        Debug.Log(json);
 
-        try
-        {
-            string filePath = "Assets/StreamingAssets/Json/general1.json";
-            using (var writer = new StreamWriter(filePath)) writer.Write(json);
-            Debug.Log("字符串已成功写入文件：" + filePath);
-        }
-        catch (Exception e) { Debug.Log("写入文件时发生错误：" + e.Message); }
+        // 写入文件
+        string filePath = "Assets/StreamingAssets/Json/general.json";
+        using (var writer = new StreamWriter(filePath)) writer.Write(json);
+        Debug.Log("字符串已成功写入文件：" + filePath);
     }
 
+    // 选中列表元素时
     private void OnSelectItem(IEnumerable<object> enumerable)
     {
+        // 设置当前元素
         if (enumerable.FirstOrDefault() is not General g) return;
         current = g;
 
+        // 绑定数据
         var serializedObject = new SerializedObject(current);
         id.BindProperty(serializedObject);
         _name.BindProperty(serializedObject);
@@ -113,6 +108,7 @@ public class GeneralManager : EditorWindow
         nation.BindProperty(serializedObject);
         hp_limit.BindProperty(serializedObject);
 
+        // 初始化技能
         skills.hierarchy.Clear();
         foreach (var i in current.skills)
         {

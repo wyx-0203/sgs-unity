@@ -27,12 +27,24 @@ public class SignInResponse : HttpResponse
     public int user_id;
 }
 
+
+[Serializable]
+public class UserJson
+{
+    public int id;
+    public int position;
+    public string nickname;
+    public string character;
+    public bool already;
+    public bool owner;
+}
+
 [Serializable]
 public class JoinRoomResponse : HttpResponse
 {
     public string mode;
     public int owner_pos;
-    public List<Model.User> players;
+    public List<UserJson> players;
 
 }
 
@@ -64,7 +76,7 @@ public class WebsocketMessage
 [Serializable]
 public class AddPlayerMessage : WebsocketMessage
 {
-    public Model.User player;
+    public UserJson player;
 }
 
 [Serializable]
@@ -107,12 +119,12 @@ public class BanpickMessage : WebsocketMessage
     public List<int> generals;
 }
 
-[Serializable]
-public class PhaseMessage : WebsocketMessage
-{
-    public int position;
-    public Model.Phase phase;
-}
+// [Serializable]
+// public class PhaseMessage : WebsocketMessage
+// {
+//     public int position;
+//     public GameCore.Phase phase;
+// }
 
 [Serializable]
 public class ShuffleMessage : WebsocketMessage

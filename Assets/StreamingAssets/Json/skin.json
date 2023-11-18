@@ -1,0 +1,2399 @@
+{
+    "list": [
+        {
+            "general_id": 1,
+            "id": 100101,
+            "name": "经典形象",
+            "voice": [
+                {
+                    "name": "仁德",
+                    "url": [
+                        "1-spell/spell31_1.mp3",
+                        "1-spell/spell31_2.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "dead/charDead_1.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 1,
+            "id": 106001,
+            "name": "界限突破",
+            "voice": [
+                {
+                    "name": "仁德",
+                    "url": [
+                        "1-spell/spell699_1.mp3",
+                        "1-spell/spell699_2.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "dead/charDead_299.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 1,
+            "id": 400101,
+            "name": "御驾亲征",
+            "voice": [
+                {
+                    "name": "仁德",
+                    "url": [
+                        "liubei05/LiuBei_RenDe_01.mp3",
+                        "liubei05/LiuBei_RenDe_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "liubei05/LiuBei_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 1,
+            "id": 506001,
+            "name": "六星耀帝",
+            "voice": [
+                {
+                    "name": "仁德",
+                    "url": [
+                        "jieliubei04/JieLiuBei_JieRenDe_01.mp3",
+                        "jieliubei04/JieLiuBei_JieRenDe_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "jieliubei04/JieLiuBei_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 1,
+            "id": 506002,
+            "name": "英杰会聚",
+            "voice": [
+                {
+                    "name": "仁德",
+                    "url": [
+                        "jieliubei05/JieLiuBei_JieRenDe_01.mp3",
+                        "jieliubei05/JieLiuBei_JieRenDe_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "jieliubei05/JieLiuBei_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 2,
+            "id": 100201,
+            "name": "经典形象",
+            "voice": [
+                {
+                    "name": "武圣",
+                    "url": [
+                        "1-spell/spell33_1.mp3",
+                        "1-spell/spell33_2.mp3"
+                    ]
+                },
+                {
+                    "name": "义绝",
+                    "url": [
+                        "1-spell/spell701_1.mp3",
+                        "1-spell/spell701_2.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "dead/charDead_2.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 2,
+            "id": 106101,
+            "name": "界限突破",
+            "voice": [
+                {
+                    "name": "武圣",
+                    "url": [
+                        "guanyu06/GuanYu_WuSheng_01.mp3",
+                        "guanyu06/GuanYu_WuSheng_02.mp3"
+                    ]
+                },
+                {
+                    "name": "义绝",
+                    "url": [
+                        "guanyu06/GuanYu_YiJue_01.mp3",
+                        "guanyu06/GuanYu_YiJue_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "guanyu06/GuanYu_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 2,
+            "id": 500201,
+            "name": "飞龙在天",
+            "voice": [
+                {
+                    "name": "武圣",
+                    "url": [
+                        "guanyu04/GuanYu_WuSheng_01.mp3",
+                        "guanyu04/GuanYu_WuSheng_02.mp3"
+                    ]
+                },
+                {
+                    "name": "义绝",
+                    "url": [
+                        "guanyu04/GuanYu_YiJue_01.mp3",
+                        "guanyu04/GuanYu_YiJue_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "guanyu04/GuanYu_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 2,
+            "id": 500205,
+            "name": "开泰盛世",
+            "voice": [
+                {
+                    "name": "武圣",
+                    "url": [
+                        "guanyu07/GuanYuPo_WuSheng_01.mp3",
+                        "guanyu07/GuanYuPo_WuSheng_02.mp3"
+                    ]
+                },
+                {
+                    "name": "义绝",
+                    "url": [
+                        "guanyu07/GuanYuPo_YiJue_01.mp3",
+                        "guanyu07/GuanYuPo_YiJue_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "guanyu07/GuanYuPo_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 2,
+            "id": 500206,
+            "name": "狂龙怒战",
+            "voice": [
+                {
+                    "name": "武圣",
+                    "url": [
+                        "guanyu08/GuanYuPo_WuSheng_01.mp3",
+                        "guanyu08/GuanYuPo_WuSheng_02.mp3"
+                    ]
+                },
+                {
+                    "name": "义绝",
+                    "url": [
+                        "guanyu08/GuanYuPo_YiJue_01.mp3",
+                        "guanyu08/GuanYuPo_YiJue_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "guanyu08/GuanYuPo_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 2,
+            "id": 506101,
+            "name": "单刀赴会",
+            "voice": [
+                {
+                    "name": "武圣",
+                    "url": [
+                        "guanyupo01/GuanYuPo_WuSheng_01.mp3",
+                        "guanyupo01/GuanYuPo_WuSheng_02.mp3"
+                    ]
+                },
+                {
+                    "name": "义绝",
+                    "url": [
+                        "guanyupo01/GuanYuPo_YiJue_01.mp3",
+                        "guanyupo01/GuanYuPo_YiJue_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "guanyupo01/GuanYuPo_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 2,
+            "id": 600201,
+            "name": "武动乾坤",
+            "voice": [
+                {
+                    "name": "武圣",
+                    "url": [
+                        "guanyu01/GuanYu_WuSheng_01.mp3",
+                        "guanyu01/GuanYu_WuSheng_02.mp3"
+                    ]
+                },
+                {
+                    "name": "义绝",
+                    "url": [
+                        "guanyu01/GuanYuPo_YiJue_01.mp3",
+                        "guanyu01/GuanYuPo_YiJue_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "guanyu01/charDead_2.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 8,
+            "id": 100801,
+            "name": "经典形象",
+            "voice": [
+                {
+                    "name": "制衡",
+                    "url": [
+                        "1-spell/spell53_1.mp3",
+                        "1-spell/spell53_2.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "dead/charDead_8.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 8,
+            "id": 106701,
+            "name": "界限突破",
+            "voice": [
+                {
+                    "name": "制衡",
+                    "url": [
+                        "sunquan01/SunQuan_ZhiHeng_01.mp3",
+                        "sunquan01/SunQuan_ZhiHeng_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "sunquan01/SunQuan_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 8,
+            "id": 500801,
+            "name": "吴王光耀",
+            "voice": [
+                {
+                    "name": "制衡",
+                    "url": [
+                        "sunquan04/SunQuan_ZhiHeng_01.mp3",
+                        "sunquan04/SunQuan_ZhiHeng_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "sunquan04/SunQuan_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 8,
+            "id": 500802,
+            "name": "英杰会聚",
+            "voice": [
+                {
+                    "name": "制衡",
+                    "url": [
+                        "sunquan02/SunQuan_ZhiHeng_01.mp3",
+                        "sunquan02/SunQuan_ZhiHeng_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "sunquan02/SunQuan_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 8,
+            "id": 500803,
+            "name": "励战年兽",
+            "voice": [
+                {
+                    "name": "制衡",
+                    "url": [
+                        "sunquan03/SunQuan_ZhiHeng_01.mp3",
+                        "sunquan03/SunQuan_ZhiHeng_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "sunquan03/SunQuan_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 11,
+            "id": 101101,
+            "name": "经典形象",
+            "voice": [
+                {
+                    "name": "苦肉",
+                    "url": [
+                        "huanggai05/HuangGaiPo_KuRouPo_01.mp3",
+                        "huanggai05/HuangGaiPo_KuRouPo_02.mp3"
+                    ]
+                },
+                {
+                    "name": "诈降",
+                    "url": [
+                        "huanggai05/HuangGaiPo_ZhaXiangPo_01.mp3",
+                        "huanggai05/HuangGaiPo_ZhaXiangPo_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "huanggai05/HuangGaiPo_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 11,
+            "id": 107001,
+            "name": "界限突破",
+            "voice": [
+                {
+                    "name": "苦肉",
+                    "url": [
+                        "huanggai05/HuangGaiPo_KuRouPo_01.mp3",
+                        "huanggai05/HuangGaiPo_KuRouPo_02.mp3"
+                    ]
+                },
+                {
+                    "name": "诈降",
+                    "url": [
+                        "huanggai05/HuangGaiPo_ZhaXiangPo_01.mp3",
+                        "huanggai05/HuangGaiPo_ZhaXiangPo_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "huanggai05/HuangGaiPo_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 11,
+            "id": 501101,
+            "name": "破天焚舰",
+            "voice": [
+                {
+                    "name": "苦肉",
+                    "url": [
+                        "huanggai04/HuangGai_KuRou_01.mp3",
+                        "huanggai04/HuangGai_KuRou_02.mp3"
+                    ]
+                },
+                {
+                    "name": "诈降",
+                    "url": [
+                        "huanggai04/HuangGai_ZhaXiang_01.mp3",
+                        "huanggai04/HuangGai_ZhaXiang_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "huanggai04/HuangGai_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 11,
+            "id": 501102,
+            "name": "勇力精锐",
+            "voice": [
+                {
+                    "name": "苦肉",
+                    "url": [
+                        "huanggai07/HuangGai_KuRou_01.mp3",
+                        "huanggai07/HuangGai_KuRou_02.mp3"
+                    ]
+                },
+                {
+                    "name": "诈降",
+                    "url": [
+                        "huanggai07/HuangGai_ZhaXiang_01.mp3",
+                        "huanggai07/HuangGai_ZhaXiang_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "huanggai07/HuangGai_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 11,
+            "id": 601101,
+            "name": "武动乾坤",
+            "voice": [
+                {
+                    "name": "苦肉",
+                    "url": [
+                        "huanggai02/HuangGai_KuRou_01.mp3",
+                        "huanggai02/HuangGai_KuRou_02.mp3"
+                    ]
+                },
+                {
+                    "name": "诈降",
+                    "url": [
+                        "huanggai02/HuangGaiPo_ZhaXiangPo_01.mp3",
+                        "huanggai02/HuangGaiPo_ZhaXiangPo_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "huanggai02/HuangGai_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 16,
+            "id": 101601,
+            "name": "经典形象",
+            "voice": [
+                {
+                    "name": "奸雄",
+                    "url": [
+                        "1-spell/spell42_1.mp3",
+                        "1-spell/spell42_2.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "dead/charDead_15.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 16,
+            "id": 107501,
+            "name": "界限突破",
+            "voice": [
+                {
+                    "name": "奸雄",
+                    "url": [
+                        "caocaopo03/CaoCao_JianXiong_01.mp3",
+                        "caocaopo03/CaoCao_JianXiong_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "caocaopo03/CaoCao_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 16,
+            "id": 501601,
+            "name": "魏武东临",
+            "voice": [
+                {
+                    "name": "奸雄",
+                    "url": [
+                        "caocao03/CaoCao_JianXiong_01.mp3",
+                        "caocao03/CaoCao_JianXiong_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "caocao03/CaoCao_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 16,
+            "id": 501606,
+            "name": "山河常青",
+            "voice": [
+                {
+                    "name": "奸雄",
+                    "url": [
+                        "caocaopo06/CaoCaoPo_JianXiongPo_01.mp3",
+                        "caocaopo06/CaoCaoPo_JianXiongPo_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "caocaopo06/CaoCaoPo_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 16,
+            "id": 507501,
+            "name": "魏武霸业",
+            "voice": [
+                {
+                    "name": "奸雄",
+                    "url": [
+                        "caocaopo01/CaoCaoPo_JianXiongPo_01.mp3",
+                        "caocaopo01/CaoCaoPo_JianXiongPo_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "caocaopo01/CaoCaoPo_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 16,
+            "id": 507502,
+            "name": "英杰会聚",
+            "voice": [
+                {
+                    "name": "奸雄",
+                    "url": [
+                        "caocaopo02/CaoCaoPo_JianXiongPo_01.mp3",
+                        "caocaopo02/CaoCaoPo_JianXiongPo_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "caocaopo02/CaoCaoPo_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 18,
+            "id": 101801,
+            "name": "经典形象",
+            "voice": [
+                {
+                    "name": "刚烈",
+                    "url": [
+                        "xiahoudun05/XiaHouDun_GangLie_01.mp3",
+                        "xiahoudun05/XiaHouDun_GangLie_02.mp3"
+                    ]
+                },
+                {
+                    "name": "清俭",
+                    "url": [
+                        "xiahoudun05/XiaHouDun_QingJian_01.mp3",
+                        "xiahoudun05/XiaHouDun_QingJian_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "xiahoudun05/XiaHouDun_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 18,
+            "id": 107701,
+            "name": "界限突破",
+            "voice": [
+                {
+                    "name": "刚烈",
+                    "url": [
+                        "xiahoudun04/XiaHouDun_GangLie_01.mp3",
+                        "xiahoudun04/XiaHouDun_GangLie_02.mp3"
+                    ]
+                },
+                {
+                    "name": "清俭",
+                    "url": [
+                        "xiahoudun04/XiaHouDun_QingJian_01.mp3",
+                        "xiahoudun04/XiaHouDun_QingJian_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "xiahoudun04/XiaHouDun_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 18,
+            "id": 501801,
+            "name": "开疆烈血",
+            "voice": [
+                {
+                    "name": "刚烈",
+                    "url": [
+                        "xiahoudun01/XiaHouDunPo_GangLiePo_01.mp3",
+                        "xiahoudun01/XiaHouDunPo_GangLiePo_02.mp3"
+                    ]
+                },
+                {
+                    "name": "清俭",
+                    "url": [
+                        "xiahoudun01/XiaHouDunPo_QingJian_01.mp3",
+                        "xiahoudun01/XiaHouDunPo_QingJian_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "xiahoudun01/XiaHouDunPo_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 18,
+            "id": 501802,
+            "name": "元让伏虎",
+            "voice": [
+                {
+                    "name": "刚烈",
+                    "url": [
+                        "xiahoudun07/XiaHouDun_GangLie_01.mp3",
+                        "xiahoudun07/XiaHouDun_GangLie_02.mp3"
+                    ]
+                },
+                {
+                    "name": "清俭",
+                    "url": [
+                        "xiahoudun07/XiaHouDun_QingJian_02.mp3",
+                        "xiahoudun07/XiaHouDun_QingJian_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "xiahoudun07/XiaHouDun_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 18,
+            "id": 501803,
+            "name": "万难不辞",
+            "voice": [
+                {
+                    "name": "刚烈",
+                    "url": [
+                        "xiahoudun08/XiaHouDun_GangLie_01.mp3",
+                        "xiahoudun08/XiaHouDun_GangLie_02.mp3"
+                    ]
+                },
+                {
+                    "name": "清俭",
+                    "url": [
+                        "xiahoudun08/XiaHouDun_QingJian_02.mp3",
+                        "xiahoudun08/XiaHouDun_QingJian_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "xiahoudun08/XiaHouDun_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 19,
+            "id": 101901,
+            "name": "经典形象",
+            "voice": [
+                {
+                    "name": "突袭",
+                    "url": [
+                        "1-spell/spell44_1.mp3",
+                        "1-spell/spell44_2.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "dead/charDead_18.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 19,
+            "id": 107801,
+            "name": "界限突破",
+            "voice": [
+                {
+                    "name": "突袭",
+                    "url": [
+                        "zhangliaopo04/ZhangLiaoPo_TuXiPo_01.mp3",
+                        "zhangliaopo04/ZhangLiaoPo_TuXiPo_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "zhangliaopo04/ZhangLiaoPo_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 19,
+            "id": 507801,
+            "name": "威震逍遥",
+            "voice": [
+                {
+                    "name": "突袭",
+                    "url": [
+                        "zhangliaopo06/ZhangLiaoPo_TuXiPo_01.mp3",
+                        "zhangliaopo06/ZhangLiaoPo_TuXiPo_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "zhangliaopo06/ZhangLiaoPo_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 19,
+            "id": 507802,
+            "name": "奋勇破敌",
+            "voice": [
+                {
+                    "name": "突袭",
+                    "url": [
+                        "zhangliaopo05/ZhangLiaoPo_TuXiPo_01.mp3",
+                        "zhangliaopo05/ZhangLiaoPo_TuXiPo_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "zhangliaopo05/ZhangLiaoPo_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 19,
+            "id": 507803,
+            "name": "踏雪疾驰",
+            "voice": [
+                {
+                    "name": "突袭",
+                    "url": [
+                        "zhangliaopo09/ZhangLiaoPo_TuXiPo_01.mp3",
+                        "zhangliaopo09/ZhangLiaoPo_TuXiPo_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "zhangliaopo09/ZhangLiaoPo_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 19,
+            "id": 601901,
+            "name": "武动乾坤",
+            "voice": [
+                {
+                    "name": "突袭",
+                    "url": [
+                        "zhangliaopo02/ZhangLiaoPo_TuXiPo_01.mp3",
+                        "zhangliaopo02/ZhangLiaoPo_TuXiPo_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "zhangliaopo02/ZhangLiaoPo_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 24,
+            "id": 102401,
+            "name": "经典形象",
+            "voice": [
+                {
+                    "name": "无双",
+                    "url": [
+                        "lvbu01/LvBu_WuShuang_01.mp3",
+                        "lvbu01/LvBu_WuShuang_02.mp3"
+                    ]
+                },
+                {
+                    "name": "利驭",
+                    "url": [
+                        "lvbu01/LvBu_LiYu_01.mp3",
+                        "lvbu01/LvBu_LiYu_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "lvbu01/LvBu_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 24,
+            "id": 508301,
+            "name": "如火燎原",
+            "voice": [
+                {
+                    "name": "无双",
+                    "url": [
+                        "lvbupo02/LvBuPo_WuShuang_01.mp3",
+                        "lvbupo02/LvBuPo_WuShuang_02.mp3"
+                    ]
+                },
+                {
+                    "name": "利驭",
+                    "url": [
+                        "lvbupo02/LvBuPo_LiYu_01.mp3",
+                        "lvbupo02/LvBuPo_LiYu_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "lvbupo02/LvBuPo_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 24,
+            "id": 602401,
+            "name": "武动乾坤",
+            "voice": [
+                {
+                    "name": "无双",
+                    "url": [
+                        "lvbu02/LvBuPo_WuShuang_01.mp3",
+                        "lvbu02/LvBuPo_WuShuang_02.mp3"
+                    ]
+                },
+                {
+                    "name": "利驭",
+                    "url": [
+                        "lvbu02/LvBuPo_LiYu_01.mp3",
+                        "lvbu02/LvBuPo_LiYu_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "lvbu02/LvBuPo_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 24,
+            "id": 608301,
+            "name": "文和乱武",
+            "voice": [
+                {
+                    "name": "无双",
+                    "url": [
+                        "lvbupo04/LvBuPo_WuShuang_01.mp3",
+                        "lvbupo04/LvBuPo_WuShuang_02.mp3"
+                    ]
+                },
+                {
+                    "name": "利驭",
+                    "url": [
+                        "lvbupo04/LvBuPo_LiYu_01.mp3",
+                        "lvbupo04/LvBuPo_LiYu_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "lvbupo04/LvBuPo_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 25,
+            "id": 102501,
+            "name": "经典形象",
+            "voice": [
+                {
+                    "name": "离间",
+                    "url": [
+                        "1-spell/spell68_1.mp3",
+                        "1-spell/spell68_2.mp3"
+                    ]
+                },
+                {
+                    "name": "闭月",
+                    "url": [
+                        "1-spell/spell67_1.mp3",
+                        "1-spell/spell67_2.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "dead/charDead_24.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 25,
+            "id": 108401,
+            "name": "界限突破",
+            "voice": [
+                {
+                    "name": "离间",
+                    "url": [
+                        "diaochan04/DiaoChan_LiJian_01.mp3",
+                        "diaochan04/DiaoChan_LiJian_02.mp3"
+                    ]
+                },
+                {
+                    "name": "闭月",
+                    "url": [
+                        "diaochan04/DiaoChan_BiYue_01.mp3",
+                        "diaochan04/DiaoChan_BiYue_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "diaochan04/DiaoChan_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 25,
+            "id": 302502,
+            "name": "月下弄兔",
+            "voice": [
+                {
+                    "name": "离间",
+                    "url": [
+                        "diaochan05/DiaoChan_LiJian_01.mp3",
+                        "diaochan05/DiaoChan_LiJian_02.mp3"
+                    ]
+                },
+                {
+                    "name": "闭月",
+                    "url": [
+                        "diaochan05/DiaoChan_BiYue_01.mp3",
+                        "diaochan05/DiaoChan_BiYue_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "diaochan05/DiaoChan_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 25,
+            "id": 502501,
+            "name": "玉蝉仙子",
+            "voice": [
+                {
+                    "name": "离间",
+                    "url": [
+                        "diaochan07/DiaoChan_LiJian_01.mp3",
+                        "diaochan07/DiaoChan_LiJian_02.mp3"
+                    ]
+                },
+                {
+                    "name": "闭月",
+                    "url": [
+                        "diaochan07/DiaoChan_BiYue_01.mp3",
+                        "diaochan07/DiaoChan_BiYue_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "diaochan07/DiaoChan_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 25,
+            "id": 502504,
+            "name": "红颜绮梦",
+            "voice": [
+                {
+                    "name": "离间",
+                    "url": [
+                        "diaochan13/DiaoChan_LiJian_01.mp3",
+                        "diaochan13/DiaoChan_LiJian_02.mp3"
+                    ]
+                },
+                {
+                    "name": "闭月",
+                    "url": [
+                        "diaochan13/DiaoChan_BiYue_01.mp3",
+                        "diaochan13/DiaoChan_BiYue_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "diaochan13/DiaoChan_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 25,
+            "id": 602501,
+            "name": "花好月圆",
+            "voice": [
+                {
+                    "name": "离间",
+                    "url": [
+                        "diaochan10/DiaoChan_LiJian_01.mp3",
+                        "diaochan10/DiaoChan_LiJian_02.mp3"
+                    ]
+                },
+                {
+                    "name": "闭月",
+                    "url": [
+                        "diaochan10/DiaoChan_BiYue_01.mp3",
+                        "diaochan10/DiaoChan_BiYue_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "diaochan10/DiaoChan_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 25,
+            "id": 602502,
+            "name": "文和乱舞",
+            "voice": [
+                {
+                    "name": "离间",
+                    "url": [
+                        "diaochan11/DiaoChan_LiJian_01.mp3",
+                        "diaochan11/DiaoChan_LiJian_02.mp3"
+                    ]
+                },
+                {
+                    "name": "闭月",
+                    "url": [
+                        "diaochan11/DiaoChan_BiYue_01.mp3",
+                        "diaochan11/DiaoChan_BiYue_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "diaochan11/DiaoChan_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 27,
+            "id": 102701,
+            "name": "经典形象",
+            "voice": [
+                {
+                    "name": "烈弓",
+                    "url": [
+                        "1-spell/spell71_1.mp3",
+                        "1-spell/spell71_2.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "dead/charDead_26.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 27,
+            "id": 502701,
+            "name": "没金饮羽",
+            "voice": [
+                {
+                    "name": "烈弓",
+                    "url": [
+                        "huangzhong06/HuangZhong_LieGong_01.mp3",
+                        "huangzhong06/HuangZhong_LieGong_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "huangzhong06/HuangZhong_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 27,
+            "id": 502702,
+            "name": "佻身飞镞",
+            "voice": [
+                {
+                    "name": "烈弓",
+                    "url": [
+                        "huangzhong07/HuangZhong_LieGong_01.mp3",
+                        "huangzhong07/HuangZhong_LieGong_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "huangzhong07/HuangZhong_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 27,
+            "id": 602701,
+            "name": "武动乾坤",
+            "voice": [
+                {
+                    "name": "烈弓",
+                    "url": [
+                        "huangzhong05/HuangZhong_LieGong_01.mp3",
+                        "huangzhong05/HuangZhong_LieGong_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "huangzhong05/HuangZhong_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 36,
+            "id": 103601,
+            "name": "经典形象",
+            "voice": [
+                {
+                    "name": "驱虎",
+                    "url": [
+                        "1-spell/spell92_1.mp3",
+                        "1-spell/spell92_2.mp3"
+                    ]
+                },
+                {
+                    "name": "节命",
+                    "url": [
+                        "1-spell/spell93_1.mp3",
+                        "1-spell/spell93_2.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "dead/charDead_35.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 36,
+            "id": 403601,
+            "name": "王佐之才",
+            "voice": [
+                {
+                    "name": "驱虎",
+                    "url": [
+                        "xunyu01/XunYu_QuHu_01.mp3",
+                        "xunyu01/XunYu_QuHu_02.mp3"
+                    ]
+                },
+                {
+                    "name": "节命",
+                    "url": [
+                        "xunyu01/XunYu_JieMing_01.mp3",
+                        "xunyu01/XunYu_JieMing_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "xunyu01/XunYu_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 36,
+            "id": 503601,
+            "name": "明以举贤",
+            "voice": [
+                {
+                    "name": "驱虎",
+                    "url": [
+                        "xunyu02/XunYu_QuHu_01.mp3",
+                        "xunyu02/XunYu_QuHu_02.mp3"
+                    ]
+                },
+                {
+                    "name": "节命",
+                    "url": [
+                        "xunyu02/XunYu_JieMing_01.mp3",
+                        "xunyu02/XunYu_JieMing_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "xunyu02/XunYu_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 36,
+            "id": 503602,
+            "name": "令君劝战",
+            "voice": [
+                {
+                    "name": "驱虎",
+                    "url": [
+                        "xunyu03/XunYu_QuHu_01.mp3",
+                        "xunyu03/XunYu_QuHu_02.mp3"
+                    ]
+                },
+                {
+                    "name": "节命",
+                    "url": [
+                        "xunyu03/XunYu_JieMing_01.mp3",
+                        "xunyu03/XunYu_JieMing_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "xunyu03/XunYu_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 36,
+            "id": 503604,
+            "name": "王佐之谋",
+            "voice": [
+                {
+                    "name": "驱虎",
+                    "url": [
+                        "xunyu08/XunYu_QuHu_01.mp3",
+                        "xunyu08/XunYu_QuHu_02.mp3"
+                    ]
+                },
+                {
+                    "name": "节命",
+                    "url": [
+                        "xunyu08/XunYu_JieMing_01.mp3",
+                        "xunyu08/XunYu_JieMing_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "xunyu08/XunYu_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 36,
+            "id": 603601,
+            "name": "谋定天下",
+            "voice": [
+                {
+                    "name": "驱虎",
+                    "url": [
+                        "xunyu07/XunYu_QuHu_01.mp3",
+                        "xunyu07/XunYu_QuHu_02.mp3"
+                    ]
+                },
+                {
+                    "name": "节命",
+                    "url": [
+                        "xunyu07/XunYu_JieMing_01.mp3",
+                        "xunyu07/XunYu_JieMing_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "xunyu07/XunYu_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 42,
+            "id": 104201,
+            "name": "经典形象",
+            "voice": [
+                {
+                    "name": "乱击",
+                    "url": [
+                        "1-spell/spell102_1.mp3",
+                        "1-spell/spell102_2.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "dead/charDead_41.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 42,
+            "id": 304202,
+            "name": "乱箭宿敌",
+            "voice": [
+                {
+                    "name": "乱击",
+                    "url": [
+                        "yuanshao01/YuanShao_LuanJi_01.mp3",
+                        "yuanshao01/YuanShao_LuanJi_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "yuanshao01/YuanShao_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 42,
+            "id": 504201,
+            "name": "箭击曹营",
+            "voice": [
+                {
+                    "name": "乱击",
+                    "url": [
+                        "yuanshao06/YuanShao_LuanJi_01.mp3",
+                        "yuanshao06/YuanShao_LuanJi_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "yuanshao06/YuanShao_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 42,
+            "id": 504202,
+            "name": "率盟伐董",
+            "voice": [
+                {
+                    "name": "乱击",
+                    "url": [
+                        "yuanshao07/YuanShao_LuanJi_01.mp3",
+                        "yuanshao07/YuanShao_LuanJi_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "yuanshao07/YuanShao_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 50,
+            "id": 105001,
+            "name": "经典形象",
+            "voice": [
+                {
+                    "name": "好施",
+                    "url": [
+                        "1-spell/spell120_1.mp3",
+                        "1-spell/spell120_2.mp3"
+                    ]
+                },
+                {
+                    "name": "缔盟",
+                    "url": [
+                        "1-spell/spell121_1.mp3",
+                        "1-spell/spell121_2.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "dead/charDead_49.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 50,
+            "id": 505001,
+            "name": "缔造联盟",
+            "voice": [
+                {
+                    "name": "好施",
+                    "url": [
+                        "lusu06/LuSu_HaoShi_01.mp3",
+                        "lusu06/LuSu_HaoShi_02.mp3"
+                    ]
+                },
+                {
+                    "name": "缔盟",
+                    "url": [
+                        "lusu06/LuSu_DiMeng_01.mp3",
+                        "lusu06/LuSu_DiMeng_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "lusu06/LuSu_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 50,
+            "id": 505002,
+            "name": "周济万民",
+            "voice": [
+                {
+                    "name": "好施",
+                    "url": [
+                        "lusu02/LuSu_HaoShi_01.mp3",
+                        "lusu02/LuSu_HaoShi_02.mp3"
+                    ]
+                },
+                {
+                    "name": "缔盟",
+                    "url": [
+                        "lusu02/LuSu_DiMeng_01.mp3",
+                        "lusu02/LuSu_DiMeng_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "lusu02/LuSu_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 50,
+            "id": 605001,
+            "name": "谋定天下",
+            "voice": [
+                {
+                    "name": "好施",
+                    "url": [
+                        "lusu07/LuSu_HaoShi_01.mp3",
+                        "lusu07/LuSu_HaoShi_02.mp3"
+                    ]
+                },
+                {
+                    "name": "缔盟",
+                    "url": [
+                        "lusu07/LuSu_DiMeng_01.mp3",
+                        "lusu07/LuSu_DiMeng_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "lusu07/LuSu_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 54,
+            "id": 105401,
+            "name": "经典形象",
+            "voice": [
+                {
+                    "name": "享乐",
+                    "url": [
+                        "1-spell/spell127_1.mp3",
+                        "1-spell/spell127_2.mp3"
+                    ]
+                },
+                {
+                    "name": "放权",
+                    "url": [
+                        "1-spell/spell128_1.mp3",
+                        "1-spell/spell128_2.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "dead/charDead_53.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 54,
+            "id": 505401,
+            "name": "庸主阿斗",
+            "voice": [
+                {
+                    "name": "享乐",
+                    "url": [
+                        "liushan05/Liushan_XiangLe_01.mp3",
+                        "liushan05/Liushan_XiangLe_02.mp3"
+                    ]
+                },
+                {
+                    "name": "放权",
+                    "url": [
+                        "liushan05/Liushan_FangQuan_01.mp3",
+                        "liushan05/Liushan_FangQuan_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "liushan05/Liushan_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 54,
+            "id": 505403,
+            "name": "虚拟天团",
+            "voice": [
+                {
+                    "name": "享乐",
+                    "url": [
+                        "liushan06/LiuShan_XiangLe_01.mp3",
+                        "liushan06/LiuShan_XiangLe_02.mp3"
+                    ]
+                },
+                {
+                    "name": "放权",
+                    "url": [
+                        "liushan06/LiuShan_FangQuan_01.mp3",
+                        "liushan06/LiuShan_FangQuan_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "liushan06/LiuShan_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 54,
+            "id": 505404,
+            "name": "樽酒逍遥",
+            "voice": [
+                {
+                    "name": "享乐",
+                    "url": [
+                        "liushan07/LiuShan_XiangLe_01.mp3",
+                        "liushan07/LiuShan_XiangLe_02.mp3"
+                    ]
+                },
+                {
+                    "name": "放权",
+                    "url": [
+                        "liushan07/LiuShan_FangQuan_01.mp3",
+                        "liushan07/LiuShan_FangQuan_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "liushan07/LiuShan_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 288,
+            "id": 128801,
+            "name": "经典形象",
+            "voice": [
+                {
+                    "name": "恩怨",
+                    "url": [
+                        "1-spell/spell460_1.mp3",
+                        "1-spell/spell460_2.mp3"
+                    ]
+                },
+                {
+                    "name": "眩惑",
+                    "url": [
+                        "1-spell/spell461_1.mp3",
+                        "1-spell/spell461_2.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "dead/charDead_154.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 288,
+            "id": 528801,
+            "name": "恩怨如火",
+            "voice": [
+                {
+                    "name": "恩怨",
+                    "url": [
+                        "fazhengxin06/FaZhengXin_EnYuanXin_01.mp3",
+                        "fazhengxin06/FaZhengXin_EnYuanXin_02.mp3"
+                    ]
+                },
+                {
+                    "name": "眩惑",
+                    "url": [
+                        "fazhengxin06/FaZhengXin_XuanHuoXin_01.mp3",
+                        "fazhengxin06/FaZhengXin_XuanHuoXin_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "fazhengxin06/FaZhengXin_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 288,
+            "id": 528802,
+            "name": "戡律定料",
+            "voice": [
+                {
+                    "name": "恩怨",
+                    "url": [
+                        "fazhengxin02/FaZhengXin_EnYuanXin_01.mp3",
+                        "fazhengxin02/FaZhengXin_EnYuanXin_02.mp3"
+                    ]
+                },
+                {
+                    "name": "眩惑",
+                    "url": [
+                        "fazhengxin02/FaZhengXin_XuanHuoXin_01.mp3",
+                        "fazhengxin02/FaZhengXin_XuanHuoXin_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "fazhengxin02/FaZhengXin_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 289,
+            "id": 128901,
+            "name": "经典形象",
+            "voice": [
+                {
+                    "name": "散谣",
+                    "url": [
+                        "1-spell/spell236_1.mp3",
+                        "1-spell/spell236_2.mp3"
+                    ]
+                },
+                {
+                    "name": "制蛮",
+                    "url": [
+                        "1-spell/spell237_1.mp3",
+                        "1-spell/spell237_2.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "dead/charDead_156.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 289,
+            "id": 528901,
+            "name": "攻心定南",
+            "voice": [
+                {
+                    "name": "散谣",
+                    "url": [
+                        "masu06/MaSu_SanYao_01.mp3",
+                        "masu06/MaSu_SanYao_01.mp3"
+                    ]
+                },
+                {
+                    "name": "制蛮",
+                    "url": [
+                        "masu06/MaSu_ZhiMan_01.mp3",
+                        "masu06/MaSu_ZhiMan_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "masu06/MaSu_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 297,
+            "id": 129701,
+            "name": "经典形象",
+            "voice": [
+                {
+                    "name": "明策",
+                    "url": [
+                        "1-spell/spell405_1.mp3",
+                        "1-spell/spell405_2.mp3"
+                    ]
+                },
+                {
+                    "name": "智迟",
+                    "url": [
+                        "1-spell/spell406_1.mp3",
+                        "1-spell/spell406_2.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "dead/charDead_153.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 297,
+            "id": 529701,
+            "name": "一战而就",
+            "voice": [
+                {
+                    "name": "明策",
+                    "url": [
+                        "chengong03/ChenGong_MingCe_01.mp3",
+                        "chengong03/ChenGong_MingCe_02.mp3"
+                    ]
+                },
+                {
+                    "name": "智迟",
+                    "url": [
+                        "chengong03/ChenGong_ZhiChi_01.mp3",
+                        "chengong03/ChenGong_ZhiChi_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "chengong03/ChenGong_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 297,
+            "id": 529702,
+            "name": "公台献城",
+            "voice": [
+                {
+                    "name": "明策",
+                    "url": [
+                        "chengong04/ChenGong_MingCe_01.mp3",
+                        "chengong04/ChenGong_MingCe_02.mp3"
+                    ]
+                },
+                {
+                    "name": "智迟",
+                    "url": [
+                        "chengong04/ChenGong_ZhiChi_01.mp3",
+                        "chengong04/ChenGong_ZhiChi_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "chengong04/ChenGong_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 299,
+            "id": 129901,
+            "name": "经典形象",
+            "voice": [
+                {
+                    "name": "父魂",
+                    "url": [
+                        "xinguanxingzhangbao01/XinGuanXingZhangBao_XinFuHun_01.mp3",
+                        "xinguanxingzhangbao01/XinGuanXingZhangBao_XinFuHun_02.mp3"
+                    ]
+                },
+                {
+                    "name": "武圣",
+                    "url": [
+                        "xinguanxingzhangbao01/XinGuanXingZhangBao_WuSheng_01.mp3",
+                        "xinguanxingzhangbao01/XinGuanXingZhangBao_WuSheng_02.mp3"
+                    ]
+                },
+                {
+                    "name": "咆哮",
+                    "url": [
+                        "xinguanxingzhangbao01/XinGuanXingZhangBao_PaoXiao_01.mp3",
+                        "xinguanxingzhangbao01/XinGuanXingZhangBao_PaoXiao_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "xinguanxingzhangbao01/XinGuanXingZhangBao_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 299,
+            "id": 529901,
+            "name": "父魂子魄",
+            "voice": [
+                {
+                    "name": "父魂",
+                    "url": [
+                        "xinguanxingzhangbao04/XinGuanXingZhangBao_XinFuHun_01.mp3",
+                        "xinguanxingzhangbao04/XinGuanXingZhangBao_XinFuHun_02.mp3"
+                    ]
+                },
+                {
+                    "name": "武圣",
+                    "url": [
+                        "xinguanxingzhangbao04/XinGuanXingZhangBao_WuSheng_01.mp3",
+                        "xinguanxingzhangbao04/XinGuanXingZhangBao_WuSheng_02.mp3"
+                    ]
+                },
+                {
+                    "name": "咆哮",
+                    "url": [
+                        "xinguanxingzhangbao04/XinGuanXingZhangBao_PaoXiao_01.mp3",
+                        "xinguanxingzhangbao04/XinGuanXingZhangBao_PaoXiao_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "xinguanxingzhangbao04/XinGuanXingZhangBao_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 299,
+            "id": 529902,
+            "name": "同心并力",
+            "voice": [
+                {
+                    "name": "父魂",
+                    "url": [
+                        "xinguanxingzhangbao06/XinGuanXingZhangBao_XinFuHun_01.mp3",
+                        "xinguanxingzhangbao06/XinGuanXingZhangBao_XinFuHun_02.mp3"
+                    ]
+                },
+                {
+                    "name": "武圣",
+                    "url": [
+                        "xinguanxingzhangbao06/XinGuanXingZhangBao_WuSheng_01.mp3",
+                        "xinguanxingzhangbao06/XinGuanXingZhangBao_WuSheng_02.mp3"
+                    ]
+                },
+                {
+                    "name": "咆哮",
+                    "url": [
+                        "xinguanxingzhangbao06/XinGuanXingZhangBao_PaoXiao_01.mp3",
+                        "xinguanxingzhangbao06/XinGuanXingZhangBao_PaoXiao_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "xinguanxingzhangbao06/XinGuanXingZhangBao_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 300,
+            "id": 130001,
+            "name": "经典形象",
+            "voice": [
+                {
+                    "name": "当先",
+                    "url": [
+                        "1-spell/spell426_1.mp3",
+                        "1-spell/spell426_2.mp3"
+                    ]
+                },
+                {
+                    "name": "伏枥",
+                    "url": [
+                        "1-spell/spell427_1.mp3",
+                        "1-spell/spell427_2.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "dead/charDead_166.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 300,
+            "id": 430001,
+            "name": "果敢刚直",
+            "voice": [
+                {
+                    "name": "当先",
+                    "url": [
+                        "liaohua04/LiaoHua_DangXian_01.mp3",
+                        "liaohua04/LiaoHua_DangXian_02.mp3"
+                    ]
+                },
+                {
+                    "name": "伏枥",
+                    "url": [
+                        "liaohua04/LiaoHua_FuLi_01.mp3",
+                        "liaohua04/LiaoHua_FuLi_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "liaohua04/LiaoHua_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 304,
+            "id": 130401,
+            "name": "经典形象",
+            "voice": [
+                {
+                    "name": "弓骑",
+                    "url": [
+                        "handang05/HanDang_GongQi_01.mp3",
+                        "handang05/HanDang_GongQi_02.mp3"
+                    ]
+                },
+                {
+                    "name": "解烦",
+                    "url": [
+                        "handang05/HanDang_JieFan_01.mp3",
+                        "handang05/HanDang_JieFan_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "handang05/HanDang_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 304,
+            "id": 530401,
+            "name": "箭厉沙场",
+            "voice": [
+                {
+                    "name": "弓骑",
+                    "url": [
+                        "handang04/HanDang_GongQi_01.mp3",
+                        "handang04/HanDang_GongQi_02.mp3"
+                    ]
+                },
+                {
+                    "name": "解烦",
+                    "url": [
+                        "handang04/HanDang_JieFan_01.mp3",
+                        "handang04/HanDang_JieFan_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "handang04/HanDang_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 304,
+            "id": 530402,
+            "name": "激箭流星",
+            "voice": [
+                {
+                    "name": "弓骑",
+                    "url": [
+                        "handang06/HanDang_GongQi_01.mp3",
+                        "handang06/HanDang_GongQi_02.mp3"
+                    ]
+                },
+                {
+                    "name": "解烦",
+                    "url": [
+                        "handang06/HanDang_JieFan_01.mp3",
+                        "handang06/HanDang_JieFan_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "handang06/HanDang_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 311,
+            "id": 131101,
+            "name": "经典形象",
+            "voice": [
+                {
+                    "name": "精策",
+                    "url": [
+                        "1-spell/spell443_1.mp3",
+                        "1-spell/spell443_2.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "dead/charDead_175.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 311,
+            "id": 531101,
+            "name": "御蜀屏障",
+            "voice": [
+                {
+                    "name": "精策",
+                    "url": [
+                        "guohuai03/GuoHuai_JingCe_01.mp3",
+                        "guohuai03/GuoHuai_JingCe_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "guohuai03/GuoHuai_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 313,
+            "id": 131301,
+            "name": "经典形象",
+            "voice": [
+                {
+                    "name": "龙吟",
+                    "url": [
+                        "guanping04/GuanPing_LongYin_01.mp3",
+                        "guanping04/GuanPing_LongYin_02.mp3"
+                    ]
+                },
+                {
+                    "name": "竭忠",
+                    "url": [
+                        "guanping04/GuanPing_JieZhong_01.mp3",
+                        "guanping04/GuanPing_JieZhong_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "guanping04/GuanPing_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 313,
+            "id": 531301,
+            "name": "战场虎子",
+            "voice": [
+                {
+                    "name": "龙吟",
+                    "url": [
+                        "guanping05/GuanPing_LongYin_01.mp3",
+                        "guanping05/GuanPing_LongYin_02.mp3"
+                    ]
+                },
+                {
+                    "name": "竭忠",
+                    "url": [
+                        "guanping05/GuanPing_JieZhong_01.mp3",
+                        "guanping05/GuanPing_JieZhong_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "guanping05/GuanPing_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 313,
+            "id": 531302,
+            "name": "忠武鏖战",
+            "voice": [
+                {
+                    "name": "龙吟",
+                    "url": [
+                        "guanping01/GuanPing_LongYin_01.mp3",
+                        "guanping01/GuanPing_LongYin_02.mp3"
+                    ]
+                },
+                {
+                    "name": "竭忠",
+                    "url": [
+                        "guanping01/GuanPing_JieZhong_01.mp3",
+                        "guanping01/GuanPing_JieZhong_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "guanping01/GuanPing_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 313,
+            "id": 531303,
+            "name": "贲勇直前",
+            "voice": [
+                {
+                    "name": "龙吟",
+                    "url": [
+                        "guanping07/GuanPing_LongYin_01.mp3",
+                        "guanping07/GuanPing_LongYin_02.mp3"
+                    ]
+                },
+                {
+                    "name": "竭忠",
+                    "url": [
+                        "guanping07/GuanPing_JieZhong_01.mp3",
+                        "guanping07/GuanPing_JieZhong_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "guanping07/GuanPing_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 333,
+            "id": 133301,
+            "name": "经典形象",
+            "voice": [
+                {
+                    "name": "倾袭",
+                    "url": [
+                        "1-spell/spell761_1.mp3",
+                        "1-spell/spell761_2.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "dead/charDead_333.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 333,
+            "id": 533301,
+            "name": "烽火连天",
+            "voice": [
+                {
+                    "name": "倾袭",
+                    "url": [
+                        "caoxiu04/CaoXiu_QingXi_01.mp3",
+                        "caoxiu04/CaoXiu_QingXi_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "caoxiu04/CaoXiu_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 333,
+            "id": 633301,
+            "name": "骁勇金衔",
+            "voice": [
+                {
+                    "name": "倾袭",
+                    "url": [
+                        "caoxiu05/CaoXiu_QingXi_01.mp3",
+                        "caoxiu05/CaoXiu_QingXi_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "caoxiu05/CaoXiu_Dead.mp3"
+                    ]
+                }
+            ]
+        }
+    ]
+}

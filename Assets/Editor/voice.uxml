@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement name="voice" style="flex-direction: column; background-color: rgb(65, 65, 65); padding-top: 5px; padding-bottom: 5px; height: auto;">
+        <ui:TextField picking-mode="Ignore" label="技能名" name="skill-name" binding-path="skill_name" />
+        <ui:TextField picking-mode="Ignore" label="url1" name="voice-url1" multiline="true" binding-path="url1" style="height: auto;" />
+        <ui:TextField picking-mode="Ignore" label="url2" name="voice-url2" multiline="true" binding-path="url2" style="height: auto;" />
+    </ui:VisualElement>
+</ui:UXML>
