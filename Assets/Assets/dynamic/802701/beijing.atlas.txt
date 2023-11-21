@@ -1,0 +1,293 @@
+
+beijing.png
+size: 1224,1224
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+TX/hz_beijing_tx1/hz_bj_tx1_00
+  rotate: false
+  xy: 838, 271
+  size: 140, 127
+  orig: 350, 253
+  offset: 123, 63
+  index: -1
+TX/hz_beijing_tx1/hz_bj_tx1_01
+  rotate: false
+  xy: 647, 13
+  size: 139, 127
+  orig: 350, 253
+  offset: 124, 63
+  index: -1
+TX/hz_beijing_tx1/hz_bj_tx1_02
+  rotate: false
+  xy: 1089, 556
+  size: 132, 127
+  orig: 350, 253
+  offset: 131, 63
+  index: -1
+TX/hz_beijing_tx1/hz_bj_tx1_03
+  rotate: true
+  xy: 518, 38
+  size: 149, 127
+  orig: 350, 253
+  offset: 114, 63
+  index: -1
+TX/hz_beijing_tx1/hz_bj_tx1_04
+  rotate: true
+  xy: 2, 2
+  size: 150, 127
+  orig: 350, 253
+  offset: 113, 63
+  index: -1
+TX/hz_beijing_tx1/hz_bj_tx1_05
+  rotate: false
+  xy: 980, 298
+  size: 148, 127
+  orig: 350, 253
+  offset: 115, 63
+  index: -1
+TX/hz_beijing_tx1/hz_bj_tx1_06
+  rotate: false
+  xy: 458, 189
+  size: 154, 127
+  orig: 350, 253
+  offset: 109, 63
+  index: -1
+TX/hz_beijing_tx1/hz_bj_tx1_07
+  rotate: false
+  xy: 647, 142
+  size: 142, 127
+  orig: 350, 253
+  offset: 121, 63
+  index: -1
+TX/hz_beijing_tx1/hz_bj_tx1_08
+  rotate: false
+  xy: 1093, 685
+  size: 129, 127
+  orig: 350, 253
+  offset: 134, 63
+  index: -1
+TX/hz_beijing_tx1/hz_bj_tx1_09
+  rotate: false
+  xy: 915, 427
+  size: 149, 127
+  orig: 350, 253
+  offset: 114, 63
+  index: -1
+TX/hz_beijing_tx1/hz_bj_tx1_10
+  rotate: true
+  xy: 131, 2
+  size: 150, 127
+  orig: 350, 253
+  offset: 113, 63
+  index: -1
+TX/hz_beijing_tx1/hz_bj_tx1_11
+  rotate: true
+  xy: 260, 2
+  size: 150, 127
+  orig: 350, 253
+  offset: 113, 63
+  index: -1
+TX/hz_beijing_tx1/hz_bj_tx1_12
+  rotate: true
+  xy: 389, 2
+  size: 150, 127
+  orig: 350, 253
+  offset: 113, 63
+  index: -1
+TX/hz_beijing_tx1/hz_bj_tx1_13
+  rotate: false
+  xy: 791, 142
+  size: 141, 127
+  orig: 350, 253
+  offset: 122, 63
+  index: -1
+TX/hz_beijing_tx1/hz_bj_tx1_14
+  rotate: false
+  xy: 788, 13
+  size: 136, 127
+  orig: 350, 253
+  offset: 127, 63
+  index: -1
+TX/hz_beijing_tx1/hz_bj_tx1_15
+  rotate: false
+  xy: 980, 169
+  size: 147, 127
+  orig: 350, 253
+  offset: 116, 63
+  index: -1
+TX/hz_beijing_tx1/hz_bj_tx1_16
+  rotate: false
+  xy: 1066, 427
+  size: 149, 127
+  orig: 350, 253
+  offset: 114, 63
+  index: -1
+TX/hz_beijing_tx1/hz_bj_tx1_17
+  rotate: false
+  xy: 686, 271
+  size: 150, 127
+  orig: 350, 253
+  offset: 113, 63
+  index: -1
+TX/hz_beijing_tx1/hz_bj_tx1_18
+  rotate: false
+  xy: 935, 685
+  size: 156, 127
+  orig: 350, 253
+  offset: 107, 63
+  index: -1
+TX/hz_beijing_tx1/hz_bj_tx1_19
+  rotate: false
+  xy: 935, 556
+  size: 152, 127
+  orig: 350, 253
+  offset: 111, 63
+  index: -1
+TX/hz_beijing_tx2/hz_bj_tx2_00
+  rotate: false
+  xy: 935, 1142
+  size: 226, 80
+  orig: 350, 253
+  offset: 16, 173
+  index: -1
+TX/hz_beijing_tx2/hz_bj_tx2_01
+  rotate: false
+  xy: 2, 400
+  size: 226, 80
+  orig: 350, 253
+  offset: 16, 173
+  index: -1
+TX/hz_beijing_tx2/hz_bj_tx2_02
+  rotate: false
+  xy: 231, 482
+  size: 226, 80
+  orig: 350, 253
+  offset: 16, 173
+  index: -1
+TX/hz_beijing_tx2/hz_bj_tx2_03
+  rotate: false
+  xy: 935, 1060
+  size: 226, 80
+  orig: 350, 253
+  offset: 16, 173
+  index: -1
+TX/hz_beijing_tx2/hz_bj_tx2_04
+  rotate: false
+  xy: 2, 318
+  size: 226, 80
+  orig: 350, 253
+  offset: 16, 173
+  index: -1
+TX/hz_beijing_tx2/hz_bj_tx2_05
+  rotate: false
+  xy: 230, 400
+  size: 226, 80
+  orig: 350, 253
+  offset: 16, 173
+  index: -1
+TX/hz_beijing_tx2/hz_bj_tx2_06
+  rotate: false
+  xy: 459, 482
+  size: 226, 80
+  orig: 350, 253
+  offset: 16, 173
+  index: -1
+TX/hz_beijing_tx2/hz_bj_tx2_07
+  rotate: false
+  xy: 935, 978
+  size: 226, 80
+  orig: 350, 253
+  offset: 16, 173
+  index: -1
+TX/hz_beijing_tx2/hz_bj_tx2_08
+  rotate: false
+  xy: 2, 236
+  size: 226, 80
+  orig: 350, 253
+  offset: 16, 173
+  index: -1
+TX/hz_beijing_tx2/hz_bj_tx2_09
+  rotate: false
+  xy: 230, 318
+  size: 226, 80
+  orig: 350, 253
+  offset: 16, 173
+  index: -1
+TX/hz_beijing_tx2/hz_bj_tx2_10
+  rotate: false
+  xy: 2, 482
+  size: 227, 80
+  orig: 350, 253
+  offset: 16, 173
+  index: -1
+TX/hz_beijing_tx2/hz_bj_tx2_11
+  rotate: false
+  xy: 458, 400
+  size: 226, 80
+  orig: 350, 253
+  offset: 16, 173
+  index: -1
+TX/hz_beijing_tx2/hz_bj_tx2_12
+  rotate: false
+  xy: 687, 482
+  size: 226, 80
+  orig: 350, 253
+  offset: 16, 173
+  index: -1
+TX/hz_beijing_tx2/hz_bj_tx2_13
+  rotate: false
+  xy: 935, 896
+  size: 226, 80
+  orig: 350, 253
+  offset: 16, 173
+  index: -1
+TX/hz_beijing_tx2/hz_bj_tx2_14
+  rotate: false
+  xy: 2, 154
+  size: 226, 80
+  orig: 350, 253
+  offset: 16, 173
+  index: -1
+TX/hz_beijing_tx2/hz_bj_tx2_15
+  rotate: false
+  xy: 458, 318
+  size: 226, 80
+  orig: 350, 253
+  offset: 16, 173
+  index: -1
+TX/hz_beijing_tx2/hz_bj_tx2_16
+  rotate: false
+  xy: 686, 400
+  size: 226, 80
+  orig: 350, 253
+  offset: 16, 173
+  index: -1
+TX/hz_beijing_tx2/hz_bj_tx2_17
+  rotate: false
+  xy: 935, 814
+  size: 226, 80
+  orig: 350, 253
+  offset: 16, 173
+  index: -1
+TX/hz_beijing_tx2/hz_bj_tx2_18
+  rotate: false
+  xy: 230, 236
+  size: 226, 80
+  orig: 350, 253
+  offset: 16, 173
+  index: -1
+TX/hz_beijing_tx2/hz_bj_tx2_19
+  rotate: false
+  xy: 230, 154
+  size: 226, 80
+  orig: 350, 253
+  offset: 16, 173
+  index: -1
+huangzhong_beijing
+  rotate: false
+  xy: 2, 564
+  size: 931, 658
+  orig: 931, 658
+  offset: 0, 0
+  index: -1

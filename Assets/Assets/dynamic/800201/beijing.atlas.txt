@@ -1,0 +1,104 @@
+
+beijing.png
+size: 1997,1997
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+TX_xueyan_0001
+  rotate: false
+  xy: 423, 18
+  size: 504, 373
+  orig: 610, 517
+  offset: 61, 34
+  index: -1
+TX_xueyan_0002
+  rotate: false
+  xy: 1511, 80
+  size: 484, 383
+  orig: 610, 517
+  offset: 73, 34
+  index: -1
+TX_xueyan_0003
+  rotate: false
+  xy: 1019, 288
+  size: 490, 396
+  orig: 610, 517
+  offset: 67, 34
+  index: -1
+TX_xueyan_0004
+  rotate: true
+  xy: 1532, 465
+  size: 502, 416
+  orig: 610, 517
+  offset: 58, 29
+  index: -1
+TX_xueyan_0005
+  rotate: false
+  xy: 1023, 686
+  size: 507, 425
+  orig: 610, 517
+  offset: 55, 29
+  index: -1
+TX_xueyan_0006
+  rotate: false
+  xy: 2, 815
+  size: 507, 427
+  orig: 610, 517
+  offset: 54, 29
+  index: -1
+TX_xueyan_0007
+  rotate: false
+  xy: 511, 819
+  size: 510, 423
+  orig: 610, 517
+  offset: 52, 29
+  index: -1
+TX_xueyan_0008
+  rotate: true
+  xy: 1566, 1483
+  size: 512, 427
+  orig: 610, 517
+  offset: 51, 29
+  index: -1
+TX_xueyan_0009
+  rotate: true
+  xy: 1562, 969
+  size: 512, 433
+  orig: 610, 517
+  offset: 51, 29
+  index: -1
+TX_xueyan_0010
+  rotate: false
+  xy: 1056, 1555
+  size: 508, 440
+  orig: 610, 517
+  offset: 55, 29
+  index: -1
+TX_xueyan_0011
+  rotate: false
+  xy: 1056, 1113
+  size: 504, 440
+  orig: 610, 517
+  offset: 55, 30
+  index: -1
+TX_xueyan_0012
+  rotate: false
+  xy: 511, 393
+  size: 506, 424
+  orig: 610, 517
+  offset: 55, 29
+  index: -1
+TX_xueyan_0013
+  rotate: true
+  xy: 2, 305
+  size: 508, 419
+  orig: 610, 517
+  offset: 57, 32
+  index: -1
+bg
+  rotate: false
+  xy: 2, 1244
+  size: 1052, 751
+  orig: 1052, 751
+  offset: 0, 0
+  index: -1

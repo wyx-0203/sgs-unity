@@ -1,0 +1,27 @@
+
+beijing.png
+size: 860,860
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+sunquan_beijing
+  rotate: false
+  xy: 2, 52
+  size: 570, 806
+  orig: 570, 806
+  offset: 0, 0
+  index: -1
+sunquan_qizi01
+  rotate: true
+  xy: 574, 460
+  size: 398, 284
+  orig: 398, 284
+  offset: 0, 0
+  index: -1
+sunquan_qizi02
+  rotate: true
+  xy: 574, 75
+  size: 383, 255
+  orig: 383, 255
+  offset: 0, 0
+  index: -1

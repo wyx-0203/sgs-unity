@@ -1,0 +1,272 @@
+
+beijing.png
+size: 1209,1209
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+TX_guangyun_0001
+  rotate: false
+  xy: 629, 704
+  size: 32, 22
+  orig: 42, 32
+  offset: 5, 5
+  index: -1
+TX_shuohuo_0001
+  rotate: false
+  xy: 698, 222
+  size: 108, 215
+  orig: 127, 225
+  offset: 10, 0
+  index: -1
+TX_shuohuo_0003
+  rotate: false
+  xy: 579, 430
+  size: 105, 217
+  orig: 127, 225
+  offset: 11, 0
+  index: -1
+TX_shuohuo_0005
+  rotate: true
+  xy: 975, 760
+  size: 104, 222
+  orig: 127, 225
+  offset: 11, 0
+  index: -1
+TX_shuohuo_0007
+  rotate: true
+  xy: 982, 979
+  size: 105, 223
+  orig: 127, 225
+  offset: 11, 0
+  index: -1
+TX_shuohuo_0009
+  rotate: true
+  xy: 979, 866
+  size: 111, 223
+  orig: 127, 225
+  offset: 9, 0
+  index: -1
+TX_shuohuo_0011
+  rotate: true
+  xy: 751, 773
+  size: 115, 222
+  orig: 127, 225
+  offset: 7, 0
+  index: -1
+TX_shuohuo_0013
+  rotate: false
+  xy: 579, 211
+  size: 117, 217
+  orig: 127, 225
+  offset: 6, 0
+  index: -1
+TX_shuohuo_0015
+  rotate: true
+  xy: 990, 1086
+  size: 121, 217
+  orig: 127, 225
+  offset: 5, 0
+  index: -1
+TX_shuohuo_0017
+  rotate: true
+  xy: 759, 1008
+  size: 121, 221
+  orig: 127, 225
+  offset: 6, 0
+  index: -1
+TX_shuohuo_0019
+  rotate: false
+  xy: 629, 728
+  size: 120, 221
+  orig: 127, 225
+  offset: 6, 0
+  index: -1
+TX_shuohuo_0021
+  rotate: true
+  xy: 759, 890
+  size: 116, 218
+  orig: 127, 225
+  offset: 8, 0
+  index: -1
+TX_shuohuo_0023
+  rotate: true
+  xy: 751, 658
+  size: 113, 217
+  orig: 127, 225
+  offset: 8, 0
+  index: -1
+TX_shuohuo_0025
+  rotate: true
+  xy: 970, 646
+  size: 112, 217
+  orig: 127, 225
+  offset: 9, 0
+  index: -1
+TX_shuohuo_0027
+  rotate: false
+  xy: 686, 439
+  size: 113, 217
+  orig: 127, 225
+  offset: 9, 0
+  index: -1
+TX_shuohuo_0029
+  rotate: false
+  xy: 801, 442
+  size: 111, 214
+  orig: 127, 225
+  offset: 9, 0
+  index: -1
+TX_yanwu_0001
+  rotate: false
+  xy: 579, 108
+  size: 143, 101
+  orig: 163, 125
+  offset: 14, 2
+  index: -1
+TX_yanwu_0002
+  rotate: false
+  xy: 808, 190
+  size: 137, 104
+  orig: 163, 125
+  offset: 18, 3
+  index: -1
+TX_yanwu_0003
+  rotate: false
+  xy: 947, 148
+  size: 138, 108
+  orig: 163, 125
+  offset: 16, 2
+  index: -1
+TX_yanwu_0004
+  rotate: false
+  xy: 1065, 265
+  size: 141, 111
+  orig: 163, 125
+  offset: 14, 3
+  index: -1
+TX_yanwu_0005
+  rotate: true
+  xy: 1072, 378
+  size: 143, 116
+  orig: 163, 125
+  offset: 13, 1
+  index: -1
+TX_yanwu_0006
+  rotate: true
+  xy: 947, 258
+  size: 143, 116
+  orig: 163, 125
+  offset: 13, 1
+  index: -1
+TX_yanwu_0007
+  rotate: true
+  xy: 808, 296
+  size: 144, 116
+  orig: 163, 125
+  offset: 12, 1
+  index: -1
+TX_yanwu_0008
+  rotate: false
+  xy: 417, 15
+  size: 144, 117
+  orig: 163, 125
+  offset: 12, 1
+  index: -1
+TX_yanwu_0009
+  rotate: false
+  xy: 926, 403
+  size: 144, 118
+  orig: 163, 125
+  offset: 12, 1
+  index: -1
+TX_yanwu_0010
+  rotate: false
+  xy: 914, 523
+  size: 143, 121
+  orig: 163, 125
+  offset: 13, 1
+  index: -1
+TX_yanwu_0011
+  rotate: false
+  xy: 1059, 523
+  size: 142, 121
+  orig: 163, 125
+  offset: 13, 1
+  index: -1
+TX_yanwu_0012
+  rotate: true
+  xy: 1087, 120
+  size: 143, 115
+  orig: 163, 125
+  offset: 13, 2
+  index: -1
+TX_yanwu_0013
+  rotate: false
+  xy: 724, 73
+  size: 143, 115
+  orig: 163, 125
+  offset: 14, 1
+  index: -1
+fazheng_bg01
+  rotate: false
+  xy: 2, 394
+  size: 575, 813
+  orig: 575, 813
+  offset: 0, 0
+  index: -1
+fazheng_bg02
+  rotate: false
+  xy: 982, 1102
+  size: 6, 27
+  orig: 6, 27
+  offset: 0, 0
+  index: -1
+fazheng_bg03
+  rotate: true
+  xy: 2, 42
+  size: 44, 409
+  orig: 44, 409
+  offset: 0, 0
+  index: -1
+fazheng_bg04
+  rotate: false
+  xy: 1199, 834
+  size: 8, 30
+  orig: 8, 30
+  offset: 0, 0
+  index: -1
+fazheng_bg05
+  rotate: true
+  xy: 2, 88
+  size: 304, 413
+  orig: 304, 413
+  offset: 0, 0
+  index: -1
+fazheng_bg06
+  rotate: false
+  xy: 579, 1131
+  size: 409, 76
+  orig: 435, 96
+  offset: 14, 13
+  index: -1
+fazheng_bg07
+  rotate: false
+  xy: 579, 951
+  size: 178, 178
+  orig: 179, 178
+  offset: 1, 0
+  index: -1
+fazheng_bg09
+  rotate: false
+  xy: 417, 134
+  size: 160, 258
+  orig: 160, 258
+  offset: 0, 0
+  index: -1
+fazheng_bg10
+  rotate: false
+  xy: 579, 649
+  size: 48, 300
+  orig: 63, 301
+  offset: 6, 0
+  index: -1

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
-using UnityEngine;
+using System.Linq;
 using System.Threading.Tasks;
+using UnityEngine;
 
 public class ABManager : GlobalSingleton<ABManager>
 {
@@ -8,7 +9,7 @@ public class ABManager : GlobalSingleton<ABManager>
     private AssetBundleManifest manifest = null;
 
     // 已加载的AssetBundles字典
-    public Dictionary<string, AssetBundle> ABMap { get; } = new();
+    private Dictionary<string, AssetBundle> abMap { get; } = new();
 
     /// <summary>
     /// 从服务端获取AssetBundle并加入ABMap
@@ -17,7 +18,7 @@ public class ABManager : GlobalSingleton<ABManager>
     {
         var assetBundle = await WebRequest.GetAssetBundle(Url.ASSET_BUNDLE + abName);
         if (assetBundle is null) return;
-        ABMap.Add(abName, assetBundle);
+        abMap.Add(abName, assetBundle);
         Debug.Log("load " + abName);
     }
 
@@ -30,28 +31,36 @@ public class ABManager : GlobalSingleton<ABManager>
         string mainABName = "AssetBundles";
         await GetABFromServer(mainABName);
 
-        manifest = ABMap[mainABName].LoadAsset<AssetBundleManifest>("AssetBundleManifest");
+        manifest = abMap[mainABName].LoadAsset<AssetBundleManifest>("AssetBundleManifest");
     }
 
 
     /// <summary>
     /// 从外部下载AssetBundle
     /// </summary>
-    public async Task LoadAssetBundle(string abName)
+    public async Task<AssetBundle> Load(string abName)
     {
-        if (ABMap.ContainsKey(abName)) return;
+        while (mutex) await Task.Yield();
+        mutex = true;
+        if (abMap.ContainsKey(abName))
+        {
+            mutex = false;
+            return abMap[abName];
+        }
 
         // 获取所有依赖项
-        if (manifest == null) await LoadManifest();
+        if (manifest is null) await LoadManifest();
 
         string[] dependencies = manifest.GetAllDependencies(abName);
-        foreach (string i in dependencies)
-        {
-            if (!ABMap.ContainsKey(i)) await GetABFromServer(i);
-        }
+        foreach (string i in dependencies.Where(x => !abMap.ContainsKey(x))) await GetABFromServer(i);
+
         // 加载目标资源包
         await GetABFromServer(abName);
+        mutex = false;
+        return abMap[abName];
     }
+
+    private static bool mutex;
 
     // 加载进度
 
@@ -60,22 +69,26 @@ public class ABManager : GlobalSingleton<ABManager>
     /// </summary>
     public void Unload(string abName)
     {
-        if (!ABMap.ContainsKey(abName)) return;
-        ABMap[abName].Unload(false);
-        ABMap.Remove(abName);
+        if (!abMap.ContainsKey(abName)) return;
+        abMap[abName].Unload(false);
+        abMap.Remove(abName);
     }
 
-    public void LoadGameScene()
+    public async Task LoadGameScene()
     {
-        string url = Application.streamingAssetsPath + "/AssetBundles/";
-        if (!ABManager.Instance.ABMap.ContainsKey("sprite"))
-        {
-            ABMap.Add("sprite", AssetBundle.LoadFromFile(url + "sprite"));
-        }
+        // string url = Application.streamingAssetsPath + "/AssetBundles/";
+        // if (!ABMap.ContainsKey("sprite"))
+        // {
+        //     ABMap.Add("sprite", AssetBundle.LoadFromFile(url + "sprite"));
+        // }
 
-        if (!ABManager.Instance.ABMap.ContainsKey("font"))
-        {
-            ABMap.Add("fonts", AssetBundle.LoadFromFile(url + "font"));
-        }
+        // if (!ABMap.ContainsKey("font"))
+        // {
+        //     ABMap.Add("fonts", AssetBundle.LoadFromFile(url + "font"));
+        // }
+
+        // await LoadManifest();
+        await Load("sprite");
+        await Load("spine-base");
     }
 }

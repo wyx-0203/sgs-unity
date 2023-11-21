@@ -68,7 +68,11 @@ public class EquipArea : SingletonMono<EquipArea>
     {
         foreach (var i in Equips)
         {
-            if (!model.Equipments.ContainsKey(i.Key)) i.Value.gameObject.SetActive(false);
+            if (!model.Equipments.ContainsKey(i.Key))
+            {
+                i.Value.model = null;
+                i.Value.gameObject.SetActive(false);
+            }
             else
             {
                 i.Value.gameObject.SetActive(true);
@@ -79,7 +83,7 @@ public class EquipArea : SingletonMono<EquipArea>
 
     public void AddEquip(GameCore.Equipment card)
     {
-        if (card.Owner != self.model) return;
+        if (card.owner != self.model) return;
 
         Equips[card.type].gameObject.SetActive(true);
         Equips[card.type].Init(card);
@@ -87,7 +91,7 @@ public class EquipArea : SingletonMono<EquipArea>
 
     public void RemoveEquip(GameCore.Equipment card)
     {
-        if (card.Owner != self.model) return;
+        if (card.owner != self.model) return;
         if (card.id != Equips[card.type].Id) return;
 
         Equips[card.type].model = null;

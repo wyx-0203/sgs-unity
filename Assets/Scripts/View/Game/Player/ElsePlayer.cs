@@ -159,7 +159,7 @@ public class ElsePlayer : MonoBehaviour
 
     private void ShowEquip(GameCore.Equipment card)
     {
-        if (card.Owner != model) return;
+        if (card.owner != model) return;
 
         equipages[card.type].gameObject.SetActive(true);
         equipages[card.type].Init(card);
@@ -167,7 +167,7 @@ public class ElsePlayer : MonoBehaviour
 
     private void HideEquip(GameCore.Equipment card)
     {
-        if (card.Owner != model) return;
+        if (card.owner != model) return;
         if (card.id != equipages[card.type].Id) return;
 
         equipages[card.type].gameObject.SetActive(false);

@@ -1,0 +1,48 @@
+
+beijing.png
+size: 1736,1736
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+yuanshao_beijing
+  rotate: false
+  xy: 2, 869
+  size: 1179, 865
+  orig: 1179, 865
+  offset: 0, 0
+  index: -1
+yuanshao_qianjing
+  rotate: false
+  xy: 2, 2
+  size: 1179, 865
+  orig: 1179, 865
+  offset: 0, 0
+  index: -1
+yuanshaodaiji/beijingdeng_00040
+  rotate: false
+  xy: 1494, 859
+  size: 104, 72
+  orig: 104, 72
+  offset: 0, 0
+  index: -1
+yuanshaodaiji/guang_00008
+  rotate: true
+  xy: 1183, 933
+  size: 801, 539
+  orig: 801, 539
+  offset: 0, 0
+  index: -1
+yuanshaodaiji/yan_03_00000
+  rotate: false
+  xy: 1183, 578
+  size: 180, 204
+  orig: 184, 205
+  offset: 2, 0
+  index: -1
+yuanshaodaiji/yun_01_00000
+  rotate: false
+  xy: 1183, 784
+  size: 309, 147
+  orig: 321, 159
+  offset: 6, 5
+  index: -1

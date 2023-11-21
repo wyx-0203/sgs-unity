@@ -14,8 +14,8 @@ public class SceneManager : GlobalSingleton<SceneManager>
 
         if (loading is null)
         {
-            await ABManager.Instance.LoadAssetBundle("loading");
-            loading = ABManager.Instance.ABMap["loading"].LoadAsset<GameObject>("Loading");
+            var ab = await ABManager.Instance.Load("loading");
+            loading = ab.LoadAsset<GameObject>("Loading");
         }
         GameObject.Instantiate(loading, GameObject.Find("Canvas").transform);
 
@@ -36,9 +36,9 @@ public class SceneManager : GlobalSingleton<SceneManager>
         {
             // 加载包含场景资源的AssetBundle
             string abName = sceneName.ToLower();
-            await ABManager.Instance.LoadAssetBundle(abName);
+            await ABManager.Instance.Load(abName);
             // 获取场景路径
-            string[] scenePath = ABManager.Instance.ABMap[abName].GetAllScenePaths();
+            string[] scenePath = (await ABManager.Instance.Load(abName)).GetAllScenePaths();
             // 加载场景
             UnityEngine.SceneManagement.SceneManager.LoadScene(scenePath[0]);
         }

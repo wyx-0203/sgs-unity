@@ -1,6 +1,5 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using System;
+using System.Threading.Tasks;
 
 namespace GameCore
 {
@@ -13,19 +12,19 @@ namespace GameCore
             await Task.Yield();
         }
 
-        public Player Owner { get; private set; }
+        public Player owner { get; private set; }
 
-        public void AddToJudgeArea(Player owner)
+        public void AddToJudgeArea(Player _owner)
         {
-            Owner = owner;
+            owner = _owner;
             src = owner;
-            Owner.JudgeCards.Insert(0, this);
+            owner.JudgeCards.Insert(0, this);
             if (!MCTS.Instance.isRunning) AddJudgeView?.Invoke(this);
         }
 
         public void RemoveToJudgeArea()
         {
-            Owner.JudgeCards.Remove(this);
+            owner.JudgeCards.Remove(this);
             if (!MCTS.Instance.isRunning) RemoveJudgeView?.Invoke(this);
         }
 
@@ -94,7 +93,7 @@ namespace GameCore
             RemoveToJudgeArea();
             if (await 无懈可击.Call(this))
             {
-                AddToJudgeArea(Owner.next);
+                AddToJudgeArea(owner.next);
                 return;
             }
             judgeCard = await Judge.Execute();
@@ -102,9 +101,9 @@ namespace GameCore
             if (judgeCard.suit == "黑桃" && judgeCard.weight >= 2 && judgeCard.weight <= 9)
             {
                 CardPile.Instance.AddToDiscard(this);
-                await new Damaged(Owner, null, this, 3, Damaged.Type.Thunder).Execute();
+                await new Damaged(owner, null, this, 3, Damaged.Type.Thunder).Execute();
             }
-            else AddToJudgeArea(Owner.next);
+            else AddToJudgeArea(owner.next);
         }
     }
 }

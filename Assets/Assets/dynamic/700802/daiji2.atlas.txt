@@ -1,0 +1,426 @@
+
+daiji2.png
+size: 1895,1895
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+sunquan_daiji2/sunquan_daiji2_pc_00
+  rotate: false
+  xy: 790, 812
+  size: 195, 268
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_01
+  rotate: false
+  xy: 1184, 545
+  size: 195, 267
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_02
+  rotate: false
+  xy: 1381, 816
+  size: 195, 267
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_03
+  rotate: false
+  xy: 1578, 1086
+  size: 195, 267
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_04
+  rotate: false
+  xy: 1184, 276
+  size: 195, 267
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_05
+  rotate: false
+  xy: 1381, 547
+  size: 195, 267
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_06
+  rotate: false
+  xy: 1578, 817
+  size: 195, 267
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_07
+  rotate: false
+  xy: 1381, 278
+  size: 195, 267
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_08
+  rotate: false
+  xy: 1578, 548
+  size: 195, 267
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_09
+  rotate: false
+  xy: 1578, 279
+  size: 195, 267
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_10
+  rotate: false
+  xy: 593, 2
+  size: 195, 267
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_11
+  rotate: false
+  xy: 790, 3
+  size: 195, 267
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_12
+  rotate: false
+  xy: 987, 4
+  size: 195, 267
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_13
+  rotate: false
+  xy: 1184, 7
+  size: 195, 267
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_14
+  rotate: false
+  xy: 1381, 9
+  size: 195, 267
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_15
+  rotate: false
+  xy: 1578, 10
+  size: 195, 267
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_16
+  rotate: false
+  xy: 987, 1083
+  size: 195, 268
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_17
+  rotate: false
+  xy: 1184, 1354
+  size: 195, 268
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_18
+  rotate: false
+  xy: 1381, 1625
+  size: 195, 268
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_19
+  rotate: false
+  xy: 593, 271
+  size: 195, 268
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_20
+  rotate: false
+  xy: 790, 542
+  size: 195, 268
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_21
+  rotate: false
+  xy: 987, 813
+  size: 195, 268
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_22
+  rotate: false
+  xy: 1184, 1084
+  size: 195, 268
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_23
+  rotate: false
+  xy: 1381, 1355
+  size: 195, 268
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_24
+  rotate: false
+  xy: 2, 1624
+  size: 195, 269
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_25
+  rotate: false
+  xy: 2, 1353
+  size: 195, 269
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_26
+  rotate: false
+  xy: 199, 1624
+  size: 195, 269
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_27
+  rotate: false
+  xy: 2, 1082
+  size: 195, 269
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_28
+  rotate: false
+  xy: 199, 1353
+  size: 195, 269
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_29
+  rotate: false
+  xy: 396, 1624
+  size: 195, 269
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_30
+  rotate: false
+  xy: 2, 811
+  size: 195, 269
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_31
+  rotate: false
+  xy: 199, 1082
+  size: 195, 269
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_32
+  rotate: false
+  xy: 396, 1353
+  size: 195, 269
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_33
+  rotate: false
+  xy: 593, 1624
+  size: 195, 269
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_34
+  rotate: false
+  xy: 2, 540
+  size: 195, 269
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_35
+  rotate: false
+  xy: 199, 811
+  size: 195, 269
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_36
+  rotate: false
+  xy: 396, 1082
+  size: 195, 269
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_37
+  rotate: false
+  xy: 593, 1353
+  size: 195, 269
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_38
+  rotate: false
+  xy: 790, 1624
+  size: 195, 269
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_39
+  rotate: false
+  xy: 2, 269
+  size: 195, 269
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_40
+  rotate: false
+  xy: 199, 540
+  size: 195, 269
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_41
+  rotate: false
+  xy: 396, 811
+  size: 195, 269
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_42
+  rotate: false
+  xy: 593, 1082
+  size: 195, 269
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_43
+  rotate: false
+  xy: 790, 1353
+  size: 195, 269
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_44
+  rotate: false
+  xy: 987, 1624
+  size: 195, 269
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_45
+  rotate: false
+  xy: 199, 269
+  size: 195, 269
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_46
+  rotate: false
+  xy: 396, 540
+  size: 195, 269
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_47
+  rotate: false
+  xy: 593, 811
+  size: 195, 269
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_48
+  rotate: false
+  xy: 790, 1082
+  size: 195, 269
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_49
+  rotate: false
+  xy: 987, 1353
+  size: 195, 269
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_50
+  rotate: false
+  xy: 1184, 1624
+  size: 195, 269
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_51
+  rotate: false
+  xy: 396, 269
+  size: 195, 269
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_52
+  rotate: false
+  xy: 1578, 1625
+  size: 195, 268
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_53
+  rotate: false
+  xy: 790, 272
+  size: 195, 268
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_54
+  rotate: false
+  xy: 987, 543
+  size: 195, 268
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_55
+  rotate: false
+  xy: 1184, 814
+  size: 195, 268
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_56
+  rotate: false
+  xy: 1381, 1085
+  size: 195, 268
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_57
+  rotate: false
+  xy: 1578, 1355
+  size: 195, 268
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_58
+  rotate: false
+  xy: 987, 273
+  size: 195, 268
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+sunquan_daiji2/sunquan_daiji2_pc_59
+  rotate: false
+  xy: 593, 541
+  size: 195, 268
+  orig: 250, 300
+  offset: 29, 16
+  index: -1

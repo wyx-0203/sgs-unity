@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 public class 恩怨 : Skill.Multi
 {
-    public override List<Skill> skills => new List<Skill> { new _OnDamaged(), new _OnGetCardFromElse() };
+    public override List<Skill> skills { get; } = new List<Skill> { new _OnDamaged(), new _OnGetCardFromElse() };
 
     public class _OnGetCardFromElse : Triggered
     {

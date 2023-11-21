@@ -11,22 +11,22 @@ namespace GameCore
             await Add(src);
         }
 
-        public Player Owner { get; private set; }
+        public Player owner { get; private set; }
 
         /// <summary>
         /// 置入装备区
         /// </summary>
-        public virtual async Task Add(Player owner)
+        public virtual async Task Add(Player _owner)
         {
-            Owner = owner;
+            owner = _owner;
             if (!MCTS.Instance.isRunning) AddEquipView?.Invoke(this);
 
-            if (Owner.Equipments.ContainsKey(type))
+            if (owner.Equipments.ContainsKey(type))
             {
-                CardPile.Instance.AddToDiscard(Owner.Equipments[type]);
-                await new LoseCard(Owner, new List<Card> { Owner.Equipments[type] }).Execute();
+                CardPile.Instance.AddToDiscard(owner.Equipments[type]);
+                await new LoseCard(owner, new List<Card> { owner.Equipments[type] }).Execute();
             }
-            Owner.Equipments[type] = this;
+            owner.Equipments[type] = this;
         }
 
         /// <summary>
@@ -37,13 +37,13 @@ namespace GameCore
             await Task.Yield();
             if (!MCTS.Instance.isRunning) RemoveEquipView?.Invoke(this);
             OnRemove?.Invoke();
-            Owner.Equipments.Remove(type);
-            Owner = null;
+            owner.Equipments.Remove(type);
+            owner = null;
         }
 
         public void Execute()
         {
-            Util.Print(Owner + "号位发动了" + this);
+            Util.Print(owner + "发动了" + this);
         }
 
         public Action OnRemove { get; set; }
@@ -63,7 +63,7 @@ namespace GameCore
         }
         public override async Task Remove()
         {
-            Owner.fleeDistance--;
+            owner.fleeDistance--;
             await base.Remove();
         }
     }
@@ -77,7 +77,7 @@ namespace GameCore
         }
         public override async Task Remove()
         {
-            Owner.pursueDistance--;
+            owner.pursueDistance--;
             await base.Remove();
         }
     }

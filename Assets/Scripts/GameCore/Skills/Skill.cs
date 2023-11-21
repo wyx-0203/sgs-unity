@@ -131,7 +131,7 @@ namespace GameCore
 
         public abstract class Multi
         {
-            public string name { get; private set; }
+            // public string name { get; private set; }
             public abstract List<Skill> skills { get; }
             public void Init(string name, Player src)
             {

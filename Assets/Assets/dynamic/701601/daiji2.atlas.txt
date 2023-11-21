@@ -1,0 +1,426 @@
+
+daiji2.png
+size: 1899,1899
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+caocaodaiji2/caocaodaiji2_00
+  rotate: false
+  xy: 2, 1357
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_01
+  rotate: false
+  xy: 198, 1628
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_02
+  rotate: false
+  xy: 2, 1086
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_03
+  rotate: false
+  xy: 198, 1357
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_04
+  rotate: false
+  xy: 394, 1628
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_05
+  rotate: false
+  xy: 2, 815
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_06
+  rotate: false
+  xy: 198, 1086
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_07
+  rotate: false
+  xy: 394, 1357
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_08
+  rotate: false
+  xy: 590, 1628
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_09
+  rotate: false
+  xy: 2, 544
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_10
+  rotate: false
+  xy: 198, 815
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_11
+  rotate: false
+  xy: 394, 1086
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_12
+  rotate: false
+  xy: 590, 1357
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_13
+  rotate: false
+  xy: 786, 1628
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_14
+  rotate: false
+  xy: 2, 273
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_15
+  rotate: false
+  xy: 198, 544
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_16
+  rotate: false
+  xy: 394, 815
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_17
+  rotate: false
+  xy: 590, 1086
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_18
+  rotate: false
+  xy: 786, 1357
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_19
+  rotate: false
+  xy: 982, 1628
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_20
+  rotate: false
+  xy: 2, 2
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_21
+  rotate: false
+  xy: 198, 273
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_22
+  rotate: false
+  xy: 394, 544
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_23
+  rotate: false
+  xy: 590, 815
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_24
+  rotate: false
+  xy: 786, 1086
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_25
+  rotate: false
+  xy: 982, 1357
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_26
+  rotate: false
+  xy: 1178, 1628
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_27
+  rotate: false
+  xy: 198, 2
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_28
+  rotate: false
+  xy: 394, 273
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_29
+  rotate: false
+  xy: 590, 544
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_30
+  rotate: false
+  xy: 786, 815
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_31
+  rotate: false
+  xy: 982, 1086
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_32
+  rotate: false
+  xy: 1178, 1357
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_33
+  rotate: false
+  xy: 1374, 1628
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_34
+  rotate: false
+  xy: 394, 2
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_35
+  rotate: false
+  xy: 590, 273
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_36
+  rotate: false
+  xy: 786, 544
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_37
+  rotate: false
+  xy: 982, 815
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_38
+  rotate: false
+  xy: 1178, 1086
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_39
+  rotate: false
+  xy: 1374, 1357
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_40
+  rotate: false
+  xy: 1570, 1628
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_41
+  rotate: false
+  xy: 590, 2
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_42
+  rotate: false
+  xy: 786, 273
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_43
+  rotate: false
+  xy: 982, 544
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_44
+  rotate: false
+  xy: 1178, 815
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_45
+  rotate: false
+  xy: 1374, 1086
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_46
+  rotate: false
+  xy: 1570, 1357
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_47
+  rotate: false
+  xy: 786, 2
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_48
+  rotate: false
+  xy: 982, 273
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_49
+  rotate: false
+  xy: 1178, 544
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_50
+  rotate: false
+  xy: 1374, 815
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_51
+  rotate: false
+  xy: 1570, 1086
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_52
+  rotate: false
+  xy: 982, 2
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_53
+  rotate: false
+  xy: 1178, 273
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_54
+  rotate: false
+  xy: 1374, 544
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_55
+  rotate: false
+  xy: 1570, 815
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_56
+  rotate: false
+  xy: 1178, 2
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_57
+  rotate: false
+  xy: 1374, 273
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_58
+  rotate: false
+  xy: 1570, 544
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1
+caocaodaiji2/caocaodaiji2_59
+  rotate: false
+  xy: 2, 1628
+  size: 194, 269
+  orig: 229, 270
+  offset: 19, 1
+  index: -1

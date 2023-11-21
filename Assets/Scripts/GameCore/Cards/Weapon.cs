@@ -12,11 +12,14 @@ namespace GameCore
         }
         public override async Task Remove()
         {
-            Owner.attackRange -= range - 1;
+            owner.attackRange -= range - 1;
             await base.Remove();
         }
-        protected int range;
 
+        /// <summary>
+        /// 攻击范围
+        /// </summary>
+        protected int range;
 
         public virtual async Task BeforeUseSha(杀 sha) => await Task.Yield();
 
@@ -40,13 +43,13 @@ namespace GameCore
             Timer.Instance.hint = "是否发动青龙偃月刀？";
             Timer.Instance.isValidCard = card => card is 杀;
             Timer.Instance.isValidDest = player => player == sha.dest;
-            Timer.Instance.DefaultAI = Owner.team != sha.dest.team || !AI.CertainValue ? AI.TryAction : () => new Decision();
-            var decision = await Timer.Instance.Run(Owner, 1, 1);
+            Timer.Instance.DefaultAI = owner.team != sha.dest.team || !AI.CertainValue ? AI.TryAction : () => new Decision();
+            var decision = await Timer.Instance.Run(owner, 1, 1);
 
             if (!decision.action) return;
 
             Execute();
-            await decision.cards[0].UseCard(Owner, new List<Player> { sha.dest });
+            await decision.cards[0].UseCard(owner, new List<Player> { sha.dest });
         }
     }
 
@@ -64,9 +67,9 @@ namespace GameCore
 
             Timer.Instance.equipSkill = this;
             Timer.Instance.hint = "是否发动麒麟弓？";
-            Timer.Instance.DefaultAI = () => new Decision { action = Owner.team != dest.team };
+            Timer.Instance.DefaultAI = () => new Decision { action = owner.team != dest.team };
 
-            var decision = await Timer.Instance.Run(Owner);
+            var decision = await Timer.Instance.Run(owner);
             if (!decision.action) return;
             Execute();
 
@@ -75,7 +78,7 @@ namespace GameCore
             if (dest.subHorse != null) list.Add(dest.subHorse);
 
             CardPanel.Instance.Title = "麒麟弓";
-            decision = await CardPanel.Instance.Run(Owner, dest, list);
+            decision = await CardPanel.Instance.Run(owner, dest, list);
 
             await new Discard(dest, decision.cards).Execute();
         }
@@ -97,7 +100,7 @@ namespace GameCore
                 Timer.Instance.hint = "是否对" + i + "发动雌雄双股剑？";
                 Timer.Instance.DefaultAI = AI.TryAction;
 
-                if (!(await Timer.Instance.Run(Owner)).action) continue;
+                if (!(await Timer.Instance.Run(owner)).action) continue;
                 Execute();
 
                 if (i.handCardsCount == 0)
@@ -173,7 +176,7 @@ namespace GameCore
         public override async Task Add(Player owner)
         {
             await base.Add(owner);
-            Owner.effects.NoTimesLimit.Add(x => x is 杀, this);
+            base.owner.effects.NoTimesLimit.Add(x => x is 杀, this);
         }
     }
 
@@ -188,13 +191,13 @@ namespace GameCore
         {
             Timer.Instance.equipSkill = this;
             Timer.Instance.hint = "是否发动贯石斧？";
-            Timer.Instance.isValidCard = card => card != Owner.weapon && card.discardable;
-            Timer.Instance.DefaultAI = sha.dest.team != Owner.team ? AI.TryAction : () => new();
+            Timer.Instance.isValidCard = card => card != owner.weapon && card.discardable;
+            Timer.Instance.DefaultAI = sha.dest.team != owner.team ? AI.TryAction : () => new();
 
-            var decision = await Timer.Instance.Run(Owner, 2, 0);
+            var decision = await Timer.Instance.Run(owner, 2, 0);
             if (!decision.action) return;
 
-            await new Discard(Owner, decision.cards).Execute();
+            await new Discard(owner, decision.cards).Execute();
             sha.isDamage = true;
         }
     }
@@ -209,7 +212,7 @@ namespace GameCore
         public override async Task Add(Player owner)
         {
             await base.Add(owner);
-            src.effects.ExtraDestCount.Add(x => x.isHandCard && Owner.handCardsCount == 1 ? 2 : 0, this);
+            src.effects.ExtraDestCount.Add(x => x.isHandCard && base.owner.handCardsCount == 1 ? 2 : 0, this);
         }
     }
 
@@ -227,7 +230,7 @@ namespace GameCore
             Timer.Instance.equipSkill = this;
             Timer.Instance.hint = "是否发动朱雀羽扇？";
             Timer.Instance.DefaultAI = () => new Decision { action = true };
-            if (!(await Timer.Instance.Run(Owner)).action) return;
+            if (!(await Timer.Instance.Run(owner)).action) return;
 
             Execute();
             await Card.Convert<火杀>(sha.src, new List<Card> { sha }).UseCard(sha.src, sha.dests);
@@ -265,15 +268,15 @@ namespace GameCore
             Timer.Instance.equipSkill = this;
             Timer.Instance.hint = "是否发动寒冰剑？";
             Timer.Instance.DefaultAI = () => new Decision { action = !(dest.team != src.team && dest.cardsCount < 2) && UnityEngine.Random.value < 0.5f };
-            if (!(await Timer.Instance.Run(Owner)).action) return;
+            if (!(await Timer.Instance.Run(owner)).action) return;
 
             Execute();
-            var card = await TimerAction.SelectOneCardFromElse(Owner, dest);
+            var card = await TimerAction.SelectOneCardFromElse(owner, dest);
             await new Discard(dest, card).Execute();
 
             if (dest.cardsCount > 0)
             {
-                card = await TimerAction.SelectOneCardFromElse(Owner, dest);
+                card = await TimerAction.SelectOneCardFromElse(owner, dest);
                 await new Discard(dest, card).Execute();
             }
 

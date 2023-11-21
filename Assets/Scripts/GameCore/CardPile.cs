@@ -13,21 +13,18 @@ namespace GameCore
         // 牌堆
         public List<Card> RemainPile { get; } = new();
         // 弃牌堆
-        public List<Card> DiscardPile { get; private set; }
+        public List<Card> DiscardPile { get; } = new();
         // 牌堆数
-        public int PileCount => RemainPile.Count;
+        public int pileCount => RemainPile.Count;
 
         private static List<CardJson> cardJsons;
 
         public async Task Init()
         {
-            if (!MCTS.Instance.isRunning)
-            {
-                string url = Url.JSON + "card.json";
-                cardJsons = JsonList<CardJson>.FromJson(await WebRequest.Get(url));
-            }
-            cards = new Card[cardJsons.Count];
+            if (cardJsons is null) cardJsons = JsonList<CardJson>.FromJson(await WebRequest.Get(Url.JSON + "card.json"));
 
+            // 初始化卡牌数组
+            cards = new Card[cardJsons.Count];
             foreach (var i in cardJsons)
             {
                 var type = Type.GetType("GameCore." + i.name);
@@ -43,10 +40,12 @@ namespace GameCore
                 cards[i.id] = card;
             }
 
-            DiscardPile = new List<Card>(cards);
+            // 将所有卡牌放入弃牌堆
+            DiscardPile.AddRange(cards);
             DiscardPile.RemoveAt(0);
 
-            if (Mode.Instance is ThreeVSThree) RemainPile.RemoveAll(x => x is 闪电);
+            // 3v3模式删去闪电
+            if (Mode.Instance is ThreeVSThree) DiscardPile.RemoveAll(x => x is 闪电);
         }
 
         /// <summary>
@@ -54,7 +53,7 @@ namespace GameCore
         /// </summary>
         public async Task<Card> Pop()
         {
-            if (PileCount == 0) await Shuffle();
+            if (pileCount == 0) await Shuffle();
 
             var card = RemainPile[0];
             RemainPile.RemoveAt(0);

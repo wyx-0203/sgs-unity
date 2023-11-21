@@ -1,0 +1,76 @@
+
+beijing.png
+size: 1245,1245
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+TX_guangqiu1_0001
+  rotate: false
+  xy: 254, 275
+  size: 174, 97
+  orig: 175, 97
+  offset: 0, 0
+  index: -1
+TX_guangqiu2_0001
+  rotate: false
+  xy: 2, 29
+  size: 184, 124
+  orig: 184, 125
+  offset: 0, 1
+  index: -1
+TX_guangqiu3_0001
+  rotate: true
+  xy: 1165, 1142
+  size: 101, 78
+  orig: 101, 79
+  offset: 0, 1
+  index: -1
+TX_guangqiu4_0001
+  rotate: true
+  xy: 254, 157
+  size: 116, 136
+  orig: 117, 138
+  offset: 1, 0
+  index: -1
+TX_guangqiu5_0001
+  rotate: false
+  xy: 2, 155
+  size: 250, 217
+  orig: 250, 217
+  offset: 0, 0
+  index: -1
+lusu_BJ-beijing
+  rotate: false
+  xy: 2, 374
+  size: 591, 869
+  orig: 591, 869
+  offset: 0, 0
+  index: -1
+lusu_BJ-shu
+  rotate: false
+  xy: 595, 2
+  size: 644, 448
+  orig: 644, 448
+  offset: 0, 0
+  index: -1
+lusu_BJ-shuye1
+  rotate: true
+  xy: 1068, 1021
+  size: 222, 95
+  orig: 222, 95
+  offset: 0, 0
+  index: -1
+lusu_BJ-shuye2
+  rotate: true
+  xy: 1068, 892
+  size: 127, 92
+  orig: 127, 92
+  offset: 0, 0
+  index: -1
+lusu_wu
+  rotate: true
+  xy: 595, 452
+  size: 791, 471
+  orig: 792, 472
+  offset: 0, 1
+  index: -1

@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 
 public class 父魂 : Skill.Multi
 {
-    public override List<Skill> skills => new List<Skill> { new _Convert(), new _Ondamaged() };
+    public override List<Skill> skills { get; } = new List<Skill> { new _Converted(), new _Ondamaged() };
 
-    public class _Convert : Converted
+    public class _Converted : Converted
     {
         public override int MaxCard => 2;
         public override int MinCard => 2;
@@ -28,7 +28,7 @@ public class 父魂 : Skill.Multi
     public class _Ondamaged : Triggered
     {
         public override bool isObey => true;
-        private Card card => src.FindSkill<_Convert>().card;
+        private Card card => src.FindSkill<_Converted>().card;
         private bool invoked;
 
         protected override bool OnMakeDamage(Damaged damaged) => damaged.SrcCard == card

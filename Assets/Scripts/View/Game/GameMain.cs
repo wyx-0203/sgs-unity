@@ -21,17 +21,19 @@ public class GameMain : SingletonMono<GameMain>
 
     protected override void Awake()
     {
-        SetBorder();
         base.Awake();
 #if UNITY_EDITOR
-        ABManager.Instance.LoadGameScene();
+        ABManager.Instance.LoadGameScene().Wait();
+
 #elif UNITY_ANDROID
-            Application.targetFrameRate = 60;
+        Application.targetFrameRate = 60;
 #endif
     }
 
     private async void Start()
     {
+
+        SetBorder();
         bgIndex = Random.Range(0, bgUrl.Count);
         ChangeBg();
         BGM.Instance.Load(Url.AUDIO + "bgm/bgm_1.mp3");

@@ -12,7 +12,7 @@ namespace GameCore
             Timer.Instance.hint = "是否发动八卦阵？";
             Timer.Instance.equipSkill = this;
             Timer.Instance.DefaultAI = () => new Decision { action = true };
-            if (!(await Timer.Instance.Run(Owner)).action) return false;
+            if (!(await Timer.Instance.Run(owner)).action) return false;
 
             Execute();
             var card = await Judge.Execute();
@@ -25,8 +25,8 @@ namespace GameCore
         public override async Task Add(Player owner)
         {
             await base.Add(owner);
-            Owner.effects.InvalidForDest.Add(InvalidForDest, this);
-            Owner.effects.OffsetDamageValue.Add(OffsetDamageValue, this);
+            base.owner.effects.InvalidForDest.Add(InvalidForDest, this);
+            base.owner.effects.OffsetDamageValue.Add(OffsetDamageValue, this);
         }
 
         private bool InvalidForDest(Card card) => card is 杀 sha
@@ -45,7 +45,7 @@ namespace GameCore
         public override async Task Add(Player owner)
         {
             await base.Add(owner);
-            Owner.effects.InvalidForDest.Add(x => x is 杀 sha && !sha.ignoreArmor && sha.isBlack, this);
+            base.owner.effects.InvalidForDest.Add(x => x is 杀 sha && !sha.ignoreArmor && sha.isBlack, this);
         }
     }
 
@@ -53,7 +53,7 @@ namespace GameCore
     {
         public override async Task Remove()
         {
-            await new Recover(Owner).Execute();
+            await new Recover(owner).Execute();
             await base.Remove();
         }
     }

@@ -1,12 +1,17 @@
+using Spine.Unity;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Threading.Tasks;
-using System.Collections.Generic;
 
 public class GeneralDetail : SingletonMono<GeneralDetail>
 {
     // 武将大图
     public Image image;
+    public GameObject daiji;
+    private SkeletonGraphic skeletonGraphicDaiji;
+    public GameObject bj;
+    private SkeletonGraphic skeletonGraphicBj;
     // 设为形象
     public Button SetCharacter;
     // 返回
@@ -81,7 +86,39 @@ public class GeneralDetail : SingletonMono<GeneralDetail>
     public async void UpdateSkin(GameCore.Skin skin)
     {
         currentSkin = skin;
+        Destroy(skeletonGraphicDaiji);
+        Destroy(skeletonGraphicBj);
 
+        daiji.SetActive(false);
+        bj.SetActive(false);
+
+        if (skin.dynamic)
+        {
+            Debug.Log(1);
+            var ab = await ABManager.Instance.Load("dynamic/" + (skin.id + 200000));
+            if (ab.Contains("daiji_SkeletonData.asset"))
+            {
+                image.gameObject.SetActive(false);
+                await Util.WaitFrame();
+
+                skeletonGraphicDaiji = daiji.AddComponent<SkeletonGraphic>();
+                skeletonGraphicDaiji.skeletonDataAsset = ab.LoadAsset<SkeletonDataAsset>("daiji_SkeletonData.asset");
+                skeletonGraphicDaiji.startingLoop = true;
+                skeletonGraphicDaiji.startingAnimation = "play";
+                skeletonGraphicDaiji.raycastTarget = false;
+                daiji.SetActive(true);
+
+                skeletonGraphicBj = bj.AddComponent<SkeletonGraphic>();
+                skeletonGraphicBj.skeletonDataAsset = ab.LoadAsset<SkeletonDataAsset>("beijing_SkeletonData.asset");
+                skeletonGraphicBj.startingLoop = true;
+                skeletonGraphicBj.startingAnimation = "play";
+                skeletonGraphicBj.raycastTarget = false;
+                bj.SetActive(true);
+                return;
+            }
+        }
+
+        Debug.Log(2);
         string url = Url.GENERAL_IMAGE + "Big/" + skin.id + ".png";
         var texture = await WebRequest.GetTexture(url);
         if (texture is null) return;
@@ -95,7 +132,7 @@ public class GeneralDetail : SingletonMono<GeneralDetail>
     {
         var voice = currentSkin.voice.Find(x => x.name == skillName)?.url;
         if (voice is null) return;
-        string url = Url.AUDIO + "skin/" + voice[Random.Range(0, voice.Count)] + ".mp3";
+        string url = Url.AUDIO + "skin/" + voice[Random.Range(0, voice.Count)];
 
         var clip = await WebRequest.GetClip(url);
         if (clip != null) effect.PlayOneShot(clip);

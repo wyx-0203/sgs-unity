@@ -30,14 +30,13 @@ public class DestArea : SingletonMono<DestArea>
         if (!CardArea.Instance.IsValid) return;
 
         // 设置可选目标数量
-
         maxCount = timer.maxDest();
         minCount = timer.minDest();
 
-        // 对不能选择的角色设置阴影
-        foreach (var i in players) i.AddShadow();
-
         Update_();
+
+        // 对不能选择的角色设置阴影
+        foreach (var i in players.Where(x => !x.toggle.interactable)) i.AddShadow();
 
         // 自动选择
 

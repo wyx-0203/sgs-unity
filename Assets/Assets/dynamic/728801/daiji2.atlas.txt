@@ -1,0 +1,426 @@
+
+daiji2.png
+size: 1807,1807
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+fazheng_daiji2/fazheng_daiji2_pc_00
+  rotate: false
+  xy: 396, 736
+  size: 195, 265
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_01
+  rotate: false
+  xy: 593, 1004
+  size: 195, 265
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_02
+  rotate: false
+  xy: 790, 1006
+  size: 195, 264
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_03
+  rotate: false
+  xy: 987, 1274
+  size: 195, 264
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_04
+  rotate: false
+  xy: 593, 206
+  size: 195, 263
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_05
+  rotate: false
+  xy: 790, 475
+  size: 195, 263
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_06
+  rotate: false
+  xy: 987, 743
+  size: 195, 263
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_07
+  rotate: false
+  xy: 1381, 747
+  size: 195, 262
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_08
+  rotate: false
+  xy: 1578, 1013
+  size: 195, 262
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_09
+  rotate: false
+  xy: 1184, 216
+  size: 195, 262
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_10
+  rotate: false
+  xy: 1381, 483
+  size: 195, 262
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_11
+  rotate: false
+  xy: 1578, 749
+  size: 195, 262
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_12
+  rotate: false
+  xy: 1381, 219
+  size: 195, 262
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_13
+  rotate: false
+  xy: 1578, 485
+  size: 195, 262
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_14
+  rotate: false
+  xy: 1184, 1010
+  size: 195, 263
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_15
+  rotate: false
+  xy: 1381, 1276
+  size: 195, 263
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_16
+  rotate: false
+  xy: 1578, 1542
+  size: 195, 263
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_17
+  rotate: false
+  xy: 790, 210
+  size: 195, 263
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_18
+  rotate: false
+  xy: 1184, 1541
+  size: 195, 264
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_19
+  rotate: false
+  xy: 396, 203
+  size: 195, 264
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_20
+  rotate: false
+  xy: 790, 1272
+  size: 195, 265
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_21
+  rotate: false
+  xy: 987, 1540
+  size: 195, 265
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_22
+  rotate: false
+  xy: 2, 1271
+  size: 195, 266
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_23
+  rotate: false
+  xy: 199, 1539
+  size: 195, 266
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_24
+  rotate: false
+  xy: 2, 1003
+  size: 195, 266
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_25
+  rotate: false
+  xy: 199, 1271
+  size: 195, 266
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_26
+  rotate: false
+  xy: 396, 1539
+  size: 195, 266
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_27
+  rotate: false
+  xy: 2, 735
+  size: 195, 266
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_28
+  rotate: false
+  xy: 199, 1003
+  size: 195, 266
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_29
+  rotate: false
+  xy: 396, 1271
+  size: 195, 266
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_30
+  rotate: false
+  xy: 199, 200
+  size: 195, 265
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_31
+  rotate: false
+  xy: 396, 469
+  size: 195, 265
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_32
+  rotate: false
+  xy: 593, 471
+  size: 195, 264
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_33
+  rotate: false
+  xy: 790, 740
+  size: 195, 264
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_34
+  rotate: false
+  xy: 987, 478
+  size: 195, 263
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_35
+  rotate: false
+  xy: 1184, 745
+  size: 195, 263
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_36
+  rotate: false
+  xy: 1381, 1011
+  size: 195, 263
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_37
+  rotate: false
+  xy: 1578, 221
+  size: 195, 262
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_38
+  rotate: true
+  xy: 2, 2
+  size: 195, 262
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_39
+  rotate: true
+  xy: 266, 3
+  size: 195, 262
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_40
+  rotate: true
+  xy: 530, 6
+  size: 195, 262
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_41
+  rotate: true
+  xy: 794, 13
+  size: 195, 262
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_42
+  rotate: true
+  xy: 1058, 16
+  size: 195, 262
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_43
+  rotate: true
+  xy: 1322, 19
+  size: 195, 262
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_44
+  rotate: false
+  xy: 1578, 1277
+  size: 195, 263
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_45
+  rotate: false
+  xy: 987, 213
+  size: 195, 263
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_46
+  rotate: false
+  xy: 1184, 480
+  size: 195, 263
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_47
+  rotate: false
+  xy: 987, 1008
+  size: 195, 264
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_48
+  rotate: false
+  xy: 1184, 1275
+  size: 195, 264
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_49
+  rotate: false
+  xy: 1381, 1541
+  size: 195, 264
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_50
+  rotate: false
+  xy: 593, 737
+  size: 195, 265
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_51
+  rotate: false
+  xy: 593, 1539
+  size: 195, 266
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_52
+  rotate: false
+  xy: 2, 467
+  size: 195, 266
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_53
+  rotate: false
+  xy: 199, 735
+  size: 195, 266
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_54
+  rotate: false
+  xy: 396, 1003
+  size: 195, 266
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_55
+  rotate: false
+  xy: 593, 1271
+  size: 195, 266
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_56
+  rotate: false
+  xy: 790, 1539
+  size: 195, 266
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_57
+  rotate: false
+  xy: 2, 199
+  size: 195, 266
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_58
+  rotate: false
+  xy: 199, 467
+  size: 195, 266
+  orig: 250, 300
+  offset: 29, 16
+  index: -1
+fazheng_daiji2/fazheng_daiji2_pc_59
+  rotate: false
+  xy: 2, 1539
+  size: 195, 266
+  orig: 250, 300
+  offset: 29, 16
+  index: -1

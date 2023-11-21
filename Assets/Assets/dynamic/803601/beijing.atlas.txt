@@ -1,0 +1,20 @@
+
+beijing.png
+size: 861,861
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+TX_yueliang_0001
+  rotate: false
+  xy: 661, 703
+  size: 156, 156
+  orig: 170, 170
+  offset: 6, 8
+  index: -1
+xunyu_beijing
+  rotate: false
+  xy: 2, 2
+  size: 657, 857
+  orig: 657, 857
+  offset: 0, 0
+  index: -1

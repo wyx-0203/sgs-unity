@@ -89,21 +89,28 @@ public class SkillArea : SingletonMono<SkillArea>
     /// </summary>
     public void OnStartPlay()
     {
-        if (SelectedSkill != null)
-        {
-            var skill = skills.Find(x => x.model == SelectedSkill);
-            skill.toggle.interactable = true;
-            if (SelectedSkill is GameCore.Triggered) skill.toggle.isOn = true;
-        }
+        // var skills=this.skills.Where(x=>x.gameObject.activeSelf);
+        // if (SelectedSkill != null)
+        // {
+        //     var skill = skills.Find(x => x.model == SelectedSkill);
+        //     skill.toggle.interactable = true;
+        //     if (SelectedSkill is GameCore.Triggered) skill.toggle.isOn = true;
+        // }
 
-        else
+        // else
+        // {
+        foreach (var i in skills)
         {
-            foreach (var i in skills)
+            i.GetComponent<MultiSkill>()?.OnStartPlay();
+            if (i.model == SelectedSkill)
             {
-                i.GetComponent<MultiSkill>()?.OnStartPlay();
-                i.toggle.interactable = (i.model is GameCore.Active || i.model is GameCore.Converted) && i.model.IsValid;
+                i.toggle.interactable = true;
+                i.toggle.isOn = true;
+                break;
             }
+            i.toggle.interactable = (i.model is GameCore.Active || i.model is GameCore.Converted) && i.model.IsValid;
         }
+        // }
 
     }
 

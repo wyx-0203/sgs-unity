@@ -1,0 +1,510 @@
+
+beijing.png
+size: 1415,1415
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+25
+  rotate: false
+  xy: 2, 777
+  size: 888, 636
+  orig: 888, 636
+  offset: 0, 0
+  index: -1
+TX/huanggai_beijing_tx1/huanggai_bg_tx1_00
+  rotate: false
+  xy: 894, 584
+  size: 214, 110
+  orig: 333, 240
+  offset: 43, 130
+  index: -1
+TX/huanggai_beijing_tx1/huanggai_bg_tx1_01
+  rotate: false
+  xy: 894, 584
+  size: 214, 110
+  orig: 333, 240
+  offset: 43, 130
+  index: -1
+TX/huanggai_beijing_tx1/huanggai_bg_tx1_02
+  rotate: false
+  xy: 387, 33
+  size: 205, 110
+  orig: 333, 240
+  offset: 49, 130
+  index: -1
+TX/huanggai_beijing_tx1/huanggai_bg_tx1_03
+  rotate: false
+  xy: 178, 34
+  size: 207, 110
+  orig: 333, 240
+  offset: 46, 130
+  index: -1
+TX/huanggai_beijing_tx1/huanggai_bg_tx1_04
+  rotate: false
+  xy: 406, 487
+  size: 213, 112
+  orig: 333, 240
+  offset: 42, 128
+  index: -1
+TX/huanggai_beijing_tx1/huanggai_bg_tx1_05
+  rotate: false
+  xy: 621, 488
+  size: 214, 112
+  orig: 333, 240
+  offset: 41, 128
+  index: -1
+TX/huanggai_beijing_tx1/huanggai_bg_tx1_06
+  rotate: false
+  xy: 182, 259
+  size: 215, 112
+  orig: 333, 240
+  offset: 40, 128
+  index: -1
+TX/huanggai_beijing_tx1/huanggai_bg_tx1_07
+  rotate: false
+  xy: 402, 373
+  size: 215, 112
+  orig: 333, 240
+  offset: 40, 128
+  index: -1
+TX/huanggai_beijing_tx1/huanggai_bg_tx1_08
+  rotate: false
+  xy: 187, 487
+  size: 217, 112
+  orig: 333, 240
+  offset: 39, 128
+  index: -1
+TX/huanggai_beijing_tx1/huanggai_bg_tx1_09
+  rotate: false
+  xy: 183, 373
+  size: 217, 112
+  orig: 333, 240
+  offset: 39, 128
+  index: -1
+TX/huanggai_beijing_tx1/huanggai_bg_tx1_10
+  rotate: false
+  xy: 399, 259
+  size: 215, 112
+  orig: 333, 240
+  offset: 41, 128
+  index: -1
+TX/huanggai_beijing_tx1/huanggai_bg_tx1_11
+  rotate: false
+  xy: 398, 145
+  size: 213, 112
+  orig: 333, 240
+  offset: 41, 128
+  index: -1
+TX/huanggai_beijing_tx1/huanggai_bg_tx1_12
+  rotate: false
+  xy: 837, 470
+  size: 214, 112
+  orig: 333, 240
+  offset: 41, 128
+  index: -1
+TX/huanggai_beijing_tx1/huanggai_bg_tx1_13
+  rotate: false
+  xy: 182, 146
+  size: 214, 111
+  orig: 333, 240
+  offset: 42, 129
+  index: -1
+TX/huanggai_beijing_tx2/huanggai_bg_tx2_00
+  rotate: false
+  xy: 1067, 709
+  size: 149, 80
+  orig: 333, 240
+  offset: 0, 0
+  index: -1
+TX/huanggai_beijing_tx2/huanggai_bg_tx2_01
+  rotate: false
+  xy: 1250, 1155
+  size: 149, 80
+  orig: 333, 240
+  offset: 0, 0
+  index: -1
+TX/huanggai_beijing_tx2/huanggai_bg_tx2_02
+  rotate: true
+  xy: 1110, 558
+  size: 149, 80
+  orig: 333, 240
+  offset: 0, 0
+  index: -1
+TX/huanggai_beijing_tx2/huanggai_bg_tx2_03
+  rotate: true
+  xy: 1192, 558
+  size: 149, 80
+  orig: 333, 240
+  offset: 0, 0
+  index: -1
+TX/huanggai_beijing_tx2/huanggai_bg_tx2_04
+  rotate: false
+  xy: 1053, 476
+  size: 149, 80
+  orig: 333, 240
+  offset: 0, 0
+  index: -1
+TX/huanggai_beijing_tx2/huanggai_bg_tx2_05
+  rotate: false
+  xy: 1250, 1073
+  size: 149, 80
+  orig: 333, 240
+  offset: 0, 0
+  index: -1
+TX/huanggai_beijing_tx2/huanggai_bg_tx2_06
+  rotate: false
+  xy: 1245, 991
+  size: 149, 80
+  orig: 333, 240
+  offset: 0, 0
+  index: -1
+TX/huanggai_beijing_tx2/huanggai_bg_tx2_07
+  rotate: false
+  xy: 1245, 909
+  size: 149, 80
+  orig: 333, 240
+  offset: 0, 0
+  index: -1
+TX/huanggai_beijing_tx2/huanggai_bg_tx2_08
+  rotate: false
+  xy: 1242, 827
+  size: 149, 80
+  orig: 333, 240
+  offset: 0, 0
+  index: -1
+TX/huanggai_beijing_tx2/huanggai_bg_tx2_09
+  rotate: false
+  xy: 1242, 745
+  size: 149, 80
+  orig: 333, 240
+  offset: 0, 0
+  index: -1
+TX/huanggai_beijing_tx2/huanggai_bg_tx2_10
+  rotate: true
+  xy: 1274, 594
+  size: 149, 80
+  orig: 333, 240
+  offset: 0, 0
+  index: -1
+TX/huanggai_beijing_tx2/huanggai_bg_tx2_11
+  rotate: false
+  xy: 1053, 394
+  size: 149, 80
+  orig: 333, 240
+  offset: 0, 0
+  index: -1
+TX/huanggai_beijing_tx2/huanggai_bg_tx2_12
+  rotate: true
+  xy: 1204, 407
+  size: 149, 80
+  orig: 333, 240
+  offset: 0, 0
+  index: -1
+TX/huanggai_beijing_tx2/huanggai_bg_tx2_13
+  rotate: true
+  xy: 1286, 443
+  size: 149, 80
+  orig: 333, 240
+  offset: 0, 0
+  index: -1
+TX/huanggai_beijing_tx2/huanggai_bg_tx2_14
+  rotate: false
+  xy: 621, 406
+  size: 149, 80
+  orig: 333, 240
+  offset: 0, 0
+  index: -1
+TX/huanggai_beijing_tx2/huanggai_bg_tx2_15
+  rotate: false
+  xy: 619, 324
+  size: 149, 80
+  orig: 333, 240
+  offset: 0, 0
+  index: -1
+TX/huanggai_beijing_tx2/huanggai_bg_tx2_16
+  rotate: false
+  xy: 616, 242
+  size: 149, 80
+  orig: 333, 240
+  offset: 0, 0
+  index: -1
+TX/huanggai_beijing_tx2/huanggai_bg_tx2_17
+  rotate: false
+  xy: 613, 160
+  size: 149, 80
+  orig: 333, 240
+  offset: 0, 0
+  index: -1
+TX/huanggai_beijing_tx2/huanggai_bg_tx2_18
+  rotate: false
+  xy: 613, 78
+  size: 149, 80
+  orig: 333, 240
+  offset: 0, 0
+  index: -1
+TX/huanggai_beijing_tx2/huanggai_bg_tx2_19
+  rotate: true
+  xy: 764, 91
+  size: 149, 80
+  orig: 333, 240
+  offset: 0, 0
+  index: -1
+TX/huanggai_beijing_tx3/huanggai_bg_tx3_00
+  rotate: false
+  xy: 846, 394
+  size: 119, 74
+  orig: 333, 240
+  offset: 0, 0
+  index: -1
+TX/huanggai_beijing_tx3/huanggai_bg_tx3_01
+  rotate: true
+  xy: 967, 349
+  size: 119, 74
+  orig: 333, 240
+  offset: 0, 0
+  index: -1
+TX/huanggai_beijing_tx3/huanggai_bg_tx3_02
+  rotate: false
+  xy: 846, 318
+  size: 119, 74
+  orig: 333, 240
+  offset: 0, 0
+  index: -1
+TX/huanggai_beijing_tx3/huanggai_bg_tx3_03
+  rotate: false
+  xy: 767, 242
+  size: 119, 74
+  orig: 333, 240
+  offset: 0, 0
+  index: -1
+TX/huanggai_beijing_tx3/huanggai_bg_tx3_04
+  rotate: true
+  xy: 846, 121
+  size: 119, 74
+  orig: 333, 240
+  offset: 0, 0
+  index: -1
+TX/huanggai_beijing_tx3/huanggai_bg_tx3_05
+  rotate: false
+  xy: 888, 242
+  size: 119, 74
+  orig: 333, 240
+  offset: 0, 0
+  index: -1
+TX/huanggai_beijing_tx3/huanggai_bg_tx3_06
+  rotate: true
+  xy: 922, 121
+  size: 119, 74
+  orig: 333, 240
+  offset: 0, 0
+  index: -1
+TX/huanggai_beijing_tx3/huanggai_bg_tx3_07
+  rotate: false
+  xy: 1043, 318
+  size: 119, 74
+  orig: 333, 240
+  offset: 0, 0
+  index: -1
+TX/huanggai_beijing_tx3/huanggai_bg_tx3_08
+  rotate: false
+  xy: 1009, 242
+  size: 119, 74
+  orig: 333, 240
+  offset: 0, 0
+  index: -1
+TX/huanggai_beijing_tx3/huanggai_bg_tx3_09
+  rotate: false
+  xy: 998, 166
+  size: 119, 74
+  orig: 333, 240
+  offset: 0, 0
+  index: -1
+TX/huanggai_beijing_tx3/huanggai_bg_tx3_10
+  rotate: false
+  xy: 998, 90
+  size: 119, 74
+  orig: 333, 240
+  offset: 0, 0
+  index: -1
+TX/huanggai_beijing_tx3/huanggai_bg_tx3_11
+  rotate: false
+  xy: 846, 45
+  size: 119, 74
+  orig: 333, 240
+  offset: 0, 0
+  index: -1
+TX/huanggai_beijing_tx3/huanggai_bg_tx3_12
+  rotate: false
+  xy: 967, 14
+  size: 119, 74
+  orig: 333, 240
+  offset: 0, 0
+  index: -1
+TX/huanggai_beijing_tx3/huanggai_bg_tx3_13
+  rotate: true
+  xy: 1119, 121
+  size: 119, 74
+  orig: 333, 240
+  offset: 0, 0
+  index: -1
+TX/huanggai_beijing_tx3/huanggai_bg_tx3_14
+  rotate: false
+  xy: 594, 2
+  size: 120, 74
+  orig: 333, 240
+  offset: 0, 0
+  index: -1
+TX/huanggai_beijing_tx3/huanggai_bg_tx3_15
+  rotate: false
+  xy: 716, 2
+  size: 120, 74
+  orig: 333, 240
+  offset: 0, 0
+  index: -1
+TX/huanggai_beijing_tx3/huanggai_bg_tx3_16
+  rotate: false
+  xy: 1130, 242
+  size: 119, 74
+  orig: 333, 240
+  offset: 0, 0
+  index: -1
+TX/huanggai_beijing_tx3/huanggai_bg_tx3_17
+  rotate: false
+  xy: 1164, 318
+  size: 119, 74
+  orig: 333, 240
+  offset: 0, 0
+  index: -1
+TX/huanggai_beijing_tx3/huanggai_bg_tx3_18
+  rotate: true
+  xy: 1195, 121
+  size: 119, 74
+  orig: 333, 240
+  offset: 0, 0
+  index: -1
+TX/huanggai_beijing_tx3/huanggai_bg_tx3_19
+  rotate: false
+  xy: 1119, 45
+  size: 119, 74
+  orig: 333, 240
+  offset: 0, 0
+  index: -1
+TX/huanggai_beijing_tx4/huanggai_bg_tx4_00
+  rotate: true
+  xy: 1069, 791
+  size: 170, 171
+  orig: 333, 240
+  offset: 108, 63
+  index: -1
+TX/huanggai_beijing_tx4/huanggai_bg_tx4_01
+  rotate: false
+  xy: 1071, 1240
+  size: 180, 173
+  orig: 333, 240
+  offset: 97, 60
+  index: -1
+TX/huanggai_beijing_tx4/huanggai_bg_tx4_02
+  rotate: false
+  xy: 369, 601
+  size: 177, 174
+  orig: 333, 240
+  offset: 96, 59
+  index: -1
+TX/huanggai_beijing_tx4/huanggai_bg_tx4_03
+  rotate: false
+  xy: 548, 602
+  size: 174, 173
+  orig: 333, 240
+  offset: 98, 60
+  index: -1
+TX/huanggai_beijing_tx4/huanggai_bg_tx4_04
+  rotate: false
+  xy: 2, 61
+  size: 174, 177
+  orig: 333, 240
+  offset: 96, 62
+  index: -1
+TX/huanggai_beijing_tx4/huanggai_bg_tx4_05
+  rotate: false
+  xy: 724, 602
+  size: 168, 173
+  orig: 333, 240
+  offset: 99, 60
+  index: -1
+TX/huanggai_beijing_tx4/huanggai_bg_tx4_06
+  rotate: false
+  xy: 2, 240
+  size: 178, 175
+  orig: 333, 240
+  offset: 95, 60
+  index: -1
+TX/huanggai_beijing_tx4/huanggai_bg_tx4_07
+  rotate: false
+  xy: 892, 1233
+  size: 177, 180
+  orig: 333, 240
+  offset: 95, 60
+  index: -1
+TX/huanggai_beijing_tx4/huanggai_bg_tx4_08
+  rotate: true
+  xy: 187, 601
+  size: 174, 180
+  orig: 333, 240
+  offset: 97, 60
+  index: -1
+TX/huanggai_beijing_tx4/huanggai_bg_tx4_09
+  rotate: false
+  xy: 892, 1052
+  size: 175, 179
+  orig: 333, 240
+  offset: 95, 60
+  index: -1
+TX/huanggai_beijing_tx4/huanggai_bg_tx4_10
+  rotate: false
+  xy: 2, 597
+  size: 183, 178
+  orig: 333, 240
+  offset: 95, 62
+  index: -1
+TX/huanggai_beijing_tx4/huanggai_bg_tx4_11
+  rotate: false
+  xy: 2, 417
+  size: 179, 178
+  orig: 333, 240
+  offset: 97, 62
+  index: -1
+TX/huanggai_beijing_tx4/huanggai_bg_tx4_12
+  rotate: false
+  xy: 892, 873
+  size: 175, 177
+  orig: 333, 240
+  offset: 99, 63
+  index: -1
+TX/huanggai_beijing_tx4/huanggai_bg_tx4_13
+  rotate: true
+  xy: 894, 696
+  size: 175, 171
+  orig: 333, 240
+  offset: 97, 63
+  index: -1
+TX/huanggai_beijing_tx4/huanggai_bg_tx4_14
+  rotate: false
+  xy: 1069, 963
+  size: 174, 171
+  orig: 333, 240
+  offset: 97, 63
+  index: -1
+TX/huanggai_bg_tx6_00
+  rotate: true
+  xy: 1253, 1237
+  size: 176, 152
+  orig: 176, 152
+  offset: 0, 0
+  index: -1
+TX/huanggai_bg_tx7_00
+  rotate: false
+  xy: 1071, 1136
+  size: 177, 102
+  orig: 177, 102
+  offset: 0, 0
+  index: -1

@@ -46,7 +46,7 @@ public class MultiSkill : MonoBehaviour
 
     public void OnStartPlay()
     {
-        var skill = model.skills.Find(x => x is not GameCore.Triggered && x.IsValid);
+        var skill = model.skills.Find(x => x == GameCore.Timer.Instance.temp.skill || x is not GameCore.Triggered && x.IsValid);
         if (skill != null) GetComponent<Skill>().model = skill;
     }
 }

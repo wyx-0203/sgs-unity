@@ -1,3 +1,4 @@
+using Spine.Unity;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,7 +7,10 @@ public class General : MonoBehaviour
 {
     // 武将信息
 
-    public Image skin;
+    public Skin skin;
+    // public Image skin;
+    // public GameObject dynamicSkin;
+    // private SkeletonGraphic skeletonGraphic;
     public Text generalName;
     private Dictionary<string, int> nationDict = new Dictionary<string, int>
     {
@@ -36,48 +40,70 @@ public class General : MonoBehaviour
     public GameCore.Skin skinModel { get; private set; }
 
 
-    public async void Init(GameCore.General model)
+    public async void Init(GameCore.General general)
     {
-        this.model = model;
+        model = general;
 
-        name = model.name;
-        generalName.text = model.name;
-        nationBack.sprite = nationBackSprite[nationDict[model.nation]];
-        nation.sprite = nationSprite[nationDict[model.nation]];
+        name = general.name;
+        generalName.text = general.name;
+        nationBack.sprite = nationBackSprite[nationDict[general.nation]];
+        nation.sprite = nationSprite[nationDict[general.nation]];
 
-        SetHpLimit(model.hp_limit);
+        SetHpLimit(general.hp_limit);
 
-        UpdateSkin((await GameCore.Skin.GetList()).Find(x => x.general_id == model.id));
+        skin.Set((await GameCore.Skin.GetList()).Find(x => x.general_id == general.id));
     }
 
-    public void Init(GameCore.Player model)
+    public void Init(GameCore.Player player)
     {
-        this.model = model.general;
+        model = player.general;
 
-        generalName.text = model.general.name;
-        nationBack.sprite = nationBackSprite[nationDict[model.general.nation]];
-        nation.sprite = nationSprite[nationDict[model.general.nation]];
+        generalName.text = player.general.name;
+        nationBack.sprite = nationBackSprite[nationDict[player.general.nation]];
+        nation.sprite = nationSprite[nationDict[player.general.nation]];
 
-        SetHpLimit(model.hpLimit);
-        SetHp(model.hp, model.hpLimit);
+        SetHpLimit(player.hpLimit);
+        SetHp(player.hp, player.hpLimit);
 
-        if (model.currentSkin != null) UpdateSkin(model.currentSkin);
+        if (player.currentSkin != null) skin.Set(player.currentSkin);
     }
+
+    private static bool mutex;
 
     /// <summary>
     /// 更新皮肤
     /// </summary>
-    public async void UpdateSkin(GameCore.Skin skin)
-    {
-        // if (model.id != skin.general_id) return;
-        skinModel = skin;
+    // public async void skin.Set(GameCore.Skin skin)
+    // {
+    //     skinModel = skin;
+    //     // this.skin.gameObject.SetActive(!skin.dynamic);
+    //     Destroy(skeletonGraphic);
+    //     // dynamicSkin.gameObject.SetActive(skin.dynamic);
 
-        // 根据皮肤ID下载图片
-        string url = Url.GENERAL_IMAGE + "Seat/" + skin.id + ".png";
-        var texture = await WebRequest.GetTexture(url);
-        if (texture is null) return;
-        this.skin.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
-    }
+    //     if (!skin.dynamic)
+    //     {
+    //         // 根据皮肤ID下载图片
+    //         string url = Url.GENERAL_IMAGE + "Seat/" + skin.id + ".png";
+    //         var texture = await WebRequest.GetTexture(url);
+    //         if (texture is null) return;
+    //         this.skin.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
+    //     }
+    //     else
+    //     {
+    //         var ab = await ABManager.Instance.Load("dynamic/" + (skin.id + 200000));
+    //         dynamicSkin.SetActive(false);
+    //         await Util.WaitFrame();
+
+    //         skeletonGraphic = dynamicSkin.AddComponent<SkeletonGraphic>();
+    //         skeletonGraphic.skeletonDataAsset = ab.LoadAsset<SkeletonDataAsset>("daiji2_SkeletonData.asset");
+    //         skeletonGraphic.startingLoop = true;
+    //         skeletonGraphic.startingAnimation = "play";
+    //         skeletonGraphic.raycastTarget = false;
+    //     }
+
+    //     this.skin.gameObject.SetActive(!skin.dynamic);
+    //     dynamicSkin.SetActive(skin.dynamic);
+    // }
 
     /// <summary>
     /// 更新体力上限

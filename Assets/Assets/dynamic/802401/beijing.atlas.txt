@@ -1,0 +1,216 @@
+
+beijing.png
+size: 1682,1682
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Effect/beijing/glow/00000
+  rotate: false
+  xy: 2, 849
+  size: 494, 199
+  orig: 494, 201
+  offset: 0, 2
+  index: -1
+Effect/beijing/glow/00001
+  rotate: false
+  xy: 2, 646
+  size: 491, 201
+  orig: 494, 201
+  offset: 0, 0
+  index: -1
+Effect/beijing/glow/00002
+  rotate: false
+  xy: 891, 1279
+  size: 490, 200
+  orig: 494, 201
+  offset: 0, 0
+  index: -1
+Effect/beijing/glow/00003
+  rotate: false
+  xy: 2, 444
+  size: 488, 200
+  orig: 494, 201
+  offset: 0, 0
+  index: -1
+Effect/beijing/glow/00004
+  rotate: false
+  xy: 2, 243
+  size: 487, 199
+  orig: 494, 201
+  offset: 0, 0
+  index: -1
+Effect/beijing/glow/00005
+  rotate: false
+  xy: 2, 44
+  size: 485, 197
+  orig: 494, 201
+  offset: 0, 2
+  index: -1
+Effect/beijing/glow/00006
+  rotate: false
+  xy: 498, 852
+  size: 482, 196
+  orig: 494, 201
+  offset: 0, 3
+  index: -1
+Effect/beijing/glow/00007
+  rotate: false
+  xy: 982, 883
+  size: 481, 195
+  orig: 494, 201
+  offset: 0, 4
+  index: -1
+Effect/beijing/glow/00008
+  rotate: false
+  xy: 498, 657
+  size: 479, 193
+  orig: 494, 201
+  offset: 0, 6
+  index: -1
+Effect/beijing/glow/00009
+  rotate: false
+  xy: 495, 466
+  size: 479, 189
+  orig: 494, 201
+  offset: 0, 10
+  index: -1
+Effect/beijing/glow/00010
+  rotate: false
+  xy: 982, 690
+  size: 484, 191
+  orig: 494, 201
+  offset: 0, 9
+  index: -1
+Effect/beijing/glow/00011
+  rotate: false
+  xy: 979, 494
+  size: 491, 194
+  orig: 494, 201
+  offset: 0, 6
+  index: -1
+Effect/beijing/glow/00012
+  rotate: false
+  xy: 891, 1080
+  size: 490, 197
+  orig: 494, 201
+  offset: 0, 4
+  index: -1
+Effect/beijing/glow/00013
+  rotate: false
+  xy: 891, 1481
+  size: 494, 199
+  orig: 494, 201
+  offset: 0, 2
+  index: -1
+Effect/beijing/shitou/00000
+  rotate: false
+  xy: 752, 148
+  size: 50, 56
+  orig: 50, 56
+  offset: 0, 0
+  index: -1
+Effect/beijing/smoke/00000
+  rotate: false
+  xy: 1387, 1304
+  size: 258, 184
+  orig: 259, 190
+  offset: 0, 0
+  index: -1
+Effect/beijing/smoke/00001
+  rotate: false
+  xy: 1237, 306
+  size: 258, 186
+  orig: 259, 190
+  offset: 0, 0
+  index: -1
+Effect/beijing/smoke/00002
+  rotate: false
+  xy: 976, 306
+  size: 259, 186
+  orig: 259, 190
+  offset: 0, 0
+  index: -1
+Effect/beijing/smoke/00003
+  rotate: true
+  xy: 1467, 46
+  size: 258, 187
+  orig: 259, 190
+  offset: 0, 0
+  index: -1
+Effect/beijing/smoke/00004
+  rotate: false
+  xy: 1383, 1113
+  size: 258, 189
+  orig: 259, 190
+  offset: 1, 0
+  index: -1
+Effect/beijing/smoke/00005
+  rotate: false
+  xy: 1387, 1490
+  size: 258, 190
+  orig: 259, 190
+  offset: 1, 0
+  index: -1
+Effect/beijing/smoke/00006
+  rotate: true
+  xy: 753, 206
+  size: 258, 190
+  orig: 259, 190
+  offset: 1, 0
+  index: -1
+Effect/beijing/smoke/00007
+  rotate: false
+  xy: 492, 283
+  size: 259, 181
+  orig: 259, 190
+  offset: 0, 0
+  index: -1
+Effect/beijing/smoke/00008
+  rotate: false
+  xy: 945, 122
+  size: 259, 182
+  orig: 259, 190
+  offset: 0, 0
+  index: -1
+Effect/beijing/smoke/00009
+  rotate: false
+  xy: 1206, 122
+  size: 259, 182
+  orig: 259, 190
+  offset: 0, 0
+  index: -1
+Effect/beijing/smoke/00010
+  rotate: false
+  xy: 491, 98
+  size: 259, 183
+  orig: 259, 190
+  offset: 0, 0
+  index: -1
+Effect/beijing/smoke/00011
+  rotate: true
+  xy: 1468, 853
+  size: 258, 183
+  orig: 259, 190
+  offset: 0, 0
+  index: -1
+Effect/beijing/smoke/00012
+  rotate: true
+  xy: 1472, 593
+  size: 258, 183
+  orig: 259, 190
+  offset: 0, 0
+  index: -1
+Effect/beijing/smoke/00013
+  rotate: true
+  xy: 1497, 333
+  size: 258, 183
+  orig: 259, 190
+  offset: 0, 0
+  index: -1
+bg
+  rotate: false
+  xy: 2, 1050
+  size: 887, 630
+  orig: 887, 630
+  offset: 0, 0
+  index: -1

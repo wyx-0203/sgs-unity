@@ -1,0 +1,71 @@
+using Spine.Unity;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class Skin : MonoBehaviour
+{
+    public Image static_;
+    public GameObject dynamic;
+    private SkeletonGraphic skeletonGraphic;
+    public Material gray;
+
+    public GameCore.Skin model { get; private set; }
+    private Player player;
+    private Color color = Color.white;
+
+    private void Start()
+    {
+        player = GetComponentInParent<Player>();
+    }
+
+    public async void Set(GameCore.Skin skin)
+    {
+        model = skin;
+        // this.skin.gameObject.SetActive(!skin.dynamic);
+        Destroy(skeletonGraphic);
+        // dynamicSkin.gameObject.SetActive(skin.dynamic);
+
+        if (!skin.dynamic)
+        {
+            // 根据皮肤ID下载图片
+            string url = Url.GENERAL_IMAGE + "Seat/" + skin.id + ".png";
+            var texture = await WebRequest.GetTexture(url);
+            if (texture is null) return;
+            static_.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
+            static_.material = player is null || player.model.alive ? null : gray;
+            static_.color = color;
+        }
+        else
+        {
+            var ab = await ABManager.Instance.Load("dynamic/" + (skin.id + 200000));
+            dynamic.SetActive(false);
+            await Util.WaitFrame();
+
+            skeletonGraphic = dynamic.AddComponent<SkeletonGraphic>();
+            skeletonGraphic.skeletonDataAsset = ab.LoadAsset<SkeletonDataAsset>("daiji2_SkeletonData.asset");
+            skeletonGraphic.startingLoop = true;
+            skeletonGraphic.startingAnimation = "play";
+            skeletonGraphic.raycastTarget = false;
+            skeletonGraphic.material = player is null || player.model.alive ? null : gray;
+            skeletonGraphic.color = color;
+        }
+
+        static_.gameObject.SetActive(!skin.dynamic);
+        dynamic.SetActive(skin.dynamic);
+
+    }
+
+    public void OnDead()
+    {
+        if (static_.gameObject.activeSelf) static_.material = gray;
+        else skeletonGraphic.material = gray;
+    }
+
+    public void SetColor(Color color)
+    {
+        this.color = color;
+        if (static_.gameObject.activeSelf) static_.color = color;
+        else skeletonGraphic.color = color;
+    }
+}

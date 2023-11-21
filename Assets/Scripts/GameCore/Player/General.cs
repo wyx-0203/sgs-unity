@@ -36,6 +36,7 @@ namespace GameCore
         public int general_id;
         public int id;
         public string name;
+        public bool dynamic;
         public List<Voice> voice;
 
         private static List<Skin> _list;

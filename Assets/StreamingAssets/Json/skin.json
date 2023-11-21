@@ -4,6 +4,7 @@
             "general_id": 1,
             "id": 100101,
             "name": "经典形象",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "仁德",
@@ -24,6 +25,7 @@
             "general_id": 1,
             "id": 106001,
             "name": "界限突破",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "仁德",
@@ -44,6 +46,7 @@
             "general_id": 1,
             "id": 400101,
             "name": "御驾亲征",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "仁德",
@@ -64,6 +67,7 @@
             "general_id": 1,
             "id": 506001,
             "name": "六星耀帝",
+            "dynamic": true,
             "voice": [
                 {
                     "name": "仁德",
@@ -84,6 +88,7 @@
             "general_id": 1,
             "id": 506002,
             "name": "英杰会聚",
+            "dynamic": true,
             "voice": [
                 {
                     "name": "仁德",
@@ -104,6 +109,7 @@
             "general_id": 2,
             "id": 100201,
             "name": "经典形象",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "武圣",
@@ -131,6 +137,7 @@
             "general_id": 2,
             "id": 106101,
             "name": "界限突破",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "武圣",
@@ -158,6 +165,7 @@
             "general_id": 2,
             "id": 500201,
             "name": "飞龙在天",
+            "dynamic": true,
             "voice": [
                 {
                     "name": "武圣",
@@ -185,6 +193,7 @@
             "general_id": 2,
             "id": 500205,
             "name": "开泰盛世",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "武圣",
@@ -212,6 +221,7 @@
             "general_id": 2,
             "id": 500206,
             "name": "狂龙怒战",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "武圣",
@@ -239,6 +249,7 @@
             "general_id": 2,
             "id": 506101,
             "name": "单刀赴会",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "武圣",
@@ -266,6 +277,7 @@
             "general_id": 2,
             "id": 600201,
             "name": "武动乾坤",
+            "dynamic": true,
             "voice": [
                 {
                     "name": "武圣",
@@ -293,6 +305,7 @@
             "general_id": 8,
             "id": 100801,
             "name": "经典形象",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "制衡",
@@ -313,6 +326,7 @@
             "general_id": 8,
             "id": 106701,
             "name": "界限突破",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "制衡",
@@ -333,6 +347,7 @@
             "general_id": 8,
             "id": 500801,
             "name": "吴王光耀",
+            "dynamic": true,
             "voice": [
                 {
                     "name": "制衡",
@@ -353,6 +368,7 @@
             "general_id": 8,
             "id": 500802,
             "name": "英杰会聚",
+            "dynamic": true,
             "voice": [
                 {
                     "name": "制衡",
@@ -373,6 +389,7 @@
             "general_id": 8,
             "id": 500803,
             "name": "励战年兽",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "制衡",
@@ -393,6 +410,7 @@
             "general_id": 11,
             "id": 101101,
             "name": "经典形象",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "苦肉",
@@ -420,6 +438,7 @@
             "general_id": 11,
             "id": 107001,
             "name": "界限突破",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "苦肉",
@@ -447,6 +466,7 @@
             "general_id": 11,
             "id": 501101,
             "name": "破天焚舰",
+            "dynamic": true,
             "voice": [
                 {
                     "name": "苦肉",
@@ -474,6 +494,7 @@
             "general_id": 11,
             "id": 501102,
             "name": "勇力精锐",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "苦肉",
@@ -499,8 +520,37 @@
         },
         {
             "general_id": 11,
+            "id": 501103,
+            "name": "烈江映炎",
+            "dynamic": false,
+            "voice": [
+                {
+                    "name": "苦肉",
+                    "url": [
+                        "huanggai08/HuangGai_KuRou_01.mp3",
+                        "huanggai08/HuangGai_KuRou_02.mp3"
+                    ]
+                },
+                {
+                    "name": "诈降",
+                    "url": [
+                        "huanggai08/HuangGai_ZhaXiang_01.mp3",
+                        "huanggai08/HuangGai_ZhaXiang_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "huanggai08/HuangGai_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 11,
             "id": 601101,
             "name": "武动乾坤",
+            "dynamic": true,
             "voice": [
                 {
                     "name": "苦肉",
@@ -528,6 +578,7 @@
             "general_id": 16,
             "id": 101601,
             "name": "经典形象",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "奸雄",
@@ -548,6 +599,7 @@
             "general_id": 16,
             "id": 107501,
             "name": "界限突破",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "奸雄",
@@ -568,6 +620,7 @@
             "general_id": 16,
             "id": 501601,
             "name": "魏武东临",
+            "dynamic": true,
             "voice": [
                 {
                     "name": "奸雄",
@@ -588,6 +641,7 @@
             "general_id": 16,
             "id": 501606,
             "name": "山河常青",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "奸雄",
@@ -608,6 +662,7 @@
             "general_id": 16,
             "id": 507501,
             "name": "魏武霸业",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "奸雄",
@@ -628,6 +683,7 @@
             "general_id": 16,
             "id": 507502,
             "name": "英杰会聚",
+            "dynamic": true,
             "voice": [
                 {
                     "name": "奸雄",
@@ -648,6 +704,7 @@
             "general_id": 18,
             "id": 101801,
             "name": "经典形象",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "刚烈",
@@ -675,6 +732,7 @@
             "general_id": 18,
             "id": 107701,
             "name": "界限突破",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "刚烈",
@@ -702,6 +760,7 @@
             "general_id": 18,
             "id": 501801,
             "name": "开疆烈血",
+            "dynamic": true,
             "voice": [
                 {
                     "name": "刚烈",
@@ -729,6 +788,7 @@
             "general_id": 18,
             "id": 501802,
             "name": "元让伏虎",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "刚烈",
@@ -756,6 +816,7 @@
             "general_id": 18,
             "id": 501803,
             "name": "万难不辞",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "刚烈",
@@ -783,6 +844,7 @@
             "general_id": 19,
             "id": 101901,
             "name": "经典形象",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "突袭",
@@ -803,6 +865,7 @@
             "general_id": 19,
             "id": 107801,
             "name": "界限突破",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "突袭",
@@ -823,6 +886,7 @@
             "general_id": 19,
             "id": 507801,
             "name": "威震逍遥",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "突袭",
@@ -843,6 +907,7 @@
             "general_id": 19,
             "id": 507802,
             "name": "奋勇破敌",
+            "dynamic": true,
             "voice": [
                 {
                     "name": "突袭",
@@ -863,6 +928,7 @@
             "general_id": 19,
             "id": 507803,
             "name": "踏雪疾驰",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "突袭",
@@ -883,6 +949,7 @@
             "general_id": 19,
             "id": 601901,
             "name": "武动乾坤",
+            "dynamic": true,
             "voice": [
                 {
                     "name": "突袭",
@@ -903,6 +970,7 @@
             "general_id": 24,
             "id": 102401,
             "name": "经典形象",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "无双",
@@ -930,6 +998,7 @@
             "general_id": 24,
             "id": 508301,
             "name": "如火燎原",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "无双",
@@ -957,6 +1026,7 @@
             "general_id": 24,
             "id": 602401,
             "name": "武动乾坤",
+            "dynamic": true,
             "voice": [
                 {
                     "name": "无双",
@@ -984,6 +1054,7 @@
             "general_id": 24,
             "id": 608301,
             "name": "文和乱武",
+            "dynamic": true,
             "voice": [
                 {
                     "name": "无双",
@@ -1011,6 +1082,7 @@
             "general_id": 25,
             "id": 102501,
             "name": "经典形象",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "离间",
@@ -1038,6 +1110,7 @@
             "general_id": 25,
             "id": 108401,
             "name": "界限突破",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "离间",
@@ -1065,6 +1138,7 @@
             "general_id": 25,
             "id": 302502,
             "name": "月下弄兔",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "离间",
@@ -1092,6 +1166,7 @@
             "general_id": 25,
             "id": 502501,
             "name": "玉蝉仙子",
+            "dynamic": true,
             "voice": [
                 {
                     "name": "离间",
@@ -1119,6 +1194,7 @@
             "general_id": 25,
             "id": 502504,
             "name": "红颜绮梦",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "离间",
@@ -1146,6 +1222,7 @@
             "general_id": 25,
             "id": 602501,
             "name": "花好月圆",
+            "dynamic": true,
             "voice": [
                 {
                     "name": "离间",
@@ -1173,6 +1250,7 @@
             "general_id": 25,
             "id": 602502,
             "name": "文和乱舞",
+            "dynamic": true,
             "voice": [
                 {
                     "name": "离间",
@@ -1200,6 +1278,7 @@
             "general_id": 27,
             "id": 102701,
             "name": "经典形象",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "烈弓",
@@ -1220,6 +1299,7 @@
             "general_id": 27,
             "id": 502701,
             "name": "没金饮羽",
+            "dynamic": true,
             "voice": [
                 {
                     "name": "烈弓",
@@ -1240,6 +1320,7 @@
             "general_id": 27,
             "id": 502702,
             "name": "佻身飞镞",
+            "dynamic": true,
             "voice": [
                 {
                     "name": "烈弓",
@@ -1260,6 +1341,7 @@
             "general_id": 27,
             "id": 602701,
             "name": "武动乾坤",
+            "dynamic": true,
             "voice": [
                 {
                     "name": "烈弓",
@@ -1280,6 +1362,7 @@
             "general_id": 36,
             "id": 103601,
             "name": "经典形象",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "驱虎",
@@ -1307,6 +1390,7 @@
             "general_id": 36,
             "id": 403601,
             "name": "王佐之才",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "驱虎",
@@ -1334,6 +1418,7 @@
             "general_id": 36,
             "id": 503601,
             "name": "明以举贤",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "驱虎",
@@ -1361,6 +1446,7 @@
             "general_id": 36,
             "id": 503602,
             "name": "令君劝战",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "驱虎",
@@ -1388,6 +1474,7 @@
             "general_id": 36,
             "id": 503604,
             "name": "王佐之谋",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "驱虎",
@@ -1415,6 +1502,7 @@
             "general_id": 36,
             "id": 603601,
             "name": "谋定天下",
+            "dynamic": true,
             "voice": [
                 {
                     "name": "驱虎",
@@ -1442,6 +1530,7 @@
             "general_id": 42,
             "id": 104201,
             "name": "经典形象",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "乱击",
@@ -1462,6 +1551,7 @@
             "general_id": 42,
             "id": 304202,
             "name": "乱箭宿敌",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "乱击",
@@ -1482,6 +1572,7 @@
             "general_id": 42,
             "id": 504201,
             "name": "箭击曹营",
+            "dynamic": true,
             "voice": [
                 {
                     "name": "乱击",
@@ -1502,6 +1593,7 @@
             "general_id": 42,
             "id": 504202,
             "name": "率盟伐董",
+            "dynamic": true,
             "voice": [
                 {
                     "name": "乱击",
@@ -1522,6 +1614,7 @@
             "general_id": 50,
             "id": 105001,
             "name": "经典形象",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "好施",
@@ -1549,6 +1642,7 @@
             "general_id": 50,
             "id": 505001,
             "name": "缔造联盟",
+            "dynamic": true,
             "voice": [
                 {
                     "name": "好施",
@@ -1576,6 +1670,7 @@
             "general_id": 50,
             "id": 505002,
             "name": "周济万民",
+            "dynamic": true,
             "voice": [
                 {
                     "name": "好施",
@@ -1603,6 +1698,7 @@
             "general_id": 50,
             "id": 605001,
             "name": "谋定天下",
+            "dynamic": true,
             "voice": [
                 {
                     "name": "好施",
@@ -1630,6 +1726,7 @@
             "general_id": 54,
             "id": 105401,
             "name": "经典形象",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "享乐",
@@ -1657,6 +1754,7 @@
             "general_id": 54,
             "id": 505401,
             "name": "庸主阿斗",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "享乐",
@@ -1684,6 +1782,7 @@
             "general_id": 54,
             "id": 505403,
             "name": "虚拟天团",
+            "dynamic": true,
             "voice": [
                 {
                     "name": "享乐",
@@ -1711,6 +1810,7 @@
             "general_id": 54,
             "id": 505404,
             "name": "樽酒逍遥",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "享乐",
@@ -1738,6 +1838,7 @@
             "general_id": 288,
             "id": 128801,
             "name": "经典形象",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "恩怨",
@@ -1765,6 +1866,7 @@
             "general_id": 288,
             "id": 528801,
             "name": "恩怨如火",
+            "dynamic": true,
             "voice": [
                 {
                     "name": "恩怨",
@@ -1792,6 +1894,7 @@
             "general_id": 288,
             "id": 528802,
             "name": "戡律定料",
+            "dynamic": true,
             "voice": [
                 {
                     "name": "恩怨",
@@ -1819,6 +1922,7 @@
             "general_id": 289,
             "id": 128901,
             "name": "经典形象",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "散谣",
@@ -1846,6 +1950,7 @@
             "general_id": 289,
             "id": 528901,
             "name": "攻心定南",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "散谣",
@@ -1873,6 +1978,7 @@
             "general_id": 297,
             "id": 129701,
             "name": "经典形象",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "明策",
@@ -1900,6 +2006,7 @@
             "general_id": 297,
             "id": 529701,
             "name": "一战而就",
+            "dynamic": true,
             "voice": [
                 {
                     "name": "明策",
@@ -1927,6 +2034,7 @@
             "general_id": 297,
             "id": 529702,
             "name": "公台献城",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "明策",
@@ -1954,6 +2062,7 @@
             "general_id": 299,
             "id": 129901,
             "name": "经典形象",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "父魂",
@@ -1988,6 +2097,7 @@
             "general_id": 299,
             "id": 529901,
             "name": "父魂子魄",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "父魂",
@@ -2022,6 +2132,7 @@
             "general_id": 299,
             "id": 529902,
             "name": "同心并力",
+            "dynamic": true,
             "voice": [
                 {
                     "name": "父魂",
@@ -2056,6 +2167,7 @@
             "general_id": 300,
             "id": 130001,
             "name": "经典形象",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "当先",
@@ -2083,6 +2195,7 @@
             "general_id": 300,
             "id": 430001,
             "name": "果敢刚直",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "当先",
@@ -2110,6 +2223,7 @@
             "general_id": 304,
             "id": 130401,
             "name": "经典形象",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "弓骑",
@@ -2137,6 +2251,7 @@
             "general_id": 304,
             "id": 530401,
             "name": "箭厉沙场",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "弓骑",
@@ -2164,6 +2279,7 @@
             "general_id": 304,
             "id": 530402,
             "name": "激箭流星",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "弓骑",
@@ -2191,6 +2307,7 @@
             "general_id": 311,
             "id": 131101,
             "name": "经典形象",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "精策",
@@ -2211,6 +2328,7 @@
             "general_id": 311,
             "id": 531101,
             "name": "御蜀屏障",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "精策",
@@ -2231,6 +2349,7 @@
             "general_id": 313,
             "id": 131301,
             "name": "经典形象",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "龙吟",
@@ -2258,6 +2377,7 @@
             "general_id": 313,
             "id": 531301,
             "name": "战场虎子",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "龙吟",
@@ -2285,6 +2405,7 @@
             "general_id": 313,
             "id": 531302,
             "name": "忠武鏖战",
+            "dynamic": true,
             "voice": [
                 {
                     "name": "龙吟",
@@ -2312,6 +2433,7 @@
             "general_id": 313,
             "id": 531303,
             "name": "贲勇直前",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "龙吟",
@@ -2339,6 +2461,7 @@
             "general_id": 333,
             "id": 133301,
             "name": "经典形象",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "倾袭",
@@ -2359,6 +2482,7 @@
             "general_id": 333,
             "id": 533301,
             "name": "烽火连天",
+            "dynamic": false,
             "voice": [
                 {
                     "name": "倾袭",
@@ -2379,6 +2503,7 @@
             "general_id": 333,
             "id": 633301,
             "name": "骁勇金衔",
+            "dynamic": true,
             "voice": [
                 {
                     "name": "倾袭",

@@ -1,14 +1,15 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class GeneralPointerHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
+// public class GeneralPointerHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
+public class GeneralPointerHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private General general;
     private static GeneralInfo generalInfo;
 
     private void Start()
     {
-        general = GetComponentInParent<General>();
+        general = GetComponent<General>();
     }
 
     /// <summary>
@@ -20,47 +21,47 @@ public class GeneralPointerHandler : MonoBehaviour, IPointerDownHandler, IPointe
         {
             generalInfo = GameMain.Instance.transform.Find("武将信息").GetComponent<GeneralInfo>();
         }
-        generalInfo.Show(general.model, general.skinModel);
+        generalInfo.Show(general.model, general.skin.model);
     }
 
-#if UNITY_ANDROID
+    // #if UNITY_ANDROID
 
-    public void OnPointerDown(PointerEventData eventData)
+    //     public void OnPointerDown(PointerEventData eventData)
+    //     {
+    //         Invoke("ShowInfo", 1);
+    //     }
+
+    //     public void OnPointerUp(PointerEventData eventData)
+    //     {
+    //         CancelInvoke("ShowInfo");
+    //     }
+
+    //     public void OnPointerEnter(PointerEventData eventData) { }
+
+    //     public void OnPointerExit(PointerEventData eventData)
+    //     {
+    //         CancelInvoke("ShowInfo");
+    //     }
+
+    // #else
+
+    // public void OnPointerDown(PointerEventData eventData)
+    // {
+    //     CancelInvoke("ShowInfo");
+    // }
+
+    // public void OnPointerUp(PointerEventData eventData) { }
+
+    public void OnPointerEnter(PointerEventData eventData)
     {
         Invoke("ShowInfo", 1);
     }
 
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        CancelInvoke("ShowInfo");
-    }
-
-    public void OnPointerEnter(PointerEventData eventData) { }
-
     public void OnPointerExit(PointerEventData eventData)
     {
-        CancelInvoke("ShowInfo");
+        if (generalInfo != null && generalInfo.gameObject.activeSelf) generalInfo?.gameObject.SetActive(false);
+        else CancelInvoke("ShowInfo");
     }
 
-#else
-
-        public void OnPointerDown(PointerEventData eventData)
-        {
-            CancelInvoke("ShowInfo");
-        }
-
-        public void OnPointerUp(PointerEventData eventData) { }
-
-        public void OnPointerEnter(PointerEventData eventData)
-        {
-            Invoke("ShowInfo", 1);
-        }
-
-        public void OnPointerExit(PointerEventData eventData)
-        {
-            if (generalInfo != null && generalInfo.gameObject.activeSelf) generalInfo.gameObject.SetActive(false);
-            else CancelInvoke("ShowInfo");
-        }
-
-#endif
+    // #endif
 }

@@ -265,7 +265,7 @@ public class CardSystem : SingletonMono<CardSystem>
     private void GetJudgeCard(GameCore.GetCard model)
     {
         if (model is not GameCore.GetJudgeCard) return;
-        GetCardFromElse(model.Cards, (model.Cards[0] as GameCore.DelayScheme).Owner, model.player, true);
+        GetCardFromElse(model.Cards, (model.Cards[0] as GameCore.DelayScheme).owner, model.player, true);
     }
 
     /// <summary>

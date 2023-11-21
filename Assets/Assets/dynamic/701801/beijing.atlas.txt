@@ -1,0 +1,62 @@
+
+beijing.png
+size: 1605,1605
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+beijing
+  rotate: false
+  xy: 2, 916
+  size: 973, 687
+  orig: 973, 691
+  offset: 0, 0
+  index: -1
+chutu/1_00019
+  rotate: false
+  xy: 1386, 512
+  size: 217, 196
+  orig: 224, 208
+  offset: 5, 8
+  index: -1
+chutu/li_00000
+  rotate: true
+  xy: 1386, 3
+  size: 249, 143
+  orig: 257, 153
+  offset: 7, 5
+  index: -1
+chutu/sha2_00000
+  rotate: true
+  xy: 1386, 254
+  size: 256, 147
+  orig: 258, 147
+  offset: 2, 0
+  index: -1
+chutu/sha_00000
+  rotate: false
+  xy: 638, 732
+  size: 275, 182
+  orig: 293, 208
+  offset: 10, 9
+  index: -1
+suishi
+  rotate: true
+  xy: 977, 710
+  size: 893, 622
+  orig: 893, 622
+  offset: 0, 0
+  index: -1
+yanhou
+  rotate: true
+  xy: 2, 17
+  size: 897, 634
+  orig: 897, 634
+  offset: 0, 0
+  index: -1
+yanqian
+  rotate: false
+  xy: 638, 74
+  size: 746, 634
+  orig: 746, 634
+  offset: 0, 0
+  index: -1

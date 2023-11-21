@@ -41,7 +41,8 @@ public class GeneralBP : MonoBehaviour
     public void OnBan()
     {
         state = State.Ban;
-        general.skin.color = new Color(0.4f, 0.4f, 0.4f);
+        // general.skin.color = new Color(0.4f, 0.4f, 0.4f);
+        general.skin.SetColor(new Color(0.4f, 0.4f, 0.4f));
         ban.SetActive(true);
     }
 
@@ -51,7 +52,8 @@ public class GeneralBP : MonoBehaviour
         if (!isSelf)
         {
             state = State.Enemy;
-            general.skin.color = new Color(0.4f, 0.4f, 0.4f);
+            // general.skin.color = new Color(0.4f, 0.4f, 0.4f);
+            general.skin.SetColor(new Color(0.4f, 0.4f, 0.4f));
             oppoPicked.SetActive(true);
         }
         else
@@ -63,6 +65,8 @@ public class GeneralBP : MonoBehaviour
 
     public void SetBpResult()
     {
+        if (GeneralInfo.Instance != null && GeneralInfo.Instance.gameObject.activeSelf) return;
+
         button.interactable = false;
         GameCore.BanPick.Instance.SendBpResult(model.id);
     }
@@ -87,6 +91,8 @@ public class GeneralBP : MonoBehaviour
 
     public void OnClick()
     {
+        if (GeneralInfo.Instance != null && GeneralInfo.Instance.gameObject.activeSelf) return;
+
         if (!isSelect)
         {
             var seat = BanPick.Instance.seats.FirstOrDefault(x => x.general is null);

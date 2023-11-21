@@ -11,17 +11,19 @@ public class Dest : MonoBehaviour
     public GameCore.Player model => player.model;
 
     private bool refresh = true;
-    private ColorBlock colorBlock;
+    // private ColorBlock colorBlock;
 
     private void Start()
     {
         player = GetComponent<Player>();
         toggle.onValueChanged.AddListener(OnValueChanged);
-        colorBlock = toggle.colors;
+        // colorBlock = toggle.colors;
     }
 
     private void OnValueChanged(bool value)
     {
+        if (GeneralInfo.Instance != null && GeneralInfo.Instance.gameObject.activeSelf && refresh) return;
+
         border.gameObject.SetActive(value);
         if (value) GameCore.Timer.Instance.temp.dests.Add(model);
         else GameCore.Timer.Instance.temp.dests.Remove(model);
@@ -48,8 +50,9 @@ public class Dest : MonoBehaviour
     /// </summary>
     public void AddShadow()
     {
-        colorBlock.disabledColor = new(0.6f, 0.6f, 0.6f);
-        toggle.colors = colorBlock;
+        player.general.skin.SetColor(new(0.6f, 0.6f, 0.6f));
+        // colorBlock.disabledColor = ;
+        // toggle.colors = colorBlock;
     }
 
     /// <summary>
@@ -58,8 +61,9 @@ public class Dest : MonoBehaviour
     public void Reset()
     {
         toggle.interactable = false;
-        colorBlock.disabledColor = Color.white;
-        toggle.colors = colorBlock;
+        player.general.skin.SetColor(Color.white);
+        // colorBlock.disabledColor = Color.white;
+        // toggle.colors = colorBlock;
         Unselect();
     }
 }

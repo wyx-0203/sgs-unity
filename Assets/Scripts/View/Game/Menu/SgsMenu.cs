@@ -22,7 +22,7 @@ public class SgsMenu : MonoBehaviour
 
     private void UpdatePileCount()
     {
-        pileCount.text = "牌堆数" + GameCore.CardPile.Instance.PileCount.ToString();
+        pileCount.text = "牌堆数" + GameCore.CardPile.Instance.pileCount.ToString();
     }
 
     private IEnumerator UpdateFrame()

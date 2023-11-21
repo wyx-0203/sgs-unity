@@ -64,7 +64,7 @@ public class Player : MonoBehaviour
         GameCore.TurnOver.ActionView += OnTurnOver;
 
         // 换肤
-        if (this != GameMain.Instance.self) model.ChangeSkinView += general.UpdateSkin;
+        if (this != GameMain.Instance.self) model.ChangeSkinView += general.skin.Set;
         else foreach (var i in model.teammates) i.ChangeSkinView += ChangeSkin;
         // GameCore.Player.ChangeSkinView += general.UpdateSkin;
     }
@@ -96,7 +96,7 @@ public class Player : MonoBehaviour
         GameCore.SetLock.ActionView -= OnLock;
         GameCore.TurnOver.ActionView -= OnTurnOver;
 
-        if (this != GameMain.Instance.self) model.ChangeSkinView -= general.UpdateSkin;
+        if (this != GameMain.Instance.self) model.ChangeSkinView -= general.skin.Set;
         else foreach (var i in model.teammates) i.ChangeSkinView -= ChangeSkin;
         // GameCore.Player.ChangeSkinView -= general.UpdateSkin;
     }
@@ -125,14 +125,14 @@ public class Player : MonoBehaviour
         nearDeath.gameObject.SetActive(model.hp < 1 && model.hpLimit > 0);
         death.gameObject.SetActive(false);
         TurnOver.SetActive(player.isTurnOver);
-        general.skin.material = null;
+        // general.skin.material = null;
 
         general.Init(model);
     }
 
     private void ChangeSkin(GameCore.Skin skin)
     {
-        if (skin.general_id == general.model.id) general.UpdateSkin(skin);
+        if (skin.general_id == general.model.id) general.skin.Set(skin);
     }
 
     private void UpdateHp(GameCore.UpdateHp operation)
@@ -151,7 +151,7 @@ public class Player : MonoBehaviour
     {
         if (operation.player != model) return;
         nearDeath.gameObject.SetActive(false);
-        general.skin.material = gray;
+        general.skin.OnDead();
         death.gameObject.SetActive(true);
         death.sprite = model.isSelf ? selfDead : oppoDead;
     }
@@ -170,7 +170,7 @@ public class Player : MonoBehaviour
 
     private void AddJudgeCard(GameCore.DelayScheme card)
     {
-        if (card.Owner != model) return;
+        if (card.owner != model) return;
 
         var instance = Instantiate(judgeCardPrefab);
         instance.transform.SetParent(judgeArea, false);
@@ -180,7 +180,7 @@ public class Player : MonoBehaviour
 
     private void RemoveJudgeCard(GameCore.DelayScheme card)
     {
-        if (card.Owner != model) return;
+        if (card.owner != model) return;
 
         Destroy(judgeArea.Find(card.name)?.gameObject);
     }
