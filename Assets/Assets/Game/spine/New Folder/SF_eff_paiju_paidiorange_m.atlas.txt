@@ -1,0 +1,76 @@
+
+SF_eff_paiju_paidiorange_m.png
+size: 943,943
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+pd_orange_phone_00
+  rotate: false
+  xy: 2, 400
+  size: 232, 269
+  orig: 320, 320
+  offset: 49, 32
+  index: -1
+pd_orange_phone_01
+  rotate: false
+  xy: 708, 675
+  size: 233, 266
+  orig: 320, 320
+  offset: 47, 35
+  index: -1
+pd_orange_phone_02
+  rotate: false
+  xy: 467, 410
+  size: 234, 261
+  orig: 320, 320
+  offset: 47, 36
+  index: -1
+pd_orange_phone_03
+  rotate: false
+  xy: 473, 674
+  size: 233, 267
+  orig: 320, 320
+  offset: 47, 35
+  index: -1
+pd_orange_phone_04
+  rotate: false
+  xy: 237, 673
+  size: 234, 268
+  orig: 320, 320
+  offset: 47, 33
+  index: -1
+pd_orange_phone_05
+  rotate: false
+  xy: 470, 148
+  size: 233, 260
+  orig: 320, 320
+  offset: 48, 36
+  index: -1
+pd_orange_phone_06
+  rotate: false
+  xy: 238, 141
+  size: 230, 262
+  orig: 320, 320
+  offset: 51, 35
+  index: -1
+pd_orange_phone_07
+  rotate: false
+  xy: 236, 405
+  size: 229, 264
+  orig: 320, 320
+  offset: 51, 36
+  index: -1
+pd_orange_phone_08
+  rotate: false
+  xy: 2, 671
+  size: 233, 270
+  orig: 320, 320
+  offset: 47, 34
+  index: -1
+pd_orange_phone_09
+  rotate: false
+  xy: 2, 133
+  size: 234, 265
+  orig: 320, 320
+  offset: 47, 36
+  index: -1

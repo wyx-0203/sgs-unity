@@ -1,0 +1,76 @@
+
+zhixiangxian.png
+size: 515,515
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+longtou_00000
+  rotate: false
+  xy: 258, 316
+  size: 255, 94
+  orig: 255, 120
+  offset: 0, 18
+  index: -1
+longtou_00001
+  rotate: false
+  xy: 258, 222
+  size: 255, 92
+  orig: 255, 120
+  offset: 0, 19
+  index: -1
+longtou_00002
+  rotate: false
+  xy: 2, 24
+  size: 254, 88
+  orig: 255, 120
+  offset: 1, 21
+  index: -1
+longtou_00003
+  rotate: false
+  xy: 258, 135
+  size: 254, 85
+  orig: 255, 120
+  offset: 1, 23
+  index: -1
+longtou_00004
+  rotate: false
+  xy: 258, 50
+  size: 254, 83
+  orig: 255, 120
+  offset: 1, 23
+  index: -1
+longtou_00005
+  rotate: false
+  xy: 2, 304
+  size: 254, 103
+  orig: 255, 120
+  offset: 1, 11
+  index: -1
+longtou_00006
+  rotate: false
+  xy: 2, 409
+  size: 254, 104
+  orig: 255, 120
+  offset: 1, 11
+  index: -1
+longtou_00007
+  rotate: false
+  xy: 258, 412
+  size: 254, 101
+  orig: 255, 120
+  offset: 1, 13
+  index: -1
+longtou_00008
+  rotate: false
+  xy: 2, 206
+  size: 254, 96
+  orig: 255, 120
+  offset: 1, 16
+  index: -1
+longtou_00009
+  rotate: false
+  xy: 2, 114
+  size: 253, 90
+  orig: 255, 120
+  offset: 2, 19
+  index: -1

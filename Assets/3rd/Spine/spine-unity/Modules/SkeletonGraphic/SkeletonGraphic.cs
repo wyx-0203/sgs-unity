@@ -32,268 +32,310 @@ using UnityEngine;
 using UnityEngine.UI;
 using Spine;
 
-namespace Spine.Unity {
-	[ExecuteInEditMode, RequireComponent(typeof(CanvasRenderer), typeof(RectTransform)), DisallowMultipleComponent]
-	[AddComponentMenu("Spine/SkeletonGraphic (Unity UI Canvas)")]
-	public class SkeletonGraphic : MaskableGraphic, ISkeletonComponent, IAnimationStateComponent, ISkeletonAnimation, IHasSkeletonDataAsset {
+namespace Spine.Unity
+{
+    [ExecuteInEditMode, RequireComponent(typeof(CanvasRenderer), typeof(RectTransform)), DisallowMultipleComponent]
+    [AddComponentMenu("Spine/SkeletonGraphic (Unity UI Canvas)")]
+    public class SkeletonGraphic : MaskableGraphic, ISkeletonComponent, IAnimationStateComponent, ISkeletonAnimation, IHasSkeletonDataAsset
+    {
 
-		#region Inspector
-		public SkeletonDataAsset skeletonDataAsset;
-		public SkeletonDataAsset SkeletonDataAsset { get { return skeletonDataAsset; } }
+        #region Inspector
+        public SkeletonDataAsset skeletonDataAsset;
+        public SkeletonDataAsset SkeletonDataAsset { get { return skeletonDataAsset; } }
 
-		[SpineSkin(dataField:"skeletonDataAsset")]
-		public string initialSkinName = "default";
-		public bool initialFlipX, initialFlipY;
+        [SpineSkin(dataField: "skeletonDataAsset")]
+        public string initialSkinName = "default";
+        public bool initialFlipX, initialFlipY;
 
-		[SpineAnimation(dataField:"skeletonDataAsset")]
-		public string startingAnimation;
-		public bool startingLoop;
-		public float timeScale = 1f;
-		public bool freeze;
-		public bool unscaledTime;
+        [SpineAnimation(dataField: "skeletonDataAsset")]
+        public string startingAnimation;
+        public bool startingLoop;
+        public float timeScale = 1f;
+        public bool freeze;
+        public bool unscaledTime;
 
-		#if UNITY_EDITOR
-		protected override void OnValidate () {
-			// This handles Scene View preview.
-			base.OnValidate ();
-			if (this.IsValid) {
-				if (skeletonDataAsset == null) {
-					Clear();
-					startingAnimation = "";
-				} else if (skeletonDataAsset.GetSkeletonData(true) != skeleton.data) {
-					Clear();
-					Initialize(true);
-					startingAnimation = "";
-					if (skeletonDataAsset.atlasAssets.Length > 1 || skeletonDataAsset.atlasAssets[0].materials.Length > 1)
-						Debug.LogError("Unity UI does not support multiple textures per Renderer. Your skeleton will not be rendered correctly. Recommend using SkeletonAnimation instead. This requires the use of a Screen space camera canvas.");
-				} else {
-					if (freeze) return;
+#if UNITY_EDITOR
+        protected override void OnValidate()
+        {
+            // This handles Scene View preview.
+            base.OnValidate();
+            if (this.IsValid)
+            {
+                if (skeletonDataAsset == null)
+                {
+                    Clear();
+                    startingAnimation = "";
+                }
+                else if (skeletonDataAsset.GetSkeletonData(true) != skeleton.data)
+                {
+                    Clear();
+                    Initialize(true);
+                    startingAnimation = "";
+                    if (skeletonDataAsset.atlasAssets.Length > 1 || skeletonDataAsset.atlasAssets[0].materials.Length > 1)
+                        Debug.LogError("Unity UI does not support multiple textures per Renderer. Your skeleton will not be rendered correctly. Recommend using SkeletonAnimation instead. This requires the use of a Screen space camera canvas.");
+                }
+                else
+                {
+                    if (freeze) return;
 
-					if (!string.IsNullOrEmpty(initialSkinName)) {
-						var skin = skeleton.data.FindSkin(initialSkinName);
-						if (skin != null) {
-							if (skin == skeleton.data.defaultSkin)
-								skeleton.SetSkin((Skin)null);
-							else
-								skeleton.SetSkin(skin);
-						}
-							
-					}
+                    if (!string.IsNullOrEmpty(initialSkinName))
+                    {
+                        var skin = skeleton.data.FindSkin(initialSkinName);
+                        if (skin != null)
+                        {
+                            if (skin == skeleton.data.defaultSkin)
+                                skeleton.SetSkin((Skin)null);
+                            else
+                                skeleton.SetSkin(skin);
+                        }
 
-					// Only provide visual feedback to inspector changes in Unity Editor Edit mode.
-					if (!Application.isPlaying) {
-						skeleton.flipX = this.initialFlipX;
-						skeleton.flipY = this.initialFlipY;
+                    }
 
-						skeleton.SetToSetupPose();
-						if (!string.IsNullOrEmpty(startingAnimation))
-							skeleton.PoseWithAnimation(startingAnimation, 0f, false);
-					}
+                    // Only provide visual feedback to inspector changes in Unity Editor Edit mode.
+                    if (!Application.isPlaying)
+                    {
+                        skeleton.flipX = this.initialFlipX;
+                        skeleton.flipY = this.initialFlipY;
 
-				}
-			} else {
-				if (skeletonDataAsset != null)
-					Initialize(true);
-			}				
-		}
+                        skeleton.SetToSetupPose();
+                        if (!string.IsNullOrEmpty(startingAnimation))
+                            skeleton.PoseWithAnimation(startingAnimation, 0f, false);
+                    }
 
-		protected override void Reset () {
-			base.Reset();
-			if (material == null || material.shader != Shader.Find("Spine/SkeletonGraphic (Premultiply Alpha)"))
-				Debug.LogWarning("SkeletonGraphic works best with the SkeletonGraphic material.");			
-		}
-		#endif
-		#endregion
+                }
+            }
+            else
+            {
+                if (skeletonDataAsset != null)
+                    Initialize(true);
+            }
+        }
 
-		#region Runtime Instantiation
-		public static SkeletonGraphic NewSkeletonGraphicGameObject (SkeletonDataAsset skeletonDataAsset, Transform parent) {
-			SkeletonGraphic sg = SkeletonGraphic.AddSkeletonGraphicComponent(new GameObject("New Spine GameObject"), skeletonDataAsset);
-			if (parent != null) sg.transform.SetParent(parent, false);
-			return sg;
-		}
+        protected override void Reset()
+        {
+            base.Reset();
+            if (material == null || material.shader != Shader.Find("Spine/SkeletonGraphic (Premultiply Alpha)"))
+                Debug.LogWarning("SkeletonGraphic works best with the SkeletonGraphic material.");
+        }
+#endif
+        #endregion
 
-		public static SkeletonGraphic AddSkeletonGraphicComponent (GameObject gameObject, SkeletonDataAsset skeletonDataAsset) {
-			var c = gameObject.AddComponent<SkeletonGraphic>();
-			if (skeletonDataAsset != null) {
-				c.skeletonDataAsset = skeletonDataAsset;				
-				c.Initialize(false);
-			}
-			return c;
-		}
-		#endregion
+        #region Runtime Instantiation
+        public static SkeletonGraphic NewSkeletonGraphicGameObject(SkeletonDataAsset skeletonDataAsset, Transform parent)
+        {
+            SkeletonGraphic sg = SkeletonGraphic.AddSkeletonGraphicComponent(new GameObject("New Spine GameObject"), skeletonDataAsset);
+            if (parent != null) sg.transform.SetParent(parent, false);
+            return sg;
+        }
 
-		#region Internals
-		// This is used by the UI system to determine what to put in the MaterialPropertyBlock.
-		Texture overrideTexture;
-		public Texture OverrideTexture {
-			get { return overrideTexture; }
-			set {
-				overrideTexture = value;
-				canvasRenderer.SetTexture(this.mainTexture); // Refresh canvasRenderer's texture. Make sure it handles null.
-			}
-		}
-		public override Texture mainTexture {
-			get { 
-				// Fail loudly when incorrectly set up.
-				if (overrideTexture != null) return overrideTexture;
-				return skeletonDataAsset == null ? null : skeletonDataAsset.atlasAssets[0].materials[0].mainTexture;
-			}
-		}
+        public static SkeletonGraphic AddSkeletonGraphicComponent(GameObject gameObject, SkeletonDataAsset skeletonDataAsset)
+        {
+            var c = gameObject.AddComponent<SkeletonGraphic>();
+            if (skeletonDataAsset != null)
+            {
+                c.skeletonDataAsset = skeletonDataAsset;
+                c.Initialize(false);
+            }
+            return c;
+        }
+        #endregion
 
-		protected override void Awake () {
-			base.Awake ();
-			if (!this.IsValid) {
-				Initialize(false);
-				Rebuild(CanvasUpdate.PreRender);
-			}
-		}
+        #region Internals
+        // This is used by the UI system to determine what to put in the MaterialPropertyBlock.
+        Texture overrideTexture;
+        public Texture OverrideTexture
+        {
+            get { return overrideTexture; }
+            set
+            {
+                overrideTexture = value;
+                canvasRenderer.SetTexture(this.mainTexture); // Refresh canvasRenderer's texture. Make sure it handles null.
+            }
+        }
+        public override Texture mainTexture
+        {
+            get
+            {
+                // Fail loudly when incorrectly set up.
+                if (overrideTexture != null) return overrideTexture;
+                return skeletonDataAsset == null ? null : skeletonDataAsset.atlasAssets[0].materials[0].mainTexture;
+            }
+        }
 
-		public override void Rebuild (CanvasUpdate update) {
-			base.Rebuild(update);
-			if (canvasRenderer.cull) return;
-			if (update == CanvasUpdate.PreRender) UpdateMesh();
-		}
+        protected override void Awake()
+        {
+            base.Awake();
+            if (!this.IsValid)
+            {
+                Initialize(false);
+                Rebuild(CanvasUpdate.PreRender);
+            }
+        }
 
-		public virtual void Update () {
-			if (freeze) return;
-			Update(unscaledTime ? Time.unscaledDeltaTime : Time.deltaTime);
-		}
+        public override void Rebuild(CanvasUpdate update)
+        {
+            base.Rebuild(update);
+            if (canvasRenderer.cull) return;
+            if (update == CanvasUpdate.PreRender) UpdateMesh();
+        }
 
-		public virtual void Update (float deltaTime) {
-			if (!this.IsValid) return;
+        public virtual void Update()
+        {
+            if (freeze) return;
+            Update(unscaledTime ? Time.unscaledDeltaTime : Time.deltaTime);
+        }
 
-			deltaTime *= timeScale;
-			skeleton.Update(deltaTime);
-			state.Update(deltaTime);
-			state.Apply(skeleton);
+        public virtual void Update(float deltaTime)
+        {
+            if (!this.IsValid) return;
 
-			if (UpdateLocal != null) UpdateLocal(this);
+            deltaTime *= timeScale;
+            skeleton.Update(deltaTime);
+            state.Update(deltaTime);
+            state.Apply(skeleton);
 
-			skeleton.UpdateWorldTransform();
+            if (UpdateLocal != null) UpdateLocal(this);
 
-			if (UpdateWorld != null) { 
-				UpdateWorld(this);
-				skeleton.UpdateWorldTransform();
-			}
+            skeleton.UpdateWorldTransform();
 
-			if (UpdateComplete != null) UpdateComplete(this);
-		}
+            if (UpdateWorld != null)
+            {
+                UpdateWorld(this);
+                skeleton.UpdateWorldTransform();
+            }
 
-		public void LateUpdate () {
-			if (freeze) return;
-			//this.SetVerticesDirty(); // Which is better?
-			UpdateMesh();
-		}
-		#endregion
+            if (UpdateComplete != null) UpdateComplete(this);
+        }
 
-		#region API
-		protected Skeleton skeleton;
-		public Skeleton Skeleton { get { return skeleton; } internal set { skeleton = value; } }
-		public SkeletonData SkeletonData { get { return skeleton == null ? null : skeleton.data; } }
-		public bool IsValid { get { return skeleton != null; } }
+        public void LateUpdate()
+        {
+            if (freeze) return;
+            //this.SetVerticesDirty(); // Which is better?
+            UpdateMesh();
+        }
+        #endregion
 
-		protected Spine.AnimationState state;
-		public Spine.AnimationState AnimationState { get { return state; } }
+        #region API
+        protected Skeleton skeleton;
+        public Skeleton Skeleton { get { return skeleton; } internal set { skeleton = value; } }
+        public SkeletonData SkeletonData { get { return skeleton == null ? null : skeleton.data; } }
+        public bool IsValid { get { return skeleton != null; } }
 
-		[SerializeField] protected Spine.Unity.MeshGenerator meshGenerator = new MeshGenerator();
-		public Spine.Unity.MeshGenerator MeshGenerator { get { return this.meshGenerator; } }
-		DoubleBuffered<Spine.Unity.MeshRendererBuffers.SmartMesh> meshBuffers;
-		SkeletonRendererInstruction currentInstructions = new SkeletonRendererInstruction();
+        protected Spine.AnimationState state;
+        public Spine.AnimationState AnimationState { get { return state; } }
 
-		public Mesh GetLastMesh () {
-			return meshBuffers.GetCurrent().mesh;
-		}
+        [SerializeField] protected Spine.Unity.MeshGenerator meshGenerator = new MeshGenerator();
+        public Spine.Unity.MeshGenerator MeshGenerator { get { return this.meshGenerator; } }
+        DoubleBuffered<Spine.Unity.MeshRendererBuffers.SmartMesh> meshBuffers;
+        SkeletonRendererInstruction currentInstructions = new SkeletonRendererInstruction();
 
-		public event UpdateBonesDelegate UpdateLocal;
-		public event UpdateBonesDelegate UpdateWorld;
-		public event UpdateBonesDelegate UpdateComplete;
+        public Mesh GetLastMesh()
+        {
+            return meshBuffers.GetCurrent().mesh;
+        }
 
-		/// <summary> Occurs after the vertex data populated every frame, before the vertices are pushed into the mesh.</summary>
-		public event Spine.Unity.MeshGeneratorDelegate OnPostProcessVertices;
+        public event UpdateBonesDelegate UpdateLocal;
+        public event UpdateBonesDelegate UpdateWorld;
+        public event UpdateBonesDelegate UpdateComplete;
 
-		public void Clear () {
-			skeleton = null;
-			canvasRenderer.Clear();
-		}
+        /// <summary> Occurs after the vertex data populated every frame, before the vertices are pushed into the mesh.</summary>
+        public event Spine.Unity.MeshGeneratorDelegate OnPostProcessVertices;
 
-		public void Initialize (bool overwrite) {
-			if (this.IsValid && !overwrite) return;
+        public void Clear()
+        {
+            skeleton = null;
+            canvasRenderer.Clear();
+        }
 
-			// Make sure none of the stuff is null
-			if (this.skeletonDataAsset == null) return;
-			var skeletonData = this.skeletonDataAsset.GetSkeletonData(false);
-			if (skeletonData == null) return;
+        public void Initialize(bool overwrite)
+        {
+            if (this.IsValid && !overwrite) return;
 
-			if (skeletonDataAsset.atlasAssets.Length <= 0 || skeletonDataAsset.atlasAssets[0].materials.Length <= 0) return;
+            // Make sure none of the stuff is null
+            if (this.skeletonDataAsset == null) return;
+            var skeletonData = this.skeletonDataAsset.GetSkeletonData(false);
+            if (skeletonData == null) return;
 
-			this.state = new Spine.AnimationState(skeletonDataAsset.GetAnimationStateData());
-			if (state == null) {
-				Clear();
-				return;
-			}
+            if (skeletonDataAsset.atlasAssets.Length <= 0 || skeletonDataAsset.atlasAssets[0].materials.Length <= 0) return;
 
-			this.skeleton = new Skeleton(skeletonData) {
-				flipX = this.initialFlipX,
-				flipY = this.initialFlipY
-			};
+            this.state = new Spine.AnimationState(skeletonDataAsset.GetAnimationStateData());
+            if (state == null)
+            {
+                Clear();
+                return;
+            }
 
-			meshBuffers = new DoubleBuffered<MeshRendererBuffers.SmartMesh>();
-			canvasRenderer.SetTexture(this.mainTexture); // Needed for overwriting initializations.
+            this.skeleton = new Skeleton(skeletonData)
+            {
+                flipX = this.initialFlipX,
+                flipY = this.initialFlipY
+            };
 
-			// Set the initial Skin and Animation
-			if (!string.IsNullOrEmpty(initialSkinName))
-				skeleton.SetSkin(initialSkinName);
+            meshBuffers = new DoubleBuffered<MeshRendererBuffers.SmartMesh>();
+            canvasRenderer.SetTexture(this.mainTexture); // Needed for overwriting initializations.
 
-			#if UNITY_EDITOR
-			if (!string.IsNullOrEmpty(startingAnimation)) {
-				if (Application.isPlaying) {
-					state.SetAnimation(0, startingAnimation, startingLoop);
-				} else {
-					// Assume SkeletonAnimation is valid for skeletonData and skeleton. Checked above.
-					var animationObject = skeletonDataAsset.GetSkeletonData(false).FindAnimation(startingAnimation);
-					if (animationObject != null)
-						animationObject.PoseSkeleton(skeleton, 0);
-				}
-				Update(0);
-			}
-			#else
+            // Set the initial Skin and Animation
+            if (!string.IsNullOrEmpty(initialSkinName))
+                skeleton.SetSkin(initialSkinName);
+
+#if UNITY_EDITOR
+            if (!string.IsNullOrEmpty(startingAnimation))
+            {
+                if (Application.isPlaying)
+                {
+                    state.SetAnimation(0, startingAnimation, startingLoop);
+                }
+                else
+                {
+                    // Assume SkeletonAnimation is valid for skeletonData and skeleton. Checked above.
+                    var animationObject = skeletonDataAsset.GetSkeletonData(false).FindAnimation(startingAnimation);
+                    if (animationObject != null)
+                        animationObject.PoseSkeleton(skeleton, 0);
+                }
+                Update(0);
+            }
+#else
 			if (!string.IsNullOrEmpty(startingAnimation)) {
 				state.SetAnimation(0, startingAnimation, startingLoop);
 				Update(0);
 			}
-			#endif
-		}
+#endif
+        }
 
-		public void UpdateMesh () {
-			if (!this.IsValid) return;
+        public void UpdateMesh()
+        {
+            if (!this.IsValid) return;
 
-			skeleton.SetColor(this.color);
-			var smartMesh = meshBuffers.GetNext();
-			var currentInstructions = this.currentInstructions;
+            skeleton.SetColor(this.color);
+            var smartMesh = meshBuffers.GetNext();
+            var currentInstructions = this.currentInstructions;
 
-			MeshGenerator.GenerateSingleSubmeshInstruction(currentInstructions, skeleton, this.material);
-			bool updateTriangles = SkeletonRendererInstruction.GeometryNotEqual(currentInstructions, smartMesh.instructionUsed);
+            MeshGenerator.GenerateSingleSubmeshInstruction(currentInstructions, skeleton, this.material);
+            bool updateTriangles = SkeletonRendererInstruction.GeometryNotEqual(currentInstructions, smartMesh.instructionUsed);
 
-			meshGenerator.Begin();
-			if (currentInstructions.hasActiveClipping) {
-				meshGenerator.AddSubmesh(currentInstructions.submeshInstructions.Items[0], updateTriangles);
-			} else {
-				meshGenerator.BuildMeshWithArrays(currentInstructions, updateTriangles);
-			}
+            meshGenerator.Begin();
+            if (currentInstructions.hasActiveClipping)
+            {
+                meshGenerator.AddSubmesh(currentInstructions.submeshInstructions.Items[0], updateTriangles);
+            }
+            else
+            {
+                meshGenerator.BuildMeshWithArrays(currentInstructions, updateTriangles);
+            }
 
-			if (canvas != null) meshGenerator.ScaleVertexData(canvas.referencePixelsPerUnit);
-			if (OnPostProcessVertices != null) OnPostProcessVertices.Invoke(this.meshGenerator.Buffers);
+            if (canvas != null) meshGenerator.ScaleVertexData(canvas.referencePixelsPerUnit);
+            if (OnPostProcessVertices != null) OnPostProcessVertices.Invoke(this.meshGenerator.Buffers);
 
-			var mesh = smartMesh.mesh;
-			meshGenerator.FillVertexData(mesh);
-			if (updateTriangles) meshGenerator.FillTrianglesSingle(mesh);
-			meshGenerator.FillLateVertexData(mesh);
+            var mesh = smartMesh.mesh;
+            meshGenerator.FillVertexData(mesh);
+            if (updateTriangles) meshGenerator.FillTrianglesSingle(mesh);
+            meshGenerator.FillLateVertexData(mesh);
 
-			canvasRenderer.SetMesh(mesh);
-			smartMesh.instructionUsed.Set(currentInstructions);
+            canvasRenderer.SetMesh(mesh);
+            smartMesh.instructionUsed.Set(currentInstructions);
 
-			//this.UpdateMaterial(); // TODO: This allocates memory.
-		}
-		#endregion
-	}
+            //this.UpdateMaterial(); // TODO: This allocates memory.
+        }
+        #endregion
+    }
 }

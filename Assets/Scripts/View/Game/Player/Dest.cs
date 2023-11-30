@@ -5,7 +5,7 @@ public class Dest : MonoBehaviour
 {
     public Toggle toggle;
     // 被选中边框
-    public Image border;
+    public GameObject border;
 
     private Player player;
     public GameCore.Player model => player.model;
@@ -24,7 +24,7 @@ public class Dest : MonoBehaviour
     {
         if (GeneralInfo.Instance != null && GeneralInfo.Instance.gameObject.activeSelf && refresh) return;
 
-        border.gameObject.SetActive(value);
+        border.SetActive(value);
         if (value) GameCore.Timer.Instance.temp.dests.Add(model);
         else GameCore.Timer.Instance.temp.dests.Remove(model);
 

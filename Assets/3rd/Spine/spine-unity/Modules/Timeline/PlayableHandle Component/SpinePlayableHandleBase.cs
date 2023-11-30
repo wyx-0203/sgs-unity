@@ -34,31 +34,34 @@ using UnityEngine;
 
 //using UnityEngine.Playables;
 
-namespace Spine.Unity.Playables {
+namespace Spine.Unity.Playables
+{
 
-	public delegate void SpineEventDelegate (Spine.Event e);
+    public delegate void SpineEventDelegate(Spine.Event e);
 
-	/// <summary>Base class for Spine Playable Handle components, commonly for integrating with UnityEngine Timeline.</summary>
-	public abstract class SpinePlayableHandleBase : MonoBehaviour {
-		
-		/// <summary>Gets the SkeletonData of the targeted Spine component.</summary>
-		public abstract SkeletonData SkeletonData { get; }
+    /// <summary>Base class for Spine Playable Handle components, commonly for integrating with UnityEngine Timeline.</summary>
+    public abstract class SpinePlayableHandleBase : MonoBehaviour
+    {
 
-		public abstract Skeleton Skeleton { get; }
+        /// <summary>Gets the SkeletonData of the targeted Spine component.</summary>
+        public abstract SkeletonData SkeletonData { get; }
 
-		/// <summary>MixerBehaviour ProcessFrame method handler.</summary>
-		/// <returns>Returns true if a playable was applied previously</returns>
-		//public abstract void ProcessFrame (Playable playable, FrameData info, SpineAnimationMixerBehaviour mixer);
+        public abstract Skeleton Skeleton { get; }
 
-		/// <summary>Subscribe to this to handle user events played by the Unity playable</summary>
-		public event SpineEventDelegate AnimationEvents;
+        /// <summary>MixerBehaviour ProcessFrame method handler.</summary>
+        /// <returns>Returns true if a playable was applied previously</returns>
+        //public abstract void ProcessFrame (Playable playable, FrameData info, SpineAnimationMixerBehaviour mixer);
 
-		public virtual void HandleEvents (ExposedList<Event> eventBuffer) {
-			if (eventBuffer == null || AnimationEvents == null) return;
-			for (int i = 0, n = eventBuffer.Count; i < n; i++)
-				AnimationEvents.Invoke(eventBuffer.Items[i]);
-		}
+        /// <summary>Subscribe to this to handle user events played by the Unity playable</summary>
+        public event SpineEventDelegate AnimationEvents;
 
-	}
+        public virtual void HandleEvents(ExposedList<Event> eventBuffer)
+        {
+            if (eventBuffer == null || AnimationEvents == null) return;
+            for (int i = 0, n = eventBuffer.Count; i < n; i++)
+                AnimationEvents.Invoke(eventBuffer.Items[i]);
+        }
+
+    }
 }
 

@@ -33,52 +33,61 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-namespace Spine.Unity.Editor {
-	public static class Menus {
-		[MenuItem("Assets/Create/Spine/Atlas Asset")]
-		static public void CreateAtlas () {
-			CreateAsset<AtlasAsset>("New Atlas");
-		}
+namespace Spine.Unity.Editor
+{
+    public static class Menus
+    {
+        [MenuItem("Assets/Create/Spine/Atlas Asset")]
+        static public void CreateAtlas()
+        {
+            CreateAsset<AtlasAsset>("New Atlas");
+        }
 
-		[MenuItem("Assets/Create/Spine/SkeletonData Asset")]
-		static public void CreateSkeletonData () {
-			CreateAsset<SkeletonDataAsset>("New SkeletonData");
-		}
+        [MenuItem("Assets/Create/Spine/SkeletonData Asset")]
+        static public void CreateSkeletonData()
+        {
+            CreateAsset<SkeletonDataAsset>("New SkeletonData");
+        }
 
-		static void CreateAsset<T> (String name) where T : ScriptableObject {
-			var dir = "Assets/";
-			var selected = Selection.activeObject;
-			if (selected != null) {
-				var assetDir = AssetDatabase.GetAssetPath(selected.GetInstanceID());
-				if (assetDir.Length > 0 && Directory.Exists(assetDir))
-					dir = assetDir + "/";
-			}
-			ScriptableObject asset = ScriptableObject.CreateInstance<T>();
-			AssetDatabase.CreateAsset(asset, dir + name + ".asset");
-			AssetDatabase.SaveAssets();
-			EditorUtility.FocusProjectWindow();
-			Selection.activeObject = asset;
-		}
+        static void CreateAsset<T>(String name) where T : ScriptableObject
+        {
+            var dir = "Assets/";
+            var selected = Selection.activeObject;
+            if (selected != null)
+            {
+                var assetDir = AssetDatabase.GetAssetPath(selected.GetInstanceID());
+                if (assetDir.Length > 0 && Directory.Exists(assetDir))
+                    dir = assetDir + "/";
+            }
+            ScriptableObject asset = ScriptableObject.CreateInstance<T>();
+            AssetDatabase.CreateAsset(asset, dir + name + ".asset");
+            AssetDatabase.SaveAssets();
+            EditorUtility.FocusProjectWindow();
+            Selection.activeObject = asset;
+        }
 
-		[MenuItem("GameObject/Spine/SkeletonRenderer", false, 10)]
-		static public void CreateSkeletonRendererGameObject () {
-			CreateSpineGameObject<SkeletonRenderer>("New SkeletonRenderer");
-		}
+        [MenuItem("GameObject/Spine/SkeletonRenderer", false, 10)]
+        static public void CreateSkeletonRendererGameObject()
+        {
+            CreateSpineGameObject<SkeletonRenderer>("New SkeletonRenderer");
+        }
 
-		[MenuItem("GameObject/Spine/SkeletonAnimation", false, 10)]
-		static public void CreateSkeletonAnimationGameObject () {
-			CreateSpineGameObject<SkeletonAnimation>("New SkeletonAnimation");
-		}
+        [MenuItem("GameObject/Spine/SkeletonAnimation", false, 10)]
+        static public void CreateSkeletonAnimationGameObject()
+        {
+            CreateSpineGameObject<SkeletonAnimation>("New SkeletonAnimation");
+        }
 
-		static void CreateSpineGameObject<T> (string name) where T : MonoBehaviour {
-			var parentGameObject = Selection.activeObject as GameObject;
-			var parentTransform = parentGameObject == null ? null : parentGameObject.transform;
+        static void CreateSpineGameObject<T>(string name) where T : MonoBehaviour
+        {
+            var parentGameObject = Selection.activeObject as GameObject;
+            var parentTransform = parentGameObject == null ? null : parentGameObject.transform;
 
-			var gameObject = new GameObject(name, typeof(T));
-			gameObject.transform.SetParent(parentTransform, false);
-			EditorUtility.FocusProjectWindow();
-			Selection.activeObject = gameObject;
-			EditorGUIUtility.PingObject(Selection.activeObject);
-		}
-	}
+            var gameObject = new GameObject(name, typeof(T));
+            gameObject.transform.SetParent(parentTransform, false);
+            EditorUtility.FocusProjectWindow();
+            Selection.activeObject = gameObject;
+            EditorGUIUtility.PingObject(Selection.activeObject);
+        }
+    }
 }

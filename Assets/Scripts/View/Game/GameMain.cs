@@ -19,19 +19,18 @@ public class GameMain : SingletonMono<GameMain>
     public Transform _selfs;
     public Transform _enemys;
 
-    protected override void Awake()
-    {
-        base.Awake();
-#if UNITY_EDITOR
-        ABManager.Instance.LoadGameScene().Wait();
-
-#elif UNITY_ANDROID
-        Application.targetFrameRate = 60;
-#endif
-    }
+    // protected override void Awake()
+    // {
+    //     base.Awake();
+    // }
 
     private async void Start()
     {
+#if UNITY_EDITOR
+        await ABManager.Instance.LoadGameScene();
+#elif UNITY_ANDROID
+        Application.targetFrameRate = 60;
+#endif
 
         SetBorder();
         bgIndex = Random.Range(0, bgUrl.Count);

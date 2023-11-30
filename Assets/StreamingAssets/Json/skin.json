@@ -2,27 +2,6 @@
     "list": [
         {
             "general_id": 1,
-            "id": 100101,
-            "name": "经典形象",
-            "dynamic": false,
-            "voice": [
-                {
-                    "name": "仁德",
-                    "url": [
-                        "1-spell/spell31_1.mp3",
-                        "1-spell/spell31_2.mp3"
-                    ]
-                },
-                {
-                    "name": "阵亡",
-                    "url": [
-                        "dead/charDead_1.mp3"
-                    ]
-                }
-            ]
-        },
-        {
-            "general_id": 1,
             "id": 106001,
             "name": "界限突破",
             "dynamic": false,
@@ -38,6 +17,27 @@
                     "name": "阵亡",
                     "url": [
                         "dead/charDead_299.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 1,
+            "id": 100101,
+            "name": "经典形象",
+            "dynamic": false,
+            "voice": [
+                {
+                    "name": "仁德",
+                    "url": [
+                        "1-spell/spell31_1.mp3",
+                        "1-spell/spell31_2.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "dead/charDead_1.mp3"
                     ]
                 }
             ]
@@ -107,34 +107,6 @@
         },
         {
             "general_id": 2,
-            "id": 100201,
-            "name": "经典形象",
-            "dynamic": false,
-            "voice": [
-                {
-                    "name": "武圣",
-                    "url": [
-                        "1-spell/spell33_1.mp3",
-                        "1-spell/spell33_2.mp3"
-                    ]
-                },
-                {
-                    "name": "义绝",
-                    "url": [
-                        "1-spell/spell701_1.mp3",
-                        "1-spell/spell701_2.mp3"
-                    ]
-                },
-                {
-                    "name": "阵亡",
-                    "url": [
-                        "dead/charDead_2.mp3"
-                    ]
-                }
-            ]
-        },
-        {
-            "general_id": 2,
             "id": 106101,
             "name": "界限突破",
             "dynamic": false,
@@ -157,6 +129,34 @@
                     "name": "阵亡",
                     "url": [
                         "guanyu06/GuanYu_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 2,
+            "id": 100201,
+            "name": "经典形象",
+            "dynamic": false,
+            "voice": [
+                {
+                    "name": "武圣",
+                    "url": [
+                        "1-spell/spell33_1.mp3",
+                        "1-spell/spell33_2.mp3"
+                    ]
+                },
+                {
+                    "name": "义绝",
+                    "url": [
+                        "1-spell/spell701_1.mp3",
+                        "1-spell/spell701_2.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "dead/charDead_2.mp3"
                     ]
                 }
             ]
@@ -303,27 +303,6 @@
         },
         {
             "general_id": 8,
-            "id": 100801,
-            "name": "经典形象",
-            "dynamic": false,
-            "voice": [
-                {
-                    "name": "制衡",
-                    "url": [
-                        "1-spell/spell53_1.mp3",
-                        "1-spell/spell53_2.mp3"
-                    ]
-                },
-                {
-                    "name": "阵亡",
-                    "url": [
-                        "dead/charDead_8.mp3"
-                    ]
-                }
-            ]
-        },
-        {
-            "general_id": 8,
             "id": 106701,
             "name": "界限突破",
             "dynamic": false,
@@ -339,6 +318,27 @@
                     "name": "阵亡",
                     "url": [
                         "sunquan01/SunQuan_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 8,
+            "id": 100801,
+            "name": "经典形象",
+            "dynamic": false,
+            "voice": [
+                {
+                    "name": "制衡",
+                    "url": [
+                        "1-spell/spell53_1.mp3",
+                        "1-spell/spell53_2.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "dead/charDead_8.mp3"
                     ]
                 }
             ]
@@ -408,8 +408,8 @@
         },
         {
             "general_id": 11,
-            "id": 101101,
-            "name": "经典形象",
+            "id": 107001,
+            "name": "界限突破",
             "dynamic": false,
             "voice": [
                 {
@@ -436,8 +436,8 @@
         },
         {
             "general_id": 11,
-            "id": 107001,
-            "name": "界限突破",
+            "id": 101101,
+            "name": "经典形象",
             "dynamic": false,
             "voice": [
                 {
@@ -576,27 +576,6 @@
         },
         {
             "general_id": 16,
-            "id": 101601,
-            "name": "经典形象",
-            "dynamic": false,
-            "voice": [
-                {
-                    "name": "奸雄",
-                    "url": [
-                        "1-spell/spell42_1.mp3",
-                        "1-spell/spell42_2.mp3"
-                    ]
-                },
-                {
-                    "name": "阵亡",
-                    "url": [
-                        "dead/charDead_15.mp3"
-                    ]
-                }
-            ]
-        },
-        {
-            "general_id": 16,
             "id": 107501,
             "name": "界限突破",
             "dynamic": false,
@@ -612,6 +591,27 @@
                     "name": "阵亡",
                     "url": [
                         "caocaopo03/CaoCao_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 16,
+            "id": 101601,
+            "name": "经典形象",
+            "dynamic": false,
+            "voice": [
+                {
+                    "name": "奸雄",
+                    "url": [
+                        "1-spell/spell42_1.mp3",
+                        "1-spell/spell42_2.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "dead/charDead_15.mp3"
                     ]
                 }
             ]
@@ -702,34 +702,6 @@
         },
         {
             "general_id": 18,
-            "id": 101801,
-            "name": "经典形象",
-            "dynamic": false,
-            "voice": [
-                {
-                    "name": "刚烈",
-                    "url": [
-                        "xiahoudun05/XiaHouDun_GangLie_01.mp3",
-                        "xiahoudun05/XiaHouDun_GangLie_02.mp3"
-                    ]
-                },
-                {
-                    "name": "清俭",
-                    "url": [
-                        "xiahoudun05/XiaHouDun_QingJian_01.mp3",
-                        "xiahoudun05/XiaHouDun_QingJian_02.mp3"
-                    ]
-                },
-                {
-                    "name": "阵亡",
-                    "url": [
-                        "xiahoudun05/XiaHouDun_Dead.mp3"
-                    ]
-                }
-            ]
-        },
-        {
-            "general_id": 18,
             "id": 107701,
             "name": "界限突破",
             "dynamic": false,
@@ -752,6 +724,34 @@
                     "name": "阵亡",
                     "url": [
                         "xiahoudun04/XiaHouDun_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 18,
+            "id": 101801,
+            "name": "经典形象",
+            "dynamic": false,
+            "voice": [
+                {
+                    "name": "刚烈",
+                    "url": [
+                        "xiahoudun05/XiaHouDun_GangLie_01.mp3",
+                        "xiahoudun05/XiaHouDun_GangLie_02.mp3"
+                    ]
+                },
+                {
+                    "name": "清俭",
+                    "url": [
+                        "xiahoudun05/XiaHouDun_QingJian_01.mp3",
+                        "xiahoudun05/XiaHouDun_QingJian_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "xiahoudun05/XiaHouDun_Dead.mp3"
                     ]
                 }
             ]
@@ -842,27 +842,6 @@
         },
         {
             "general_id": 19,
-            "id": 101901,
-            "name": "经典形象",
-            "dynamic": false,
-            "voice": [
-                {
-                    "name": "突袭",
-                    "url": [
-                        "1-spell/spell44_1.mp3",
-                        "1-spell/spell44_2.mp3"
-                    ]
-                },
-                {
-                    "name": "阵亡",
-                    "url": [
-                        "dead/charDead_18.mp3"
-                    ]
-                }
-            ]
-        },
-        {
-            "general_id": 19,
             "id": 107801,
             "name": "界限突破",
             "dynamic": false,
@@ -878,6 +857,27 @@
                     "name": "阵亡",
                     "url": [
                         "zhangliaopo04/ZhangLiaoPo_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 19,
+            "id": 101901,
+            "name": "经典形象",
+            "dynamic": false,
+            "voice": [
+                {
+                    "name": "突袭",
+                    "url": [
+                        "1-spell/spell44_1.mp3",
+                        "1-spell/spell44_2.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "dead/charDead_18.mp3"
                     ]
                 }
             ]
@@ -962,6 +962,46 @@
                     "name": "阵亡",
                     "url": [
                         "zhangliaopo02/ZhangLiaoPo_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 24,
+            "id": 108301,
+            "name": "界限突破",
+            "dynamic": false,
+            "voice": [
+                {
+                    "name": "技能1",
+                    "url": []
+                },
+                {
+                    "name": "技能2",
+                    "url": []
+                },
+                {
+                    "name": "阵亡",
+                    "url": []
+                },
+                {
+                    "name": "无双",
+                    "url": [
+                        "lvbupo06/LvBuPo_WuShuang_01.mp3",
+                        "lvbupo06/LvBuPo_WuShuang_02.mp3"
+                    ]
+                },
+                {
+                    "name": "利驭",
+                    "url": [
+                        "lvbupo06/LvBuPo_LiYu_01.mp3",
+                        "lvbupo06/LvBuPo_LiYu_02.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "lvbupo06/LvBuPo_Dead.mp3"
                     ]
                 }
             ]
@@ -1080,34 +1120,6 @@
         },
         {
             "general_id": 25,
-            "id": 102501,
-            "name": "经典形象",
-            "dynamic": false,
-            "voice": [
-                {
-                    "name": "离间",
-                    "url": [
-                        "1-spell/spell68_1.mp3",
-                        "1-spell/spell68_2.mp3"
-                    ]
-                },
-                {
-                    "name": "闭月",
-                    "url": [
-                        "1-spell/spell67_1.mp3",
-                        "1-spell/spell67_2.mp3"
-                    ]
-                },
-                {
-                    "name": "阵亡",
-                    "url": [
-                        "dead/charDead_24.mp3"
-                    ]
-                }
-            ]
-        },
-        {
-            "general_id": 25,
             "id": 108401,
             "name": "界限突破",
             "dynamic": false,
@@ -1130,6 +1142,34 @@
                     "name": "阵亡",
                     "url": [
                         "diaochan04/DiaoChan_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 25,
+            "id": 102501,
+            "name": "经典形象",
+            "dynamic": false,
+            "voice": [
+                {
+                    "name": "离间",
+                    "url": [
+                        "1-spell/spell68_1.mp3",
+                        "1-spell/spell68_2.mp3"
+                    ]
+                },
+                {
+                    "name": "闭月",
+                    "url": [
+                        "1-spell/spell67_1.mp3",
+                        "1-spell/spell67_2.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "dead/charDead_24.mp3"
                     ]
                 }
             ]
@@ -1354,6 +1394,34 @@
                     "name": "阵亡",
                     "url": [
                         "huangzhong05/HuangZhong_Dead.mp3"
+                    ]
+                }
+            ]
+        },
+        {
+            "general_id": 36,
+            "id": 51500,
+            "name": "界限突破",
+            "dynamic": false,
+            "voice": [
+                {
+                    "name": "驱虎",
+                    "url": [
+                        "515jiexunyu/1skill1_1.mp3",
+                        "515jiexunyu/1skill1_2.mp3"
+                    ]
+                },
+                {
+                    "name": "节命",
+                    "url": [
+                        "515jiexunyu/1skill2_1.mp3",
+                        "515jiexunyu/1skill2_2.mp3"
+                    ]
+                },
+                {
+                    "name": "阵亡",
+                    "url": [
+                        "515jiexunyu/1dead01.mp3"
                     ]
                 }
             ]

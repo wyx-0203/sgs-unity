@@ -28,8 +28,10 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *****************************************************************************/
 
-namespace Spine {
-	public enum BlendMode {
-		Normal, Additive, Multiply, Screen
-	}
+namespace Spine
+{
+    public enum BlendMode
+    {
+        Normal, Additive, Multiply, Screen
+    }
 }

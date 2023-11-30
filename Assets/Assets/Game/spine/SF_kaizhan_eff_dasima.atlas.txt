@@ -1,0 +1,314 @@
+
+SF_kaizhan_eff_dasima.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+SF_animation_daojuhuode_lizi_001
+  rotate: false
+  xy: 2041, 1206
+  size: 5, 78
+  orig: 46, 92
+  offset: 21, 7
+  index: -1
+dajiangjun/tx_lizia_00000
+  rotate: false
+  xy: 601, 801
+  size: 272, 711
+  orig: 334, 753
+  offset: 23, 16
+  index: -1
+dajiangjun/tx_lizia_00004
+  rotate: false
+  xy: 308, 804
+  size: 291, 708
+  orig: 334, 753
+  offset: 12, 17
+  index: -1
+dajiangjun/tx_lizia_00008
+  rotate: false
+  xy: 306, 96
+  size: 293, 706
+  orig: 334, 753
+  offset: 15, 16
+  index: -1
+dajiangjun/tx_lizia_00012
+  rotate: false
+  xy: 2, 804
+  size: 304, 708
+  orig: 334, 753
+  offset: 10, 13
+  index: -1
+dajiangjun/tx_lizia_00016
+  rotate: false
+  xy: 2, 93
+  size: 302, 709
+  orig: 334, 753
+  offset: 10, 12
+  index: -1
+dasima/hit/00000
+  rotate: false
+  xy: 1405, 914
+  size: 507, 405
+  orig: 552, 418
+  offset: 20, 4
+  index: -1
+dasima/hit/00001
+  rotate: false
+  xy: 875, 914
+  size: 528, 405
+  orig: 552, 418
+  offset: 12, 4
+  index: -1
+dasima/hit/00002
+  rotate: false
+  xy: 601, 387
+  size: 537, 412
+  orig: 552, 418
+  offset: 10, 0
+  index: -1
+dasima/hit/00003
+  rotate: false
+  xy: 1156, 1321
+  size: 545, 405
+  orig: 552, 418
+  offset: 4, 3
+  index: -1
+dasima/kaizhan/kaizhan_sg2
+  rotate: false
+  xy: 1703, 1482
+  size: 249, 244
+  orig: 331, 330
+  offset: 41, 50
+  index: -1
+dasima/kaizhan/kaizhan_sg_00
+  rotate: false
+  xy: 1797, 174
+  size: 94, 140
+  orig: 331, 330
+  offset: 41, 154
+  index: -1
+dasima/kaizhan/kaizhan_sg_01
+  rotate: false
+  xy: 1754, 21
+  size: 108, 144
+  orig: 331, 330
+  offset: 41, 150
+  index: -1
+dasima/kaizhan/kaizhan_sg_02
+  rotate: false
+  xy: 1893, 150
+  size: 115, 144
+  orig: 331, 330
+  offset: 41, 150
+  index: -1
+dasima/kaizhan/kaizhan_sg_03
+  rotate: false
+  xy: 1541, 314
+  size: 125, 147
+  orig: 331, 330
+  offset: 41, 147
+  index: -1
+dasima/kaizhan/kaizhan_sg_04
+  rotate: false
+  xy: 1015, 1347
+  size: 139, 165
+  orig: 331, 330
+  offset: 44, 129
+  index: -1
+dasima/kaizhan/kaizhan_sg_05
+  rotate: false
+  xy: 1414, 103
+  size: 137, 172
+  orig: 331, 330
+  offset: 56, 122
+  index: -1
+dasima/kaizhan/kaizhan_sg_06
+  rotate: false
+  xy: 1914, 1286
+  size: 132, 194
+  orig: 331, 330
+  offset: 71, 100
+  index: -1
+dasima/kaizhan/kaizhan_sg_07
+  rotate: false
+  xy: 1262, 238
+  size: 141, 215
+  orig: 331, 330
+  offset: 77, 78
+  index: -1
+dasima/kaizhan/kaizhan_sg_08
+  rotate: false
+  xy: 1902, 296
+  size: 135, 219
+  orig: 331, 330
+  offset: 96, 68
+  index: -1
+dasima/kaizhan/kaizhan_sg_09
+  rotate: false
+  xy: 1914, 1098
+  size: 125, 186
+  orig: 331, 330
+  offset: 123, 67
+  index: -1
+dasima/kaizhan/kaizhan_sg_10
+  rotate: false
+  xy: 875, 1334
+  size: 138, 178
+  orig: 331, 330
+  offset: 125, 67
+  index: -1
+dasima/kaizhan/kaizhan_sg_11
+  rotate: false
+  xy: 1405, 277
+  size: 134, 176
+  orig: 331, 330
+  offset: 135, 67
+  index: -1
+dasima/kaizhan/kaizhan_sg_12
+  rotate: false
+  xy: 1914, 933
+  size: 121, 163
+  orig: 331, 330
+  offset: 148, 67
+  index: -1
+dasima/kaizhan/kaizhan_sg_13
+  rotate: false
+  xy: 1676, 167
+  size: 119, 147
+  orig: 331, 330
+  offset: 158, 64
+  index: -1
+dasima/kaizhan/kaizhan_sg_14
+  rotate: false
+  xy: 1553, 161
+  size: 121, 151
+  orig: 331, 330
+  offset: 166, 54
+  index: -1
+dasima/kaizhan/kaizhan_sg_15
+  rotate: false
+  xy: 1553, 13
+  size: 110, 146
+  orig: 331, 330
+  offset: 180, 50
+  index: -1
+dasima/kaizhan/kaizhan_sg_16
+  rotate: false
+  xy: 1665, 2
+  size: 87, 146
+  orig: 331, 330
+  offset: 203, 50
+  index: -1
+dasima/kaizhan/kaizhan_sg_17
+  rotate: false
+  xy: 1864, 9
+  size: 67, 139
+  orig: 331, 330
+  offset: 223, 50
+  index: -1
+dasima/kaizhan/kaizhan_sg_18
+  rotate: false
+  xy: 2, 5
+  size: 49, 86
+  orig: 331, 330
+  offset: 241, 50
+  index: -1
+dasima/kaizhan/kaizhan_sg_19
+  rotate: false
+  xy: 875, 859
+  size: 38, 53
+  orig: 331, 330
+  offset: 252, 50
+  index: -1
+dasima/kaizhan_1
+  rotate: false
+  xy: 1001, 127
+  size: 259, 258
+  orig: 259, 258
+  offset: 0, 0
+  index: -1
+dasima/kaizhan_10
+  rotate: false
+  xy: 1668, 517
+  size: 258, 268
+  orig: 258, 268
+  offset: 0, 0
+  index: -1
+dasima/kaizhan_11
+  rotate: false
+  xy: 2, 1514
+  size: 1152, 532
+  orig: 1152, 532
+  offset: 0, 0
+  index: -1
+dasima/kaizhan_13
+  rotate: false
+  xy: 1836, 1845
+  size: 200, 201
+  orig: 200, 201
+  offset: 0, 0
+  index: -1
+dasima/kaizhan_5
+  rotate: false
+  xy: 601, 79
+  size: 398, 306
+  orig: 398, 306
+  offset: 0, 0
+  index: -1
+dasima/kaizhan_7
+  rotate: false
+  xy: 1568, 787
+  size: 338, 125
+  orig: 338, 125
+  offset: 0, 0
+  index: -1
+dasima/kaizhan_8
+  rotate: false
+  xy: 1140, 733
+  size: 426, 179
+  orig: 426, 179
+  offset: 0, 0
+  index: -1
+dasima/kaizhan_9
+  rotate: false
+  xy: 1408, 463
+  size: 258, 268
+  orig: 258, 268
+  offset: 0, 0
+  index: -1
+fanzei/fanzei_2
+  rotate: false
+  xy: 1668, 316
+  size: 232, 199
+  orig: 232, 199
+  offset: 0, 0
+  index: -1
+fanzei/fanzei_3
+  rotate: false
+  xy: 1703, 1368
+  size: 198, 112
+  orig: 198, 112
+  offset: 0, 0
+  index: -1
+glow_tx1
+  rotate: false
+  xy: 1140, 455
+  size: 266, 276
+  orig: 266, 276
+  offset: 0, 0
+  index: -1
+glow_tx5
+  rotate: false
+  xy: 1262, 92
+  size: 150, 144
+  orig: 173, 157
+  offset: 16, 9
+  index: -1
+shengli/shengli_12
+  rotate: false
+  xy: 1156, 1728
+  size: 678, 318
+  orig: 678, 318
+  offset: 0, 0
+  index: -1

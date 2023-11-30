@@ -36,8 +36,8 @@ namespace Editor
             dynamic = root.Q<Toggle>("dynamic");
             voiceParent = root.Q<VisualElement>("voices").Q<VisualElement>("unity-content");
             save = root.Q<Button>("save");
-            // save.clicked += Save;
-            save.clicked += Save1;
+            save.clicked += Save;
+            // save.clicked += Save1;
 
             // 绑定数据
             var skin = ScriptableObject.CreateInstance<Skin>();
@@ -85,7 +85,7 @@ namespace Editor
 
 
         // 下载图片
-        private async void DownloadImage(int skin_id)
+        private async Task DownloadImage(int skin_id)
         {
             using (WebClient client = new WebClient())
             {
@@ -159,23 +159,28 @@ namespace Editor
 
         private void Save1()
         {
-            foreach (var i in Directory.GetDirectories("Assets/Assets/dynamic"))
+            // foreach (var i in Directory.GetDirectories("Assets/Assets/dynamic"))
+            // {
+            //     var s = i.Split('/');
+            //     Debug.Log(s[s.Length - 1]);
+            //     //    await DownloadDynamic(System.Int32.Parse(s[s.Length - 1]));
+            //     foreach (var j in Directory.GetFiles(i).Where(x => x.EndsWith("SkeletonData.asset")))
+            //     {
+            //         AssetImporter.GetAtPath(j).assetBundleName = "dynamic/" + s[s.Length - 1];
+            //     }
+            // }
+            // AssetDatabase.Refresh();
+
+            foreach (var j in Directory.GetFiles("Assets/Assets/Game/spine/cards").Where(x => x.EndsWith("SkeletonData.asset")))
             {
-                var s = i.Split('/');
-                Debug.Log(s[s.Length - 1]);
-                //    await DownloadDynamic(System.Int32.Parse(s[s.Length - 1]));
-                foreach (var j in Directory.GetFiles(i).Where(x => x.EndsWith("SkeletonData.asset")))
-                {
-                    AssetImporter.GetAtPath(j).assetBundleName = "dynamic/" + s[s.Length - 1];
-                }
+                AssetImporter.GetAtPath(j).assetBundleName = "effect";
             }
-            AssetDatabase.Refresh();
         }
 
         private async void Save()
         {
             // 下载皮肤图片
-            DownloadImage(id.value);
+            // await DownloadImage(id.value);
 
             // 下载语音
             Dictionary<Voice, List<string>> dict = new();
@@ -208,7 +213,7 @@ namespace Editor
             skins.Add(skin);
             var list = new JsonList<GameCore.Skin>
             {
-                list = skins.OrderBy(x => x.general_id).ThenBy(x => x.id).ToList()
+                list = skins.OrderBy(x => x.general_id).ThenBy(x => x.name == "界限突破" ? 0 : x.id).ToList()
             };
             string json = JsonUtility.ToJson(list);
 

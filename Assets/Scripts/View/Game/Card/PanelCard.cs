@@ -16,6 +16,6 @@ public class PanelCard : MonoBehaviour
     private void OnValueChanged(bool value)
     {
         CardPanel.Instance.selectCard = this;
-        CardPanel.Instance.UpdatePanel();
+        CardPanel.Instance.OnClickCard();
     }
 }

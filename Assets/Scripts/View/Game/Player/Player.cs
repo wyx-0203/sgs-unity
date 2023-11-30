@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
     public Sprite[] teamSprites;
 
     // 濒死状态
-    public Image nearDeath;
+    public GameObject nearDeath;
     // 阵亡
     public Image death;
     public Sprite selfDead;
@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
     public GameObject TurnOver;
 
     // 回合内边框
-    public Image turnBorder;
+    public GameObject turnBorder;
 
     // 判定区
     public Transform judgeArea;
@@ -122,7 +122,7 @@ public class Player : MonoBehaviour
             else team.sprite = model.team == GameCore.Team.BLUE ? teamSprites[4] : teamSprites[5];
         }
 
-        nearDeath.gameObject.SetActive(model.hp < 1 && model.hpLimit > 0);
+        nearDeath.SetActive(model.hp < 1 && model.hpLimit > 0);
         death.gameObject.SetActive(false);
         TurnOver.SetActive(player.isTurnOver);
         // general.skin.material = null;
@@ -144,13 +144,13 @@ public class Player : MonoBehaviour
     private void NearDeath(GameCore.UpdateHp operation)
     {
         if (operation.player != model) return;
-        nearDeath.gameObject.SetActive(model.hp < 1);
+        nearDeath.SetActive(model.hp < 1);
     }
 
     private void OnDead(GameCore.Die operation)
     {
         if (operation.player != model) return;
-        nearDeath.gameObject.SetActive(false);
+        nearDeath.SetActive(false);
         general.skin.OnDead();
         death.gameObject.SetActive(true);
         death.sprite = model.isSelf ? selfDead : oppoDead;
@@ -159,13 +159,13 @@ public class Player : MonoBehaviour
     private void StartTurn()
     {
         if (GameCore.TurnSystem.Instance.CurrentPlayer != model) return;
-        turnBorder.gameObject.SetActive(true);
+        turnBorder.SetActive(true);
     }
 
     private void FinishTurn()
     {
         if (GameCore.TurnSystem.Instance.CurrentPlayer != model) return;
-        turnBorder.gameObject.SetActive(false);
+        turnBorder.SetActive(false);
     }
 
     private void AddJudgeCard(GameCore.DelayScheme card)

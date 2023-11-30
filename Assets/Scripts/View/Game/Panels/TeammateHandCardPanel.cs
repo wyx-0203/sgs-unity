@@ -5,6 +5,10 @@ using UnityEngine.UI;
 
 public class TeammateHandCardPanel : SingletonMono<TeammateHandCardPanel>
 {
+    public static new TeammateHandCardPanel Instance => SingletonMono<TeammateHandCardPanel>.Instance != null
+        ? SingletonMono<TeammateHandCardPanel>.Instance
+        : GameMain.Instance.transform.Find("队友手牌Panel").GetComponent<TeammateHandCardPanel>();
+
     public GameObject handCardArea;
     public Image image;
     private List<Card> handcards = new();

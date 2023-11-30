@@ -65,7 +65,7 @@ public class GeneralBP : MonoBehaviour
 
     public void SetBpResult()
     {
-        if (GeneralInfo.Instance != null && GeneralInfo.Instance.gameObject.activeSelf) return;
+        if (GeneralInfo.Instance.gameObject.activeSelf) return;
 
         button.interactable = false;
         GameCore.BanPick.Instance.SendBpResult(model.id);
@@ -91,7 +91,7 @@ public class GeneralBP : MonoBehaviour
 
     public void OnClick()
     {
-        if (GeneralInfo.Instance != null && GeneralInfo.Instance.gameObject.activeSelf) return;
+        if (GeneralInfo.Instance.gameObject.activeSelf) return;
 
         if (!isSelect)
         {

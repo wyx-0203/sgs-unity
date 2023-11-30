@@ -1,0 +1,41 @@
+
+SF_paiju_eff_jiuwo.png
+size: 74,74
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+dian1
+  rotate: false
+  xy: 39, 20
+  size: 11, 16
+  orig: 86, 35
+  offset: 60, 2
+  index: -1
+dian2
+  rotate: false
+  xy: 40, 56
+  size: 12, 16
+  orig: 86, 35
+  offset: 66, 2
+  index: -1
+dian3
+  rotate: false
+  xy: 40, 38
+  size: 12, 16
+  orig: 86, 35
+  offset: 73, 2
+  index: -1
+jiu
+  rotate: false
+  xy: 2, 38
+  size: 36, 34
+  orig: 86, 35
+  offset: 0, 1
+  index: -1
+wo
+  rotate: false
+  xy: 2, 2
+  size: 35, 34
+  orig: 86, 35
+  offset: 30, 1
+  index: -1

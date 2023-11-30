@@ -40,7 +40,7 @@ public class 伏枥 : Triggered, Ultimate
     {
         IsDone = true;
         // 势力数
-        int count = Main.Instance.AlivePlayers.Select(x => x.general.nation).Count();
+        int count = Main.Instance.AlivePlayers.Select(x => x.general.nation).Distinct().Count();
         // 回复体力
         await new Recover(src, count - src.hp).Execute();
         // 摸牌

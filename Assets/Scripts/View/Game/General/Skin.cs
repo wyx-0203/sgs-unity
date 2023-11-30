@@ -68,4 +68,9 @@ public class Skin : MonoBehaviour
         if (static_.gameObject.activeSelf) static_.color = color;
         else skeletonGraphic.color = color;
     }
+
+    // private void Update()
+    // {
+    //     if (skeletonGraphic != null) Debug.Log(skeletonGraphic.AnimationState);
+    // }
 }

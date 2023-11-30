@@ -62,7 +62,7 @@ public class CardPanel : SingletonMono<CardPanel>
         instance.transform.SetParent(parent.transform, false);
     }
 
-    public void UpdatePanel()
+    public void OnClickCard()
     {
         if (selectCard != null)
         {

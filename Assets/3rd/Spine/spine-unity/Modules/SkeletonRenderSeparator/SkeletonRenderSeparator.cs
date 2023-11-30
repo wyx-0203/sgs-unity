@@ -34,202 +34,224 @@ using UnityEngine;
 using System.Collections.Generic;
 using Spine.Unity;
 
-namespace Spine.Unity.Modules {
-	
-	[ExecuteInEditMode]
-	[HelpURL("https://github.com/pharan/spine-unity-docs/blob/master/SkeletonRenderSeparator.md")]
-	public class SkeletonRenderSeparator : MonoBehaviour {
-		public const int DefaultSortingOrderIncrement = 5;
+namespace Spine.Unity.Modules
+{
 
-		#region Inspector
-		[SerializeField]
-		protected SkeletonRenderer skeletonRenderer;
-		public SkeletonRenderer SkeletonRenderer {
-			get { return skeletonRenderer; }
-			set {
-				#if SPINE_OPTIONAL_RENDEROVERRIDE
-				if (skeletonRenderer != null)
-					skeletonRenderer.GenerateMeshOverride -= HandleRender;
-				#endif
-				
-				skeletonRenderer = value;
-				this.enabled = false; // Disable if nulled.
-			}
-		}
+    [ExecuteInEditMode]
+    [HelpURL("https://github.com/pharan/spine-unity-docs/blob/master/SkeletonRenderSeparator.md")]
+    public class SkeletonRenderSeparator : MonoBehaviour
+    {
+        public const int DefaultSortingOrderIncrement = 5;
 
-		MeshRenderer mainMeshRenderer;
-		public bool copyPropertyBlock = true;
-		[Tooltip("Copies MeshRenderer flags into each parts renderer")]
-		public bool copyMeshRendererFlags = true;
-		public List<Spine.Unity.Modules.SkeletonPartsRenderer> partsRenderers = new List<SkeletonPartsRenderer>();
+        #region Inspector
+        [SerializeField]
+        protected SkeletonRenderer skeletonRenderer;
+        public SkeletonRenderer SkeletonRenderer
+        {
+            get { return skeletonRenderer; }
+            set
+            {
+#if SPINE_OPTIONAL_RENDEROVERRIDE
+                if (skeletonRenderer != null)
+                    skeletonRenderer.GenerateMeshOverride -= HandleRender;
+#endif
 
-		#if UNITY_EDITOR
-		void Reset () {
-			if (skeletonRenderer == null)
-				skeletonRenderer = GetComponent<SkeletonRenderer>();
-		}
-		#endif
-		#endregion
+                skeletonRenderer = value;
+                this.enabled = false; // Disable if nulled.
+            }
+        }
 
-		#region Runtime Instantiation
-		/// <summary>Adds a SkeletonRenderSeparator and child SkeletonPartsRenderer GameObjects to a given SkeletonRenderer.</summary>
-		/// <returns>The to skeleton renderer.</returns>
-		/// <param name="skeletonRenderer">The target SkeletonRenderer or SkeletonAnimation.</param>
-		/// <param name="sortingLayerID">Sorting layer to be used for the parts renderers.</param>
-		/// <param name="extraPartsRenderers">Number of additional SkeletonPartsRenderers on top of the ones determined by counting the number of separator slots.</param>
-		/// <param name="sortingOrderIncrement">The integer to increment the sorting order per SkeletonPartsRenderer to separate them.</param>
-		/// <param name="baseSortingOrder">The sorting order value of the first SkeletonPartsRenderer.</param>
-		/// <param name="addMinimumPartsRenderers">If set to <c>true</c>, a minimum number of SkeletonPartsRenderer GameObjects (determined by separatorSlots.Count + 1) will be added.</param>
-		public static SkeletonRenderSeparator AddToSkeletonRenderer (SkeletonRenderer skeletonRenderer, int sortingLayerID = 0, int extraPartsRenderers = 0, int sortingOrderIncrement = DefaultSortingOrderIncrement, int baseSortingOrder = 0, bool addMinimumPartsRenderers = true) {
-			if (skeletonRenderer == null) {
-				Debug.Log("Tried to add SkeletonRenderSeparator to a null SkeletonRenderer reference.");
-				return null;
-			}
+        MeshRenderer mainMeshRenderer;
+        public bool copyPropertyBlock = true;
+        [Tooltip("Copies MeshRenderer flags into each parts renderer")]
+        public bool copyMeshRendererFlags = true;
+        public List<Spine.Unity.Modules.SkeletonPartsRenderer> partsRenderers = new List<SkeletonPartsRenderer>();
 
-			var srs = skeletonRenderer.gameObject.AddComponent<SkeletonRenderSeparator>();
-			srs.skeletonRenderer = skeletonRenderer;
+#if UNITY_EDITOR
+        void Reset()
+        {
+            if (skeletonRenderer == null)
+                skeletonRenderer = GetComponent<SkeletonRenderer>();
+        }
+#endif
+        #endregion
 
-			skeletonRenderer.Initialize(false);
-			int count = extraPartsRenderers;
-			if (addMinimumPartsRenderers)
-				count = extraPartsRenderers + skeletonRenderer.separatorSlots.Count + 1;
+        #region Runtime Instantiation
+        /// <summary>Adds a SkeletonRenderSeparator and child SkeletonPartsRenderer GameObjects to a given SkeletonRenderer.</summary>
+        /// <returns>The to skeleton renderer.</returns>
+        /// <param name="skeletonRenderer">The target SkeletonRenderer or SkeletonAnimation.</param>
+        /// <param name="sortingLayerID">Sorting layer to be used for the parts renderers.</param>
+        /// <param name="extraPartsRenderers">Number of additional SkeletonPartsRenderers on top of the ones determined by counting the number of separator slots.</param>
+        /// <param name="sortingOrderIncrement">The integer to increment the sorting order per SkeletonPartsRenderer to separate them.</param>
+        /// <param name="baseSortingOrder">The sorting order value of the first SkeletonPartsRenderer.</param>
+        /// <param name="addMinimumPartsRenderers">If set to <c>true</c>, a minimum number of SkeletonPartsRenderer GameObjects (determined by separatorSlots.Count + 1) will be added.</param>
+        public static SkeletonRenderSeparator AddToSkeletonRenderer(SkeletonRenderer skeletonRenderer, int sortingLayerID = 0, int extraPartsRenderers = 0, int sortingOrderIncrement = DefaultSortingOrderIncrement, int baseSortingOrder = 0, bool addMinimumPartsRenderers = true)
+        {
+            if (skeletonRenderer == null)
+            {
+                Debug.Log("Tried to add SkeletonRenderSeparator to a null SkeletonRenderer reference.");
+                return null;
+            }
 
-			var skeletonRendererTransform = skeletonRenderer.transform;
-			var componentRenderers = srs.partsRenderers;
+            var srs = skeletonRenderer.gameObject.AddComponent<SkeletonRenderSeparator>();
+            srs.skeletonRenderer = skeletonRenderer;
 
-			for (int i = 0; i < count; i++) {
-				var spr = SkeletonPartsRenderer.NewPartsRendererGameObject(skeletonRendererTransform, i.ToString());
-				var mr = spr.MeshRenderer;
-				mr.sortingLayerID = sortingLayerID;
-				mr.sortingOrder = baseSortingOrder + (i * sortingOrderIncrement);
-				componentRenderers.Add(spr);
-			}
+            skeletonRenderer.Initialize(false);
+            int count = extraPartsRenderers;
+            if (addMinimumPartsRenderers)
+                count = extraPartsRenderers + skeletonRenderer.separatorSlots.Count + 1;
 
-			return srs;
-		}
+            var skeletonRendererTransform = skeletonRenderer.transform;
+            var componentRenderers = srs.partsRenderers;
 
-		/// <summary>Add a child SkeletonPartsRenderer GameObject to this SkeletonRenderSeparator.</summary>
-		public void AddPartsRenderer (int sortingOrderIncrement = DefaultSortingOrderIncrement) {
-			int sortingLayerID = 0;
-			int sortingOrder = 0;
-			if (partsRenderers.Count > 0) {
-				var previous = partsRenderers[partsRenderers.Count - 1];
-				var previousMeshRenderer = previous.MeshRenderer;
-				sortingLayerID = previousMeshRenderer.sortingLayerID;
-				sortingOrder = previousMeshRenderer.sortingOrder + sortingOrderIncrement;
-			}
-				
-			var spr = SkeletonPartsRenderer.NewPartsRendererGameObject(skeletonRenderer.transform, partsRenderers.Count.ToString());
-			partsRenderers.Add(spr);
+            for (int i = 0; i < count; i++)
+            {
+                var spr = SkeletonPartsRenderer.NewPartsRendererGameObject(skeletonRendererTransform, i.ToString());
+                var mr = spr.MeshRenderer;
+                mr.sortingLayerID = sortingLayerID;
+                mr.sortingOrder = baseSortingOrder + (i * sortingOrderIncrement);
+                componentRenderers.Add(spr);
+            }
 
-			var mr = spr.MeshRenderer;
-			mr.sortingLayerID = sortingLayerID;
-			mr.sortingOrder = sortingOrder;
-		}
-		#endregion
+            return srs;
+        }
 
-		void OnEnable () {
-			if (skeletonRenderer == null) return;
-			if (copiedBlock == null) copiedBlock = new MaterialPropertyBlock();	
-			mainMeshRenderer = skeletonRenderer.GetComponent<MeshRenderer>();
+        /// <summary>Add a child SkeletonPartsRenderer GameObject to this SkeletonRenderSeparator.</summary>
+        public void AddPartsRenderer(int sortingOrderIncrement = DefaultSortingOrderIncrement)
+        {
+            int sortingLayerID = 0;
+            int sortingOrder = 0;
+            if (partsRenderers.Count > 0)
+            {
+                var previous = partsRenderers[partsRenderers.Count - 1];
+                var previousMeshRenderer = previous.MeshRenderer;
+                sortingLayerID = previousMeshRenderer.sortingLayerID;
+                sortingOrder = previousMeshRenderer.sortingOrder + sortingOrderIncrement;
+            }
 
-			#if SPINE_OPTIONAL_RENDEROVERRIDE
-			skeletonRenderer.GenerateMeshOverride -= HandleRender;
-			skeletonRenderer.GenerateMeshOverride += HandleRender;
-			#endif
+            var spr = SkeletonPartsRenderer.NewPartsRendererGameObject(skeletonRenderer.transform, partsRenderers.Count.ToString());
+            partsRenderers.Add(spr);
 
-			if (copyMeshRendererFlags) {
-				var lightProbeUsage = mainMeshRenderer.lightProbeUsage;
-				bool receiveShadows = mainMeshRenderer.receiveShadows;
-				var reflectionProbeUsage = mainMeshRenderer.reflectionProbeUsage;
-				var shadowCastingMode = mainMeshRenderer.shadowCastingMode;
-				var motionVectorGenerationMode = mainMeshRenderer.motionVectorGenerationMode;
-				var probeAnchor = mainMeshRenderer.probeAnchor;
+            var mr = spr.MeshRenderer;
+            mr.sortingLayerID = sortingLayerID;
+            mr.sortingOrder = sortingOrder;
+        }
+        #endregion
 
-				for (int i = 0; i < partsRenderers.Count; i++) {
-					var currentRenderer = partsRenderers[i];
-					if (currentRenderer == null) continue; // skip null items.
+        void OnEnable()
+        {
+            if (skeletonRenderer == null) return;
+            if (copiedBlock == null) copiedBlock = new MaterialPropertyBlock();
+            mainMeshRenderer = skeletonRenderer.GetComponent<MeshRenderer>();
 
-					var mr = currentRenderer.MeshRenderer;
-					mr.lightProbeUsage = lightProbeUsage;
-					mr.receiveShadows = receiveShadows;
-					mr.reflectionProbeUsage = reflectionProbeUsage;
-					mr.shadowCastingMode = shadowCastingMode;
-					mr.motionVectorGenerationMode = motionVectorGenerationMode;
-					mr.probeAnchor = probeAnchor;
-				}
-			}
-		}
+#if SPINE_OPTIONAL_RENDEROVERRIDE
+            skeletonRenderer.GenerateMeshOverride -= HandleRender;
+            skeletonRenderer.GenerateMeshOverride += HandleRender;
+#endif
 
-		void OnDisable () {
-			if (skeletonRenderer == null) return;
-			#if SPINE_OPTIONAL_RENDEROVERRIDE
-			skeletonRenderer.GenerateMeshOverride -= HandleRender;
-			#endif
+            if (copyMeshRendererFlags)
+            {
+                var lightProbeUsage = mainMeshRenderer.lightProbeUsage;
+                bool receiveShadows = mainMeshRenderer.receiveShadows;
+                var reflectionProbeUsage = mainMeshRenderer.reflectionProbeUsage;
+                var shadowCastingMode = mainMeshRenderer.shadowCastingMode;
+                var motionVectorGenerationMode = mainMeshRenderer.motionVectorGenerationMode;
+                var probeAnchor = mainMeshRenderer.probeAnchor;
 
-			#if UNITY_EDITOR
-			skeletonRenderer.LateUpdate();
-			#endif
+                for (int i = 0; i < partsRenderers.Count; i++)
+                {
+                    var currentRenderer = partsRenderers[i];
+                    if (currentRenderer == null) continue; // skip null items.
 
-			foreach (var s in partsRenderers)
-				s.ClearMesh();		
-		}
+                    var mr = currentRenderer.MeshRenderer;
+                    mr.lightProbeUsage = lightProbeUsage;
+                    mr.receiveShadows = receiveShadows;
+                    mr.reflectionProbeUsage = reflectionProbeUsage;
+                    mr.shadowCastingMode = shadowCastingMode;
+                    mr.motionVectorGenerationMode = motionVectorGenerationMode;
+                    mr.probeAnchor = probeAnchor;
+                }
+            }
+        }
 
-		MaterialPropertyBlock copiedBlock;
+        void OnDisable()
+        {
+            if (skeletonRenderer == null) return;
+#if SPINE_OPTIONAL_RENDEROVERRIDE
+            skeletonRenderer.GenerateMeshOverride -= HandleRender;
+#endif
 
-		void HandleRender (SkeletonRendererInstruction instruction) {
-			int rendererCount = partsRenderers.Count;
-			if (rendererCount <= 0) return;
+#if UNITY_EDITOR
+            skeletonRenderer.LateUpdate();
+#endif
 
-			if (copyPropertyBlock)
-				mainMeshRenderer.GetPropertyBlock(copiedBlock);
+            foreach (var s in partsRenderers)
+                s.ClearMesh();
+        }
 
-			var settings = new MeshGenerator.Settings {
-				addNormals = skeletonRenderer.addNormals,
-				calculateTangents = skeletonRenderer.calculateTangents,
-				immutableTriangles = false, // parts cannot do immutable triangles.
-				pmaVertexColors = skeletonRenderer.pmaVertexColors,
-				//renderMeshes = skeletonRenderer.renderMeshes,
-				tintBlack = skeletonRenderer.tintBlack,
-				useClipping = true,
-				zSpacing = skeletonRenderer.zSpacing
-			};
+        MaterialPropertyBlock copiedBlock;
 
-			var submeshInstructions = instruction.submeshInstructions;
-			var submeshInstructionsItems = submeshInstructions.Items;
-			int lastSubmeshInstruction = submeshInstructions.Count - 1;
+        void HandleRender(SkeletonRendererInstruction instruction)
+        {
+            int rendererCount = partsRenderers.Count;
+            if (rendererCount <= 0) return;
 
-			int rendererIndex = 0;
-			var currentRenderer = partsRenderers[rendererIndex];
-			for (int si = 0, start = 0; si <= lastSubmeshInstruction; si++) {
-				if (submeshInstructionsItems[si].forceSeparate || si == lastSubmeshInstruction) {
-					// Apply properties
-					var meshGenerator = currentRenderer.MeshGenerator;
-					meshGenerator.settings = settings;
+            if (copyPropertyBlock)
+                mainMeshRenderer.GetPropertyBlock(copiedBlock);
 
-					if (copyPropertyBlock)
-						currentRenderer.SetPropertyBlock(copiedBlock);
+            var settings = new MeshGenerator.Settings
+            {
+                addNormals = skeletonRenderer.addNormals,
+                calculateTangents = skeletonRenderer.calculateTangents,
+                immutableTriangles = false, // parts cannot do immutable triangles.
+                pmaVertexColors = skeletonRenderer.pmaVertexColors,
+                //renderMeshes = skeletonRenderer.renderMeshes,
+                tintBlack = skeletonRenderer.tintBlack,
+                useClipping = true,
+                zSpacing = skeletonRenderer.zSpacing
+            };
 
-					// Render
-					currentRenderer.RenderParts(instruction.submeshInstructions, start, si + 1);
+            var submeshInstructions = instruction.submeshInstructions;
+            var submeshInstructionsItems = submeshInstructions.Items;
+            int lastSubmeshInstruction = submeshInstructions.Count - 1;
 
-					start = si + 1;
-					rendererIndex++;
-					if (rendererIndex < rendererCount) {
-						currentRenderer = partsRenderers[rendererIndex];
-					} else {
-						// Not enough renderers. Skip the rest of the instructions.
-						break;
-					}
-				}
-			}
-				
-			// Clear extra renderers if they exist.
-			for (; rendererIndex < rendererCount; rendererIndex++) {
-				partsRenderers[rendererIndex].ClearMesh();
-			}
+            int rendererIndex = 0;
+            var currentRenderer = partsRenderers[rendererIndex];
+            for (int si = 0, start = 0; si <= lastSubmeshInstruction; si++)
+            {
+                if (submeshInstructionsItems[si].forceSeparate || si == lastSubmeshInstruction)
+                {
+                    // Apply properties
+                    var meshGenerator = currentRenderer.MeshGenerator;
+                    meshGenerator.settings = settings;
 
-		}
+                    if (copyPropertyBlock)
+                        currentRenderer.SetPropertyBlock(copiedBlock);
 
-	}
+                    // Render
+                    currentRenderer.RenderParts(instruction.submeshInstructions, start, si + 1);
+
+                    start = si + 1;
+                    rendererIndex++;
+                    if (rendererIndex < rendererCount)
+                    {
+                        currentRenderer = partsRenderers[rendererIndex];
+                    }
+                    else
+                    {
+                        // Not enough renderers. Skip the rest of the instructions.
+                        break;
+                    }
+                }
+            }
+
+            // Clear extra renderers if they exist.
+            for (; rendererIndex < rendererCount; rendererIndex++)
+            {
+                partsRenderers[rendererIndex].ClearMesh();
+            }
+
+        }
+
+    }
 }

@@ -38,4 +38,6 @@ public class BGM : GlobalSingletonMono<BGM>
             yield return new WaitForSeconds(audioSource.clip.length);
         }
     }
+
+    public void Stop() => audioSource.Stop();
 }

@@ -5,8 +5,9 @@ using Spine.Unity;
 using Spine.Unity.Playables;
 
 //[CustomPropertyDrawer(typeof(SpineAnimationStateBehaviour))]
-public class SpineAnimationStateDrawer : PropertyDrawer {
-	/*
+public class SpineAnimationStateDrawer : PropertyDrawer
+{
+    /*
 	public override float GetPropertyHeight (SerializedProperty property, GUIContent label) {
 		const int fieldCount = 8;
 		return fieldCount * EditorGUIUtility.singleLineHeight;

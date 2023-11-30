@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 public class GeneralPointerHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private General general;
-    private static GeneralInfo generalInfo;
+    // private GeneralInfo generalInfo;
 
     private void Start()
     {
@@ -17,11 +17,11 @@ public class GeneralPointerHandler : MonoBehaviour, IPointerEnterHandler, IPoint
     /// </summary>
     private void ShowInfo()
     {
-        if (generalInfo is null)
-        {
-            generalInfo = GameMain.Instance.transform.Find("武将信息").GetComponent<GeneralInfo>();
-        }
-        generalInfo.Show(general.model, general.skin.model);
+        // if (generalInfo is null)
+        // {
+        //     generalInfo = GameMain.Instance.transform.Find("武将信息").GetComponent<GeneralInfo>();
+        // }
+        if (!TeammateHandCardPanel.Instance.gameObject.activeSelf) GeneralInfo.Instance.Show(general.model, general.skin.model);
     }
 
     // #if UNITY_ANDROID
@@ -59,7 +59,7 @@ public class GeneralPointerHandler : MonoBehaviour, IPointerEnterHandler, IPoint
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (generalInfo != null && generalInfo.gameObject.activeSelf) generalInfo?.gameObject.SetActive(false);
+        if (GeneralInfo.Instance.gameObject.activeSelf) GeneralInfo.Instance.gameObject.SetActive(false);
         else CancelInvoke("ShowInfo");
     }
 

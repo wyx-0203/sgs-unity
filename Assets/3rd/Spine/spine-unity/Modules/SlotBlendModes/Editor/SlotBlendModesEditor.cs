@@ -32,16 +32,19 @@ using UnityEngine;
 using UnityEditor;
 using Spine.Unity.Modules;
 
-namespace Spine.Unity.Editor {
-	using Editor = UnityEditor.Editor;
+namespace Spine.Unity.Editor
+{
+    using Editor = UnityEditor.Editor;
 
-	public class SlotBlendModesEditor : Editor {
-		
-		[MenuItem("CONTEXT/SkeletonRenderer/Add Slot Blend Modes Component")]
-		static void AddSlotBlendModesComponent (MenuCommand command) {
-			var skeletonRenderer = (SkeletonRenderer)command.context;
-			skeletonRenderer.gameObject.AddComponent<SlotBlendModes>();
-		}
-	}
+    public class SlotBlendModesEditor : Editor
+    {
+
+        [MenuItem("CONTEXT/SkeletonRenderer/Add Slot Blend Modes Component")]
+        static void AddSlotBlendModesComponent(MenuCommand command)
+        {
+            var skeletonRenderer = (SkeletonRenderer)command.context;
+            skeletonRenderer.gameObject.AddComponent<SlotBlendModes>();
+        }
+    }
 }
 

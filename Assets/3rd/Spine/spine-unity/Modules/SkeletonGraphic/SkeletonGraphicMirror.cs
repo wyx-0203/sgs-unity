@@ -32,70 +32,80 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Spine.Unity.Modules {
-	public class SkeletonGraphicMirror : MonoBehaviour {
+namespace Spine.Unity.Modules
+{
+    public class SkeletonGraphicMirror : MonoBehaviour
+    {
 
-		public SkeletonRenderer source;
-		public bool mirrorOnStart = true;
-		public bool restoreOnDisable = true;
-		SkeletonGraphic skeletonGraphic;
+        public SkeletonRenderer source;
+        public bool mirrorOnStart = true;
+        public bool restoreOnDisable = true;
+        SkeletonGraphic skeletonGraphic;
 
-		Skeleton originalSkeleton;
-		bool originalFreeze;
-		Texture2D overrideTexture;
+        Skeleton originalSkeleton;
+        bool originalFreeze;
+        Texture2D overrideTexture;
 
-		private void Awake () {
-			skeletonGraphic = GetComponent<SkeletonGraphic>();
-		}
+        private void Awake()
+        {
+            skeletonGraphic = GetComponent<SkeletonGraphic>();
+        }
 
-		void Start () {
-			if (mirrorOnStart) StartMirroring();
-		}
+        void Start()
+        {
+            if (mirrorOnStart) StartMirroring();
+        }
 
-		void LateUpdate () {
-			skeletonGraphic.UpdateMesh();
-		}
+        void LateUpdate()
+        {
+            skeletonGraphic.UpdateMesh();
+        }
 
-		void OnDisable () {
-			if (restoreOnDisable) RestoreIndependentSkeleton();
-		}
+        void OnDisable()
+        {
+            if (restoreOnDisable) RestoreIndependentSkeleton();
+        }
 
-		/// <summary>Freeze the SkeletonGraphic on this GameObject, and use the source as the Skeleton to be rendered by the SkeletonGraphic.</summary>
-		public void StartMirroring () {
-			if (source == null) return;
-			if (skeletonGraphic == null) return;
+        /// <summary>Freeze the SkeletonGraphic on this GameObject, and use the source as the Skeleton to be rendered by the SkeletonGraphic.</summary>
+        public void StartMirroring()
+        {
+            if (source == null) return;
+            if (skeletonGraphic == null) return;
 
-			skeletonGraphic.startingAnimation = string.Empty;
+            skeletonGraphic.startingAnimation = string.Empty;
 
-			if (originalSkeleton == null) {
-				originalSkeleton = skeletonGraphic.Skeleton;
-				originalFreeze = skeletonGraphic.freeze;
-			}
+            if (originalSkeleton == null)
+            {
+                originalSkeleton = skeletonGraphic.Skeleton;
+                originalFreeze = skeletonGraphic.freeze;
+            }
 
-			skeletonGraphic.Skeleton = source.skeleton;
-			skeletonGraphic.freeze = true;
-			if (overrideTexture != null)
-				skeletonGraphic.OverrideTexture = overrideTexture;
-		}
+            skeletonGraphic.Skeleton = source.skeleton;
+            skeletonGraphic.freeze = true;
+            if (overrideTexture != null)
+                skeletonGraphic.OverrideTexture = overrideTexture;
+        }
 
-		/// <summary>Use a new texture for the SkeletonGraphic. Use this if your source skeleton uses a repacked atlas. </summary>
-		public void UpdateTexture (Texture2D newOverrideTexture) {
-			overrideTexture = newOverrideTexture;
-			if (newOverrideTexture != null)
-				skeletonGraphic.OverrideTexture = overrideTexture;
-		}
+        /// <summary>Use a new texture for the SkeletonGraphic. Use this if your source skeleton uses a repacked atlas. </summary>
+        public void UpdateTexture(Texture2D newOverrideTexture)
+        {
+            overrideTexture = newOverrideTexture;
+            if (newOverrideTexture != null)
+                skeletonGraphic.OverrideTexture = overrideTexture;
+        }
 
-		/// <summary>Stops mirroring the source SkeletonRenderer and allows the SkeletonGraphic to become an independent Skeleton component again.</summary>
-		public void RestoreIndependentSkeleton () {
-			if (originalSkeleton == null)
-				return;
+        /// <summary>Stops mirroring the source SkeletonRenderer and allows the SkeletonGraphic to become an independent Skeleton component again.</summary>
+        public void RestoreIndependentSkeleton()
+        {
+            if (originalSkeleton == null)
+                return;
 
-			skeletonGraphic.Skeleton = originalSkeleton;
-			skeletonGraphic.freeze = originalFreeze;
-			skeletonGraphic.OverrideTexture = null;
+            skeletonGraphic.Skeleton = originalSkeleton;
+            skeletonGraphic.freeze = originalFreeze;
+            skeletonGraphic.OverrideTexture = null;
 
-			originalSkeleton = null;
-		}
-	}
+            originalSkeleton = null;
+        }
+    }
 
 }

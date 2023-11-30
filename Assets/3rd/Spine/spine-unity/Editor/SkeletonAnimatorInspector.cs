@@ -32,20 +32,24 @@
 
 using UnityEditor;
 
-namespace Spine.Unity.Editor {
-	[CustomEditor(typeof(SkeletonAnimator))]
-	[CanEditMultipleObjects]
-	public class SkeletonAnimatorInspector : SkeletonRendererInspector {
-		protected SerializedProperty mecanimTranslator;
+namespace Spine.Unity.Editor
+{
+    [CustomEditor(typeof(SkeletonAnimator))]
+    [CanEditMultipleObjects]
+    public class SkeletonAnimatorInspector : SkeletonRendererInspector
+    {
+        protected SerializedProperty mecanimTranslator;
 
-		protected override void OnEnable () {
-			base.OnEnable();
-			mecanimTranslator = serializedObject.FindProperty("translator");
-		}
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            mecanimTranslator = serializedObject.FindProperty("translator");
+        }
 
-		protected override void DrawInspectorGUI (bool multi) {
-			base.DrawInspectorGUI(multi);
-			EditorGUILayout.PropertyField(mecanimTranslator, true);
-		}
-	}
+        protected override void DrawInspectorGUI(bool multi)
+        {
+            base.DrawInspectorGUI(multi);
+            EditorGUILayout.PropertyField(mecanimTranslator, true);
+        }
+    }
 }

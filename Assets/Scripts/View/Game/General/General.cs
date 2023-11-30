@@ -71,41 +71,6 @@ public class General : MonoBehaviour
     private static bool mutex;
 
     /// <summary>
-    /// 更新皮肤
-    /// </summary>
-    // public async void skin.Set(GameCore.Skin skin)
-    // {
-    //     skinModel = skin;
-    //     // this.skin.gameObject.SetActive(!skin.dynamic);
-    //     Destroy(skeletonGraphic);
-    //     // dynamicSkin.gameObject.SetActive(skin.dynamic);
-
-    //     if (!skin.dynamic)
-    //     {
-    //         // 根据皮肤ID下载图片
-    //         string url = Url.GENERAL_IMAGE + "Seat/" + skin.id + ".png";
-    //         var texture = await WebRequest.GetTexture(url);
-    //         if (texture is null) return;
-    //         this.skin.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
-    //     }
-    //     else
-    //     {
-    //         var ab = await ABManager.Instance.Load("dynamic/" + (skin.id + 200000));
-    //         dynamicSkin.SetActive(false);
-    //         await Util.WaitFrame();
-
-    //         skeletonGraphic = dynamicSkin.AddComponent<SkeletonGraphic>();
-    //         skeletonGraphic.skeletonDataAsset = ab.LoadAsset<SkeletonDataAsset>("daiji2_SkeletonData.asset");
-    //         skeletonGraphic.startingLoop = true;
-    //         skeletonGraphic.startingAnimation = "play";
-    //         skeletonGraphic.raycastTarget = false;
-    //     }
-
-    //     this.skin.gameObject.SetActive(!skin.dynamic);
-    //     dynamicSkin.SetActive(skin.dynamic);
-    // }
-
-    /// <summary>
     /// 更新体力上限
     /// </summary>
     public void SetHpLimit(int hpLimit)

@@ -13,6 +13,7 @@ public class Card : MonoBehaviour
     public Image weight;
     // 目标 (用于实现过渡效果)
     public Transform target;
+    public GameObject effect;
 
     // 编号
     public int Id { get; private set; }
@@ -129,7 +130,7 @@ public class Card : MonoBehaviour
     private void OnDestroy()
     {
         if (target != null) Destroy(target.gameObject);
-        if (DiscardArea.Instance.Cards.Contains(this)) DiscardArea.Instance.Cards.Remove(this);
+        if (DiscardPile.Instance.Cards.Contains(this)) DiscardPile.Instance.Cards.Remove(this);
     }
 }
 

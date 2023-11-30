@@ -58,6 +58,7 @@ namespace GameCore
             // 目标角色排序
             if (dests.Count > 1) dests.Sort();
 
+            isUsing = true;
             string destStr = dests.Count > 0 ? "对" + string.Join("、", dests) : "";
             Util.Print(src + destStr + "使用了" + this);
             if (!MCTS.Instance.isRunning)
@@ -100,6 +101,8 @@ namespace GameCore
 
                 await UseForeachDest();
             }
+
+            isUsing = false;
         }
 
         protected virtual async Task BeforeUse() { await Task.Yield(); }
@@ -232,7 +235,8 @@ namespace GameCore
         /// </summary>
         public bool Useable<T>() where T : Card => this is T && useable;
 
-        public static Action<Card> UseCardView { get; set; }
+        public bool isUsing { get; private set; }
+        public static Action<Card> UseCardView;
 
         public bool isRed => suit == "红桃" || suit == "方片" || suit == "红色";
         public bool isBlack => suit == "黑桃" || suit == "草花" || suit == "黑色";

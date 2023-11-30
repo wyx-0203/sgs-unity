@@ -28,8 +28,10 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *****************************************************************************/
 
-namespace Spine {
-	public interface IUpdatable {
-		void Update ();
-	}
+namespace Spine
+{
+    public interface IUpdatable
+    {
+        void Update();
+    }
 }

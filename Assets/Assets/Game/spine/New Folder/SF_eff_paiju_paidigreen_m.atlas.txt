@@ -1,0 +1,76 @@
+
+SF_eff_paiju_paidigreen_m.png
+size: 902,902
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+pd_green_phone_00
+  rotate: false
+  xy: 2, 637
+  size: 226, 263
+  orig: 320, 320
+  offset: 51, 35
+  index: -1
+pd_green_phone_01
+  rotate: false
+  xy: 2, 374
+  size: 226, 261
+  orig: 320, 320
+  offset: 51, 37
+  index: -1
+pd_green_phone_02
+  rotate: false
+  xy: 230, 639
+  size: 227, 261
+  orig: 320, 320
+  offset: 50, 37
+  index: -1
+pd_green_phone_03
+  rotate: false
+  xy: 459, 640
+  size: 225, 260
+  orig: 320, 320
+  offset: 51, 37
+  index: -1
+pd_green_phone_04
+  rotate: false
+  xy: 452, 113
+  size: 224, 260
+  orig: 320, 320
+  offset: 51, 37
+  index: -1
+pd_green_phone_05
+  rotate: false
+  xy: 227, 111
+  size: 223, 261
+  orig: 320, 320
+  offset: 52, 37
+  index: -1
+pd_green_phone_06
+  rotate: false
+  xy: 457, 377
+  size: 222, 260
+  orig: 320, 320
+  offset: 53, 37
+  index: -1
+pd_green_phone_07
+  rotate: false
+  xy: 678, 115
+  size: 222, 260
+  orig: 320, 320
+  offset: 53, 37
+  index: -1
+pd_green_phone_08
+  rotate: false
+  xy: 2, 110
+  size: 223, 262
+  orig: 320, 320
+  offset: 52, 37
+  index: -1
+pd_green_phone_09
+  rotate: false
+  xy: 230, 375
+  size: 225, 262
+  orig: 320, 320
+  offset: 52, 37
+  index: -1

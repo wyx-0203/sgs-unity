@@ -1,0 +1,146 @@
+
+SF_jiesuan_eff_shibai.png
+size: 1242,1242
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+shibai/pingju
+  rotate: true
+  xy: 644, 296
+  size: 226, 272
+  orig: 226, 272
+  offset: 0, 0
+  index: -1
+shibai/shibai_1
+  rotate: true
+  xy: 380, 19
+  size: 253, 276
+  orig: 253, 276
+  offset: 0, 0
+  index: -1
+shibai/shibai_10
+  rotate: false
+  xy: 2, 562
+  size: 340, 298
+  orig: 340, 298
+  offset: 0, 0
+  index: -1
+shibai/shibai_11
+  rotate: false
+  xy: 2, 862
+  size: 672, 378
+  orig: 672, 378
+  offset: 0, 0
+  index: -1
+shibai/shibai_12_1
+  rotate: true
+  xy: 216, 188
+  size: 96, 98
+  orig: 98, 100
+  offset: 1, 2
+  index: -1
+shibai/shibai_12_2
+  rotate: true
+  xy: 1170, 554
+  size: 63, 70
+  orig: 65, 72
+  offset: 2, 1
+  index: -1
+shibai/shibai_12_3
+  rotate: true
+  xy: 1170, 619
+  size: 78, 63
+  orig: 78, 66
+  offset: 0, 1
+  index: -1
+shibai/shibai_12_4
+  rotate: true
+  xy: 216, 286
+  size: 132, 114
+  orig: 135, 116
+  offset: 0, 1
+  index: -1
+shibai/shibai_2
+  rotate: true
+  xy: 2, 33
+  size: 178, 152
+  orig: 178, 152
+  offset: 0, 0
+  index: -1
+shibai/shibai_2_2
+  rotate: false
+  xy: 658, 143
+  size: 178, 151
+  orig: 178, 152
+  offset: 0, 0
+  index: -1
+shibai/shibai_3
+  rotate: false
+  xy: 838, 67
+  size: 312, 189
+  orig: 312, 189
+  offset: 0, 0
+  index: -1
+shibai/shibai_3_2
+  rotate: true
+  xy: 2, 213
+  size: 347, 212
+  orig: 347, 212
+  offset: 0, 0
+  index: -1
+shibai/shibai_4
+  rotate: true
+  xy: 216, 420
+  size: 140, 111
+  orig: 140, 111
+  offset: 0, 0
+  index: -1
+shibai/shibai_5
+  rotate: false
+  xy: 918, 258
+  size: 264, 264
+  orig: 264, 264
+  offset: 0, 0
+  index: -1
+shibai/shibai_6
+  rotate: true
+  xy: 156, 28
+  size: 158, 222
+  orig: 158, 222
+  offset: 0, 0
+  index: -1
+shibai/shibai_7
+  rotate: false
+  xy: 659, 524
+  size: 509, 173
+  orig: 509, 173
+  offset: 0, 0
+  index: -1
+shibai/shibai_8
+  rotate: false
+  xy: 676, 951
+  size: 549, 289
+  orig: 549, 289
+  offset: 0, 0
+  index: -1
+shibai/shibai_8_2
+  rotate: false
+  xy: 676, 699
+  size: 548, 250
+  orig: 548, 250
+  offset: 0, 0
+  index: -1
+shibai/shibai_9
+  rotate: false
+  xy: 344, 563
+  size: 313, 297
+  orig: 313, 297
+  offset: 0, 0
+  index: -1
+shibai/shibai_9_2
+  rotate: true
+  xy: 344, 274
+  size: 287, 298
+  orig: 287, 298
+  offset: 0, 0
+  index: -1

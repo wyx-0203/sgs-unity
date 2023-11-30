@@ -186,29 +186,30 @@ public class ElsePlayer : MonoBehaviour
     }
 }
 
-class HandCardPointerHandler : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
+class HandCardPointerHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private Player player;
-    private TeammateHandCardPanel teammateHandCardPanel;
+    // private TeammateHandCardPanel teammateHandCardPanel;
 
     private void Start()
     {
         player = GetComponentInParent<Player>();
-        teammateHandCardPanel = GameMain.Instance.transform.Find("队友手牌Panel").GetComponent<TeammateHandCardPanel>();
+        // teammateHandCardPanel = GameMain.Instance.transform.Find("队友手牌Panel").GetComponent<TeammateHandCardPanel>();
+        // Debug.Log(teammateHandCardPanel.name);
     }
 
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        teammateHandCardPanel.Show(player.model);
-    }
+    // public void OnPointerDown(PointerEventData eventData)
+    // {
+    //     teammateHandCardPanel.Show(player.model);
+    // }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        teammateHandCardPanel.Show(player.model);
+        if (!GeneralInfo.Instance.gameObject.activeSelf) TeammateHandCardPanel.Instance.Show(player.model);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        teammateHandCardPanel.gameObject.SetActive(false);
+        TeammateHandCardPanel.Instance.gameObject.SetActive(false);
     }
 }

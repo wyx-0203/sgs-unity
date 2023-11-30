@@ -53,8 +53,9 @@ public class 节命 : Triggered
     protected override async Task Invoke(Decision decision)
     {
         var dest = decision.dests[0];
-        int count = dest.hpLimit - dest.handCardsCount;
-        if (count > 0) await new GetCardFromPile(dest, count).Execute();
+        await new GetCardFromPile(dest, dest.hpLimit).Execute();
+        int count = dest.handCardsCount - dest.hpLimit;
+        if (count > 0) await TimerAction.DiscardFromHand(dest, count);
     }
 
     public override Decision AIDecision()

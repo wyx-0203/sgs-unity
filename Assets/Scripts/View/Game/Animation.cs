@@ -1,5 +1,7 @@
+using Spine.Unity;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Animation : SingletonMono<Animation>
@@ -8,12 +10,14 @@ public class Animation : SingletonMono<Animation>
     {
         GameCore.Card.UseCardView += UseCard;
         GameCore.Skill.UseSkillView += UseSkill;
+        GameCore.UpdateHp.ActionView += OnDamage;
     }
 
     private void OnDestroy()
     {
         GameCore.Card.UseCardView -= UseCard;
         GameCore.Skill.UseSkillView -= UseSkill;
+        GameCore.UpdateHp.ActionView -= OnDamage;
     }
 
     /// <summary>
@@ -54,7 +58,13 @@ public class Animation : SingletonMono<Animation>
 
     private IEnumerator DrawLine(Vector3 src, Vector3 dest)
     {
-        var line = Instantiate(linePrefab, transform).GetComponent<LineRenderer>();
+        var line = Instantiate(linePrefab, transform).GetComponentInChildren<LineRenderer>();
+        var arrow = line.transform.Find("Arrow");
+
+        // 设置箭头的方向
+        Vector3 dir = dest - src;
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        arrow.rotation = Quaternion.Euler(0f, 0f, angle);
 
         src = transform.InverseTransformPoint(src);
         dest = transform.InverseTransformPoint(dest);
@@ -67,6 +77,8 @@ public class Animation : SingletonMono<Animation>
         while ((line.GetPosition(1)) != dest)
         {
             line.SetPosition(1, Vector3.MoveTowards(line.GetPosition(1), dest, speed * Time.deltaTime));
+            arrow.position = transform.TransformPoint(line.GetPosition(1));
+            // Debug.Log(line.GetPosition(1));
             yield return null;
         }
 
@@ -79,5 +91,21 @@ public class Animation : SingletonMono<Animation>
         }
 
         Destroy(line.gameObject);
+    }
+
+    public SpineEffect normalDamage;
+    public SpineEffect thunderDamage;
+    public SpineEffect fireDamage;
+
+    private void OnDamage(GameCore.UpdateHp model)
+    {
+        if (model is not GameCore.Damaged damaged) return;
+        var type = damaged.type;
+        var prefab = type == GameCore.Damaged.Type.Thunder ? thunderDamage : type == GameCore.Damaged.Type.Fire ? fireDamage : normalDamage;
+        var player = GameMain.Instance.players.Find(x => x.model == model.player);
+        var instance = Instantiate(prefab, player.transform);
+        // var instance = Instantiate(prefab, Pos(model.player), new Quaternion(),transform);
+        // url = Url.AUDIO + "spell/" + url + ".mp3";
+        // effect.PlayOneShot(await WebRequest.GetClip(url));
     }
 }

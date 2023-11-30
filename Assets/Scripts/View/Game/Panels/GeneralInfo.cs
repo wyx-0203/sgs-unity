@@ -4,6 +4,10 @@ using UnityEngine.UI;
 
 public class GeneralInfo : SingletonMono<GeneralInfo>
 {
+    public static new GeneralInfo Instance => SingletonMono<GeneralInfo>.Instance != null
+        ? SingletonMono<GeneralInfo>.Instance
+        : GameMain.Instance.transform.Find("武将信息").GetComponent<GeneralInfo>();
+
     public Image image;
     public Text generalName;
     public Transform skillParent;

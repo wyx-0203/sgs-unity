@@ -1,0 +1,195 @@
+
+SF_kapai_eff_taoyuanjieyi.png
+size: 386,386
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+taoyuan0100
+  rotate: false
+  xy: 2, 316
+  size: 129, 68
+  orig: 133, 80
+  offset: 2, 4
+  index: -1
+taoyuan0200
+  rotate: false
+  xy: 230, 323
+  size: 94, 61
+  orig: 97, 62
+  offset: 1, 1
+  index: -1
+taoyuan0400
+  rotate: false
+  xy: 133, 322
+  size: 95, 62
+  orig: 97, 66
+  offset: 2, 4
+  index: -1
+taoyuan_huaban00
+  rotate: false
+  xy: 2, 40
+  size: 86, 88
+  orig: 142, 142
+  offset: 30, 48
+  index: -1
+taoyuan_huaban01
+  rotate: false
+  xy: 244, 234
+  size: 86, 87
+  orig: 142, 142
+  offset: 29, 46
+  index: -1
+taoyuan_huaban02
+  rotate: false
+  xy: 244, 146
+  size: 86, 86
+  orig: 142, 142
+  offset: 27, 44
+  index: -1
+taoyuan_huaban03
+  rotate: false
+  xy: 243, 60
+  size: 87, 84
+  orig: 142, 142
+  offset: 24, 41
+  index: -1
+taoyuan_huaban04
+  rotate: false
+  xy: 90, 8
+  size: 87, 84
+  orig: 142, 142
+  offset: 22, 38
+  index: -1
+taoyuan_huaban05
+  rotate: true
+  xy: 160, 231
+  size: 89, 82
+  orig: 142, 142
+  offset: 18, 35
+  index: -1
+taoyuan_huaban06
+  rotate: false
+  xy: 2, 222
+  size: 89, 92
+  orig: 142, 142
+  offset: 16, 33
+  index: -1
+taoyuan_huaban07
+  rotate: true
+  xy: 160, 162
+  size: 67, 82
+  orig: 142, 142
+  offset: 35, 39
+  index: -1
+taoyuan_huaban08
+  rotate: false
+  xy: 91, 138
+  size: 67, 82
+  orig: 142, 142
+  offset: 34, 36
+  index: -1
+taoyuan_huaban09
+  rotate: true
+  xy: 160, 94
+  size: 66, 81
+  orig: 142, 142
+  offset: 34, 34
+  index: -1
+taoyuan_huaban10
+  rotate: false
+  xy: 93, 224
+  size: 65, 90
+  orig: 142, 142
+  offset: 33, 38
+  index: -1
+taoyuan_huaban11
+  rotate: false
+  xy: 2, 130
+  size: 87, 90
+  orig: 142, 142
+  offset: 32, 36
+  index: -1
+taoyuan_yan00
+  rotate: false
+  xy: 326, 331
+  size: 52, 53
+  orig: 61, 61
+  offset: 5, 8
+  index: -1
+taoyuan_yan01
+  rotate: false
+  xy: 332, 277
+  size: 52, 52
+  orig: 61, 61
+  offset: 5, 9
+  index: -1
+taoyuan_yan02
+  rotate: true
+  xy: 332, 229
+  size: 46, 50
+  orig: 61, 61
+  offset: 5, 11
+  index: -1
+taoyuan_yan03
+  rotate: true
+  xy: 179, 5
+  size: 38, 48
+  orig: 61, 61
+  offset: 6, 13
+  index: -1
+taoyuan_yan04
+  rotate: false
+  xy: 312, 12
+  size: 38, 46
+  orig: 61, 61
+  offset: 6, 15
+  index: -1
+taoyuan_yan05
+  rotate: false
+  xy: 229, 10
+  size: 39, 48
+  orig: 61, 61
+  offset: 6, 13
+  index: -1
+taoyuan_yan06
+  rotate: false
+  xy: 179, 45
+  size: 41, 47
+  orig: 61, 61
+  offset: 5, 14
+  index: -1
+taoyuan_yan07
+  rotate: false
+  xy: 270, 13
+  size: 40, 45
+  orig: 61, 61
+  offset: 5, 16
+  index: -1
+taoyuan_yan08
+  rotate: false
+  xy: 91, 94
+  size: 43, 42
+  orig: 61, 61
+  offset: 2, 19
+  index: -1
+taoyuan_yan09
+  rotate: false
+  xy: 332, 173
+  size: 44, 54
+  orig: 61, 61
+  offset: 3, 7
+  index: -1
+taoyuan_yan10
+  rotate: false
+  xy: 332, 117
+  size: 41, 54
+  orig: 61, 61
+  offset: 7, 7
+  index: -1
+taoyuan_yan11
+  rotate: false
+  xy: 332, 65
+  size: 40, 50
+  orig: 61, 61
+  offset: 9, 11
+  index: -1

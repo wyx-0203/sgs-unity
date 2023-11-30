@@ -59,7 +59,7 @@ public class CardSystem : SingletonMono<CardSystem>
     private async Task MoveAll(float second)
     {
         CardArea.Instance.MoveAll(second);
-        DiscardArea.Instance.MoveAll(second);
+        DiscardPile.Instance.MoveAll(second);
 
         await Util.WaitFrame();
         foreach (var i in movingCards.Values) i.Move(second);
@@ -93,7 +93,7 @@ public class CardSystem : SingletonMono<CardSystem>
         // 若无来源(如判定牌)
         if (src is null)
         {
-            foreach (var i in cards) DiscardArea.Instance.Add(Card.New(i, true));
+            foreach (var i in cards) DiscardPile.Instance.Add(Card.New(i, true));
         }
 
         // 若卡牌来源为自己
@@ -107,7 +107,7 @@ public class CardSystem : SingletonMono<CardSystem>
                 card.transform.position = SelfCardPos(i);
 
                 // 终点为弃牌区
-                DiscardArea.Instance.Add(card);
+                DiscardPile.Instance.Add(card);
             }
         }
 
@@ -129,7 +129,7 @@ public class CardSystem : SingletonMono<CardSystem>
             // 设置终点
             foreach (var i in cards)
             {
-                DiscardArea.Instance.Add(movingCards[i.id]);
+                DiscardPile.Instance.Add(movingCards[i.id]);
                 movingCards.Remove(i.id);
             }
 
@@ -282,7 +282,7 @@ public class CardSystem : SingletonMono<CardSystem>
                 var card = Card.NewHandCard(i);
 
                 // 起点为弃牌位置
-                var discard = DiscardArea.Instance.Cards.Find(x => x.Id == i.id);
+                var discard = DiscardPile.Instance.Cards.Find(x => x.Id == i.id);
                 if (discard != null) card.transform.position = discard.transform.position;
 
                 // 终点为手牌区
@@ -300,7 +300,7 @@ public class CardSystem : SingletonMono<CardSystem>
                 var card = Card.New(i, true);
 
                 // 起点为弃牌位置
-                var discard = DiscardArea.Instance.Cards.Find(x => x.Id == i.id);
+                var discard = DiscardPile.Instance.Cards.Find(x => x.Id == i.id);
                 if (discard != null) card.transform.position = discard.transform.position;
 
                 // 终点为武将位置

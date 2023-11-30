@@ -27,30 +27,35 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *****************************************************************************/
- 
+
 using UnityEngine;
 using UnityEditor;
 using Spine.Unity.Editor;
 
-namespace Spine.Unity.Modules {
-	[CustomEditor(typeof(SkeletonPartsRenderer))]
-	public class SkeletonRenderPartInspector : UnityEditor.Editor {
-		SpineInspectorUtility.SerializedSortingProperties sortingProperties;
+namespace Spine.Unity.Modules
+{
+    [CustomEditor(typeof(SkeletonPartsRenderer))]
+    public class SkeletonRenderPartInspector : UnityEditor.Editor
+    {
+        SpineInspectorUtility.SerializedSortingProperties sortingProperties;
 
-		void OnEnable () {			
-			sortingProperties = new SpineInspectorUtility.SerializedSortingProperties((target as Component).GetComponent<MeshRenderer>());
-		}
+        void OnEnable()
+        {
+            sortingProperties = new SpineInspectorUtility.SerializedSortingProperties((target as Component).GetComponent<MeshRenderer>());
+        }
 
-		public override void OnInspectorGUI () {
-			SpineInspectorUtility.SortingPropertyFields(sortingProperties, true);
-			EditorGUILayout.Space();
-			if (SpineInspectorUtility.LargeCenteredButton(new GUIContent("Select SkeletonRenderer", SpineEditorUtilities.Icons.spine))) {
-				var thisSkeletonPartsRenderer = target as SkeletonPartsRenderer;
-				var srs = thisSkeletonPartsRenderer.GetComponentInParent<SkeletonRenderSeparator>();
-				if (srs != null && srs.partsRenderers.Contains(thisSkeletonPartsRenderer) && srs.SkeletonRenderer != null)
-					Selection.activeGameObject = srs.SkeletonRenderer.gameObject;
-			}
-		}
-	}
+        public override void OnInspectorGUI()
+        {
+            SpineInspectorUtility.SortingPropertyFields(sortingProperties, true);
+            EditorGUILayout.Space();
+            if (SpineInspectorUtility.LargeCenteredButton(new GUIContent("Select SkeletonRenderer", SpineEditorUtilities.Icons.spine)))
+            {
+                var thisSkeletonPartsRenderer = target as SkeletonPartsRenderer;
+                var srs = thisSkeletonPartsRenderer.GetComponentInParent<SkeletonRenderSeparator>();
+                if (srs != null && srs.partsRenderers.Contains(thisSkeletonPartsRenderer) && srs.SkeletonRenderer != null)
+                    Selection.activeGameObject = srs.SkeletonRenderer.gameObject;
+            }
+        }
+    }
 
 }
