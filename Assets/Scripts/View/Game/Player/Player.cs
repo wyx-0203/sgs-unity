@@ -116,7 +116,7 @@ public class Player : MonoBehaviour
         else if (GameCore.Mode.Instance is GameCore.ThreeVSThree)
         {
             // 主将
-            if (model.isMaster) team.sprite = model.team == GameCore.Team.BLUE ? teamSprites[2] : teamSprites[3];
+            if (model.isMonarch) team.sprite = model.team == GameCore.Team.BLUE ? teamSprites[2] : teamSprites[3];
 
             // 先锋
             else team.sprite = model.team == GameCore.Team.BLUE ? teamSprites[4] : teamSprites[5];

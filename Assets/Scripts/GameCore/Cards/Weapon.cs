@@ -142,7 +142,7 @@ namespace GameCore
 
         public override async Task Add(Player owner)
         {
-            skill = new ZBSMSkill(owner);
+            skill = new _Skill(owner);
             await base.Add(owner);
         }
 
@@ -153,15 +153,15 @@ namespace GameCore
             await base.Remove();
         }
 
-        public ZBSMSkill skill { get; private set; }
+        public _Skill skill { get; private set; }
 
-        public class ZBSMSkill : Converted
+        public class _Skill : Converted
         {
             public override Card Convert(List<Card> cards) => Card.Convert<杀>(src, cards);
             public override bool IsValidCard(Card card) => card.isHandCard;
             public override int MaxCard => 2;
             public override int MinCard => 2;
-            public ZBSMSkill(Player src) => Init("丈八蛇矛", src);
+            public _Skill(Player src) => Init("丈八蛇矛", src);
         }
     }
 

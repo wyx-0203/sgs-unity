@@ -4,16 +4,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace GameCore
+namespace Models
 {
-    public class Player : IComparable<Player>
+    public class Player
     {
         public Player(Team team, int turnOrder, bool isMaster = false)
         {
             this.team = team;
             this.turnOrder = turnOrder;
             this.isMonarch = isMaster;
-            effects = new EffectCollection(this);
+            // effects = new EffectCollection(this);
         }
 
         /// <summary>
@@ -24,12 +24,12 @@ namespace GameCore
         /// <summary>
         /// 是否为AI
         /// </summary>
-        public bool isAI { get; set; } = false;
+        // public bool isAI { get; set; } = false;
 
         /// <summary>
         /// 所有队友
         /// </summary>
-        public List<Player> teammates { get; set; }
+        // public List<Player> teammates { get; set; }
 
         /// <summary>
         /// 阵营
@@ -51,17 +51,17 @@ namespace GameCore
         /// <summary>
         /// 所有技能
         /// </summary>
-        public List<Skill> skills { get; } = new();
+        public List<string> skills { get; } = new();
 
-        /// <summary>
-        /// 按名称查找技能
-        /// </summary>
-        public Skill FindSkill(string name) => skills.Find(x => x.name == name);
+        // /// <summary>
+        // /// 按名称查找技能
+        // /// </summary>
+        // public Skill FindSkill(string name) => skills.Find(x => x.name == name);
 
         /// <summary>
         /// 按类型查找技能
         /// </summary>
-        public T FindSkill<T>() where T : Skill => skills.Find(x => x is T) as T;
+        // public T FindSkill<T>() where T : Skill => skills.Find(x => x is T) as T;
 
         /// <summary>
         /// 是否存活
@@ -131,32 +131,32 @@ namespace GameCore
         /// <summary>
         /// 装备区
         /// </summary>
-        public Dictionary<string, Equipment> Equipments { get; } = new();
+        public Dictionary<string, Card> Equipments { get; } = new();
 
         /// <summary>
         /// 武器
         /// </summary>
-        public Weapon weapon => Equipments.ContainsKey("武器") ? Equipments["武器"] as Weapon : null;
+        // public Weapon weapon => Equipments.ContainsKey("武器") ? Equipments["武器"] as Weapon : null;
 
-        /// <summary>
-        /// 防具
-        /// </summary>
-        public Armor armor => Equipments.ContainsKey("防具") ? Equipments["防具"] as Armor : null;
+        // /// <summary>
+        // /// 防具
+        // /// </summary>
+        // public Armor armor => Equipments.ContainsKey("防具") ? Equipments["防具"] as Armor : null;
 
-        /// <summary>
-        /// 加一马
-        /// </summary>
-        public PlusHorse plusHorse => Equipments.ContainsKey("加一马") ? Equipments["加一马"] as PlusHorse : null;
+        // /// <summary>
+        // /// 加一马
+        // /// </summary>
+        // public PlusHorse plusHorse => Equipments.ContainsKey("加一马") ? Equipments["加一马"] as PlusHorse : null;
 
-        /// <summary>
-        /// 减一马
-        /// </summary>
-        public SubHorse subHorse => Equipments.ContainsKey("减一马") ? Equipments["减一马"] as SubHorse : null;
+        // /// <summary>
+        // /// 减一马
+        // /// </summary>
+        // public SubHorse subHorse => Equipments.ContainsKey("减一马") ? Equipments["减一马"] as SubHorse : null;
 
         /// <summary>
         /// 判定区
         /// </summary>
-        public List<DelayScheme> JudgeCards { get; } = new();
+        public List<Card> JudgeCards { get; } = new();
 
         /// <summary>
         /// 所有手牌和装备牌
@@ -186,7 +186,7 @@ namespace GameCore
         public bool useJiu { get; set; } = false;
         public int jiuCount { get; set; }
 
-        public EffectCollection effects { get; private set; }
+        // public EffectCollection effects { get; private set; }
 
         /// <summary>
         /// 计算距离
@@ -225,36 +225,36 @@ namespace GameCore
         /// <summary>
         /// 按类型查找手牌(人机)
         /// </summary>
-        public T FindCard<T>() where T : Card => handCards.Find(x => x is T && x.useable) as T;
+        // public T FindCard<T>() where T : Card => handCards.Find(x => x is T && x.useable) as T;
 
         /// <summary>
         /// 初始化武将
         /// </summary>
-        public async Task InitGeneral(General general)
-        {
-            // 基本信息
-            this.general = general;
-            hpLimit = general.hp_limit;
-            if (isMonarch) hpLimit++;
-            hp = hpLimit;
+        // public async Task InitGeneral(General general)
+        // {
+        //     // 基本信息
+        //     this.general = general;
+        //     hpLimit = general.hp_limit;
+        //     if (isMonarch) hpLimit++;
+        //     hp = hpLimit;
 
-            // 添加技能
-            foreach (var name in general.skill) await Skill.New(name, this);
+        //     // 添加技能
+        //     foreach (var name in general.skill) await Skill.New(name, this);
 
-            // 皮肤
-            skins = (await Skin.GetList(general.id)).ToList();
-            currentSkin = skins[0];
-        }
-
-        /// <summary>
-        /// 按当前回合角色排序
-        /// </summary>
-        public int orderKey => (position - TurnSystem.Instance.CurrentPlayer.position + Main.Instance.players.Length) % Main.Instance.players.Length;
+        //     // 皮肤
+        //     skins = (await Skin.GetList(general.id)).ToList();
+        //     currentSkin = skins[0];
+        // }
 
         /// <summary>
         /// 按当前回合角色排序
         /// </summary>
-        public int CompareTo(Player other) => orderKey.CompareTo(other.orderKey);
+        // public int orderKey => (position - TurnSystem.Instance.CurrentPlayer.position + Main.Instance.players.Length) % Main.Instance.players.Length;
+
+        /// <summary>
+        /// 按当前回合角色排序
+        /// </summary>
+        // public int CompareTo(Player other) => orderKey.CompareTo(other.orderKey);
 
         #region 皮肤
 
@@ -269,19 +269,19 @@ namespace GameCore
         public Skin currentSkin { get; private set; }
 
         private int skinIndex = 0;
-        public void SendChangeSkin()
-        {
-            skinIndex = (skinIndex + 1) % skins.Count;
-            var json = new ChangeSkinMessage
-            {
-                msg_type = "change_skin",
-                position = position,
-                skin_id = skins[skinIndex].id
-            };
+        // public void SendChangeSkin()
+        // {
+        //     skinIndex = (skinIndex + 1) % skins.Count;
+        //     var json = new ChangeSkinMessage
+        //     {
+        //         msg_type = "change_skin",
+        //         position = position,
+        //         skin_id = skins[skinIndex].id
+        //     };
 
-            if (Room.Instance.IsSingle) ChangeSkin(json.skin_id);
-            else WebSocket.Instance.SendMessage(json);
-        }
+        //     if (Room.Instance.IsSingle) ChangeSkin(json.skin_id);
+        //     else WebSocket.Instance.SendMessage(json);
+        // }
 
         public void ChangeSkin(int skinId)
         {

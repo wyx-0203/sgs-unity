@@ -17,7 +17,7 @@ namespace GameCore
         // 技能名称
         public string name { get; private set; }
         // 锁定技
-        public virtual bool isObey => false;
+        public virtual bool passive => false;
         // 限定次数
         public virtual int timeLimit => int.MaxValue;
         // 已使用次数

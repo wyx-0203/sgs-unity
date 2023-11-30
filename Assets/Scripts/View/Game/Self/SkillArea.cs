@@ -56,7 +56,7 @@ public class SkillArea : SingletonMono<SkillArea>
         foreach (var i in list)
         {
 
-            var prefab = i is GameCore.Ultimate ? 限定技 : i.isObey ? 锁定技 : 主动技;
+            var prefab = i is GameCore.Ultimate ? 限定技 : i.passive ? 锁定技 : 主动技;
             var skill = Instantiate(prefab).GetComponent<Skill>();
 
             if (i.parent != null)

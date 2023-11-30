@@ -29,7 +29,7 @@ namespace GameCore
                 {
                     triggered.arg = arg;
                     Decision decision = null;
-                    if (!triggered.isObey)
+                    if (!triggered.passive)
                     {
                         decision = await triggered.WaitDecision();
                         if (!decision.action) continue;

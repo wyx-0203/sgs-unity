@@ -60,7 +60,7 @@ public class 义绝 : Active
             // 禁用手牌
             dest.effects.DisableCard.Add(x => x.isHandCard, Duration.UntilTurnEnd);
             // 禁用非锁定技
-            dest.effects.DisableSkill.Add(x => !x.isObey, Duration.UntilTurnEnd);
+            dest.effects.DisableSkill.Add(x => !x.passive, Duration.UntilTurnEnd);
             // 下次受到杀的伤害+1
             dest.effects.OffsetDamageValue.Add(x => x.Src == src && x.SrcCard is 杀 sha && sha.suit == "红桃" ? 1 : 0, Duration.UntilTurnEnd, true);
         }

@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class 千驹 : Triggered, Durative
 {
-    public override bool isObey => true;
+    public override bool passive => true;
 
     private int offset = 0;
 

@@ -27,7 +27,7 @@ public class 父魂 : Skill.Multi
 
     public class _Ondamaged : Triggered
     {
-        public override bool isObey => true;
+        public override bool passive => true;
         private Card card => src.FindSkill<_Converted>().card;
         private bool invoked;
 

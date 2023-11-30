@@ -47,7 +47,7 @@ public class 明策 : Active
 
 public class 智迟 : Triggered
 {
-    public override bool isObey => true;
+    public override bool passive => true;
     protected override bool OnDamaged(Damaged damaged) => TurnSystem.Instance.CurrentPlayer != src;
 
     protected override async Task Invoke(Decision decision)

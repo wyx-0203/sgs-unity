@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 public class 当先 : Triggered
 {
-    public override bool isObey => true;
+    public override bool passive => true;
     protected override bool OnPhaseStart(Phase phase) => phase == Phase.Prepare;
 
     protected override async Task Invoke(Decision decision)

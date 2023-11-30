@@ -2,7 +2,7 @@ using GameCore;
 
 public class 咆哮 : Skill, Durative
 {
-    public override bool isObey => true;
+    public override bool passive => true;
 
     public void OnStart()
     {

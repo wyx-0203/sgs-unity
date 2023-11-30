@@ -65,7 +65,7 @@ namespace GameCore
 
         public async override Task OnPlayerDie(Player player, Player src)
         {
-            if (player.isMaster) throw new GameOverException(player.team);
+            if (player.isMonarch) throw new GameOverException(player.team);
             if (src != null && src.team != player.team) await new GetCardFromPile(src, 2).Execute();
         }
     }

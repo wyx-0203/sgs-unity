@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 public class 无双 : Triggered
 {
-    public override bool isObey => true;
+    public override bool passive => true;
 
     protected override bool OnExecuteSha(杀 sha) => true;
 

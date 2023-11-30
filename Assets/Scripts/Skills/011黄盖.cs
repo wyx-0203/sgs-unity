@@ -24,7 +24,7 @@ public class 苦肉 : Active
 
 public class 诈降 : Triggered
 {
-    public override bool isObey => true;
+    public override bool passive => true;
 
     protected override bool OnLoseHp(UpdateHp updateHp) => true;
 

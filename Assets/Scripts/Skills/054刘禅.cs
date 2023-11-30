@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 public class 享乐 : Triggered
 {
-    public override bool isObey => true;
+    public override bool passive => true;
 
     public override bool AfterEveryUseCard(Card card) => card is 杀 && card.dest == src;
 
