@@ -5,6 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
+using Newtonsoft.Json;
 
 namespace Editor
 {
@@ -55,7 +56,7 @@ namespace Editor
             save.clicked += Save;
 
             // 初始化武将列表
-            generals = (await GameCore.General.GetList()).Select(x => ScriptableObject.CreateInstance<General>().Init(x)).ToList();
+            generals = (await Model.General.GetList()).Select(x => ScriptableObject.CreateInstance<General>().Init(x)).ToList();
             listView.itemsSource = generals;
             listView.makeItem = MakeListItem;
             listView.bindItem = BindListItem;
@@ -74,9 +75,9 @@ namespace Editor
         private void Save()
         {
             // 将列表转化为json字符串
-            var list = new JsonList<GameCore.General>
+            var list = new Model.JsonList<Model.General>
             {
-                list = generals.Select(x => new GameCore.General
+                list = generals.Select(x => new Model.General
                 {
                     id = x.id,
                     name = x._name,
@@ -87,7 +88,7 @@ namespace Editor
                     describe = x.skills.Select(skill => skill.describe).ToList()
                 }).OrderBy(x => x.id).ToList()
             };
-            string json = JsonUtility.ToJson(list);
+            string json = JsonConvert.SerializeObject(list);
 
             // 写入文件
             string filePath = "Assets/StreamingAssets/Json/general.json";

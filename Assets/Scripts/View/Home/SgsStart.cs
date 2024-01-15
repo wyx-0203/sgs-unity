@@ -18,7 +18,7 @@ public class SgsStart : SingletonMono<SgsStart>
         start.onClick.AddListener(ClickStart);
         signOut.onClick.AddListener(ClickSignOut);
 
-        BGM.Instance.Load(Url.AUDIO + "bgm/outbgm_2.mp3");
+        // BGM.Instance.Load(Url.AUDIO + "bgm/outbgm_2.mp3");
     }
 
     public void ShowStartPanel()

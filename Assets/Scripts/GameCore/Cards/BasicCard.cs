@@ -3,7 +3,10 @@ using System.Threading.Tasks;
 
 namespace GameCore
 {
-    public class BasicCard : Card { }
+    public class BasicCard : Card
+    {
+        public BasicCard() : base() { }
+    }
 
     public class 杀 : BasicCard
     {
@@ -63,8 +66,8 @@ namespace GameCore
                 try { if (src.weapon != null) await src.weapon.OnShaDamage(this); }
                 catch (PreventDamage) { return; }
 
-                Damaged.Type type = this is 火杀 ? Damaged.Type.Fire : this is 雷杀 ? Damaged.Type.Thunder : Damaged.Type.Normal;
-                await new Damaged(dest, src, this, 1 + damageOffset[dest.position], type).Execute();
+                var type = this is 火杀 ? Model.Damage.Type.Fire : this is 雷杀 ? Model.Damage.Type.Thunder : Model.Damage.Type.Normal;
+                await new Damage(dest, src, this, 1 + damageOffset[dest.position], type).Execute();
             }
         }
 
@@ -74,15 +77,30 @@ namespace GameCore
 
         public static async Task<bool> Call(Player player)
         {
-            Timer.Instance.hint = "请打出一张杀。";
-            Timer.Instance.isValidCard = card => card.Useable<杀>();
+            // Timer.Instance.hint = "请打出一张杀。";
+            // Timer.Instance.isValidCard = card => card.Useable<杀>();
 
-            var decision = await Timer.Instance.Run(player, 1, 0);
+            // var decision = await Timer.Instance.Run(player, 1, 0);
+            var decision = await new PlayQuery
+            {
+                player = player,
+                hint = "请打出一张杀。",
+                isValidCard = card => card.Useable<杀>()
+            }.Run(1, 0);
             if (!decision.action) return false;
 
             await decision.cards[0].Put(player);
             return true;
         }
+
+        public override bool IsValid() => src.shaCount < 1 || src.effects.NoTimesLimit.Invoke(this);
+        public override int MaxDest() => 1;
+        public override int MinDest() => 1;
+        public override bool IsValidDest(Player player) => UseSha(src, player, this);
+
+        public static bool UseSha(Player src, Player dest) => src != dest && src.attackRange >= src.GetDistance(dest);
+        public static bool UseSha(Player src, Player dest, 杀 card) => src != dest
+            && (src.attackRange >= src.GetDistance(dest) || src.effects.NoDistanceLimit.Invoke(card, dest));
     }
 
     public class 闪 : BasicCard
@@ -101,17 +119,25 @@ namespace GameCore
                 if (result) return true;
             }
 
-            Timer.Instance.hint = "请使用一张闪。";
-            Timer.Instance.isValidCard = card => card.Useable<闪>();
-            Timer.Instance.DefaultAI = AI.TryAction;
+            // Timer.Instance.hint = "请使用一张闪。";
+            // Timer.Instance.isValidCard = card => card.Useable<闪>();
+            // Timer.Instance.DefaultAI = AI.TryAction;
 
-            var decision = await Timer.Instance.Run(player, 1, 0);
+            // var decision = await Timer.Instance.Run(player, 1, 0);
+            var decision = await new PlayQuery
+            {
+                player = player,
+                hint = "请使用一张闪。",
+                isValidCard = card => card.Useable<闪>(),
+            }.Run(1, 0);
 
             if (!decision.action) return false;
 
             await decision.cards[0].UseCard(player);
             return true;
         }
+
+        public override bool IsValid() => false;
     }
 
     public class 桃 : BasicCard
@@ -135,17 +161,27 @@ namespace GameCore
 
         public static async Task<bool> Call(Player player, Player dest)
         {
-            Timer.Instance.hint = "请使用一张桃。";
-            Timer.Instance.isValidCard = card => (card is 桃 || card is 酒 && dest == player) && card.useable;
-            Timer.Instance.isValidDest = player => player == dest;
-            Timer.Instance.DefaultAI = player.team == dest.team ? AI.TryAction : () => new();
+            // Timer.Instance.hint = "请使用一张桃。";
+            // Timer.Instance.isValidCard = card => (card is 桃 || card is 酒 && dest == player) && card.useable;
+            // Timer.Instance.isValidDest = player => player == dest;
+            // Timer.Instance.DefaultAI = player.team == dest.team ? AI.TryAction : () => new();
 
-            var decision = await Timer.Instance.Run(player, 1, 1);
+            // var decision = await Timer.Instance.Run(player, 1, 1);
+            var decision = await new PlayQuery
+            {
+                player = player,
+                hint = "请使用一张桃。",
+                isValidCard = card => (card is 桃 || card is 酒 && dest == player) && card.useable,
+                isValidDest = player => player == dest,
+                aiAct = player.team == dest.team
+            }.Run(1, 1);
             if (!decision.action) return false;
 
             await decision.cards[0].UseCard(player, new List<Player> { dest });
             return true;
         }
+
+        public override bool IsValid() => src.hp < src.hpLimit;
     }
 
     public class 火杀 : 杀

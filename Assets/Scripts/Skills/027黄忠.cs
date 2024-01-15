@@ -8,12 +8,12 @@ public class 烈弓 : Triggered, Durative
 
     public override int MaxDest => 1;
     public override int MinDest => 1;
-    public override bool IsValidDest(Player dest1) => dest1 == dest;
+    public override bool IsValidDest(Player dest) => this.dest == dest;
 
     private 杀 sha => arg as 杀;
     private Player dest => sha.dest;
 
-    protected override async Task Invoke(Decision decision)
+    protected override async Task Invoke(PlayDecision decision)
     {
         await Task.Yield();
 
@@ -23,7 +23,8 @@ public class 烈弓 : Triggered, Durative
         if (dest.hp >= src.hp) sha.AddDamageValue(dest, 1);
     }
 
-    public override Decision AIDecision() => dest.team != src.team || !AI.CertainValue ? AI.TryAction() : new();
+    public override bool AIAct => dest.team != src.team;
+    // public override Decision AIDecision() => dest.team != src.team || !AI.CertainValue ? AI.TryAction() : new();
 
     // 无视距离
     public void OnStart()

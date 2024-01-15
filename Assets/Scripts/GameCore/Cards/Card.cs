@@ -10,7 +10,7 @@ namespace GameCore
         /// <summary>
         /// 编号
         /// </summary>
-        public int id { get; set; }
+        public int id { get; set; } = -1;
         /// <summary>
         /// 花色
         /// </summary>
@@ -58,27 +58,31 @@ namespace GameCore
             // 目标角色排序
             if (dests.Count > 1) dests.Sort();
 
-            isUsing = true;
-            string destStr = dests.Count > 0 ? "对" + string.Join("、", dests) : "";
-            Util.Print(src + destStr + "使用了" + this);
-            if (!MCTS.Instance.isRunning)
-            {
-                UseCardView?.Invoke(this);
-                _src.effects.ExtraDestCount.TryExecute();
-                _src.effects.NoTimesLimit.TryExecute();
-            }
-
             // 使用者失去此手牌
             if (!isConvert)
             {
-                if (this is not Equipment) CardPile.Instance.AddToDiscard(this);
+                if (this is not Equipment) CardPile.Instance.AddToDiscard(this, src);
                 await new LoseCard(src, new List<Card> { this }).Execute();
             }
             else if (PrimiTives.Count != 0)
             {
-                CardPile.Instance.AddToDiscard(PrimiTives);
+                CardPile.Instance.AddToDiscard(PrimiTives, src);
                 await new LoseCard(src, PrimiTives).Execute();
             }
+
+            string destStr = dests.Count > 0 ? "对" + string.Join("、", dests) : "";
+            Util.Print(src + destStr + "使用了" + this);
+            EventSystem.Instance.Send(new Model.UseCard
+            {
+                player = src.position,
+                dests = dests.Select(x => x.position).ToList(),
+                id = id,
+                name = name,
+                type = type,
+                gender = src.general.gender
+            });
+            src.effects.ExtraDestCount.TryExecute();
+            src.effects.NoTimesLimit.TryExecute();
 
             // 指定目标时
             await Triggered.Invoke(x => x.OnEveryUseCard, this);
@@ -101,8 +105,6 @@ namespace GameCore
 
                 await UseForeachDest();
             }
-
-            isUsing = false;
         }
 
         protected virtual async Task BeforeUse() { await Task.Yield(); }
@@ -120,19 +122,28 @@ namespace GameCore
         {
             src = player;
             Util.Print(player + "打出了" + this);
-            if (!MCTS.Instance.isRunning) UseCardView?.Invoke(this);
 
             // 使用者失去此手牌
             if (!isConvert)
             {
-                if (!(this is Equipment)) CardPile.Instance.AddToDiscard(this);
+                if (!(this is Equipment)) CardPile.Instance.AddToDiscard(this, src);
                 await new LoseCard(player, new List<Card> { this }).Execute();
             }
             else if (PrimiTives.Count != 0)
             {
-                CardPile.Instance.AddToDiscard(PrimiTives);
+                CardPile.Instance.AddToDiscard(PrimiTives, src);
                 await new LoseCard(player, PrimiTives).Execute();
             }
+
+            EventSystem.Instance.Send(new Model.UseCard
+            {
+                player = src.position,
+                dests = dests.Select(x => x.position).ToList(),
+                id = id,
+                name = name,
+                type = type,
+                gender = src.general.gender
+            });
         }
 
         #region 转化牌
@@ -155,12 +166,19 @@ namespace GameCore
         public static T Convert<T>(Player src, List<Card> primitives = null) where T : Card, new()
         {
             // 无转化牌
-            if (primitives is null || primitives.Count == 0) return new T { src = src, isConvert = true };
+            if (primitives is null || primitives.Count == 0) return new T
+            {
+                // id为同类牌的相反数
+                id = -CardPile.Instance.cards.First(x => x is T).id,
+                src = src,
+                isConvert = true
+            };
             // 二次转化
             if (primitives[0].isConvert) return Convert<T>(src, primitives[0].PrimiTives);
 
             var card = new T
             {
+                id = primitives.Count == 1 ? primitives[0].id : -1,
                 src = src,
                 isConvert = true,
                 suit = primitives[0].suit,
@@ -190,6 +208,16 @@ namespace GameCore
             }
 
             return card;
+        }
+
+        public static Card NewVirtualCard(int virtualId, Player src)
+        {
+            if (virtualId >= 0) return null;
+
+            string cardName = CardPile.Instance.cards[-virtualId].name;
+            var type = Type.GetType($"GameCore.{cardName}");
+            var method = typeof(Card).GetMethod("Convert").MakeGenericMethod(new Type[] { type });
+            return method.Invoke(null, new object[] { src, null }) as Card;
         }
         #endregion
 
@@ -235,8 +263,10 @@ namespace GameCore
         /// </summary>
         public bool Useable<T>() where T : Card => this is T && useable;
 
-        public bool isUsing { get; private set; }
-        public static Action<Card> UseCardView;
+        public virtual bool IsValid() => true;
+        public virtual int MaxDest() => 0;
+        public virtual int MinDest() => 0;
+        public virtual bool IsValidDest(Player player) => false;
 
         public bool isRed => suit == "红桃" || suit == "方片" || suit == "红色";
         public bool isBlack => suit == "黑桃" || suit == "草花" || suit == "黑色";

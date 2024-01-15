@@ -16,8 +16,8 @@ public class GeneralList : SingletonMono<GeneralList>
     private async void Start()
     {
         // 获得所有武将信息
-        string url = Url.JSON + "general.json";
-        var list = JsonList<GameCore.General>.FromJson(await WebRequest.Get(url));
+        // string url = Url.JSON + "general.json";
+        var list = await Model.General.GetList();
 
         // 实例化每个武将
         foreach (var i in list)
@@ -32,7 +32,7 @@ public class GeneralList : SingletonMono<GeneralList>
     /// <summary>
     /// 进入详情界面
     /// </summary>
-    public void ShowDetail(GameCore.General model)
+    public void ShowDetail(Model.General model)
     {
         gameObject.SetActive(false);
         detail.SetActive(true);
@@ -42,6 +42,6 @@ public class GeneralList : SingletonMono<GeneralList>
     private void ClickBack()
     {
         gameObject.SetActive(false);
-        Lobby.Instance.ShowLobby();
+        // Lobby.Instance.ShowLobby();
     }
 }

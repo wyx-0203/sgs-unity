@@ -1,3 +1,4 @@
+using Model;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,48 +9,48 @@ public class Self : SingletonMono<Self>
     // 每阶段对应sprite
     public Sprite[] phaseSprite;
 
-    public Button teammate;
+    // public Button teammate;
     public GameObject teammatePanel;
 
-    private GameCore.Player model => GameMain.Instance.self.model;
+    private int self => GameMain.Instance.firstPerson.model.index;
 
     private void Start()
     {
         currentPhase.gameObject.SetActive(false);
-        teammate.onClick.AddListener(ClickTeammate);
+        // teammate.onClick.AddListener(ClickTeammate);
 
-        GameCore.TurnSystem.Instance.StartPhaseView += ShowPhase;
-        GameCore.TurnSystem.Instance.FinishPhaseView += HidePhase;
+        EventSystem.Instance.AddEvent<StartPhase>(ShowPhase);
+        EventSystem.Instance.AddEvent<FinishPhase>(HidePhase);
     }
 
     private void OnDestroy()
     {
-        GameCore.TurnSystem.Instance.StartPhaseView -= ShowPhase;
-        GameCore.TurnSystem.Instance.FinishPhaseView -= HidePhase;
+        EventSystem.Instance.RemoveEvent<StartPhase>(ShowPhase);
+        EventSystem.Instance.RemoveEvent<FinishPhase>(HidePhase);
     }
 
     /// <summary>
     /// 显示并更新阶段信息
     /// </summary>
-    public void ShowPhase()
+    public void ShowPhase(StartPhase startPhase)
     {
-        if (GameCore.TurnSystem.Instance.CurrentPlayer != model) return;
+        if (startPhase.player != self) return;
 
         currentPhase.gameObject.SetActive(true);
-        currentPhase.sprite = phaseSprite[(int)GameCore.TurnSystem.Instance.CurrentPhase];
+        currentPhase.sprite = phaseSprite[(int)startPhase.phase];
     }
 
     /// <summary>
     /// 隐藏阶段信息(回合外)
     /// </summary>
-    public void HidePhase()
+    public void HidePhase(FinishPhase finishPhase)
     {
-        if (GameCore.TurnSystem.Instance.CurrentPlayer != model) return;
+        if (finishPhase.player != self) return;
         currentPhase.gameObject.SetActive(false);
     }
 
-    private void ClickTeammate()
-    {
-        teammatePanel.SetActive(true);
-    }
+    // private void ClickTeammate()
+    // {
+    //     teammatePanel.SetActive(true);
+    // }
 }

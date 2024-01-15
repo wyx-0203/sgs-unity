@@ -4,20 +4,21 @@ using UnityEngine;
 
 namespace GameCore
 {
-    public static class AI
+    public class AI : Singleton<AI>
     {
-        private static List<string> haveDamageSkill = new List<string> { "曹操", "法正", "夏侯惇", "荀彧" };
+        private List<string> haveDamageSkill = new List<string> { "曹操", "法正", "夏侯惇", "荀彧" };
 
-        private static Player player => Timer.Instance.players[0];
+        private Player player => playRequest.player;
+        public PlayQuery playRequest { get; set; }
 
-        public static List<Player> GetValidDest()
+        public List<Player> GetValidDest()
         {
-            if (Timer.Instance.minDest() == 0) return new();
-            var dests = Main.Instance.AlivePlayers.Where(x => Timer.Instance.isValidDest(x)).OrderBy(GetDefensePower);
-            return dests.Take(Timer.Instance.minDest()).ToList();
+            if (playRequest.minDest == 0) return new();
+            var dests = Game.Instance.AlivePlayers.Where(x => playRequest.isValidDest(x)).OrderBy(GetDefensePower);
+            return dests.Take(playRequest.minDest).ToList();
         }
 
-        public static int GetDefensePower(Player dest)
+        public int GetDefensePower(Player dest)
         {
             int power = dest.hp * 3 + dest.handCardsCount;
             if (haveDamageSkill.Contains(dest.general.name)) power += (dest.hp - 1) * 4;
@@ -43,37 +44,41 @@ namespace GameCore
         //     return sum;
         // }
 
-        public static List<Card> GetRandomCard()
+        public List<Card> GetRandomCard()
         {
-            var cards = player.cards.Where(x => Timer.Instance.isValidCard(x)).ToList();
-            if (cards.Count < Timer.Instance.minCard) return cards;
+            int maxCard = playRequest.maxCard;
+            int minCard = playRequest.minCard;
 
-            int count = Mathf.Min(cards.Count, Timer.Instance.maxCard);
-            if (count > Timer.Instance.minCard) count = Random.Range(Timer.Instance.minCard, count);
+            var cards = player.cards.Where(x => playRequest.isValidCard(x)).ToList();
+            if (cards.Count < minCard) return cards;
+
+            int count = Mathf.Min(cards.Count, maxCard);
+            if (count > minCard) count = Random.Range(minCard, count);
 
             return Shuffle(cards, count);
         }
 
-        public static IEnumerable<Player> GetDestByTeam(Team team)
-        {
-            return team.GetAllPlayers().Where(x => Timer.Instance.isValidDest(x));
-        }
+        public IEnumerable<Player> GetDestByTeam(Model.Team team) =>
+            // var card = Timer.Instance.temp.cards.FirstOrDefault();
+            // var isValidDest = Timer.Instance.startPlay.isValidDest;
+            Game.Instance.AlivePlayers.Where(x => playRequest.isValidDest(x)).OrderBy(x => (x.team == team ? -1 : 1) * Random.Range(0, 8));
+        // Game.Instance.AlivePlayers.Where(x=>x.team==team&&isValidDest(x,))
 
 
-        public static IEnumerable<Player> GetAllDests()
-        {
-            return Main.Instance.AlivePlayers.Where(x => Timer.Instance.isValidDest(x));
-        }
+        // public static IEnumerable<Player> GetAllDests()
+        // {
+        //     return Game.Instance.AlivePlayers.Where(x => Timer.Instance.isValidDest(x));
+        // }
 
-        public static Decision TryAction()
+        public PlayDecision TryAction()
         {
             if (!CertainValue) return new();
 
             var cards = GetRandomCard();
             var dests = GetValidDest();
 
-            if (cards.Count < Timer.Instance.minCard || dests.Count < Timer.Instance.minDest()) return new();
-            else return new Decision { action = true, cards = cards, dests = dests };
+            if (cards.Count < playRequest.minCard || dests.Count < playRequest.minDest) return new();
+            else return new PlayDecision { action = true, cards = cards, dests = dests };
         }
 
         private const float certainX = 1f;

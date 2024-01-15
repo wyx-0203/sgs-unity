@@ -2,6 +2,7 @@ using GameCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Phase = Model.Phase;
 
 public class 精策 : Triggered
 {
@@ -18,14 +19,18 @@ public class 精策 : Triggered
         return false;
     }
 
-    protected override async Task Invoke(Decision decision)
+    protected override async Task Invoke(PlayDecision decision)
     {
         // 选择一项执行
         if (cards.Select(x => x.suit).Distinct().Count() < src.hp)
         {
-            Timer.Instance.hint = "点击确定执行一个额外的摸牌阶段，点击取消执行出牌阶段";
-            Timer.Instance.DefaultAI = () => new Decision { action = AI.CertainValue };
-            TurnSystem.Instance.ExtraPhase.Add((await Timer.Instance.Run(src)).action ? Phase.Get : Phase.Play);
+            // Timer.Instance.hint = "点击确定执行一个额外的摸牌阶段，点击取消执行出牌阶段";
+            // Timer.Instance.defaultAI = () => new Decision { action = AI.CertainValue };
+            TurnSystem.Instance.ExtraPhase.Add((await new PlayQuery
+            {
+                player = src,
+                hint = "点击确定执行一个额外的摸牌阶段，点击取消执行出牌阶段",
+            }.Run()).action ? Phase.Get : Phase.Play);
         }
 
         // 全部执行

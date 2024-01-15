@@ -9,10 +9,15 @@ namespace GameCore
         public async Task<bool> Invoke(Card srcCard)
         {
             if (srcCard is 杀 sha && sha.ignoreArmor) return false;
-            Timer.Instance.hint = "是否发动八卦阵？";
-            Timer.Instance.equipSkill = this;
-            Timer.Instance.DefaultAI = () => new Decision { action = true };
-            if (!(await Timer.Instance.Run(owner)).action) return false;
+            // Timer.Instance.hint = "是否发动八卦阵？";
+            // Timer.Instance.equipSkill = this;
+            // Timer.Instance.DefaultAI = () => new Decision { action = true };
+            if (!(await new PlayQuery
+            {
+                player = owner,
+                hint = hint,
+                skill = name,
+            }.Run()).action) return false;
 
             Execute();
             var card = await Judge.Execute();
@@ -36,7 +41,7 @@ namespace GameCore
             || card is 南蛮入侵
             || card is 万箭齐发;
 
-        private int OffsetDamageValue(Damaged damage) => damage.type == Damaged.Type.Fire
+        private int OffsetDamageValue(Damage damage) => damage.type == Model.Damage.Type.Fire
             && (damage.SrcCard is not 火杀 sha || !sha.ignoreArmor) ? 1 : 0;
     }
 

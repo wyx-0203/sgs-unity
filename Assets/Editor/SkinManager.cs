@@ -7,6 +7,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
+using Newtonsoft.Json;
 
 namespace Editor
 {
@@ -194,28 +195,28 @@ namespace Editor
             if (dynamic.value) await DownloadDynamic(id.value);
 
             // 创建skin对象
-            var skin = new GameCore.Skin
+            var skin = new Model.Skin
             {
                 general_id = general_id.value,
                 id = id.value,
                 name = _name.value,
                 dynamic = dynamic.value,
-                voice = voices.Select(x => new GameCore.Voice
+                voice = voices.Select(x => new Model.Voice
                 {
                     name = x.skill_name,
                     url = dict[x]
                 }).ToList()
             };
-            Debug.Log(JsonUtility.ToJson(skin));
+            Debug.Log(JsonConvert.SerializeObject(skin));
 
             // 获得并更新皮肤列表
-            var skins = await GameCore.Skin.GetList();
+            var skins = await Model.Skin.GetList();
             skins.Add(skin);
-            var list = new JsonList<GameCore.Skin>
+            var list = new Model.JsonList<Model.Skin>
             {
                 list = skins.OrderBy(x => x.general_id).ThenBy(x => x.name == "界限突破" ? 0 : x.id).ToList()
             };
-            string json = JsonUtility.ToJson(list);
+            string json = JsonConvert.SerializeObject(list);
 
             // 写入文件
             string filePath = "Assets/StreamingAssets/Json/skin.json";

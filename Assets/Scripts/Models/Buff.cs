@@ -1,99 +1,151 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
-namespace Models
+namespace Model
 {
-    public class Buff
+    [Serializable]
+    public class CardPanelQuery : Message
     {
-    }
-
-
-    public enum TimerType
-    {
-        Normal,
-        WXKJ,
-        Compete,
-        InPlayPhase
-    }
-
-    public enum DestAmount
-    {
-        None,
-        UseCard
-    }
-
-    public enum CardCondition
-    {
-        NotConverted,
-        UseCard,
-    }
-
-    public enum DestCondition
-    {
-        Given,
-        UseCard,
-        // 
-    }
-
-    public enum NoTimesLimit
-    {
-        // 
-    }
-
-    public enum NoDistanceLimit
-    {
-        // 
-    }
-
-    public enum DisableCard
-    {
-        // 
-    }
-
-    public enum ExtraDestAmount
-    {
-        // 
+        public int second;
+        public string title;
+        public string hint;
+        public int dest;
+        public List<int> handCards;
+        public List<int> equipments;
+        public List<int> judgeCards;
     }
 
     [Serializable]
-    public class TimerJson
+    public class FinishCardPanel : Message
     {
-        public int player;
+        public FinishCardPanel() { }
+    }
+
+    [Serializable]
+    public class PlayQuery : Message
+    {
+        public SinglePlayQuery origin;
+        public List<SinglePlayQuery> skills;
         public int second;
-        public string hint;
-        public TimerType type = TimerType.Normal;
         // 可取消，即是否显示取消按钮
         public bool refusable = true;
-
-        public int maxCard;
-        public int minCard;
-        public int maxDest;
-        public int minDest;
-        public CardCondition cardCond;
-        public DestCondition destCond;
-
-        // public NoTimesLimit noTimesLimit;
-        // public NoDistanceLimit noDistanceLimit;
-        // public DisableCard disableCard;
-        // public ExtraDestAmount extraDestAmount;
-
-        public List<SkillTimerJson> skills;
-
-        // 转换牌列表，如仁德选择一种基本牌
-        public List<int> multiConverted = new();
-
-        public string equipSkill;
     }
 
     [Serializable]
-    public class SkillTimerJson
+    public class SinglePlayQuery
     {
-        public string name;
+        public enum Type
+        {
+            Normal,
+            WXKJ,
+            Compete,
+            PlayPhase,
+            UseCard,
+            LuanJi,
+            SanYao
+        }
+
+        public string hint;
+        public Type type = Type.Normal;
+
         public int maxCard;
         public int minCard;
-        public int maxDest;
-        public int minDest;
-        public CardCondition cardCond;
-        public DestCondition destCond;
+        public IEnumerable<int> cards => destInfos.SelectMany(x => x.cards);
+
+        public List<DestInfo> destInfos = new();
+
+        [Serializable]
+        public class DestInfo
+        {
+            public List<int> cards;
+            public int minDest;
+            public int maxDest;
+            public List<int> dests;
+            public List<List<int>> secondDests;
+        }
+
+        public string skillName;
+
+        // 转换牌列表，如仁德选择一种基本牌
+        public List<int> virtualCards = new();
+        public List<int> disabledVirtualCards = new();
+    }
+
+    [Serializable]
+    public class FinishPlay : Message
+    {
+        public SinglePlayQuery.Type type;
+    }
+
+
+    [Serializable]
+    public class PlayDecision : Decision
+    {
+        public bool action;
+        public List<int> cards = new();
+        public List<int> dests = new();
+        public string skill;
+        // public string other;
+        public int virtualCard;
+
+        public void Clear()
+        {
+            action = false;
+            cards.Clear();
+            dests.Clear();
+            skill = "";
+            virtualCard = 0;
+        }
+    }
+
+    [Serializable]
+    public class CardDecision : Decision
+    {
+        public List<int> cards;
+    }
+
+
+    [Serializable]
+    public class StartBanPick : Message
+    {
+        public List<int> generals;
+    }
+
+    [Serializable] public class FinishBanPick : Message { public FinishBanPick() : base() { } }
+    [Serializable]
+    public class StartSelfPick : Message
+    {
+        public int second;
+    }
+
+    [Serializable]
+    public class BanQuery : Message
+    {
+        public int second;
+    }
+
+    [Serializable]
+    public class PickQuery : Message
+    {
+        public int second;
+    }
+
+    [Serializable]
+    public class GeneralDecision : Decision
+    {
+        public int general;
+    }
+
+    [Serializable]
+    public class OnBan : Message
+    {
+        public int general;
+    }
+
+    [Serializable]
+    public class OnPick : Message
+    {
+        public int general;
     }
 }

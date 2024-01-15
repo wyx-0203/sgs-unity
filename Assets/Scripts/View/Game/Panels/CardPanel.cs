@@ -1,43 +1,50 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class CardPanel : SingletonMono<CardPanel>
 {
-    public PanelCard selectCard;
+    private PanelCard selectCard;
 
     // 进度条
     public Slider slider;
 
     // 手牌区
-    public GameObject handCards;
+    public Transform handCards;
     // 装备区
-    public GameObject equips;
+    public Transform equipments;
     // 标题
     public Text title;
     public Text hint;
     public Image image;
 
-    protected GameCore.CardPanel model => GameCore.CardPanel.Instance;
+    // protected GameCore.CardPanel model => GameCore.CardPanel.Instance;
 
-    private async void OnEnable()
+    public async void Show(Model.CardPanelQuery cpr)
     {
-        hint.text = model.Hint;
-        title.text = model.Title;
+        gameObject.SetActive(true);
+        title.text = cpr.title;
+        hint.text = cpr.hint;
 
-        StartTimer(model.second);
+        StartTimer(cpr.second);
 
-        foreach (var i in model.cards)
+        foreach (var i in cpr.handCards)
         {
-            var display = model.player.team == model.dest.team;
-            if (model.dest.handCards.Contains(i)) InitCard(i, handCards, display);
-            else InitCard(i, equips);
+            bool display = Player.Find(cpr.player).model.team == Player.Find(cpr.dest).model.team;
+            // if (cpr.dest.handCards.Contains(i)) InitCard(i, handCards, display);
+            // else InitCard(i, equips);
+            InitCard(i, handCards, display);
         }
         UpdateSpacing(handCards.transform.childCount);
+        foreach (var i in cpr.equipments.Union(cpr.judgeCards))
+        {
+            InitCard(i, equipments);
+        }
 
-        int skinId = model.dest.currentSkin.id;
-        string url = Url.GENERAL_IMAGE + "Window/" + skinId + ".png";
+        int skinId = Player.Find(cpr.dest).model.currentSkin.id;
+        string url = $"{Url.GENERAL_IMAGE}Window/{skinId}.png";
         var texture = await WebRequest.GetTexture(url);
 
         image.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
@@ -47,27 +54,34 @@ public class CardPanel : SingletonMono<CardPanel>
     private void OnDisable()
     {
         foreach (Transform i in handCards.transform) Destroy(i.gameObject);
-        handCards.SetActive(false);
+        handCards.gameObject.SetActive(false);
 
-        foreach (Transform i in equips.transform) Destroy(i.gameObject);
-        equips.SetActive(false);
+        foreach (Transform i in equipments.transform) Destroy(i.gameObject);
+        equipments.gameObject.SetActive(false);
 
         image.gameObject.SetActive(false);
     }
 
-    protected void InitCard(GameCore.Card card, GameObject parent, bool display = true)
+    protected void InitCard(int cardId, Transform parent, bool display = true)
     {
-        if (!parent.activeSelf) parent.SetActive(true);
-        var instance = Card.NewPanelCard(card, display);
-        instance.transform.SetParent(parent.transform, false);
+        // if (!parent.gameObject.activeSelf) 
+        parent.gameObject.SetActive(true);
+        var instance = Card.NewPanelCard(cardId, display);
+        instance.transform.SetParent(parent, false);
     }
 
-    public void OnClickCard()
+    public void OnClickCard(PanelCard panelCard)
     {
+        selectCard = panelCard;
         if (selectCard != null)
         {
             StopAllCoroutines();
-            GameCore.CardPanel.Instance.SendResult(new List<GameCore.Card> { selectCard.model });
+            EventSystem.Instance.Send(new Model.CardDecision
+            {
+                player = GameMain.Instance.firstPerson.model.index,
+                cards = new List<int> { selectCard.id }
+            });
+            // GameCore.CardPanel.Instance.SendResult(new List<GameCore.Card> { selectCard.model });
         }
     }
 

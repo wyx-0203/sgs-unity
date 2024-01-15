@@ -1,100 +1,99 @@
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using Model;
 
 public class EquipArea : SingletonMono<EquipArea>
 {
-    public Dictionary<string, Equipage> Equips { get; private set; }
-    private GameCore.Timer timer => GameCore.Timer.Instance;
-    // private Model.Skill skill => Model.Timer.Instance.temp.skill;
-
-    private Player self => GameMain.Instance.self;
+    public Dictionary<string, Equipment> equipments { get; private set; }
+    private SinglePlayQuery current => PlayArea.Instance.current;
+    private PlayQuery playQuery => PlayArea.Instance.playQuery;
+    private int self => GameMain.Instance.firstPerson.model.index;
 
     private void Start()
     {
-        var parent = transform.Find("装备区");
-        Equips = new Dictionary<string, Equipage>
-            {
-                {"武器", parent.transform.Find("武器").GetComponent<Equipage>()},
-                {"防具", parent.transform.Find("防具").GetComponent<Equipage>()},
-                {"加一马", parent.transform.Find("加一马").GetComponent<Equipage>()},
-                {"减一马", parent.transform.Find("减一马").GetComponent<Equipage>()}
-            };
+        var parent = transform.Find("EquipmentArea");
+        equipments = new Dictionary<string, Equipment>
+        {
+            {"武器", parent.transform.Find("武器").GetComponent<Equipment>()},
+            {"防具", parent.transform.Find("防具").GetComponent<Equipment>()},
+            {"加一马", parent.transform.Find("加一马").GetComponent<Equipment>()},
+            {"减一马", parent.transform.Find("减一马").GetComponent<Equipment>()}
+        };
 
-        GameCore.Equipment.AddEquipView += AddEquip;
-        GameCore.Equipment.RemoveEquipView += RemoveEquip;
-        GameCore.Timer.Instance.StopTimerView += Reset;
+        EventSystem.Instance.AddEvent<AddEquipment>(OnAddEquipment);
+        EventSystem.Instance.AddEvent<LoseCard>(OnRemoveEquipment);
+        EventSystem.Instance.AddEvent<FinishPlay>(Reset);
 
-        GameCore.Main.Instance.MoveSeatView += MoveSeat;
+        GameMain.Instance.OnChangeView += OnChangeView;
     }
 
     private void OnDestroy()
     {
-        GameCore.Equipment.AddEquipView -= AddEquip;
-        GameCore.Equipment.RemoveEquipView -= RemoveEquip;
-        GameCore.Timer.Instance.StopTimerView -= Reset;
-
-        GameCore.Main.Instance.MoveSeatView -= MoveSeat;
+        EventSystem.Instance.RemoveEvent<AddEquipment>(OnAddEquipment);
+        EventSystem.Instance.RemoveEvent<LoseCard>(OnRemoveEquipment);
+        EventSystem.Instance.RemoveEvent<FinishPlay>(Reset);
     }
 
     public void OnStartPlay()
     {
-        var equipSkill = GameCore.Timer.Instance.equipSkill;
-        if (equipSkill != null && Equips.ContainsKey(equipSkill.name)) Equips[equipSkill.name].Use();
-
-        if (timer.maxCard == 0)
+        foreach (var i in equipments.Values.Where(x => x.gameObject.activeSelf))
         {
-            foreach (var i in Equips.Values) i.button.interactable = false;
-        }
-        else
-        {
-            foreach (var i in Equips.Values) i.button.interactable = i.gameObject.activeSelf && timer.isValidCard(i.model);
-
-        }
-
-        if (Equips["武器"].model is GameCore.丈八蛇矛 zbsm && (zbsm.skill.IsValid || GameCore.Timer.Instance.temp.skill == zbsm.skill))
-        {
-            Equips["武器"].button.interactable = true;
-        }
-    }
-
-    public void Reset()
-    {
-        if (!timer.players.Contains(self.model)) return;
-
-        // 重置装备牌状态
-        foreach (var card in Equips.Values) card.Reset();
-    }
-
-    public void MoveSeat(GameCore.Player model)
-    {
-        foreach (var i in Equips)
-        {
-            if (!model.Equipments.ContainsKey(i.Key))
+            // 若可发动主动技能，则可选。例如丈八蛇矛
+            if (!playQuery.skills.All(x => x.skillName != i.name))
             {
-                i.Value.model = null;
-                i.Value.gameObject.SetActive(false);
+                i.toggle.interactable = true;
             }
-            else
-            {
-                i.Value.gameObject.SetActive(true);
-                i.Value.Init(model.Equipments[i.Key]);
-            }
+            // 询问是否发动技能，则选中。例如八卦阵
+            else if (current.skillName == i.name) i.toggle.isOn = true;
+            // 可选装备牌。例如制衡
+            else if (current.cards.Contains(i.id)) i.toggle.interactable = true;
         }
     }
 
-    public void AddEquip(GameCore.Equipment card)
+    public void ResetBySkill(string skill)
     {
-        if (card.owner != self.model) return;
-
-        Equips[card.type].gameObject.SetActive(true);
-        Equips[card.type].Init(card);
+        foreach (var card in equipments.Values.Where(x => x.name != skill)) card.Reset();
     }
 
-    public void RemoveEquip(GameCore.Equipment card)
+    private void Reset(FinishPlay finishPlay)
     {
-        if (card.owner != self.model) return;
-        if (card.id != Equips[card.type].Id) return;
+        if (Player.IsSelf(finishPlay.player))
+        {
+            // 重置装备牌状态
+            foreach (var card in equipments.Values) card.Reset();
+        }
+    }
 
-        Equips[card.type].model = null;
-        Equips[card.type].gameObject.SetActive(false);
+    public void OnClickEquipment(Equipment equipment, bool value)
+    {
+        if (!playQuery.skills.All(x => x.skillName != equipment.name))
+        {
+            SkillArea.Instance.OnClickSkill(equipment.name, value);
+            // Debug.Log(value);
+        }
+        else if (current.cards.Contains(equipment.id)) CardArea.Instance.OnClickCard(equipment.id, value);
+    }
+
+    public void OnChangeView(Model.Player player)
+    {
+        foreach (var i in equipments)
+        {
+            if (player.Equipments.ContainsKey(i.Key)) i.Value.Show(player.Equipments[i.Key].id);
+            else i.Value.Hide();
+        }
+    }
+
+    public void OnAddEquipment(AddEquipment addEquipment)
+    {
+        if (addEquipment.player != self) return;
+        int id = addEquipment.card;
+        equipments[Model.Card.Find(id).type].Show(id);
+    }
+
+    public void OnRemoveEquipment(LoseCard loseCard)
+    {
+        if (loseCard.player != self) return;
+        foreach (var i in equipments.Values.Where(x => loseCard.cards.Contains(x.id))) i.Hide();
     }
 }

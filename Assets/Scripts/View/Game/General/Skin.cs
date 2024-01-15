@@ -10,21 +10,21 @@ public class Skin : MonoBehaviour
     private SkeletonGraphic skeletonGraphic;
     public Material gray;
 
-    public GameCore.Skin model { get; private set; }
-    private Player player;
+    public Model.Skin model { get; private set; }
+    // private Player player;
     private Color color = Color.white;
 
     private void Start()
     {
-        player = GetComponentInParent<Player>();
+        // player = GetComponentInParent<Player>();
     }
 
-    public async void Set(GameCore.Skin skin)
+    public async void Set(Model.Skin skin)
     {
         model = skin;
-        // this.skin.gameObject.SetActive(!skin.dynamic);
+        var player = GetComponentInParent<Player>();
         Destroy(skeletonGraphic);
-        // dynamicSkin.gameObject.SetActive(skin.dynamic);
+        var material = player is null || player.model.alive ? null : gray;
 
         if (!skin.dynamic)
         {
@@ -33,7 +33,7 @@ public class Skin : MonoBehaviour
             var texture = await WebRequest.GetTexture(url);
             if (texture is null) return;
             static_.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
-            static_.material = player is null || player.model.alive ? null : gray;
+            static_.material = material;
             static_.color = color;
         }
         else
@@ -47,7 +47,7 @@ public class Skin : MonoBehaviour
             skeletonGraphic.startingLoop = true;
             skeletonGraphic.startingAnimation = "play";
             skeletonGraphic.raycastTarget = false;
-            skeletonGraphic.material = player is null || player.model.alive ? null : gray;
+            skeletonGraphic.material = material;
             skeletonGraphic.color = color;
         }
 

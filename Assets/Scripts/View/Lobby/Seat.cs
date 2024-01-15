@@ -6,9 +6,9 @@ public class Seat : MonoBehaviour
     public GameObject already;
     public GameObject owner;
 
-    private UserJson model;
+    private Model.UserJson model;
 
-    public void AddPlayer(UserJson model)
+    public void AddPlayer(Model.UserJson model)
     {
         if (model is null)
         {

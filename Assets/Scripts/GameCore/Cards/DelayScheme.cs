@@ -19,21 +19,32 @@ namespace GameCore
             owner = _owner;
             src = owner;
             owner.JudgeCards.Insert(0, this);
-            if (!MCTS.Instance.isRunning) AddJudgeView?.Invoke(this);
+            EventSystem.Instance.Send(new Model.AddJudgeCard
+            {
+                player = owner.position,
+                card = id
+            });
         }
 
         public void RemoveToJudgeArea()
         {
             owner.JudgeCards.Remove(this);
-            if (!MCTS.Instance.isRunning) RemoveJudgeView?.Invoke(this);
+            EventSystem.Instance.Send(new Model.RemoveJudgeCard
+            {
+                player = owner.position,
+                card = id
+            });
         }
 
-        public abstract Task OnJudgePhase();
+        public virtual async Task OnJudgePhase()
+        {
+            CardPile.Instance.AddToDiscard(this, owner);
+            RemoveToJudgeArea();
+            if (await 无懈可击.Call(this)) return;
+            judgeCard = await Judge.Execute();
+        }
 
         protected Card judgeCard;
-
-        public static Action<DelayScheme> AddJudgeView { get; set; }
-        public static Action<DelayScheme> RemoveJudgeView { get; set; }
     }
 
     public class 乐不思蜀 : DelayScheme
@@ -46,13 +57,13 @@ namespace GameCore
 
         public override async Task OnJudgePhase()
         {
-            CardPile.Instance.AddToDiscard(this);
-            RemoveToJudgeArea();
-            if (await 无懈可击.Call(this)) return;
-            judgeCard = await Judge.Execute();
-
-            if (judgeCard.suit != "红桃") TurnSystem.Instance.SkipPhase.Add(Phase.Play);
+            await base.OnJudgePhase();
+            if (judgeCard.suit != "红桃") TurnSystem.Instance.SkipPhase.Add(Model.Phase.Play);
         }
+
+        public override int MaxDest() => 1;
+        public override int MinDest() => 1;
+        public override bool IsValidDest(Player player) => src != player && player.JudgeCards.Find(x => x is 乐不思蜀) is null;
     }
 
     public class 兵粮寸断 : DelayScheme
@@ -65,13 +76,13 @@ namespace GameCore
 
         public override async Task OnJudgePhase()
         {
-            CardPile.Instance.AddToDiscard(this);
-            RemoveToJudgeArea();
-            if (await 无懈可击.Call(this)) return;
-            judgeCard = await Judge.Execute();
-
-            if (judgeCard.suit != "草花") TurnSystem.Instance.SkipPhase.Add(Phase.Get);
+            await base.OnJudgePhase();
+            if (judgeCard.suit != "草花") TurnSystem.Instance.SkipPhase.Add(Model.Phase.Get);
         }
+
+        public override int MaxDest() => 1;
+        public override int MinDest() => 1;
+        public override bool IsValidDest(Player player) => src.GetDistance(player) == 1 && player.JudgeCards.Find(x => x is 兵粮寸断) is null;
     }
 
     public class 闪电 : DelayScheme
@@ -100,10 +111,12 @@ namespace GameCore
 
             if (judgeCard.suit == "黑桃" && judgeCard.weight >= 2 && judgeCard.weight <= 9)
             {
-                CardPile.Instance.AddToDiscard(this);
-                await new Damaged(owner, null, this, 3, Damaged.Type.Thunder).Execute();
+                CardPile.Instance.AddToDiscard(this, owner);
+                await new Damage(owner, null, this, 3, Model.Damage.Type.Thunder).Execute();
             }
             else AddToJudgeArea(owner.next);
         }
+
+        public override bool IsValid() => src.JudgeCards.Find(x => x is 闪电) is null;
     }
 }

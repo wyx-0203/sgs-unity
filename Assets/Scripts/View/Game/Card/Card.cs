@@ -16,63 +16,72 @@ public class Card : MonoBehaviour
     public GameObject effect;
 
     // 编号
-    public int Id { get; private set; }
+    public int id => model.id;
+    // public string convert { get; private set; }
+    public string convert { get; private set; }
+    public Model.Card model { get; private set; }
 
-    public GameCore.Card model { get; private set; }
-
-    public HandCard handCard { get; private set; }
+    // public HandCard handCard { get; private set; }
     public PanelCard panelCard { get; private set; }
 
-    private async void Init(GameCore.Card model, bool known)
+    // public static Model.Card Find(int id) => GameMain.Instance.cardModels[id];
+    // private static Model.Card[] cards;
+
+    private void Init(int id, bool display)
     {
-        Id = model.id;
-        this.model = model;
+        model = Model.Card.Find(id);
         name = model.name;
 
-        transform.SetParent(CardSystem.Instance.transform, false);
+        transform.SetParent(CardManager.Instance.transform, false);
 
-        target.name = model.name + "target";
+        target.name = name + "Target";
         target.gameObject.AddComponent<Target>().Init(gameObject);
 
-        if (!known) return;
+        if (!display) return;
 
-        var sprites = Sprites.Instance;
-        while (sprites.cardImage is null) await Task.Yield();
+        image.sprite = GameAssets.Instance.cardImage.Get(name);
 
-        // 初始化sprite
-
-        image.sprite = sprites.cardImage[name];
-
-        if (model.isConvert) return;
+        if (model.isVirtual) return;
 
         suit.gameObject.SetActive(true);
         weight.gameObject.SetActive(true);
-        suit.sprite = sprites.cardSuit[model.suit];
-        if (model.suit == "黑桃" || model.suit == "草花") weight.sprite = sprites.blackWeight[model.weight];
-        else weight.sprite = sprites.redWeight[model.weight];
+        suit.sprite = GameAssets.Instance.cardSuit.Get(model.suit);
+        if (model.isBlack) weight.sprite = GameAssets.Instance.cardBlackWeight[model.weight];
+        else weight.sprite = GameAssets.Instance.cardRedWeight[model.weight];
     }
 
-    public static Card New(GameCore.Card model, bool known)
+    public static Card New(int id, bool known)
     {
-        var card = Instantiate(CardSystem.Instance.cardPrefab).GetComponent<Card>();
-        card.Init(model, known);
+        var card = Instantiate(GameAssets.Instance.card);
+        card.Init(id, known);
         return card;
     }
 
     /// <summary>
     /// 初始化卡牌
     /// </summary>
-    public static Card NewHandCard(GameCore.Card model)
+    public static Card NewHandCard(int id)
     {
-        var card = New(model, true);
-        card.handCard = card.gameObject.AddComponent<HandCard>();
-        card.handCard.Init();
+        var card = New(id, true);
+        // card.handCard = 
+        card.gameObject.AddComponent<HandCard>();
+        // handCard.Init();
         return card;
     }
 
-    public static Card NewPanelCard(GameCore.Card model, bool known = true)
+    // public static Card NewVirtualCard(string name)
+    // {
+    //     var card = Instantiate(CardSystem.Instance.cardPrefab).GetComponent<Card>();
+    //     card.Init(name);
+    //     // card.handCard = 
+    //     card.gameObject.AddComponent<HandCard>();
+    //     // card.handCard.Init();
+    //     return card;
+    // }
+
+    public static Card NewPanelCard(int id, bool known = true)
     {
-        var card = New(model, known);
+        var card = New(id, known);
         card.panelCard = card.gameObject.AddComponent<PanelCard>();
         card.panelCard.Init();
         return card;

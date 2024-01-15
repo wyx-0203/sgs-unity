@@ -18,7 +18,15 @@ public class LeftMenu : SingletonMono<LeftMenu>
 
     private void ChangeSkin()
     {
-        GameMain.Instance.self.model.SendChangeSkin();
+        // GameMain.Instance.self.model.SendChangeSkin();
+        var model = GameMain.Instance.firstPerson.model;
+        int index = (model.skins.IndexOf(model.currentSkin) + 1) % model.skins.Count;
+        var skin = model.skins[index];
+        EventSystem.Instance.Send(new Model.ChangeSkin
+        {
+            player = model.index,
+            skinId = skin.id
+        });
     }
 
     private void ChangeBg()
@@ -30,7 +38,8 @@ public class LeftMenu : SingletonMono<LeftMenu>
 
     private void ClickSurrender()
     {
-        GameCore.Main.Instance.SendSurrender();
-        GameCore.Timer.Instance.SendDecision();
+        EventSystem.Instance.Send(new Model.Surrender { player = GameMain.Instance.firstPerson.model.index });
+        // GameCore.Main.Instance.SendSurrender();
+        // GameCore.Timer.Instance.SendDecision();
     }
 }

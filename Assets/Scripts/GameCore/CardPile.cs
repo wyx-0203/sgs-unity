@@ -17,11 +17,11 @@ namespace GameCore
         // 牌堆数
         public int pileCount => RemainPile.Count;
 
-        private static List<CardJson> cardJsons;
+        private static List<Model.Card> cardJsons;
 
         public async Task Init()
         {
-            if (cardJsons is null) cardJsons = JsonList<CardJson>.FromJson(await WebRequest.Get(Url.JSON + "card.json"));
+            if (cardJsons is null) cardJsons = await Model.Card.GetList();
 
             // 初始化卡牌数组
             cards = new Card[cardJsons.Count];
@@ -58,22 +58,29 @@ namespace GameCore
             var card = RemainPile[0];
             RemainPile.RemoveAt(0);
 
-            PileCountView?.Invoke();
+            EventSystem.Instance.Send(new Model.UpdatePileCount
+            {
+                count = RemainPile.Count
+            });
             return card;
         }
 
         /// <summary>
         /// 将牌置入弃牌堆
         /// </summary>
-        public void AddToDiscard(List<Card> cards)
+        public void AddToDiscard(List<Card> cards, Player src)
         {
             DiscardPile.AddRange(cards);
-            DiscardView?.Invoke(cards);
+            EventSystem.Instance.Send(new Model.AddToDiscard
+            {
+                player = src != null ? src.position : -1,
+                cards = cards.Select(x => x.id).ToList()
+            });
         }
 
-        public void AddToDiscard(Card card)
+        public void AddToDiscard(Card card, Player src)
         {
-            AddToDiscard(new List<Card> { card });
+            AddToDiscard(new List<Card> { card }, src);
         }
 
         public void RemoveToDiscard(Card card)
@@ -86,38 +93,37 @@ namespace GameCore
         /// </summary>
         private async Task Shuffle()
         {
-            if (MCTS.Instance.state == MCTS.State.Restoring)
-            {
-                if (Decision.List.Instance.IsEmpty) MCTS.Instance.state = MCTS.State.WaitShuffle;
-            }
+            // if (MCTS.Instance.state == MCTS.State.Restoring)
+            // {
+            //     if (PlayDecision.List.Instance.IsEmpty) MCTS.Instance.state = MCTS.State.WaitShuffle;
+            // }
 
-            else if (Room.Instance.IsSingle)
-            {
-                // Debug.Log("shuffle");
-                var discards = AI.Shuffle(DiscardPile, DiscardPile.Count);
-                Decision.List.Instance.Push(new Decision { cards = discards });
-            }
+            // else if (Room.Instance.IsSingle)
+            // {
+            // Debug.Log("shuffle");
+            var discards = AI.Shuffle(DiscardPile, DiscardPile.Count);
+            EventSystem.Instance.PushDecision(new Model.Shuffle { cards = discards.Select(x => x.id).ToList() });
+            // PlayDecision.List.Instance.Push(new Decision { cards = discards });
+            // }
 
-            else
-            {
-                if (TurnSystem.Instance.CurrentPlayer.isSelf)
-                {
-                    // 发送洗牌请求
-                    var discards = AI.Shuffle(DiscardPile, DiscardPile.Count);
-                    var json = new Decision { cards = discards }.ToMessage();
-                    WebSocket.Instance.SendMessage(json);
-                }
+            // else
+            // {
+            //     if (TurnSystem.Instance.CurrentPlayer.isSelf)
+            //     {
+            //         // 发送洗牌请求
+            //         var discards = AI.Shuffle(DiscardPile, DiscardPile.Count);
+            //         var json = new Decision { cards = discards }.ToMessage();
+            //         WebSocket.Instance.SendMessage(json);
+            //     }
 
-                // 等待消息
-                var msg = await WebSocket.Instance.PopMessage();
-                Decision.List.Instance.Push(JsonUtility.FromJson<Decision.Message>(msg));
-            }
+            //     // 等待消息
+            //     var msg = await WebSocket.Instance.PopMessage();
+            //     Decision.List.Instance.Push(JsonUtilit.FromJson<Decision.Message>(msg));
+            // }
 
             DiscardPile.Clear();
-            RemainPile.AddRange((await Decision.List.Instance.Pop()).cards);
+            var message = await EventSystem.Instance.PopDecision() as Model.Shuffle;
+            RemainPile.AddRange(message.cards.Select(x => cards[x]));
         }
-
-        public Action<List<Card>> DiscardView;
-        public Action PileCountView;
     }
 }

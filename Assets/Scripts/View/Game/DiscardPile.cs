@@ -1,4 +1,4 @@
-using Spine.Unity;
+using Model;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,58 +9,23 @@ public class DiscardPile : SingletonMono<DiscardPile>
 
     private void Start()
     {
-        GameCore.TurnSystem.Instance.FinishPlayView += Clear;
-        GameCore.TurnSystem.Instance.FinishPhaseView += Clear;
+        EventSystem.Instance.AddEvent<FinishPhase>(Clear);
+        EventSystem.Instance.AddEvent<FinishOncePlay>(Clear);
     }
 
     private void OnDestroy()
     {
-        GameCore.TurnSystem.Instance.FinishPlayView -= Clear;
-        GameCore.TurnSystem.Instance.FinishPhaseView -= Clear;
+        EventSystem.Instance.RemoveEvent<FinishPhase>(Clear);
+        EventSystem.Instance.RemoveEvent<FinishOncePlay>(Clear);
     }
 
-    private string GetUrl(GameCore.Card card)
-    {
-        switch (card)
-        {
-            case GameCore.火杀: return "SF_jichupai_eff_huosha_SkeletonData";
-            case GameCore.雷杀: return "SF_jichupai_eff_leisha_SkeletonData";
-            case GameCore.杀: return card.isRed ? "SF_jichupai_eff_hongsha_SkeletonData" : "SF_jichupai_eff_heisha_SkeletonData";
-            case GameCore.闪: return "SF_jichupai_eff_shan_SkeletonData";
-            case GameCore.桃: return "SF_jichupai_eff_tao_SkeletonData";
-            case GameCore.酒: return "SF_jichupai_eff_jiu_SkeletonData";
-            case GameCore.过河拆桥: return "SF_kapai_eff_guohechaiqiao_SkeletonData";
-            case GameCore.火攻: return "SF_kapai_eff_huogong_SkeletonData";
-            case GameCore.南蛮入侵: return "SF_kapai_eff_nanmanruqin_SkeletonData";
-            case GameCore.桃园结义: return "SF_kapai_eff_taoyuanjieyi_SkeletonData";
-            case GameCore.铁索连环: return "SF_kapai_eff_tiesuolianhuan_SkeletonData";
-            case GameCore.万箭齐发: return "SF_kapai_eff_wanjianqifa_SkeletonData";
-            case GameCore.无懈可击: return "SF_kapai_eff_wuxiekeji_SkeletonData";
-            default: return null;
-        }
-    }
-
-    public async void Add(Card card)
+    public void Add(Card card)
     {
         Cards.Add(card);
         card.SetParent(transform);
-
-        if (!card.model.isUsing) return;
-        string url = GetUrl(card.model);
-        if (url is null) return;
-        var asset = (await ABManager.Instance.Load("effect")).LoadAsset<SkeletonDataAsset>(url + ".asset");
-
-        var effect = new GameObject("Effect");
-        effect.transform.SetParent(card.transform, false);
-        effect.SetActive(false);
-
-        var skeletonGraphic = effect.AddComponent<SkeletonGraphic>();
-        skeletonGraphic.skeletonDataAsset = asset;
-        skeletonGraphic.startingAnimation = "play";
-        effect.SetActive(true);
     }
 
-    public async void Clear()
+    private async void Clear()
     {
         foreach (var i in Cards) Destroy(i.gameObject, 2);
 
@@ -68,6 +33,9 @@ public class DiscardPile : SingletonMono<DiscardPile>
         if (this == null) return;
         MoveAll(0.1f);
     }
+
+    private void Clear(FinishPhase finishPhase) => Clear();
+    private void Clear(FinishOncePlay finishPlay) => Clear();
 
     public HorizontalLayoutGroup horizontalLayoutGroup;
 

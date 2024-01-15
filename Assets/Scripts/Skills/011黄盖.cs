@@ -1,23 +1,24 @@
 using GameCore;
 using System.Threading.Tasks;
+using Phase = Model.Phase;
 
 public class 苦肉 : Active
 {
     public override int MaxCard => 1;
     public override int MinCard => 1;
 
-    public override async Task Use(Decision decision)
+    public override async Task Use(PlayDecision decision)
     {
         Execute(decision);
 
         await new Discard(src, decision.cards).Execute();
-        await new UpdateHp(src, -1).Execute();
+        await new LoseHp(src, 1).Execute();
     }
 
-    public override Decision AIDecision()
+    public override PlayDecision AIDecision()
     {
-        if (src.hp < 2) return new();
-        Timer.Instance.temp.cards = AI.GetRandomCard();
+        // if (src.hp < 2) return new();
+        // Timer.Instance.temp.cards = AI.GetRandomCard();
         return base.AIDecision();
     }
 }
@@ -26,14 +27,14 @@ public class 诈降 : Triggered
 {
     public override bool passive => true;
 
-    protected override bool OnLoseHp(UpdateHp updateHp) => true;
+    protected override bool OnLoseHp(LoseHp loseHp) => true;
 
-    protected override async Task Invoke(Decision decision)
+    protected override async Task Invoke(PlayDecision decision)
     {
-        int value = -(arg as UpdateHp).value;
+        int value = (arg as LoseHp).value;
 
         // 摸三张牌
-        await new GetCardFromPile(src, 3 * value).Execute();
+        await new DrawCard(src, 3 * value).Execute();
         if (TurnSystem.Instance.CurrentPlayer != src || TurnSystem.Instance.CurrentPhase != Phase.Play) return;
 
         // 出杀次数加1

@@ -1,4 +1,5 @@
 using System;
+using Team = Model.Team;
 
 namespace GameCore
 {

@@ -8,9 +8,9 @@ public class SkinBasic : MonoBehaviour
     public Toggle toggle;
     public GameObject isSelect;
 
-    private GameCore.Skin model;
+    private Model.Skin model;
 
-    public async void Init(GameCore.Skin model)
+    public async void Init(Model.Skin model)
     {
         this.model = model;
         toggle.onValueChanged.AddListener(OnValueChanged);

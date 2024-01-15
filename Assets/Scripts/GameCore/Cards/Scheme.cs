@@ -1,9 +1,11 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Team = Model.Team;
 
 namespace GameCore
 {
-    public class Scheme : Card { }
+    public class Scheme : Card { public Scheme() { } }
 
     public class 无懈可击 : Scheme
     {
@@ -18,8 +20,9 @@ namespace GameCore
         public static async Task<bool> Call(Card card)
         {
             var team = TurnSystem.Instance.CurrentPlayer.team;
-            var decision = await Timer.Instance.RunWxkj(card, team);
-            if (!decision.action) decision = await Timer.Instance.RunWxkj(card, !team);
+            var decision = await WaitPlay(card, team);
+            // var decision = await Timer.Instance.Run
+            if (!decision.action) decision = await WaitPlay(card, ~team);
 
             if (decision.action)
             {
@@ -30,11 +33,36 @@ namespace GameCore
             return false;
         }
 
+        private static async Task<PlayDecision> WaitPlay(Card scheme, Team team) => await new PlayQuery
+        {
+            player = Game.Instance.AlivePlayers.Find(x => x.team == team),
+            hint = $"{scheme}即将对{scheme.dest}生效，是否使用无懈可击？",
+            isValidCard = x => x is 无懈可击,
+            type = Model.SinglePlayQuery.Type.WXKJ,
+            aiAct = scheme.src.team != team ^ scheme is DelayScheme,
+            defaultAI = () =>
+            {
+                foreach (var i in Game.Instance.AlivePlayers.Where(x => x.team == team))
+                {
+                    var card = i.FindCard<无懈可击>();
+                    if (card is null) continue;
+
+                    return new PlayDecision { src = i, action = true, cards = new List<Card> { card } };
+                }
+                // var player=Game.Instance.AlivePlayers.Find(x=>x.team==team&&x.FindCard<无懈可击>() is Card card1);
+                // return player!=null?new PlayDecision{action=true,cards=new List<Card>{card1}}
+                return new();
+            }
+        }.Run(1, 0);
+
         protected override async Task AfterInit()
         {
-            if (!MCTS.Instance.isRunning) await new Delay(0.2f).Run();
+            // if (!MCTS.Instance.isRunning) 
+            await new Delay(0.2f).Run();
             isCountered = await Call(this);
         }
+
+        public override bool IsValid() => false;
     }
 
     public class 过河拆桥 : Scheme
@@ -47,17 +75,22 @@ namespace GameCore
 
         protected override async Task UseForeachDest()
         {
-            CardPanel.Instance.Title = "过河拆桥";
-            CardPanel.Instance.Hint = "对" + dest + "使用过河拆桥，弃置其一张牌";
-            var card = await TimerAction.SelectOneCardFromElse(src, dest, true);
+            // CardPanelRequest.Instance.title = "过河拆桥";
+            string hint = $"对{dest}使用过河拆桥，弃置其一张牌";
+            var cards = await new CardPanelQuery(src, dest, name, hint, true).Run();
+            // var card = await TimerAction.SelectCardFromElse(src, dest, true);
 
-            if (card[0] is DelayScheme delayScheme && dest.JudgeCards.Contains(delayScheme))
+            if (cards[0] is DelayScheme delayScheme && dest.JudgeCards.Contains(delayScheme))
             {
                 delayScheme.RemoveToJudgeArea();
-                CardPile.Instance.AddToDiscard(card);
+                CardPile.Instance.AddToDiscard(cards, dest);
             }
-            else await new Discard(dest, card).Execute();
+            else await new Discard(dest, cards).Execute();
         }
+
+        public override int MaxDest() => 1;
+        public override int MinDest() => 1;
+        public override bool IsValidDest(Player player) => src != player && !player.regionIsEmpty;
     }
 
     public class 顺手牵羊 : Scheme
@@ -70,16 +103,21 @@ namespace GameCore
 
         protected override async Task UseForeachDest()
         {
-            CardPanel.Instance.Title = "顺手牵羊";
-            CardPanel.Instance.Hint = "对" + dest + "使用顺手牵羊，获得其一张牌";
-            var card = await TimerAction.SelectOneCardFromElse(src, dest, true);
+            // CardPanelRequest.Instance.title = "顺手牵羊";
+            string hint = hint = $"对{dest}使用顺手牵羊，获得其一张牌";
+            // var cards = await TimerAction.SelectCardFromElse(src, dest, true);
+            var cards = await new CardPanelQuery(src, dest, name, hint, true).Run();
 
-            if (card[0] is DelayScheme delayScheme && dest.JudgeCards.Contains(delayScheme))
+            if (cards[0] is DelayScheme delayScheme && dest.JudgeCards.Contains(delayScheme))
             {
                 await new GetJudgeCard(src, delayScheme).Execute();
             }
-            else await new GetCardFromElse(src, dest, card).Execute();
+            else await new GetAnothersCard(src, dest, cards).Execute();
         }
+
+        public override int MaxDest() => 1;
+        public override int MinDest() => 1;
+        public override bool IsValidDest(Player player) => src.GetDistance(player) == 1 && !player.regionIsEmpty;
     }
 
     public class 决斗 : Scheme
@@ -101,9 +139,13 @@ namespace GameCore
                 done = !await 杀.Call(player);
                 if (!done && other.FindSkill("无双") != null) done = !await 杀.Call(player);
 
-                if (done) await new Damaged(player, other, this, 1 + damageOffset[player.position]).Execute();
+                if (done) await new Damage(player, other, this, 1 + damageOffset[player.position]).Execute();
             }
         }
+
+        public override int MaxDest() => 1;
+        public override int MinDest() => 1;
+        public override bool IsValidDest(Player player) => player != src;
     }
 
     public class 南蛮入侵 : Scheme
@@ -116,15 +158,15 @@ namespace GameCore
 
         protected override async Task BeforeUse()
         {
-            dests = new List<Player>(Main.Instance.AlivePlayers);
+            dests = new List<Player>(Game.Instance.AlivePlayers);
             dests.Remove(src);
             await Task.Yield();
         }
 
         protected override async Task UseForeachDest()
         {
-            Timer.Instance.DefaultAI = AI.TryAction;
-            if (!await 杀.Call(dest)) await new Damaged(dest, src, this).Execute();
+            // Timer.Instance.defaultAI = AI.TryAction;
+            if (!await 杀.Call(dest)) await new Damage(dest, src, this).Execute();
         }
     }
 
@@ -138,15 +180,15 @@ namespace GameCore
 
         protected override async Task BeforeUse()
         {
-            dests = new List<Player>(Main.Instance.AlivePlayers);
+            dests = new List<Player>(Game.Instance.AlivePlayers);
             dests.Remove(src);
             await Task.Yield();
         }
 
         protected override async Task UseForeachDest()
         {
-            Timer.Instance.DefaultAI = AI.TryAction;
-            if (!await 闪.Call(dest, this)) await new Damaged(dest, src, this).Execute();
+            // Timer.Instance.defaultAI = AI.TryAction;
+            if (!await 闪.Call(dest, this)) await new Damage(dest, src, this).Execute();
         }
     }
 
@@ -160,7 +202,7 @@ namespace GameCore
 
         protected override async Task BeforeUse()
         {
-            dests = new List<Player>(Main.Instance.AlivePlayers);
+            dests = new List<Player>(Game.Instance.AlivePlayers);
             await Task.Yield();
         }
 
@@ -192,7 +234,7 @@ namespace GameCore
 
         protected override async Task UseForeachDest()
         {
-            await new GetCardFromPile(dest, 2).Execute();
+            await new DrawCard(dest, 2).Execute();
         }
     }
 
@@ -208,27 +250,46 @@ namespace GameCore
 
         protected override async Task UseForeachDest()
         {
-            Timer.Instance.hint = "指定被杀的角色";
-            Timer.Instance.isValidDest = x => DestArea.Instance.UseSha(dest, x);
-            Timer.Instance.refusable = false;
-            Timer.Instance.DefaultAI = AI.TryAction;
+            // Timer.Instance.hint = "指定被杀的角色";
+            // Timer.Instance.isValidDest = x => DestArea.Instance.UseSha(dest, x);
+            // Timer.Instance.refusable = false;
+            // Timer.Instance.DefaultAI = AI.TryAction;
 
-            var decision = await Timer.Instance.Run(src, 0, 1);
+            // var decision = await Timer.Instance.Run(src, 0, 1);
+            var decision = await new PlayQuery
+            {
+                player = src,
+                hint = "指定被杀的角色",
+                isValidDest = player => 杀.UseSha(dest, player),
+                refusable = false,
+            }.Run(0, 1);
             ShaDest = decision.dests[0];
 
-            Timer.Instance.isValidCard = card => card is 杀;
-            Timer.Instance.isValidDest = dest => dest == ShaDest;
-            Timer.Instance.DefaultAI = src.team != ShaDest.team ? AI.TryAction : () => new();
+            // Timer.Instance.isValidCard = card => card is 杀;
+            // Timer.Instance.isValidDest = dest => dest == ShaDest;
+            // Timer.Instance.DefaultAI = src.team != ShaDest.team ? AI.TryAction : () => new();
 
-            decision = await Timer.Instance.Run(dest, 1, 1);
+            // decision = await Timer.Instance.Run(dest, 1, 1);
+            decision = await new PlayQuery
+            {
+                isValidCard = card => card is 杀,
+                isValidDest = dest => dest == ShaDest,
+                aiAct = src.team != ShaDest.team
+            }.Run(1, 1);
             // 出杀
             if (decision.action)
             {
                 await decision.cards[0].UseCard(dest, decision.dests);
             }
             // 获得武器
-            else await new GetCardFromElse(src, dest, new List<Card> { dest.weapon }).Execute();
+            else await new GetAnothersCard(src, dest, new List<Card> { dest.weapon }).Execute();
         }
+
+        public override int MaxDest() => 1;
+        public override int MinDest() => 1;
+        public override bool IsValidDest(Player player) => player != src
+            && player.weapon != null
+            && Game.Instance.AlivePlayers.Find(x => 杀.UseSha(player, x)) != null;
     }
 
     public class 铁索连环 : Scheme
@@ -244,9 +305,9 @@ namespace GameCore
             if (dests.Count > 0) return;
 
             Util.Print(src + "重铸了" + this);
-            CardPile.Instance.AddToDiscard(this);
+            CardPile.Instance.AddToDiscard(this, src);
             await new LoseCard(src, new List<Card> { this }).Execute();
-            await new GetCardFromPile(src, 1).Execute();
+            await new DrawCard(src, 1).Execute();
             throw new CancelUseCard();
         }
 
@@ -254,6 +315,9 @@ namespace GameCore
         {
             await new SetLock(dest).Execute();
         }
+
+        public override int MaxDest() => 2;
+        public override bool IsValidDest(Player player) => true;
     }
 
     public class 火攻 : Scheme
@@ -268,17 +332,28 @@ namespace GameCore
         {
             if (dest.handCardsCount == 0) return;
 
-            Timer.Instance.hint = src + "对你使用火攻，请展示一张手牌。";
-            var showCard = (await TimerAction.ShowOneCard(dest))[0];
+            // Timer.Instance.hint = ;
+            var showCard = (await TimerAction.ShowOneCard(dest, $"{src}对你使用火攻，请展示一张手牌。"))[0];
 
-            Timer.Instance.hint = "是否弃置手牌";
-            Timer.Instance.isValidCard = card => card.isHandCard && card.suit == showCard.suit;
-            Timer.Instance.DefaultAI = () => src.team != dest.team || !AI.CertainValue ? AI.TryAction() : new Decision();
-            var decision = await Timer.Instance.Run(src, 1, 0);
+            // Timer.Instance.hint = "是否弃置手牌";
+            // Timer.Instance.isValidCard = card => card.isHandCard && card.suit == showCard.suit;
+            // Timer.Instance.DefaultAI = () => src.team != dest.team || !AI.CertainValue ? AI.TryAction() : new Decision();
+            // var decision = await Timer.Instance.Run(src, 1, 0);
+            var decision = await new PlayQuery
+            {
+                player = src,
+                isValidCard = card => card.isHandCard && card.suit == showCard.suit,
+                // defaultAI = () => src.team != dest.team || !AI.CertainValue ? AI.TryAction() : new Decision(),
+                aiAct = src.team != dest.team
+            }.Run(1, 0);
 
             if (!decision.action) return;
             await new Discard(src, decision.cards).Execute();
-            await new Damaged(dest, src, this, 1, Damaged.Type.Fire).Execute();
+            await new Damage(dest, src, this, 1, Model.Damage.Type.Fire).Execute();
         }
+
+        public override int MaxDest() => 1;
+        public override int MinDest() => 1;
+        public override bool IsValidDest(Player player) => player.handCardsCount != 0;
     }
 }

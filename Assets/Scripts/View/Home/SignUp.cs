@@ -48,7 +48,7 @@ public class SignUp : MonoBehaviour
         WWWForm formData = new WWWForm();
         formData.AddField("username", username.text);
         formData.AddField("password", password.text);
-        var response = JsonUtility.FromJson<HttpResponse>(await WebRequest.Post(url, formData));
+        var response = JsonUtility.FromJson<Model.HttpResponse>(await WebRequest.Post(url, formData));
 
         // 注册成功
         if (response.code == 0)

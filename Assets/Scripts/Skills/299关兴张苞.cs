@@ -1,6 +1,7 @@
 using GameCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Phase = Model.Phase;
 
 public class 父魂 : Skill.Multi
 {
@@ -31,20 +32,20 @@ public class 父魂 : Skill.Multi
         private Card card => src.FindSkill<_Converted>().card;
         private bool invoked;
 
-        protected override bool OnMakeDamage(Damaged damaged) => damaged.SrcCard == card
+        protected override bool OnMakeDamage(Damage damaged) => damaged.SrcCard == card
             && TurnSystem.Instance.CurrentPlayer == src
             && TurnSystem.Instance.CurrentPhase == Phase.Play
             && !invoked;
 
-        protected override async Task Invoke(Decision decision)
+        protected override async Task Invoke(PlayDecision decision)
         {
             Execute();
             invoked = true;
-            await new UpdateSkill(src, new List<string> { "武圣", "咆哮" }).Add();
+            await new AddSkill(src, new List<string> { "武圣", "咆哮" }).Execute();
             TurnSystem.Instance.AfterTurn += () =>
             {
                 invoked = false;
-                new UpdateSkill(src, new List<string> { "武圣", "咆哮" }).Remove();
+                new RemoveSkill(src, new List<string> { "武圣", "咆哮" }).Execute().Wait();
             };
         }
     }

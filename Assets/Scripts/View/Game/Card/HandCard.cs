@@ -6,12 +6,13 @@ public class HandCard : MonoBehaviour
     public Card card;
     public Toggle toggle;
 
-    public GameCore.Card model { get; private set; }
+    public int id => model.id;
+    public Model.Card model { get; private set; }
 
-    protected bool refresh = true;
+    // protected bool refresh = true;
     private ColorBlock colorBlock;
 
-    public void Init()
+    private void Awake()
     {
         card = GetComponent<Card>();
         model = card.model;
@@ -24,27 +25,30 @@ public class HandCard : MonoBehaviour
     protected virtual void OnValueChanged(bool value)
     {
         GetComponent<RectTransform>().anchoredPosition += new Vector2(0, value ? 20 : -20);
-        if (value) GameCore.Timer.Instance.temp.cards.Add(model);
-        else GameCore.Timer.Instance.temp.cards.Remove(model);
+        if (!model.isVirtual) CardArea.Instance.OnClickCard(id, value);
+        else VirtualCardArea.Instance.OnClickCard(id, value);
+        // if (value) GameCore.Timer.Instance.temp.cards.Add(model);
+        // else GameCore.Timer.Instance.temp.cards.Remove(model);
+        // if (value)
 
-        if (refresh)
-        {
-            CardArea.Instance.Update_();
-            DestArea.Instance.Reset();
-            DestArea.Instance.OnStartPlay();
-            OperationArea.Instance.UpdateButtonArea();
-        }
+        //     if (refresh)
+        //     {
+        //         CardArea.Instance.OnSelectCard();
+        //         DestArea.Instance.Reset();
+        //         DestArea.Instance.OnStartPlay();
+        //         OperationArea.Instance.UpdateButtonArea();
+        //     }
     }
 
     /// <summary>
     /// 取消选中
     /// </summary>
-    public void Unselect()
-    {
-        refresh = false;
-        toggle.isOn = false;
-        refresh = true;
-    }
+    // public void Unselect()
+    // {
+    //     refresh = false;
+    //     toggle.isOn = false;
+    //     refresh = true;
+    // }
 
     /// <summary>
     /// 设置阴影
@@ -64,6 +68,7 @@ public class HandCard : MonoBehaviour
         toggle.interactable = false;
         colorBlock.disabledColor = Color.white;
         toggle.colors = colorBlock;
-        Unselect();
+        // Unselect();
+        toggle.isOn = false;
     }
 }

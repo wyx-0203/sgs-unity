@@ -15,19 +15,19 @@ public class BGM : GlobalSingletonMono<BGM>
 #endif
     }
 
-    public async void Load(string url)
+    public void Load(AudioClip clip)
     {
-        if (this.url == url) return;
+        if (audioSource.clip == clip) return;
         audioSource.Stop();
-        audioSource.clip = await WebRequest.GetClip(url);
-        this.url = url;
-
-#if !UNITY_WEBGL
+        audioSource.clip = clip;
         audioSource.Play();
-#else
-            StopAllCoroutines();
-            StartCoroutine(LoopPlay());
-#endif
+        // this.url = url;
+
+        // #if !UNITY_WEBGL
+        // #else
+        //             StopAllCoroutines();
+        //             StartCoroutine(LoopPlay());
+        // #endif
     }
 
     private IEnumerator LoopPlay()

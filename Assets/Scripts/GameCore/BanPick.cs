@@ -1,4 +1,4 @@
-using System;
+using Model;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,169 +9,116 @@ namespace GameCore
     public class BanPick : Singleton<BanPick>
     {
         public List<General> Pool { get; private set; }
-        public Dictionary<Team, List<General>> TeamPool { get; } = new();
+        public Dictionary<Team, List<General>> TeamPool { get; } = new Dictionary<Team, List<General>>
+        {
+            { Team.BLUE, new() },
+            { Team.RED, new() }
+        };
 
         public async Task Run()
         {
-            // string url = Url.JSON + "general.json";
             var generalList = await General.GetList();
-
-            if (Room.Instance.IsSingle)
-            {
-                Pool = AI.Shuffle(generalList, 18);
+            Pool = AI.Shuffle(generalList, 18);
 #if UNITY_EDITOR
-                // string name = "夏侯惇";
-                // General self = generalList.Find(x => x.name == name);
-                // if (!Pool.Contains(self)) Pool[11] = self;
+            // string name = "夏侯惇";
+            // General self = generalList.Find(x => x.name == name);
+            // if (!Pool.Contains(self)) Pool[11] = self;
 #endif
-            }
-            else
-            {
-                List<int> generalIds;
 
-                if (Main.Instance.players[0].isSelf)
-                {
-                    generalIds = generalList.OrderBy(x => UnityEngine.Random.value).Take(12).Select(x => x.id).ToList();
-                    var json = new GeneralPoolMessage
-                    {
-                        msg_type = "general_pool",
-                        generals = generalIds
-                    };
-                    WebSocket.Instance.SendMessage(json);
-                }
+            EventSystem.Instance.Send(new StartBanPick { generals = Pool.Select(x => x.id).ToList() });
+            await Ban(Team.BLUE);
+            await Ban(Team.RED);
 
-                generalIds = JsonUtility.FromJson<GeneralPoolMessage>(await WebSocket.Instance.PopMessage()).generals;
-                Pool = generalIds.Select(x => generalList.Find(y => y.id == x)).ToList();
-            }
-
-            TeamPool.Add(Team.BLUE, new());
-            TeamPool.Add(Team.RED, new());
-
-            ShowPanelView?.Invoke();
-
-            await Task.Yield();
-
-            Current = Team.BLUE;
-            await Ban();
-
-            Current = Team.RED;
-            await Ban();
-            Current = Team.BLUE;
+            var current = Team.BLUE;
             while (Pool.Count > 0)
             {
-                if (TeamPool[Current].Count == TeamPool[!Current].Count + 1) Current = !Current;
-                await Pick();
+                if (TeamPool[current].Count == TeamPool[~current].Count + 1) current = ~current;
+                await Pick(current);
             }
 
             await SelfPick();
+
+            EventSystem.Instance.Send(new FinishBanPick());
         }
 
+        private Player GetTeamPlayer(Team team) => Game.Instance.AlivePlayers.Find(x => x.team == team);
 
-        private TaskCompletionSource<BanpickMessage> tcs;
-        public Team Current { get; private set; }
-        public int second => 15;
+        private TaskCompletionSource<Model.BanpickMessage> tcs;
+        private int second = 15;
 
-        private async Task Ban()
+        private async Task Ban(Team team)
         {
-            if (Current == Self.Instance.team || Room.Instance.IsSingle) BpAutoResult();
-            StartBanView();
-            int id = await WaitBp();
-            var general = Pool.Find(x => x.id == id);
+            BpAutoResult(team);
+            EventSystem.Instance.Send(new BanQuery
+            {
+                player = GetTeamPlayer(team).position,
+                second = second
+            });
+            var general = await WaitBp();
             Pool.Remove(general);
 
-            while (OnBanView is null) await Task.Yield();
-            OnBanView?.Invoke(general);
+            EventSystem.Instance.Send(new OnBan
+            {
+                player = GetTeamPlayer(team).position,
+                general = general.id
+            });
             Delay.StopAll();
         }
 
-        private async Task Pick()
+        private async Task Pick(Team team)
         {
-            if (Current == Self.Instance.team || Room.Instance.IsSingle) BpAutoResult();
-            StartPickView();
-            int id = await WaitBp();
-            var general = Pool.Find(x => x.id == id);
+            BpAutoResult(team);
+            EventSystem.Instance.Send(new PickQuery
+            {
+                player = GetTeamPlayer(team).position,
+                second = second
+            });
+            var general = await WaitBp();
             Pool.Remove(general);
+            TeamPool[team].Add(general);
 
-            TeamPool[Current].Add(general);
-            OnPickView?.Invoke(general);
+            EventSystem.Instance.Send(new OnPick
+            {
+                player = GetTeamPlayer(team).position,
+                general = general.id
+            });
             Delay.StopAll();
         }
 
-        public void SendBpResult(int general)
+        private async Task<General> WaitBp()
         {
-            var json = new BanpickMessage
-            {
-                msg_type = "ban_pick_result",
-                generals = new List<int> { general },
-            };
-
-            if (Room.Instance.IsSingle) tcs.TrySetResult(json);
-            else WebSocket.Instance.SendMessage(json);
+            var decision = await EventSystem.Instance.PopDecision() as GeneralDecision;
+            return General.Get(decision.general);
         }
 
-        private async Task<int> WaitBp()
+        private async void BpAutoResult(Team team)
         {
-            BanpickMessage json;
-            if (Room.Instance.IsSingle)
+            var player = GetTeamPlayer(team);
+            if (!await new Delay(player.isAI ? 0.1f : second).Run()) return;
+            EventSystem.Instance.PushDecision(new GeneralDecision
             {
-                tcs = new TaskCompletionSource<BanpickMessage>();
-                json = await tcs.Task;
-            }
-            else
-            {
-                var msg = await WebSocket.Instance.PopMessage();
-                json = JsonUtility.FromJson<BanpickMessage>(msg);
-            }
-
-            return json.generals[0];
-        }
-
-        private async void BpAutoResult()
-        {
-            if (!await new Delay(Current == Self.Instance.team ? second : 0.1f).Run()) return;
-            SendBpResult(Pool[0].id);
+                player = player.position,
+                general = Pool.First().id
+            });
         }
 
         private async Task SelfPick()
         {
-            StartSelfPickView?.Invoke();
+            second = 25;
+            EventSystem.Instance.Send(new StartSelfPick { second = second });
             SelfAutoResult();
-            if (Room.Instance.IsSingle) AIAutoResult();
-            await WaitSelfPick();
+            AIAutoResult();
             await WaitSelfPick();
             Delay.StopAll();
         }
-
-        public void SendSelfResult(Team team, List<int> generals)
-        {
-            var json = new BanpickMessage
-            {
-                msg_type = "self_pick_result",
-                team = team.value,
-                generals = generals,
-            };
-
-            if (Room.Instance.IsSingle) tcs.TrySetResult(json);
-            else WebSocket.Instance.SendMessage(json);
-        }
-
         public async Task WaitSelfPick()
         {
-            BanpickMessage json;
-            if (Room.Instance.IsSingle)
+            for (int i = 0; i < Game.Instance.AlivePlayers.Count; i++)
             {
-                tcs = new TaskCompletionSource<BanpickMessage>();
-                json = await tcs.Task;
+                var decision = await EventSystem.Instance.PopDecision() as GeneralDecision;
+                var player = Game.Instance.players[decision.player];
+                generals.Add(player, General.Get(decision.general));
             }
-            else
-            {
-                var msg = await WebSocket.Instance.PopMessage();
-                json = JsonUtility.FromJson<BanpickMessage>(msg);
-            }
-
-            Team team = json.team ? Team.RED : Team.BLUE;
-            var players = team.GetAllPlayers().ToArray();
-            for (int i = 0; i < players.Length; i++) generals.Add(players[i], TeamPool[team].Find(x => x.id == json.generals[i]));
         }
 
         public Dictionary<Player, General> generals { get; } = new();
@@ -180,23 +127,32 @@ namespace GameCore
         {
             if (!await new Delay(second).Run()) return;
 
-            var team = Self.Instance.team;
-            SendSelfResult(team, TeamPool[team].Select(x => x.id).Take(team.GetAllPlayers().Count()).ToList());
+            var player = Game.Instance.AlivePlayers.Find(x => !x.isAI);
+            int t = 0;
+            foreach (var i in player.teammates)
+            {
+                EventSystem.Instance.PushDecision(new GeneralDecision
+                {
+                    player = i.position,
+                    general = TeamPool[player.team][t++].id
+                });
+            }
         }
 
         private async void AIAutoResult()
         {
+            var player = Game.Instance.AlivePlayers.Find(x => x.isAI);
+            if (player is null) return;
             if (!await new Delay(0.1f).Run()) return;
-
-            var team = !Self.Instance.team;
-            SendSelfResult(team, TeamPool[team].Select(x => x.id).OrderBy(x => UnityEngine.Random.value).Take(team.GetAllPlayers().Count()).ToList());
+            int t = 0;
+            foreach (var i in player.teammates)
+            {
+                EventSystem.Instance.PushDecision(new GeneralDecision
+                {
+                    player = i.position,
+                    general = TeamPool[player.team][t++].id
+                });
+            }
         }
-
-        public Action ShowPanelView;
-        public Action StartBanView;
-        public Action<General> OnBanView;
-        public Action StartPickView;
-        public Action<General> OnPickView;
-        public Action StartSelfPickView;
     }
 }

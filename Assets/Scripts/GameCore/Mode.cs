@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Team = Model.Team;
 
 namespace GameCore
 {
@@ -12,7 +13,7 @@ namespace GameCore
 
         public Player[] GetActionQueue()
         {
-            var players = Main.Instance.players;
+            var players = Game.Instance.players;
             return new Player[]
             {
                 players[1],
@@ -46,7 +47,7 @@ namespace GameCore
         public async override Task OnPlayerDie(Player player, Player src)
         {
             if (player.teammates.Count == 0) throw new GameOverException(player.team);
-            await new GetCardFromPile(player.teammates[0], 1).Execute();
+            await new DrawCard(player.teammates[0], 1).Execute();
         }
     }
 
@@ -66,7 +67,7 @@ namespace GameCore
         public async override Task OnPlayerDie(Player player, Player src)
         {
             if (player.isMonarch) throw new GameOverException(player.team);
-            if (src != null && src.team != player.team) await new GetCardFromPile(src, 2).Execute();
+            if (src != null && src.team != player.team) await new DrawCard(src, 2).Execute();
         }
     }
 }

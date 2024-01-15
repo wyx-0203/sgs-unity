@@ -8,7 +8,7 @@ public class 无双 : Triggered
 
     protected override bool OnExecuteSha(杀 sha) => true;
 
-    protected override async Task Invoke(Decision decision)
+    protected override async Task Invoke(PlayDecision decision)
     {
         await Task.Yield();
         (arg as 杀).needDoubleShan = true;
@@ -17,39 +17,47 @@ public class 无双 : Triggered
 
 public class 利驭 : Triggered
 {
-    protected override bool OnMakeDamage(Damaged damaged) => damaged.SrcCard is 杀 && damaged.player.cardsCount > 0;
+    protected override bool OnMakeDamage(Damage damaged) => damaged.SrcCard is 杀 && damaged.player.cardsCount > 0;
 
-    private Player dest => (arg as Damaged).player;
+    private Player dest => (arg as Damage).player;
 
     public override int MaxDest => 1;
     public override int MinDest => 1;
     public override bool IsValidDest(Player dest) => this.dest == dest;
 
-    protected override async Task Invoke(Decision decision)
+    protected override async Task Invoke(PlayDecision decision)
     {
-        CardPanel.Instance.Title = "利驭";
-        CardPanel.Instance.Hint = "对" + dest + "发动利驭，获得其一张牌";
-        var card = await TimerAction.SelectOneCardFromElse(src, dest);
+        // CardPanelRequest.Instance.title = "利驭";
+        string hint = $"对{dest}发动利驭，获得其一张牌";
+        // var cards = await TimerAction.SelectCardFromElse(src, dest);
+        var cards = await new CardPanelQuery(src, dest, name, hint, false).Run();
 
         // 获得牌
-        await new GetCardFromElse(src, dest, card).Execute();
+        await new GetAnothersCard(src, dest, cards).Execute();
 
         // 若为装备牌
-        if (card[0] is Equipment)
+        if (cards[0] is Equipment)
         {
-            if (Main.Instance.AlivePlayers.Count <= 2) return;
+            if (Game.Instance.AlivePlayers.Count <= 2) return;
 
             // 指定角色
-            Timer.Instance.hint = src + "对你发动利驭，选择一名角色";
-            Timer.Instance.isValidDest = player => player != src && player != dest;
-            Timer.Instance.refusable = false;
-            Timer.Instance.DefaultAI = AI.TryAction;
-            decision = await Timer.Instance.Run(dest, 0, 1);
+            // Timer.Instance.hint = src + "对你发动利驭，选择一名角色";
+            // Timer.Instance.isValidDest = player => player != src && player != dest;
+            // Timer.Instance.refusable = false;
+            // Timer.Instance.defaultAI = AI.TryAction;
+            decision = await new PlayQuery
+            {
+                player = dest,
+                hint = $"{src}对你发动利驭，选择一名角色",
+                isValidDest = player => player != src && player != dest,
+                refusable = false,
+                // defaultAI = AI.TryAction
+            }.Run(0, 1);
 
             // 使用决斗
             await Card.Convert<决斗>(src).UseCard(src, decision.dests);
         }
         // 摸牌
-        else await new GetCardFromPile(dest, 1).Execute();
+        else await new DrawCard(dest, 1).Execute();
     }
 }

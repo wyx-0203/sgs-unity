@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
+using Team = Model.Team;
+using General = Model.General;
 
 namespace GameCore
 {
@@ -19,7 +21,7 @@ namespace GameCore
         /// <summary>
         /// 是否为自己
         /// </summary>
-        public bool isSelf { get; set; } = false;
+        // public bool isSelf { get; set; } = false;
 
         /// <summary>
         /// 是否为AI
@@ -41,7 +43,7 @@ namespace GameCore
         /// </summary>
         public bool isMonarch { get; private set; }
 
-        public override string ToString() => general.name;
+        public override string ToString() => general?.name;
 
         /// <summary>
         /// 武将
@@ -166,12 +168,12 @@ namespace GameCore
         /// <summary>
         /// 其他角色计算与你的距离(+1)
         /// </summary>
-        public int fleeDistance { get; set; } = 0;
+        public int plusDst { get; set; } = 0;
 
         /// <summary>
         /// 你计算与其他角色的距离(-1)
         /// </summary>
-        public int pursueDistance { get; set; } = 0;
+        public int subDst { get; set; } = 0;
 
         /// <summary>
         /// 攻击范围
@@ -194,7 +196,7 @@ namespace GameCore
         public int GetDistance(Player dest)
         {
             if (!dest.alive || dest == this) return 0;
-            int distance = 1 + dest.fleeDistance - pursueDistance;
+            int distance = 1 + dest.plusDst - subDst;
 
             Player n = next, l = last;
             while (dest != n && dest != l)
@@ -239,17 +241,35 @@ namespace GameCore
             hp = hpLimit;
 
             // 添加技能
-            foreach (var name in general.skill) await Skill.New(name, this);
+            foreach (var name in general.skill) Skill.New(name, this);
 
+            // Debug.Log("game1");
+            EventSystem.Instance.Send(new Model.InitGeneral
+            {
+                player = position,
+                general = general.id,
+                hp = hp,
+                hpLimit = hpLimit,
+                skills = GetSkillModels()
+            });
+            await Task.Yield();
+            // Debug.Log("game2");
             // 皮肤
-            skins = (await Skin.GetList(general.id)).ToList();
-            currentSkin = skins[0];
+            // skins = (await Skin.GetList(general.id)).ToList();
+            // currentSkin = skins[0];
+        }
+
+        public List<Model.Skill> GetSkillModels()
+        {
+            var list = new List<Model.Skill>();
+            foreach (var i in skills) if (list.Find(x => x.name == i.name) is null) list.Add(i.ToModel());
+            return list;
         }
 
         /// <summary>
         /// 按当前回合角色排序
         /// </summary>
-        public int orderKey => (position - TurnSystem.Instance.CurrentPlayer.position + Main.Instance.players.Length) % Main.Instance.players.Length;
+        public int orderKey => (position - TurnSystem.Instance.CurrentPlayer.position + Game.Instance.players.Length) % Game.Instance.players.Length;
 
         /// <summary>
         /// 按当前回合角色排序
@@ -261,35 +281,35 @@ namespace GameCore
         /// <summary>
         /// 皮肤
         /// </summary>
-        public List<Skin> skins { get; private set; }
+        // public List<Skin> skins { get; private set; }
 
         /// <summary>
         /// 当前皮肤
         /// </summary>
-        public Skin currentSkin { get; private set; }
+        // public Skin currentSkin { get; private set; }
 
-        private int skinIndex = 0;
-        public void SendChangeSkin()
-        {
-            skinIndex = (skinIndex + 1) % skins.Count;
-            var json = new ChangeSkinMessage
-            {
-                msg_type = "change_skin",
-                position = position,
-                skin_id = skins[skinIndex].id
-            };
+        // private int skinIndex = 0;
+        // public void SendChangeSkin()
+        // {
+        //     skinIndex = (skinIndex + 1) % skins.Count;
+        //     var json = new Model.ChangeSkinMessage
+        //     {
+        //         type = "change_skin",
+        //         position = position,
+        //         skin_id = skins[skinIndex].id
+        //     };
 
-            if (Room.Instance.IsSingle) ChangeSkin(json.skin_id);
-            else WebSocket.Instance.SendMessage(json);
-        }
+        //     if (Room.Instance.IsSingle) ChangeSkin(json.skin_id);
+        //     else WebSocket.Instance.SendMessage(json);
+        // }
 
-        public void ChangeSkin(int skinId)
-        {
-            currentSkin = skins.Find(x => x.id == skinId);
-            ChangeSkinView?.Invoke(currentSkin);
-        }
+        // public void ChangeSkin(int skinId)
+        // {
+        //     currentSkin = skins.Find(x => x.id == skinId);
+        //     ChangeSkinView?.Invoke(currentSkin);
+        // }
 
-        public Action<Skin> ChangeSkinView;
+        // public Action<Skin> ChangeSkinView;
 
         #endregion
 

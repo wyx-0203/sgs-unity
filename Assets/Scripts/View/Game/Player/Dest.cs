@@ -8,9 +8,9 @@ public class Dest : MonoBehaviour
     public GameObject border;
 
     private Player player;
-    public GameCore.Player model => player.model;
+    public Model.Player model => player.model;
 
-    private bool refresh = true;
+    // private bool refresh = true;
     // private ColorBlock colorBlock;
 
     private void Start()
@@ -22,37 +22,44 @@ public class Dest : MonoBehaviour
 
     private void OnValueChanged(bool value)
     {
-        if (GeneralInfo.Instance != null && GeneralInfo.Instance.gameObject.activeSelf && refresh) return;
+        if (GeneralInfo.Instance != null && GeneralInfo.Instance.gameObject.activeSelf) return;
 
         border.SetActive(value);
-        if (value) GameCore.Timer.Instance.temp.dests.Add(model);
-        else GameCore.Timer.Instance.temp.dests.Remove(model);
+        DestArea.Instance.OnClickDest(model.index, value);
+        // if (value) GameCore.Timer.Instance.temp.dests.Add(model);
+        // else GameCore.Timer.Instance.temp.dests.Remove(model);
 
-        if (refresh)
-        {
-            DestArea.Instance.Update_();
-            OperationArea.Instance.UpdateButtonArea();
-        }
+        // if (refresh)
+        // {
+        //     DestArea.Instance.Update_();
+        //     OperationArea.Instance.UpdateButtonArea();
+        // }
     }
 
     /// <summary>
     /// 取消选中
     /// </summary>
-    public void Unselect()
-    {
-        refresh = false;
-        toggle.isOn = false;
-        refresh = true;
-    }
+    // public void Unselect()
+    // {
+    //     refresh = false;
+    //     toggle.isOn = false;
+    //     refresh = true;
+    // }
 
     /// <summary>
     /// 设置阴影
     /// </summary>
-    public void AddShadow()
+    // public void SetShadow()
+    // {
+    //     player.general.skin.SetColor(toggle.interactable ? Color.white : new(0.6f, 0.6f, 0.6f));
+    //     // colorBlock.disabledColor = ;
+    //     // toggle.colors = colorBlock;
+    // }
+
+    public void SetInteractable(bool value)
     {
-        player.general.skin.SetColor(new(0.6f, 0.6f, 0.6f));
-        // colorBlock.disabledColor = ;
-        // toggle.colors = colorBlock;
+        toggle.interactable = value;
+        player.general.skin.SetColor(value ? Color.white : new(0.6f, 0.6f, 0.6f));
     }
 
     /// <summary>
@@ -62,8 +69,10 @@ public class Dest : MonoBehaviour
     {
         toggle.interactable = false;
         player.general.skin.SetColor(Color.white);
+        // SetInteractable(false);
         // colorBlock.disabledColor = Color.white;
         // toggle.colors = colorBlock;
-        Unselect();
+        // Unselect();
+        toggle.isOn = false;
     }
 }

@@ -8,9 +8,9 @@ public class GeneralBasic : MonoBehaviour
 {
     public Button button;
 
-    private GameCore.General model;
+    private Model.General model;
 
-    public void Init(GameCore.General model)
+    public void Init(Model.General model)
     {
         this.model = model;
         name = model.name;

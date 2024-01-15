@@ -1,5 +1,7 @@
+using Model;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -12,69 +14,65 @@ public class ElsePlayer : MonoBehaviour
     public Text handCardCount;
 
     public ElsePlayerEquip[] equipArray;
-    private Dictionary<string, ElsePlayerEquip> equipages;
+    private Dictionary<string, ElsePlayerEquip> equipments;
 
     private Player player;
-    private GameCore.Player model => player.model;
-    private GameCore.Timer timer => GameCore.Timer.Instance;
+    private Model.Player model => player.model;
 
-    private void Start()
+    private void Awake()
     {
         // 阶段信息
-        GameCore.TurnSystem.Instance.StartPhaseView += ShowPhase;
-        GameCore.TurnSystem.Instance.FinishPhaseView += HidePhase;
+        EventSystem.Instance.AddEvent<StartPhase>(ShowPhase);
+        EventSystem.Instance.AddEvent<FinishPhase>(HidePhase);
 
-        // 进度条
-        GameCore.Timer.Instance.StartTimerView += ShowTimer;
-        GameCore.Timer.Instance.StopTimerView += HideTimer;
-        GameCore.CardPanel.Instance.StartTimerView += ShowTimer;
-        GameCore.CardPanel.Instance.StopTimerView += HideTimer;
+        // 出牌
+        EventSystem.Instance.AddEvent<PlayQuery>(ShowTimer);
+        EventSystem.Instance.AddEvent<FinishPlay>(HideTimer);
+        EventSystem.Instance.AddEvent<CardPanelQuery>(ShowTimer);
+        EventSystem.Instance.AddEvent<FinishCardPanel>(HideTimer);
 
-        // 获得牌
-        GameCore.GetCard.ActionView += UpdateHandCardCount;
-
-        // 失去牌
-        GameCore.LoseCard.ActionView += UpdateHandCardCount;
+        // 手牌
+        EventSystem.Instance.AddEvent<UpdateCard>(UpdateHandCardCount);
+        EventSystem.Instance.AddEvent<LoseCard>(OnLoseCard);
 
         // 装备区
-        GameCore.Equipment.AddEquipView += ShowEquip;
-        GameCore.Equipment.RemoveEquipView += HideEquip;
+        EventSystem.Instance.AddEvent<AddEquipment>(OnAddEquipment);
 
         player = GetComponent<Player>();
 
         currentPhase.gameObject.SetActive(false);
         slider.gameObject.SetActive(false);
 
-        equipages = new Dictionary<string, ElsePlayerEquip>
-            {
-                {"武器", equipArray[0]},
-                {"防具", equipArray[1]},
-                {"加一马", equipArray[2]},
-                {"减一马", equipArray[3]}
-            };
-
-        UpdateHandCardCount();
+        equipments = new Dictionary<string, ElsePlayerEquip>
+        {
+            {"武器", equipArray[0]},
+            {"防具", equipArray[1]},
+            {"加一马", equipArray[2]},
+            {"减一马", equipArray[3]}
+        };
 
         if (model.isSelf) handCardCount.transform.parent.gameObject.AddComponent<HandCardPointerHandler>();
-        // phaseSprite = Sprites.Instance.phase;
     }
 
     private void OnDestroy()
     {
-        GameCore.TurnSystem.Instance.StartPhaseView -= ShowPhase;
-        GameCore.TurnSystem.Instance.FinishPhaseView -= HidePhase;
+        EventSystem.Instance.RemoveEvent<StartPhase>(ShowPhase);
+        EventSystem.Instance.RemoveEvent<FinishPhase>(HidePhase);
 
-        GameCore.Timer.Instance.StartTimerView -= ShowTimer;
-        GameCore.Timer.Instance.StopTimerView -= HideTimer;
-        GameCore.CardPanel.Instance.StartTimerView -= ShowTimer;
-        GameCore.CardPanel.Instance.StopTimerView -= HideTimer;
+        EventSystem.Instance.RemoveEvent<PlayQuery>(ShowTimer);
+        EventSystem.Instance.RemoveEvent<FinishPlay>(HideTimer);
+        EventSystem.Instance.RemoveEvent<CardPanelQuery>(ShowTimer);
+        EventSystem.Instance.RemoveEvent<FinishCardPanel>(HideTimer);
 
-        GameCore.GetCard.ActionView -= UpdateHandCardCount;
+        EventSystem.Instance.RemoveEvent<UpdateCard>(UpdateHandCardCount);
 
-        GameCore.LoseCard.ActionView -= UpdateHandCardCount;
+        EventSystem.Instance.RemoveEvent<AddEquipment>(OnAddEquipment);
+        EventSystem.Instance.RemoveEvent<LoseCard>(OnLoseCard);
+    }
 
-        GameCore.Equipment.AddEquipView -= ShowEquip;
-        GameCore.Equipment.RemoveEquipView -= HideEquip;
+    private bool IsSelf(int player, SinglePlayQuery.Type type)
+    {
+        return player == model.index || type == SinglePlayQuery.Type.WXKJ && Player.Find(player).model.team == model.team;
     }
 
     /// <summary>
@@ -87,90 +85,75 @@ public class ElsePlayer : MonoBehaviour
         StartCoroutine(UpdateTimer(second));
     }
 
-    private void ShowTimer()
+    private void ShowTimer(PlayQuery playQuery)
     {
-        if (!gameObject.activeSelf || !timer.players.Contains(model)) return;
-        ShowTimer(timer.second);
+        if (IsSelf(playQuery.player, playQuery.origin.type)) ShowTimer(playQuery.second);
     }
 
-    private void ShowTimer(GameCore.CardPanel cardPanel)
+    private void ShowTimer(CardPanelQuery cpq)
     {
-        if (!gameObject.activeSelf || cardPanel.player != model) return;
-        ShowTimer(cardPanel.second);
+        if (!gameObject.activeSelf || cpq.player != model.index) return;
+        ShowTimer(cpq.second);
     }
 
     /// <summary>
     /// 隐藏倒计时进度条
     /// </summary>
-    private void HideTimer()
+    private void HideTimer(FinishPlay finishPlay)
     {
-        if (!gameObject.activeSelf || !timer.players.Contains(model)) return;
-        StopAllCoroutines();
-        slider.gameObject.SetActive(false);
+        if (IsSelf(finishPlay.player, finishPlay.type))
+        {
+            StopAllCoroutines();
+            slider.gameObject.SetActive(false);
+        }
     }
 
-    private void HideTimer(GameCore.CardPanel cardPanel)
+    private void HideTimer(FinishCardPanel fcp)
     {
-        if (cardPanel.player != model) return;
-        HideTimer();
+        if (fcp.player == model.index)
+        {
+            StopAllCoroutines();
+            slider.gameObject.SetActive(false);
+        }
     }
 
     /// <summary>
     /// 显示并更新阶段信息
     /// </summary>
-    private void ShowPhase()
+    private void ShowPhase(StartPhase startPhase)
     {
-        if (GameCore.TurnSystem.Instance.CurrentPlayer != model) return;
+        if (startPhase.player != model.index) return;
 
         currentPhase.gameObject.SetActive(true);
-
-        currentPhase.sprite = phaseSprite[(int)GameCore.TurnSystem.Instance.CurrentPhase];
+        currentPhase.sprite = phaseSprite[(int)startPhase.phase];
     }
 
     /// <summary>
     /// 隐藏阶段信息(回合外)
     /// </summary>
-    private void HidePhase()
+    private void HidePhase(FinishPhase finishPhase)
     {
-        if (GameCore.TurnSystem.Instance.CurrentPlayer != model) return;
-
+        if (finishPhase.player != model.index) return;
         currentPhase.gameObject.SetActive(false);
     }
 
-    /// <summary>
-    /// 更新手牌数
-    /// </summary>
-    private void UpdateHandCardCount()
+    private void UpdateHandCardCount(UpdateCard updateCard)
     {
-        handCardCount.text = model.handCardsCount.ToString();
+        if (updateCard.player != model.index) return;
+        handCardCount.text = model.handCards.Count.ToString();
     }
 
-    private void UpdateHandCardCount(GameCore.GetCard operation)
+    private void OnAddEquipment(AddEquipment addEquipment)
     {
-        if (operation.player != model) return;
-        UpdateHandCardCount();
+        if (addEquipment.player != model.index) return;
+        int id = addEquipment.card;
+        equipments[Model.Card.Find(id).type].Show(id);
     }
 
-    private void UpdateHandCardCount(GameCore.LoseCard operation)
+    private void OnLoseCard(LoseCard loseCard)
     {
-        if (operation.player != model) return;
-        UpdateHandCardCount();
-    }
-
-    private void ShowEquip(GameCore.Equipment card)
-    {
-        if (card.owner != model) return;
-
-        equipages[card.type].gameObject.SetActive(true);
-        equipages[card.type].Init(card);
-    }
-
-    private void HideEquip(GameCore.Equipment card)
-    {
-        if (card.owner != model) return;
-        if (card.id != equipages[card.type].Id) return;
-
-        equipages[card.type].gameObject.SetActive(false);
+        if (loseCard.player != model.index) return;
+        foreach (var i in equipments.Values.Where(x => loseCard.cards.Contains(x.id))) i.Hide();
     }
 
     /// <summary>
@@ -189,19 +172,11 @@ public class ElsePlayer : MonoBehaviour
 class HandCardPointerHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private Player player;
-    // private TeammateHandCardPanel teammateHandCardPanel;
 
     private void Start()
     {
         player = GetComponentInParent<Player>();
-        // teammateHandCardPanel = GameMain.Instance.transform.Find("队友手牌Panel").GetComponent<TeammateHandCardPanel>();
-        // Debug.Log(teammateHandCardPanel.name);
     }
-
-    // public void OnPointerDown(PointerEventData eventData)
-    // {
-    //     teammateHandCardPanel.Show(player.model);
-    // }
 
     public void OnPointerEnter(PointerEventData eventData)
     {

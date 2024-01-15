@@ -15,9 +15,10 @@ public class GeneralInfo : SingletonMono<GeneralInfo>
 
     private List<SkillInfo> skillInfos = new();
 
-    public async void Show(GameCore.General general, GameCore.Skin skin)
+    public async void Show(Model.General general, Model.Skin skin)
     {
-        generalName.text = "   " + skin.name + "*" + general.name;
+        // generalName.text = "   " + skin.name + "*" + general.name;
+        generalName.text = $"   {skin.name}*{general.name}";
         for (int i = 0; i < general.skill.Count; i++)
         {
             var skill = Instantiate(skillPrefab, skillParent).GetComponent<SkillInfo>();
@@ -26,7 +27,8 @@ public class GeneralInfo : SingletonMono<GeneralInfo>
             skillInfos.Add(skill);
         }
 
-        string url = Url.GENERAL_IMAGE + "Window/" + skin.id + ".png";
+        // string url = Url.GENERAL_IMAGE + "Window/" + skin.id + ".png";
+        string url = $"{Url.GENERAL_IMAGE}Window/{skin.id}.png";
         var texture = await WebRequest.GetTexture(url);
         image.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
 

@@ -1,3 +1,5 @@
+using Model;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -31,169 +33,164 @@ public class Player : MonoBehaviour
 
     // 判定区
     public Transform judgeArea;
-    public GameObject judgeCardPrefab;
 
-    public GameCore.Player model { get; private set; }
+    public Model.Player model { get; private set; }
 
-    private void Start()
+    public static Player Find(int position) => GameMain.Instance.players[position];
+    public static bool IsSelf(int position) => Find(position).model.isSelf;
+
+    private void Awake()
     {
         // 武将
-        // Model.SgsMain.Instance.AfterBanPickView += InitGeneral;
+        EventSystem.Instance.AddEvent<InitGeneral>(OnInitGeneral);
 
         // 回合
-        GameCore.TurnSystem.Instance.StartTurnView += StartTurn;
-        GameCore.TurnSystem.Instance.FinishTurnView += FinishTurn;
+        EventSystem.Instance.AddEvent<StartTurn>(OnStartTurn);
+        EventSystem.Instance.AddEvent<FinishTurn>(OnFinishTurn);
 
         // 改变体力
-        GameCore.UpdateHp.ActionView += UpdateHp;
-        GameCore.UpdateHp.ActionView += NearDeath;
+        EventSystem.Instance.AddEvent<UpdateHp>(UpdateHp);
+        EventSystem.Instance.AddEvent<UpdateHp>(NearDeath);
 
         // 阵亡
-        GameCore.Die.ActionView += OnDead;
+        EventSystem.Instance.AddEvent<Die>(OnDead);
 
         // 判定区
-        if (judgeArea.gameObject.activeSelf)
-        {
-            GameCore.DelayScheme.AddJudgeView += AddJudgeCard;
-            GameCore.DelayScheme.RemoveJudgeView += RemoveJudgeCard;
-        }
+        EventSystem.Instance.AddEvent<AddJudgeCard>(OnAddJudgeCard);
+        EventSystem.Instance.AddEvent<RemoveJudgeCard>(OnRemoveJudgeCard);
 
         // 横置
-        GameCore.SetLock.ActionView += OnLock;
+        EventSystem.Instance.AddEvent<SetLock>(OnLock);
         // 翻面
-        GameCore.TurnOver.ActionView += OnTurnOver;
+        EventSystem.Instance.AddEvent<TurnOver>(OnTurnOver);
 
         // 换肤
-        if (this != GameMain.Instance.self) model.ChangeSkinView += general.skin.Set;
-        else foreach (var i in model.teammates) i.ChangeSkinView += ChangeSkin;
-        // GameCore.Player.ChangeSkinView += general.UpdateSkin;
+        EventSystem.Instance.AddEvent<ChangeSkin>(OnChangeSkin);
     }
 
     private void OnDestroy()
     {
         // 武将
-        // Model.SgsMain.Instance.AfterBanPickView -= InitGeneral;
+        EventSystem.Instance.RemoveEvent<InitGeneral>(OnInitGeneral);
 
         // 回合
-        GameCore.TurnSystem.Instance.StartTurnView -= StartTurn;
-        GameCore.TurnSystem.Instance.FinishTurnView -= FinishTurn;
+        EventSystem.Instance.RemoveEvent<StartTurn>(OnStartTurn);
+        EventSystem.Instance.RemoveEvent<FinishTurn>(OnFinishTurn);
 
         // 改变体力
-        GameCore.UpdateHp.ActionView -= UpdateHp;
-        GameCore.UpdateHp.ActionView -= NearDeath;
+        EventSystem.Instance.RemoveEvent<UpdateHp>(UpdateHp);
+        EventSystem.Instance.RemoveEvent<UpdateHp>(NearDeath);
 
         // 阵亡
-        GameCore.Die.ActionView -= OnDead;
+        EventSystem.Instance.RemoveEvent<Die>(OnDead);
 
         // 判定区
-        if (judgeArea.gameObject.activeSelf)
-        {
-            GameCore.DelayScheme.AddJudgeView -= AddJudgeCard;
-            GameCore.DelayScheme.RemoveJudgeView -= RemoveJudgeCard;
-        }
+        EventSystem.Instance.RemoveEvent<AddJudgeCard>(OnAddJudgeCard);
+        EventSystem.Instance.RemoveEvent<RemoveJudgeCard>(OnRemoveJudgeCard);
 
-        // 横置
-        GameCore.SetLock.ActionView -= OnLock;
-        GameCore.TurnOver.ActionView -= OnTurnOver;
+        EventSystem.Instance.RemoveEvent<SetLock>(OnLock);
+        EventSystem.Instance.RemoveEvent<TurnOver>(OnTurnOver);
 
-        if (this != GameMain.Instance.self) model.ChangeSkinView -= general.skin.Set;
-        else foreach (var i in model.teammates) i.ChangeSkinView -= ChangeSkin;
-        // GameCore.Player.ChangeSkinView -= general.UpdateSkin;
+        EventSystem.Instance.RemoveEvent<ChangeSkin>(OnChangeSkin);
     }
 
     /// <summary>
     /// 初始化
     /// </summary>
-    public void Init(GameCore.Player player)
+    public void Init(Model.Player player)
     {
         model = player;
         positionImage.sprite = positionSprite[model.turnOrder];
 
         // 2v2
-        if (GameCore.Mode.Instance is GameCore.TwoVSTwo) team.sprite = model.isSelf ? teamSprites[0] : teamSprites[1];
+        // if (GameCore.Mode.Instance is GameCore.TwoVSTwo) team.sprite = model.isSelf ? teamSprites[0] : teamSprites[1];
 
         // 3v3
-        else if (GameCore.Mode.Instance is GameCore.ThreeVSThree)
-        {
-            // 主将
-            if (model.isMonarch) team.sprite = model.team == GameCore.Team.BLUE ? teamSprites[2] : teamSprites[3];
+        // else if (GameCore.Mode.Instance is GameCore.ThreeVSThree)
+        // {
+        // 主将
+        if (model.isMonarch) team.sprite = model.team == Team.BLUE ? teamSprites[2] : teamSprites[3];
 
-            // 先锋
-            else team.sprite = model.team == GameCore.Team.BLUE ? teamSprites[4] : teamSprites[5];
-        }
+        // 先锋
+        else team.sprite = model.team == Team.BLUE ? teamSprites[4] : teamSprites[5];
 
         nearDeath.SetActive(model.hp < 1 && model.hpLimit > 0);
-        death.gameObject.SetActive(false);
+        death.gameObject.SetActive(!model.alive);
         TurnOver.SetActive(player.isTurnOver);
-        // general.skin.material = null;
 
-        general.Init(model);
     }
 
-    private void ChangeSkin(GameCore.Skin skin)
+    public void OnInitGeneral(InitGeneral initGeneral)
     {
-        if (skin.general_id == general.model.id) general.skin.Set(skin);
+        if (initGeneral.player == model.index) general.Init(model);
     }
 
-    private void UpdateHp(GameCore.UpdateHp operation)
+    private void OnChangeSkin(ChangeSkin changeSkin)
     {
-        if (operation.player != model) return;
-        general.SetHp(model.hp, model.hpLimit);
+        if (changeSkin.player == model.index)
+        {
+            general.skin.Set(Model.Skin.Get(changeSkin.skinId));
+        }
     }
 
-    private void NearDeath(GameCore.UpdateHp operation)
+    private void UpdateHp(UpdateHp updateHp)
     {
-        if (operation.player != model) return;
-        nearDeath.SetActive(model.hp < 1);
+        if (updateHp.player == model.index) general.SetHp(model.hp, model.hpLimit);
     }
 
-    private void OnDead(GameCore.Die operation)
+    private void NearDeath(UpdateHp updateHp)
     {
-        if (operation.player != model) return;
+        if (updateHp.player == model.index) nearDeath.SetActive(updateHp.hp < 1);
+    }
+
+    private void OnDead(Die die)
+    {
+        if (die.player != model.index) return;
+
         nearDeath.SetActive(false);
         general.skin.OnDead();
         death.gameObject.SetActive(true);
         death.sprite = model.isSelf ? selfDead : oppoDead;
     }
 
-    private void StartTurn()
+    private void OnStartTurn(StartTurn startTurn)
     {
-        if (GameCore.TurnSystem.Instance.CurrentPlayer != model) return;
-        turnBorder.SetActive(true);
+        if (startTurn.player == model.index) turnBorder.SetActive(true);
     }
 
-    private void FinishTurn()
+    private void OnFinishTurn(FinishTurn finishTurn)
     {
-        if (GameCore.TurnSystem.Instance.CurrentPlayer != model) return;
-        turnBorder.SetActive(false);
+        if (finishTurn.player == model.index) turnBorder.SetActive(false);
     }
 
-    private void AddJudgeCard(GameCore.DelayScheme card)
+    private void OnAddJudgeCard(AddJudgeCard addJudgeCard)
     {
-        if (card.owner != model) return;
+        if (addJudgeCard.player != model.index) return;
 
-        var instance = Instantiate(judgeCardPrefab);
+        // var instance = Instantiate(judgeCardPrefab);
+        string name = Model.Card.Find(addJudgeCard.card).name;
+        var instance = new GameObject(name).AddComponent<Image>();
         instance.transform.SetParent(judgeArea, false);
-        instance.name = card.name;
-        instance.GetComponent<Image>().sprite = Sprites.Instance.judgeCard[card.name];
+        // instance.name = name;
+        instance.sprite = GameAssets.Instance.judgeCardImage.Get(name);
+        instance.SetNativeSize();
     }
 
-    private void RemoveJudgeCard(GameCore.DelayScheme card)
+    private void OnRemoveJudgeCard(RemoveJudgeCard removeJudgeCard)
     {
-        if (card.owner != model) return;
-
-        Destroy(judgeArea.Find(card.name)?.gameObject);
+        if (removeJudgeCard.player == model.index)
+        {
+            Destroy(judgeArea.Find(Model.Card.Find(removeJudgeCard.card).name).gameObject);
+        }
     }
 
-    private void OnLock(GameCore.SetLock setLock)
+    private void OnLock(SetLock setLock)
     {
-        if (setLock.player != model) return;
-        Lock.SetActive(setLock.player.locked);
+        if (setLock.player == model.index) Lock.SetActive(setLock.value);
     }
 
-    private void OnTurnOver(GameCore.TurnOver turnOver)
+    private void OnTurnOver(TurnOver turnOver)
     {
-        if (turnOver.player != model) return;
-        TurnOver.SetActive(model.isTurnOver);
+        if (turnOver.player == model.index) TurnOver.SetActive(turnOver.value);
     }
 }

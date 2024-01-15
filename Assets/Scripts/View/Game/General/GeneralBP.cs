@@ -14,7 +14,8 @@ public class GeneralBP : MonoBehaviour
 
     // public int Id { get; private set; }
     private General general;
-    public GameCore.General model => general.model;
+    public int id { get; private set; }
+    // public GameCore.General model => general.model;
 
     public Button button;
     public GameObject ban;
@@ -27,13 +28,14 @@ public class GeneralBP : MonoBehaviour
 
     private Transform pool => BanPick.Instance.pool;
 
-    public void Init(GameCore.General model)
+    public void Init(int id)
     {
         // this.model = model;
         // Id = model.id;
+        this.id = id;
 
         general = GetComponent<General>();
-        general.Init(model);
+        general.Init(Model.General.Get(id));
 
         button.onClick.AddListener(SetBpResult);
     }
@@ -68,7 +70,8 @@ public class GeneralBP : MonoBehaviour
         if (GeneralInfo.Instance.gameObject.activeSelf) return;
 
         button.interactable = false;
-        GameCore.BanPick.Instance.SendBpResult(model.id);
+        BanPick.Instance.OnClickGeneral(id);
+        // GameCore.BanPick.Instance.SendBpResult(model.id);
     }
 
     // private Transform parent;

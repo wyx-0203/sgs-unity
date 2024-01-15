@@ -7,25 +7,20 @@ public class Skill : MonoBehaviour
     public Text text;
     public GameObject effect;
 
-    public GameCore.Skill model { get; set; }
-    private bool refresh = true;
+    public Model.Player src { get; private set; }
 
-    public void Init(GameCore.Skill model)
+    public void Init(Model.Skill model, Model.Player src)
     {
-        this.model = model;
+        this.src = src;
         name = model.name;
-        text.text = model.name;
+        text.text = name;
         toggle.onValueChanged.AddListener(OnValueChanged);
     }
 
     private void OnValueChanged(bool value)
     {
         effect.SetActive(value);
-        if (model is not GameCore.Triggered)
-        {
-            GameCore.Timer.Instance.temp.skill = value ? model : null;
-            if (refresh) OperationArea.Instance.OnClickSkill();
-        }
+        SkillArea.Instance.OnClickSkill(name, value);
     }
 
     /// <summary>
@@ -34,19 +29,6 @@ public class Skill : MonoBehaviour
     public void Reset()
     {
         toggle.interactable = false;
-        refresh = false;
         toggle.isOn = false;
-        refresh = true;
-    }
-}
-
-public class MultiSkill : MonoBehaviour
-{
-    public GameCore.Skill.Multi model;
-
-    public void OnStartPlay()
-    {
-        var skill = model.skills.Find(x => x == GameCore.Timer.Instance.temp.skill || x is not GameCore.Triggered && x.IsValid);
-        if (skill != null) GetComponent<Skill>().model = skill;
     }
 }

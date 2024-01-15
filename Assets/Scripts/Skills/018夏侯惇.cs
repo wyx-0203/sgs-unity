@@ -5,49 +5,52 @@ using System.Threading.Tasks;
 
 public class 刚烈 : Triggered
 {
-    protected override bool OnDamagedByElse(Damaged damaged) => true;
+    protected override bool OnDamagedByElse(Damage damaged) => true;
 
     public override int MaxDest => 1;
     public override int MinDest => 1;
     public override bool IsValidDest(Player dest) => this.dest == dest;
 
-    private Damaged damaged => arg as Damaged;
+    private Damage damaged => arg as Damage;
     private Player dest => damaged.Src;
 
-    protected override async Task Invoke(Decision decision)
+    protected override async Task Invoke(PlayDecision decision)
     {
         var judge = await Judge.Execute();
 
         // 红色
-        if (judge.isRed) await new Damaged(dest, src).Execute();
+        if (judge.isRed) await new Damage(dest, src).Execute();
 
         // 黑色
         else
         {
             if (dest.cardsCount == 0) return;
-            CardPanel.Instance.Title = "刚烈";
-            CardPanel.Instance.Hint = "对" + dest + "发动刚烈，弃置其一张牌";
-            var cards = await TimerAction.SelectOneCardFromElse(src, dest);
+            // CardPanelRequest.Instance.title = "刚烈";
+            string hint = $"对{dest}发动刚烈，弃置其一张牌";
+            // var cards = await TimerAction.SelectCardFromElse(src, dest);
+            var cards = await new CardPanelQuery(src, dest, name, hint, false).Run();
             await new Discard(dest, cards).Execute();
         }
     }
 
-    public override Decision AIDecision() => dest.team != src.team || !AI.CertainValue ? AI.TryAction() : new();
+    // public override Decision AIDecision() => dest.team != src.team || !AI.CertainValue ? AI.TryAction() : new();
+    public override bool AIAct => dest.team != src.team;
 }
 public class 清俭 : Triggered
 {
     public override int timeLimit => 1;
 
-    protected override bool OnGetCard(GetCard getCard) => getCard is not GetCardFromPile getCardFromPile || !getCardFromPile.inGetPhase;
+    protected override bool OnGetCard(GetCard getCard) => (getCard is not DrawCard drawCard || !drawCard.inGetPhase)
+        && TurnSystem.Instance.round > 0;
 
-    public override int MaxCard => int.MaxValue;
+    public override int MaxCard => src.cardsCount;
     public override int MinCard => 1;
     public override int MaxDest => 1;
     public override int MinDest => 1;
 
     public override bool IsValidDest(Player dest) => dest != src;
 
-    protected override async Task Invoke(Decision decision)
+    protected override async Task Invoke(PlayDecision decision)
     {
         var dest = decision.dests[0];
         int offset = 0;
@@ -57,7 +60,7 @@ public class 清俭 : Triggered
         if (decision.cards.Find(x => x is Equipment) != null) offset++;
         dest.HandCardLimitOffset += offset;
 
-        await new GetCardFromElse(dest, src, decision.cards).Execute();
+        await new GetAnothersCard(dest, src, decision.cards).Execute();
 
         TurnSystem.Instance.AfterTurn += () =>
         {
@@ -66,12 +69,17 @@ public class 清俭 : Triggered
         };
     }
 
-    public override Decision AIDecision()
+    public override PlayDecision AIDecision() => new PlayDecision
     {
-        var cards = AI.GetRandomCard();
-        var dests = AI.GetDestByTeam(src.team).ToList();
-        if (cards.Count == 0 || dests.Count == 0 || !AI.CertainValue) return new();
+        action = true,
+        cards = AI.Instance.GetRandomCard(),
+        dests = Game.Instance.AlivePlayers.Where(x => IsValidDest(x) && x.team == src.team).Take(1).ToList()
+    };
+    // {
+    //     var cards = AI.GetRandomCard();
+    //     var dests = AI.GetDestByTeam(src).ToList();
+    //     if (cards.Count == 0 || dests.Count == 0 || !AI.CertainValue) return new();
 
-        return new Decision { action = true, cards = cards, dests = AI.Shuffle(dests) };
-    }
+    //     return new Decision { action = true, cards = cards, dests = AI.Shuffle(dests) };
+    // }
 }

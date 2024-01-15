@@ -8,7 +8,7 @@ public class 弓骑 : Active
     public override int MaxCard => 1;
     public override int MinCard => 1;
 
-    public override async Task Use(Decision decision)
+    public override async Task Use(PlayDecision decision)
     {
         Execute(decision);
 
@@ -22,53 +22,64 @@ public class 弓骑 : Active
 
         // 选择一名角色
         if (decision.cards[0] is not Equipment) return;
-        Timer.Instance.hint = "弃置一名其他角色的一张牌";
-        Timer.Instance.isValidDest = x => x != src && x.cardsCount > 0;
-        Timer.Instance.DefaultAI = AI.TryAction;
+        // Timer.Instance.hint = "弃置一名其他角色的一张牌";
+        // Timer.Instance.isValidDest = x => x != src && x.cardsCount > 0;
+        // Timer.Instance.defaultAI = AI.TryAction;
 
-        decision = await Timer.Instance.Run(src, 0, 1);
+        decision = await new PlayQuery
+        {
+            player = src,
+            hint = "弃置一名其他角色的一张牌",
+            isValidDest = player => player != src && player.cardsCount > 0,
+        }.Run(0, 1);
         if (!decision.action) return;
 
         // 弃一张牌
-        CardPanel.Instance.Title = "弓骑";
-        CardPanel.Instance.Hint = "弃置其一张牌";
+        // CardPanelRequest.Instance.title = "弓骑";
         var dest = decision.dests[0];
-        var card = await TimerAction.SelectOneCardFromElse(src, dest);
-        await new Discard(dest, card).Execute();
+        string hint = "弃置其一张牌";
+        // var card = await TimerAction.SelectCardFromElse(src, dest);
+        var cards = await new CardPanelQuery(src, dest, name, hint, false).Run();
+        await new Discard(dest, cards).Execute();
     }
 }
 
-public class 解烦 : Active, Ultimate
+public class 解烦 : Active, Limited
 {
     public bool IsDone { get; set; } = false;
 
     public override int MaxDest => 1;
     public override int MinDest => 1;
 
-    public override async Task Use(Decision decision)
+    public override async Task Use(PlayDecision decision)
     {
         IsDone = true;
         Execute(decision);
         var dest = decision.dests[0];
 
-        foreach (var i in Main.Instance.AlivePlayers.Where(x => x.DestInAttackRange(dest)).OrderBy(x => x.orderKey))
+        foreach (var i in Game.Instance.AlivePlayers.Where(x => x.DestInAttackRange(dest)).OrderBy(x => x.orderKey))
         {
-            Timer.Instance.hint = "弃置一张武器牌，或令该角色摸一张牌";
-            Timer.Instance.isValidCard = x => x is Weapon;
+            // Timer.Instance.hint = "弃置一张武器牌，或令该角色摸一张牌";
+            // Timer.Instance.isValidCard = x => x is Weapon;
 
-            decision = await Timer.Instance.Run(i, 1, 0);
+            decision = await new PlayQuery
+            {
+                player = i,
+                hint = $"弃置一张武器牌，或令{dest}摸一张牌",
+                isValidCard = x => x is Weapon
+            }.Run(1, 0);
             if (decision.action) await new Discard(i, decision.cards).Execute();
-            else await new GetCardFromPile(dest, 1).Execute();
+            else await new DrawCard(dest, 1).Execute();
         }
 
         if (TurnSystem.Instance.round == 1) TurnSystem.Instance.AfterTurn += () => IsDone = false;
     }
 
-    public override Decision AIDecision()
+    public override PlayDecision AIDecision()
     {
         // 随机指定一名队友
-        var dests = AI.GetDestByTeam(src.team).OrderBy(x => -Main.Instance.AlivePlayers.Where(y => y.DestInAttackRange(x)).Count());
-        Timer.Instance.temp.dests.Add(dests.First());
+        // var dests = AI.GetDestByTeam(src.team).OrderBy(x => -Game.Instance.AlivePlayers.Where(y => y.DestInAttackRange(x)).Count());
+        // Timer.Instance.temp.dests.Add(dests.First());
         return base.AIDecision();
     }
 }

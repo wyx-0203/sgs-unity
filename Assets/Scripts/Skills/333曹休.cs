@@ -12,20 +12,20 @@ public class 千驹 : Triggered, Durative
 
     protected override bool OnUpdateHp(UpdateHp updateHp)
     {
-        src.pursueDistance -= offset;
+        src.subDst -= offset;
         offset = src.hpLimit - src.hp;
-        src.pursueDistance += offset;
+        src.subDst += offset;
         return false;
     }
 
     public void OnStart()
     {
         offset = src.hpLimit - src.hp;
-        src.pursueDistance += offset;
-        OnRemove += () => src.pursueDistance -= offset;
+        src.subDst += offset;
+        OnRemove += () => src.subDst -= offset;
     }
 
-    protected override async Task Invoke(Decision decision) => await Task.Yield();
+    protected override async Task Invoke(PlayDecision decision) => await Task.Yield();
 }
 
 public class 倾袭 : Triggered
@@ -38,19 +38,26 @@ public class 倾袭 : Triggered
 
     private Player dest => (arg as Card).dest;
 
-    protected override async Task Invoke(Decision decision)
+    protected override async Task Invoke(PlayDecision decision)
     {
         var card = arg as Card;
         var dest = card.dest;
 
-        int count = Main.Instance.AlivePlayers.Where(x => src.DestInAttackRange(x)).Count();
+        int count = Game.Instance.AlivePlayers.Where(x => src.DestInAttackRange(x)).Count();
         count = Mathf.Min(count, src.weapon is null ? 2 : 4);
 
-        Timer.Instance.hint = "弃置" + count + "张手牌，然后弃置其武器牌，或令此牌伤害+1";
-        Timer.Instance.isValidCard = x => x.isHandCard;
-        Timer.Instance.DefaultAI = count <= 3 ? AI.TryAction : () => new();
+        // Timer.Instance.hint = "弃置" + count + "张手牌，然后弃置其武器牌，或令此牌伤害+1";
+        // Timer.Instance.isValidCard = x => x.isHandCard;
+        // Timer.Instance.defaultAI = count <= 3 ? AI.TryAction : () => new();
 
-        decision = await Timer.Instance.Run(dest, count, 0);
+        decision = await new PlayQuery
+        {
+            player = dest,
+            hint = $"弃置{count}张手牌，然后弃置其武器牌，或令此{card}伤害+1",
+            isValidCard = x => x.isHandCard,
+            aiAct = count <= 3
+            // defaultAI = count <= 3 ? AI.TryAction : () => new()
+        }.Run(count, 0);
 
         if (decision.action)
         {
@@ -69,5 +76,6 @@ public class 倾袭 : Triggered
         }
     }
 
-    public override Decision AIDecision() => new Decision { action = (dest.team != src.team) == AI.CertainValue };
+    // public override Decision AIDecision() => new Decision { action = (dest.team != src.team) == AI.CertainValue };
+    public override bool AIAct => dest.team == src.team;
 }

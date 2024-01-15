@@ -1,3 +1,4 @@
+using Model;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -6,10 +7,18 @@ public class SkillArea : SingletonMono<SkillArea>
 {
     // 技能表
     private List<Skill> skills = new();
-    // 已选技能
-    private GameCore.Skill SelectedSkill => timer.temp.skill;
-    private Player self => GameMain.Instance.self;
-    private GameCore.Timer timer => GameCore.Timer.Instance;
+
+    private Player self => GameMain.Instance.firstPerson;
+
+    private SinglePlayQuery current
+    {
+        get => PlayArea.Instance.current;
+        set => PlayArea.Instance.current = value;
+    }
+
+    private PlayQuery playQuery => PlayArea.Instance.playQuery;
+
+    private PlayDecision decision => PlayArea.Instance.decision;
 
     public Transform Long;
     public Transform Short;
@@ -18,56 +27,61 @@ public class SkillArea : SingletonMono<SkillArea>
     public GameObject 锁定技;
     public GameObject 限定技;
 
-    private void Start()
+    protected override void Awake()
     {
-        GameCore.UpdateSkill.ActionView += OnUpdateSkill;
-        GameCore.Timer.Instance.StopTimerView += Reset;
-        GameCore.Main.Instance.MoveSeatView += MoveSeat;
+        base.Awake();
 
-        foreach (var i in GameCore.Main.Instance.AlivePlayers) InitOnePlayer(i);
+        EventSystem.Instance.AddEvent<InitGeneral>(InitOnePlayer);
+        EventSystem.Instance.AddEvent<UpdateSkill>(InitOnePlayer);
+        EventSystem.Instance.AddEvent<FinishPlay>(Reset);
+
+        GameMain.Instance.OnChangeView += OnChangeView;
     }
 
     private void OnDestroy()
     {
-        GameCore.UpdateSkill.ActionView -= OnUpdateSkill;
-        GameCore.Timer.Instance.StopTimerView -= Reset;
-        GameCore.Main.Instance.MoveSeatView -= MoveSeat;
+        EventSystem.Instance.RemoveEvent<InitGeneral>(InitOnePlayer);
+        EventSystem.Instance.RemoveEvent<UpdateSkill>(InitOnePlayer);
+        EventSystem.Instance.RemoveEvent<FinishPlay>(Reset);
+    }
+
+    private void InitOnePlayer(InitGeneral initGeneral)
+    {
+        InitOnePlayer(initGeneral.skills, Player.Find(initGeneral.player).model);
     }
 
     /// <summary>
     /// 更新技能时调用，例如关兴张苞获得或失去技能
     /// </summary>
-    public void OnUpdateSkill(GameCore.UpdateSkill model)
+    public void InitOnePlayer(UpdateSkill updateSkill)
     {
-        InitOnePlayer(model.player);
+        InitOnePlayer(updateSkill.skills, Player.Find(updateSkill.player).model);
     }
 
-    public void InitOnePlayer(GameCore.Player player)
+    public void InitOnePlayer(List<Model.Skill> skills, Model.Player src)
     {
-        if (!player.isSelf) return;
-        skills.RemoveAll(x => x.model.src == player);
-        foreach (var i in Long.GetComponentsInChildren<Skill>()) if (i.model.src == player) Destroy(i.gameObject);
+        if (!src.isSelf) return;
 
-        var list = player.skills.ToList();
-        foreach (var i in player.skills.Where(x => x.parent != null)) if (list.Find(x => x != i && x.parent == i.parent) != null) list.Remove(i);
+        this.skills.RemoveAll(x => x.src == src);
+        foreach (var i in Long.GetComponentsInChildren<Skill>().Where(x => x.src == src)) Destroy(i.gameObject);
 
         bool l = false;
         // 实例化预制件，添加到技能区
-        foreach (var i in list)
+        foreach (var i in skills)
         {
-
-            var prefab = i is GameCore.Ultimate ? 限定技 : i.passive ? 锁定技 : 主动技;
+            GameObject prefab;
+            switch (i.type)
+            {
+                case Model.Skill.Type.Limited: prefab = 限定技; break;
+                case Model.Skill.Type.Passive: prefab = 锁定技; break;
+                default: prefab = 主动技; break;
+            }
             var skill = Instantiate(prefab).GetComponent<Skill>();
 
-            if (i.parent != null)
-            {
-                skill.gameObject.AddComponent<MultiSkill>().model = i.parent;
-            }
+            skill.gameObject.SetActive(src == self.model);
+            skill.Init(i, src);
 
-            skill.gameObject.SetActive(player == self.model);
-            skill.Init(i);
-
-            if (list.Count % 2 == 1 && !l)
+            if (skills.Count % 2 == 1 && !l)
             {
                 l = true;
                 skill.transform.SetParent(Long, false);
@@ -75,13 +89,13 @@ public class SkillArea : SingletonMono<SkillArea>
             }
             else skill.transform.SetParent(Short, false);
 
-            skills.Add(skill);
+            this.skills.Add(skill);
         }
     }
 
-    public void MoveSeat(GameCore.Player model)
+    public void OnChangeView(Model.Player player)
     {
-        foreach (var i in skills) i.gameObject.SetActive(i.model.src == model);
+        foreach (var i in skills) i.gameObject.SetActive(i.src == player);
     }
 
     /// <summary>
@@ -89,42 +103,66 @@ public class SkillArea : SingletonMono<SkillArea>
     /// </summary>
     public void OnStartPlay()
     {
-        // var skills=this.skills.Where(x=>x.gameObject.activeSelf);
-        // if (SelectedSkill != null)
-        // {
-        //     var skill = skills.Find(x => x.model == SelectedSkill);
-        //     skill.toggle.interactable = true;
-        //     if (SelectedSkill is GameCore.Triggered) skill.toggle.isOn = true;
-        // }
-
-        // else
-        // {
-        foreach (var i in skills)
+        // 存在已选技能
+        var skill = skills.Find(x => x.gameObject.activeSelf && x.name == current.skillName);
+        if (skill != null)
         {
-            i.GetComponent<MultiSkill>()?.OnStartPlay();
-            if (i.model == SelectedSkill)
-            {
-                i.toggle.interactable = true;
-                i.toggle.isOn = true;
-                break;
-            }
-            i.toggle.interactable = (i.model is GameCore.Active || i.model is GameCore.Converted) && i.model.IsValid;
+            skill.toggle.interactable = true;
+            skill.toggle.isOn = true;
         }
-        // }
 
+        // 设置可发动的技能
+        else foreach (var i in skills) i.toggle.interactable = !playQuery.skills.All(x => x.skillName != i.name);
     }
+
+    private bool inReset;
 
     /// <summary>
     /// 重置技能区
     /// </summary>
-    public void Reset()
+    private void Reset(FinishPlay finishPlay)
     {
-        if (!timer.players.Contains(self.model)) return;
-        foreach (var i in skills) i.Reset();
+        if (Player.IsSelf(finishPlay.player))
+        {
+            inReset = true;
+            foreach (var i in skills) i.Reset();
+            inReset = false;
+        }
+    }
+
+    public void OnClickSkill(string skill, bool value)
+    {
+        if (skill == playQuery.origin.skillName) return;
+        if (inReset) return;
+
+        CardArea.Instance.Reset();
+        EquipArea.Instance.ResetBySkill(skill);
+        VirtualCardArea.Instance.Reset();
+        DestArea.Instance.Reset();
+
+        if (value)
+        {
+            decision.skill = skill;
+            current = playQuery.skills.Find(x => x.skillName == skill);
+        }
+        else
+        {
+            decision.skill = "";
+            current = playQuery.origin;
+        }
+
+        OnStartPlay();
+        CardArea.Instance.OnStartPlay();
+        EquipArea.Instance.OnStartPlay();
+        VirtualCardArea.Instance.OnStartPlay();
+        DestArea.Instance.OnStartPlay();
+        PlayArea.Instance.UpdateButtonArea();
     }
 
     public void UnSelect()
     {
-        skills.Find(x => x.toggle.isOn).toggle.isOn = false;
+        var skill = skills.Find(x => x.name == current.skillName);
+        if (skill != null) skill.toggle.isOn = false;
+        else EquipArea.Instance.equipments.Values.First(x => x.name == current.skillName).toggle.isOn = false;
     }
 }

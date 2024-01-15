@@ -43,10 +43,19 @@ public class GlobalSingleton<T> where T : new()
 
 public class SingletonMono<T> : MonoBehaviour where T : MonoBehaviour
 {
-    public static T Instance { get; private set; }
+    private static T instance;
+    public static T Instance
+    {
+        get
+        {
+            if (instance is null) instance = FindObjectOfType<T>(true);
+            return instance;
+        }
+    }
+
     protected virtual void Awake()
     {
-        Instance = this as T;
+        instance = this as T;
     }
 }
 

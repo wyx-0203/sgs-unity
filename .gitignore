@@ -73,7 +73,7 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
 **/.DS_Store
-/Assets/StreamingAssets/AssetBundles/*
+/Assets/StreamingAssets/*
 
 /HybridCLRData
 /Assets/HybridCLRGenerate

@@ -10,19 +10,21 @@ public class SgsMenu : MonoBehaviour
 
     private void Start()
     {
-        GameCore.CardPile.Instance.PileCountView += UpdatePileCount;
+        // GameCore.CardPile.Instance.PileCountView += UpdatePileCount;
+        EventSystem.Instance.AddEvent<Model.UpdatePileCount>(OnUpdatePileCount);
 
         StartCoroutine(UpdateFrame());
     }
 
     private void OnDestroy()
     {
-        GameCore.CardPile.Instance.PileCountView -= UpdatePileCount;
+        EventSystem.Instance.RemoveEvent<Model.UpdatePileCount>(OnUpdatePileCount);
+        // GameCore.CardPile.Instance.PileCountView -= UpdatePileCount;
     }
 
-    private void UpdatePileCount()
+    private void OnUpdatePileCount(Model.UpdatePileCount updatePileCount)
     {
-        pileCount.text = "牌堆数" + GameCore.CardPile.Instance.pileCount.ToString();
+        pileCount.text = $"牌堆数: {updatePileCount.count}";
     }
 
     private IEnumerator UpdateFrame()

@@ -19,14 +19,19 @@ namespace GameCore
         public virtual async Task Add(Player _owner)
         {
             owner = _owner;
-            if (!MCTS.Instance.isRunning) AddEquipView?.Invoke(this);
 
             if (owner.Equipments.ContainsKey(type))
             {
-                CardPile.Instance.AddToDiscard(owner.Equipments[type]);
+                CardPile.Instance.AddToDiscard(owner.Equipments[type], owner);
                 await new LoseCard(owner, new List<Card> { owner.Equipments[type] }).Execute();
             }
             owner.Equipments[type] = this;
+
+            EventSystem.Instance.Send(new Model.AddEquipment
+            {
+                player = owner.position,
+                card = id
+            });
         }
 
         /// <summary>
@@ -35,7 +40,6 @@ namespace GameCore
         public virtual async Task Remove()
         {
             await Task.Yield();
-            if (!MCTS.Instance.isRunning) RemoveEquipView?.Invoke(this);
             OnRemove?.Invoke();
             owner.Equipments.Remove(type);
             owner = null;
@@ -46,10 +50,9 @@ namespace GameCore
             Util.Print(owner + "发动了" + this);
         }
 
-        public Action OnRemove { get; set; }
+        protected string hint => $"是否发动{name}？";
 
-        public static Action<Equipment> AddEquipView { get; set; }
-        public static Action<Equipment> RemoveEquipView { get; set; }
+        public Action OnRemove { get; set; }
 
         public virtual bool enabled => true;
     }
@@ -58,12 +61,12 @@ namespace GameCore
     {
         public override async Task Add(Player owner)
         {
-            owner.fleeDistance++;
+            owner.plusDst++;
             await base.Add(owner);
         }
         public override async Task Remove()
         {
-            owner.fleeDistance--;
+            owner.plusDst--;
             await base.Remove();
         }
     }
@@ -72,21 +75,21 @@ namespace GameCore
     {
         public override async Task Add(Player owner)
         {
-            owner.pursueDistance++;
+            owner.subDst++;
             await base.Add(owner);
         }
         public override async Task Remove()
         {
-            owner.pursueDistance--;
+            owner.subDst--;
             await base.Remove();
         }
     }
 
-    public class 绝影 : PlusHorse { }
-    public class 大宛 : SubHorse { }
-    public class 赤兔 : SubHorse { }
-    public class 爪黄飞电 : PlusHorse { }
-    public class 的卢 : PlusHorse { }
-    public class 紫骍 : SubHorse { }
-    public class 骅骝 : PlusHorse { }
+    public class 绝影 : PlusHorse { public 绝影() { } }
+    public class 大宛 : SubHorse { public 大宛() { } }
+    public class 赤兔 : SubHorse { public 赤兔() { } }
+    public class 爪黄飞电 : PlusHorse { public 爪黄飞电() { } }
+    public class 的卢 : PlusHorse { public 的卢() { } }
+    public class 紫骍 : SubHorse { public 紫骍() { } }
+    public class 骅骝 : PlusHorse { public 骅骝() { } }
 }

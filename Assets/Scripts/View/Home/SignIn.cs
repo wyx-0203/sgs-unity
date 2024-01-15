@@ -44,7 +44,7 @@ public class SignIn : SingletonMono<SignIn>
         var formData = new WWWForm();
         formData.AddField("username", username.text);
         formData.AddField("password", password.text);
-        var response = JsonUtility.FromJson<SignInResponse>(await WebRequest.Post(url, formData));
+        var response = JsonUtility.FromJson<Model.SignInResponse>(await WebRequest.Post(url, formData));
 
         if (response is null)
         {
@@ -56,7 +56,7 @@ public class SignIn : SingletonMono<SignIn>
         if (response.code == 0)
         {
             // 初始化User信息
-            GameCore.Self.Instance.Init(response);
+            // GameCore.Self.Instance.Init(response);
             // Debug.Log("token: " + GameCore.Self.Instance.Token);
             // 切换到开始游戏界面
             SgsStart.Instance.ShowStartPanel();

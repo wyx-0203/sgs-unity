@@ -1,3 +1,4 @@
+using Model;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,24 +13,30 @@ public class BanPick : SingletonMono<BanPick>
     // 提示
     public Text hint;
 
-    private GameCore.BanPick model => GameCore.BanPick.Instance;
-    private GameCore.Team selfTeam => GameCore.Self.Instance.team;
+    // private GameCore.BanPick model => GameCore.BanPick.Instance;
+    // private GameCore.Team selfTeam => GameCore.Self.Instance.team;
 
-    public GameObject generalPrefab;
+    // public GameObject generalPrefab;
     public Transform pool;
     public Transform selfPool;
 
-    private async void Start()
+    public async void Show(List<int> _pool)
     {
-        model.StartPickView += StartPick;
-        model.OnPickView += OnPick;
-        model.StartBanView += StartBan;
-        model.OnBanView += OnBan;
-        model.StartSelfPickView += SelfPick;
+        gameObject.SetActive(true);
+        // model.StartPickView += StartPick;
+        // model.OnPickView += OnPick;
+        // model.StartBanView += StartBan;
+        // model.OnBanView += OnBan;
+        // model.StartSelfPickView += SelfPick;
+        EventSystem.Instance.AddEvent<PickQuery>(StartPick);
+        EventSystem.Instance.AddEvent<OnPick>(OnPick);
+        EventSystem.Instance.AddEvent<BanQuery>(StartBan);
+        EventSystem.Instance.AddEvent<OnBan>(OnBan);
+        EventSystem.Instance.AddEvent<StartSelfPick>(OnStartSelfPick);
 
-        foreach (var i in model.Pool)
+        foreach (var i in _pool)
         {
-            var general = Instantiate(generalPrefab, pool).GetComponent<GeneralBP>();
+            var general = Instantiate(GameAssets.Instance.general, pool);
             general.Init(i);
             generals.Add(general);
         }
@@ -45,18 +52,23 @@ public class BanPick : SingletonMono<BanPick>
 
     private void OnDestroy()
     {
-        model.StartPickView -= StartPick;
-        model.OnPickView -= OnPick;
-        model.StartBanView -= StartBan;
-        model.OnBanView -= OnBan;
-        model.StartSelfPickView -= SelfPick;
+        // model.StartPickView -= StartPick;
+        // model.OnPickView -= OnPick;
+        // model.StartBanView -= StartBan;
+        // model.OnBanView -= OnBan;
+        // model.StartSelfPickView -= SelfPick;
+        EventSystem.Instance.RemoveEvent<PickQuery>(StartPick);
+        EventSystem.Instance.RemoveEvent<OnPick>(OnPick);
+        EventSystem.Instance.RemoveEvent<BanQuery>(StartBan);
+        EventSystem.Instance.RemoveEvent<OnBan>(OnBan);
+        EventSystem.Instance.RemoveEvent<StartSelfPick>(OnStartSelfPick);
     }
 
-    private void StartPick()
+    private void StartPick(PickQuery pickQuery)
     {
-        StartCoroutine(StartTimer(model.second));
+        StartCoroutine(StartTimer(pickQuery.second));
 
-        if (model.Current == selfTeam)
+        if (Player.IsSelf(pickQuery.player))
         {
             foreach (var i in generals.Where(x => x.state == GeneralBP.State.Selectable)) i.button.interactable = true;
             hint.text = "请点击选择武将";
@@ -64,17 +76,17 @@ public class BanPick : SingletonMono<BanPick>
         else hint.text = "等待对方选将";
     }
 
-    private void OnPick(GameCore.General general)
+    private void OnPick(OnPick onPick)
     {
         Reset();
-        generals.Find(x => x.model == general)?.OnPick(model.Current == selfTeam);
+        generals.Find(x => x.id == onPick.general)?.OnPick(Player.IsSelf(onPick.player));
     }
 
-    private void StartBan()
+    private void StartBan(BanQuery banQuery)
     {
-        StartCoroutine(StartTimer(model.second));
+        StartCoroutine(StartTimer(banQuery.second));
 
-        if (model.Current == selfTeam)
+        if (Player.IsSelf(banQuery.player))
         {
             foreach (var i in generals.Where(x => x.state == GeneralBP.State.Selectable)) i.button.interactable = true;
             hint.text = "请点击禁用武将";
@@ -82,10 +94,19 @@ public class BanPick : SingletonMono<BanPick>
         else hint.text = "等待对方禁将";
     }
 
-    private void OnBan(GameCore.General general)
+    private void OnBan(OnBan onBan)
     {
         Reset();
-        generals.Find(x => x.model == general)?.OnBan();
+        generals.Find(x => x.id == onBan.general)?.OnBan();
+    }
+
+    public void OnClickGeneral(int id)
+    {
+        EventSystem.Instance.Send(new GeneralDecision
+        {
+            player = GameMain.Instance.firstPerson.model.index,
+            general = id
+        });
     }
 
 
@@ -94,16 +115,16 @@ public class BanPick : SingletonMono<BanPick>
 
     public Button commit;
     public Transform seatParent;
-    public GameObject seatPrefab;
-    public List<SelfPickSeat> seats { get; private set; }
+    // public GameObject seatPrefab;
+    public List<SelfPickSeat> seats { get; } = new();
 
 
-    private async void SelfPick()
+    private async void OnStartSelfPick(StartSelfPick ssp)
     {
         hint.text = "请选择己方要出场的武将";
-        commit.onClick.AddListener(ClickCommit);
+        commit.onClick.AddListener(OnSubmit);
 
-        foreach (var i in BanPick.Instance.generals)
+        foreach (var i in generals)
         {
             // 销毁被禁的武将
             if (i.state == GeneralBP.State.Ban) Destroy(i.gameObject);
@@ -113,10 +134,15 @@ public class BanPick : SingletonMono<BanPick>
         Destroy(selfPool.gameObject);
 
         // 设置屏幕底部的座位
-        foreach (var i in selfTeam.GetAllPlayers()) Instantiate(seatPrefab, seatParent).GetComponent<SelfPickSeat>().Init(i);
-        seats = seatParent.Cast<Transform>().Select(x => x.GetComponent<SelfPickSeat>()).ToList();
+        foreach (var i in GameMain.Instance.players.Where(x => x.model.isSelf))
+        {
+            var seat = Instantiate(GameAssets.Instance.seat, seatParent);
+            seat.Init(i.model);
+            seats.Add(seat);
+        }
+        // seats = seatParent.Cast<Transform>().Select(x => x.GetComponent<SelfPickSeat>()).ToList();
 
-        StartCoroutine(StartTimer(model.second));
+        StartCoroutine(StartTimer(ssp.second));
 
         gridLayoutGroup.enabled = true;
         contentSizeFitter.enabled = true;
@@ -148,10 +174,18 @@ public class BanPick : SingletonMono<BanPick>
         commit.gameObject.SetActive(seats.FirstOrDefault(x => x.general is null) is null);
     }
 
-    private async void ClickCommit()
+    private async void OnSubmit()
     {
         await System.Threading.Tasks.Task.Yield();
-        GameCore.BanPick.Instance.SendSelfResult(selfTeam, seats.Select(x => x.general.model.id).ToList());
+        foreach (var i in seats)
+        {
+            EventSystem.Instance.Send(new GeneralDecision
+            {
+                player = i.player.index,
+                general = i.general.id
+            });
+        }
+        // GameCore.BanPick.Instance.SendSelfResult(selfTeam, seats.Select(x => x.general.model.id).ToList());
         commit.gameObject.SetActive(false);
     }
 }

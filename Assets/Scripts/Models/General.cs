@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Models
+namespace Model
 {
     [Serializable]
     public class General
@@ -25,9 +25,10 @@ namespace Models
         private static List<General> _list;
         public static async Task<List<General>> GetList()
         {
-            if (_list is null) _list = JsonList<General>.FromJson(await WebRequest.Get(Url.JSON + "general.json"));
+            if (_list is null) _list = Model.JsonList<General>.FromJson(await WebRequest.Get(Url.JSON + "general.json"));
             return _list;
         }
+        public static General Get(int id) => _list.Find(x => x.id == id);
     }
 
     [Serializable]
@@ -42,14 +43,16 @@ namespace Models
         private static List<Skin> _list;
         public static async Task<List<Skin>> GetList()
         {
-            if (_list is null) _list = JsonList<Skin>.FromJson(await WebRequest.Get(Url.JSON + "skin.json"));
+            if (_list is null) _list = Model.JsonList<Skin>.FromJson(await WebRequest.Get(Url.JSON + "skin.json"));
             return _list;
         }
         public static async Task<IEnumerable<Skin>> GetList(int general_id)
         {
-            if (_list is null) _list = JsonList<Skin>.FromJson(await WebRequest.Get(Url.JSON + "skin.json"));
+            if (_list is null) _list = Model.JsonList<Skin>.FromJson(await WebRequest.Get(Url.JSON + "skin.json"));
             return _list.Where(x => x.general_id == general_id);
         }
+
+        public static Skin Get(int id) => _list.Find(x => x.id == id);
     }
 
     [Serializable]

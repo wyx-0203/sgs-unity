@@ -244,7 +244,7 @@ namespace GameCore
 
     // public class SrcNeedsDoubleSha : Effect<决斗> { }
 
-    public class OffsetDamageValue : EffectInt<Damaged> { }
+    public class OffsetDamageValue : EffectInt<Damage> { }
 
     public class ExtraDestCount : EffectInt<Card> { }
 }

@@ -7,7 +7,7 @@ public class User : MonoBehaviour
     public Text nickName;
     public Image character;
 
-    public async void Init(UserJson model)
+    public async void Init(Model.UserJson model)
     {
         // ID = model.id;
         nickName.text = model.nickname;

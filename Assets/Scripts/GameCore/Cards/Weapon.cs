@@ -39,12 +39,21 @@ namespace GameCore
 
         public override async Task OnShaMissed(杀 sha)
         {
-            Timer.Instance.equipSkill = this;
-            Timer.Instance.hint = "是否发动青龙偃月刀？";
-            Timer.Instance.isValidCard = card => card is 杀;
-            Timer.Instance.isValidDest = player => player == sha.dest;
-            Timer.Instance.DefaultAI = owner.team != sha.dest.team || !AI.CertainValue ? AI.TryAction : () => new Decision();
-            var decision = await Timer.Instance.Run(owner, 1, 1);
+            // Timer.Instance.equipSkill = this;
+            // Timer.Instance.hint = "是否发动青龙偃月刀？";
+            // Timer.Instance.isValidCard = card => card is 杀;
+            // Timer.Instance.isValidDest = player => player == sha.dest;
+            // Timer.Instance.defaultAI = owner.team != sha.dest.team || !AI.CertainValue ? AI.TryAction : () => new Decision();
+            // var decision = await Timer.Instance.Run(owner, 1, 1);
+            var decision = await new PlayQuery
+            {
+                player = owner,
+                hint = hint,
+                skill = name,
+                isValidCard = card => card is 杀,
+                isValidDest = player => player == sha.dest,
+                aiAct = owner.team != sha.dest.team
+            }.Run(1, 1);
 
             if (!decision.action) return;
 
@@ -65,22 +74,31 @@ namespace GameCore
             var dest = sha.dest;
             if (dest.plusHorse is null && dest.subHorse is null) return;
 
-            Timer.Instance.equipSkill = this;
-            Timer.Instance.hint = "是否发动麒麟弓？";
-            Timer.Instance.DefaultAI = () => new Decision { action = owner.team != dest.team };
+            // Timer.Instance.equipSkill = this;
+            // Timer.Instance.hint = "是否发动麒麟弓？";
+            // Timer.Instance.defaultAI = () => new Decision { action = owner.team != dest.team };
 
-            var decision = await Timer.Instance.Run(owner);
+            // var decision = await Timer.Instance.Run(owner);
+            var decision = await new PlayQuery
+            {
+                player = owner,
+                hint = hint,
+                skill = name,
+                aiAct = owner.team != dest.team
+            }.Run();
             if (!decision.action) return;
             Execute();
 
             var list = new List<Card>();
             if (dest.plusHorse != null) list.Add(dest.plusHorse);
             if (dest.subHorse != null) list.Add(dest.subHorse);
+            // list=dest.Equipments.Values.Where(x=>x is PlusHorse||x is SubHorse).ToList();
 
-            CardPanel.Instance.Title = "麒麟弓";
-            decision = await CardPanel.Instance.Run(owner, dest, list);
+            // CardPanelRequest.Instance.title = "麒麟弓";
+            // decision = await CardPanelRequest.Instance.Run(owner, dest, list);
+            var cards = await new CardPanelQuery(owner, dest, name, "请选择一张坐骑牌。", list).Run();
 
-            await new Discard(dest, decision.cards).Execute();
+            await new Discard(dest, cards).Execute();
         }
     }
 
@@ -96,24 +114,33 @@ namespace GameCore
             foreach (var i in sha.dests)
             {
                 if (i.general.gender == sha.src.general.gender) continue;
-                Timer.Instance.equipSkill = this;
-                Timer.Instance.hint = "是否对" + i + "发动雌雄双股剑？";
-                Timer.Instance.DefaultAI = AI.TryAction;
+                // Timer.Instance.equipSkill = this;
+                // Timer.Instance.hint = "是否对" + i + "发动雌雄双股剑？";
+                // Timer.Instance.defaultAI = AI.TryAction;
 
-                if (!(await Timer.Instance.Run(owner)).action) continue;
+                if (!(await new PlayQuery
+                {
+                    hint = $"是否对{i}发动雌雄双股剑？",
+                    skill = name,
+                }.Run()).action) continue;
                 Execute();
 
                 if (i.handCardsCount == 0)
                 {
-                    await new GetCardFromPile(sha.src, 1).Execute();
+                    await new DrawCard(sha.src, 1).Execute();
                     continue;
                 }
 
-                Timer.Instance.hint = src + "对你发动雌雄双股剑，请弃一张手牌或令其摸一张牌";
-                Timer.Instance.isValidCard = card => card.isHandCard;
-                var decision = await Timer.Instance.Run(i, 1, 0);
+                // Timer.Instance.hint = src + "对你发动雌雄双股剑，请弃一张手牌或令其摸一张牌";
+                // Timer.Instance.isValidCard = card => card.isHandCard;
+                var decision = await new PlayQuery
+                {
+                    player = i,
+                    hint = $"{src}对你发动雌雄双股剑，请弃一张手牌或令其摸一张牌",
+                    isValidCard = card => card.isHandCard
+                }.Run(1, 0);
                 if (decision.action) await new Discard(i, decision.cards).Execute();
-                else await new GetCardFromPile(sha.src, 1).Execute();
+                else await new DrawCard(sha.src, 1).Execute();
             }
         }
     }
@@ -189,12 +216,14 @@ namespace GameCore
 
         public override async Task OnShaMissed(杀 sha)
         {
-            Timer.Instance.equipSkill = this;
-            Timer.Instance.hint = "是否发动贯石斧？";
-            Timer.Instance.isValidCard = card => card != owner.weapon && card.discardable;
-            Timer.Instance.DefaultAI = sha.dest.team != owner.team ? AI.TryAction : () => new();
-
-            var decision = await Timer.Instance.Run(owner, 2, 0);
+            var decision = await new PlayQuery
+            {
+                player = owner,
+                hint = hint,
+                skill = name,
+                isValidCard = card => card != this && card.discardable,
+                aiAct = sha.dest.team != owner.team
+            }.Run(2, 0);
             if (!decision.action) return;
 
             await new Discard(owner, decision.cards).Execute();
@@ -227,10 +256,12 @@ namespace GameCore
         {
             if (sha is 火杀 || sha is 雷杀) return;
 
-            Timer.Instance.equipSkill = this;
-            Timer.Instance.hint = "是否发动朱雀羽扇？";
-            Timer.Instance.DefaultAI = () => new Decision { action = true };
-            if (!(await Timer.Instance.Run(owner)).action) return;
+            if (!(await new PlayQuery
+            {
+                player = owner,
+                hint = hint,
+                skill = name,
+            }.Run()).action) return;
 
             Execute();
             await Card.Convert<火杀>(sha.src, new List<Card> { sha }).UseCard(sha.src, sha.dests);
@@ -265,19 +296,23 @@ namespace GameCore
         {
             var dest = sha.dest;
             if (dest.cardsCount == 0) return;
-            Timer.Instance.equipSkill = this;
-            Timer.Instance.hint = "是否发动寒冰剑？";
-            Timer.Instance.DefaultAI = () => new Decision { action = !(dest.team != src.team && dest.cardsCount < 2) && UnityEngine.Random.value < 0.5f };
-            if (!(await Timer.Instance.Run(owner)).action) return;
+            if (!(await new PlayQuery
+            {
+                player = owner,
+                hint = hint,
+                skill = name,
+                aiAct = dest.cardsCount == 1 ^ dest.team != owner.team,
+            }.Run()).action) return;
 
             Execute();
-            var card = await TimerAction.SelectOneCardFromElse(owner, dest);
-            await new Discard(dest, card).Execute();
+            string hint1 = $"对{dest}发动寒冰剑，依次弃置其两张牌";
+            var cards = await new CardPanelQuery(owner, dest, name, hint1, false).Run();
+            await new Discard(dest, cards).Execute();
 
             if (dest.cardsCount > 0)
             {
-                card = await TimerAction.SelectOneCardFromElse(owner, dest);
-                await new Discard(dest, card).Execute();
+                cards = await new CardPanelQuery(owner, dest, name, hint1, false).Run();
+                await new Discard(dest, cards).Execute();
             }
 
             throw new PreventDamage();

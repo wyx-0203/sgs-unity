@@ -22,7 +22,7 @@ namespace Editor
         // 技能
         public List<Skill> skills = new();
 
-        public General Init(GameCore.General model)
+        public General Init(Model.General model)
         {
             id = model.id;
             _name = model.name;

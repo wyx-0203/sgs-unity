@@ -29,7 +29,7 @@ public class 义绝 : Active
 
     public override bool IsValidDest(Player dest) => dest.handCardsCount > 0 && dest != src;
 
-    public override async Task Use(Decision decision)
+    public override async Task Use(PlayDecision decision)
     {
         Execute(decision);
         var dest = decision.dests[0];
@@ -38,38 +38,46 @@ public class 义绝 : Active
         await new Discard(src, decision.cards).Execute();
 
         // 展示手牌
-        Timer.Instance.hint = src + "对你发动义绝，请展示一张手牌。";
-        var showCard = await TimerAction.ShowOneCard(dest);
+        // Timer.Instance.hint = src + "对你发动义绝，请展示一张手牌。";
+        var showCard = await TimerAction.ShowOneCard(dest, $"{src}对你发动义绝，请展示一张手牌。");
 
         // 红色
         if (showCard[0].isRed)
         {
             // 获得牌
-            await new GetCardFromElse(src, dest, showCard).Execute();
+            await new GetAnothersCard(src, dest, showCard).Execute();
             // 回复体力
             if (dest.hp < dest.hpLimit)
             {
-                Timer.Instance.hint = "是否让" + dest + "回复一点体力？";
-                Timer.Instance.DefaultAI = () => new Decision { action = (dest.team == src.team) == AI.CertainValue };
-                if ((await Timer.Instance.Run(src)).action) await new Recover(dest).Execute();
+                // Timer.Instance.hint = "是否让" + dest + "回复一点体力？";
+                // Timer.Instance.defaultAI = () => new Decision { action = (dest.team == src.team) == AI.CertainValue };
+                if ((await new PlayQuery
+                {
+                    player = src,
+                    hint = $"是否让{dest}回复一点体力？",
+                    aiAct = dest.team == src.team
+                    // defaultAI = () => new Decision { action = (dest.team == src.team) == AI.CertainValue }
+                }.Run()).action) await new Recover(dest).Execute();
             }
         }
         // 黑色
         else
         {
             // 禁用手牌
-            dest.effects.DisableCard.Add(x => x.isHandCard, Duration.UntilTurnEnd);
+            dest.effects.DisableCard.Add(card => card.isHandCard, Duration.UntilTurnEnd);
             // 禁用非锁定技
-            dest.effects.DisableSkill.Add(x => !x.passive, Duration.UntilTurnEnd);
-            // 下次受到杀的伤害+1
-            dest.effects.OffsetDamageValue.Add(x => x.Src == src && x.SrcCard is 杀 sha && sha.suit == "红桃" ? 1 : 0, Duration.UntilTurnEnd, true);
+            dest.effects.DisableSkill.Add(skill => !skill.passive, Duration.UntilTurnEnd);
+            // 下次受到红桃杀的伤害+1
+            dest.effects.OffsetDamageValue.Add(damage => damage.Src == src
+                && damage.SrcCard is 杀 sha
+                && sha.suit == "红桃" ? 1 : 0, Duration.UntilTurnEnd, true);
         }
     }
 
-    public override Decision AIDecision()
+    public override PlayDecision AIDecision()
     {
-        Timer.Instance.temp.cards = AI.GetRandomCard();
-        Timer.Instance.temp.dests = AI.GetValidDest();
+        // Timer.Instance.temp.cards = AI.GetRandomCard();
+        // Timer.Instance.temp.dests = AI.GetValidDest();
         return base.AIDecision();
     }
 }

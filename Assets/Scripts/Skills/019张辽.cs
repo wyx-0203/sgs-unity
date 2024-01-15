@@ -5,30 +5,37 @@ using System.Threading.Tasks;
 
 public class 突袭 : Triggered
 {
-    protected override bool BeforeGetCardInGetPhase(GetCardFromPile getCardFromPile) => true;
+    protected override bool BeforeDrawInDrawPhase(DrawCard getCardFromPile) => true;
 
-    private GetCardFromPile getCardFromPile => arg as GetCardFromPile;
+    private DrawCard drawCard => arg as DrawCard;
 
-    public override int MaxDest => getCardFromPile.Count;
+    public override int MaxDest => drawCard.Count;
     public override int MinDest => 1;
     public override bool IsValidDest(Player dest) => dest.handCardsCount > 0 && dest != src;
 
-    protected override async Task Invoke(Decision decision)
+    protected override async Task Invoke(PlayDecision decision)
     {
-        getCardFromPile.Count -= decision.dests.Count;
+        drawCard.Count -= decision.dests.Count;
+        decision.dests.Sort();
         foreach (var i in decision.dests)
         {
-            CardPanel.Instance.Title = "突袭";
-            CardPanel.Instance.Hint = "对" + i + "号位发动突袭，获得其一张牌";
+            // CardPanelRequest.Instance.title = "突袭";
+            string hint = $"对{i}发动突袭，获得其一张牌";
 
-            decision = await CardPanel.Instance.Run(src, i, i.handCards);
-            await new GetCardFromElse(src, i, decision.cards).Execute();
+            // decision = await CardPanelRequest.Instance.Run(src, i, i.handCards);
+            var cards = await new CardPanelQuery(src, i, name, hint, i.handCards).Run();
+            await new GetAnothersCard(src, i, cards).Execute();
         }
     }
 
-    public override Decision AIDecision()
+    // public override bool AIAct => Game.Instance.players.FirstOrDefault(x => IsValidDest(x) && x.team != src.team) != null;
+
+    public override PlayDecision AIDecision() => new PlayDecision
     {
-        var dests = AI.GetDestByTeam(!src.team).Take(getCardFromPile.Count).ToList();
-        return dests.Count > 0 ? new Decision { action = true, dests = dests } : new();
-    }
+        action = true,
+        dests = Game.Instance.AlivePlayers
+            .Where(x => IsValidDest(x) && x.team != src.team)
+            .Take(drawCard.Count)
+            .ToList()
+    };
 }

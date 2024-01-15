@@ -1,16 +1,17 @@
 using Spine.Unity;
 using UnityEngine;
 
-public class GameOver : MonoBehaviour
+public class GameOver : SingletonMono<GameOver>
 {
     public SkeletonGraphic lose;
     public SkeletonGraphic win;
 
-    private void Start()
+    public void Show(bool isLose)
     {
+        gameObject.SetActive(true);
         BGM.Instance.Stop();
 
-        if (GameCore.Main.Instance.loser == GameCore.Self.Instance.team)
+        if (isLose)
         {
             lose.AnimationState.AddAnimation(0, "play2", true, 0);
             lose.gameObject.SetActive(true);
@@ -26,7 +27,8 @@ public class GameOver : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            string scene = GameCore.Room.Instance.IsSingle ? "Home" : "Lobby";
+            string scene = "Home";
+            // string scene = GameCore.Room.Instance.IsSingle ? "Home" : "Lobby";
             SceneManager.Instance.LoadScene(scene);
         }
     }

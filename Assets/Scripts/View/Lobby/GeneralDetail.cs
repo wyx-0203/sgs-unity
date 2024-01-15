@@ -35,8 +35,8 @@ public class GeneralDetail : SingletonMono<GeneralDetail>
 
     public AudioSource effect;
 
-    private GameCore.General model;
-    private GameCore.Skin currentSkin;
+    private Model.General model;
+    private Model.Skin currentSkin;
 
 
     private void Start()
@@ -52,7 +52,7 @@ public class GeneralDetail : SingletonMono<GeneralDetail>
         foreach (Transform i in skinParent) Destroy(i.gameObject);
     }
 
-    public async void Init(GameCore.General model)
+    public async void Init(Model.General model)
     {
         this.model = model;
 
@@ -75,7 +75,7 @@ public class GeneralDetail : SingletonMono<GeneralDetail>
 
     public async Task InitSkin()
     {
-        var skins = (await GameCore.Skin.GetList(model.id));
+        var skins = (await Model.Skin.GetList(model.id));
 
         foreach (var i in skins) Instantiate(skinPrefab, skinParent).GetComponent<SkinBasic>().Init(i);
 
@@ -83,7 +83,7 @@ public class GeneralDetail : SingletonMono<GeneralDetail>
         skinParent.GetChild(0).GetComponent<SkinBasic>().toggle.isOn = true;
     }
 
-    public async void UpdateSkin(GameCore.Skin skin)
+    public async void UpdateSkin(Model.Skin skin)
     {
         currentSkin = skin;
         Destroy(skeletonGraphicDaiji);
