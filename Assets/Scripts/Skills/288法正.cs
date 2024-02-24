@@ -20,7 +20,6 @@ public class 恩怨 : Skill.Multi
 
         protected override async Task Invoke(PlayDecision decision)
         {
-            await Task.Yield();
             await new DrawCard(dest, 1).Execute();
         }
 
@@ -42,7 +41,7 @@ public class 恩怨 : Skill.Multi
         public override bool IsValidDest(Player dest) => this.dest == dest;
 
         private Player dest => (arg as Damage).Src;
-        private Damage damaged;
+        // private Damage damaged;
 
         protected override async Task Invoke(PlayDecision decision)
         {
@@ -64,8 +63,8 @@ public class 恩怨 : Skill.Multi
                 defaultAI = () =>
                 {
                     var cards = dest.handCards.OrderBy(x => x.suit == "红桃" ^ dest.team == src.team ? -1 : 1);
-                    if (cards.Count() == 0 || !AI.CertainValue) return new();
-                    else return new PlayDecision { action = true, cards = new List<Card> { cards.First() } };
+                    // if (cards.Count() == 0 || !AI.CertainValue) return new();
+                    return new PlayDecision { cards = cards.Take(1).ToList() };
                 }
             }.Run(1, 0);
 
@@ -101,18 +100,7 @@ public class 眩惑 : Triggered
         // 交手牌
         await new GetAnothersCard(dest0, src, decision.cards).Execute();
 
-        // var list = new List<Card>
-        // {
-        //     Card.Convert<杀>(src),
-        //     Card.Convert<火杀>(src),
-        //     Card.Convert<雷杀>(src),
-        //     Card.Convert<决斗>(src),
-        // };
-        // Timer.Instance.maxDest = () => 1;
-        // Timer.Instance.minDest = () => 1;
-        // Timer.Instance.isValidDest = player => player == dest1;
-        // decision = await TimerAction.MultiConvert(dest0, list);
-        decision = await new PlayQuery
+        var playQuery = new PlayQuery
         {
             player = dest0,
             virtualCards = new List<Card>
@@ -124,8 +112,14 @@ public class 眩惑 : Triggered
             },
             maxDestForCard = x => 1,
             minDestForCard = x => 1,
-            isValidDestForCard = (player, card) => player == dest1
-        }.Run();
+            isValidDestForCard = (player, card) => player == dest1,
+        };
+        playQuery.defaultAI = () => new PlayDecision
+        {
+            cards = playQuery.virtualCards.Shuffle(1),
+            dests = new List<Player> { dest1 }
+        };
+        decision = await playQuery.Run();
 
         // 使用牌
         if (decision.action) await decision.virtualCard.UseCard(dest0, decision.dests);
@@ -133,14 +127,13 @@ public class 眩惑 : Triggered
         else await new GetAnothersCard(src, dest0, dest0.handCards.ToList()).Execute();
     }
 
+    public override bool AIAct => src.teammates.Count > 1;
+
     public override PlayDecision AIDecision()
     {
-        var cards = AI.Instance.GetRandomCard();
-        var dest0 = AI.Instance.GetDestByTeam(src.team).FirstOrDefault();
-        if (cards.Count < 2 || dest0 is null) return new();
-
-        var dest1 = Game.Instance.AlivePlayers.Where(x => x != dest0).OrderBy(x => x.team == src.team ? -1 : 1).First();
-        // if (dest1 is null) dest1 = src;
+        var cards = AIGetCards();
+        var dest0 = AIGetDestsByTeam(src.team).First();
+        var dest1 = game.AlivePlayers.Where(x => x != dest0).OrderBy(x => x.team == src.team ? -1 : 1).First();
         return new PlayDecision { action = true, cards = cards, dests = new List<Player> { dest0, dest1 } };
     }
 }

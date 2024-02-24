@@ -16,7 +16,7 @@ public class 刚烈 : Triggered
 
     protected override async Task Invoke(PlayDecision decision)
     {
-        var judge = await Judge.Execute();
+        var judge = await Judge.Execute(src);
 
         // 红色
         if (judge.isRed) await new Damage(dest, src).Execute();
@@ -41,7 +41,7 @@ public class 清俭 : Triggered
     public override int timeLimit => 1;
 
     protected override bool OnGetCard(GetCard getCard) => (getCard is not DrawCard drawCard || !drawCard.inGetPhase)
-        && TurnSystem.Instance.round > 0;
+        && game.turnSystem.round > 0;
 
     public override int MaxCard => src.cardsCount;
     public override int MinCard => 1;
@@ -62,7 +62,7 @@ public class 清俭 : Triggered
 
         await new GetAnothersCard(dest, src, decision.cards).Execute();
 
-        TurnSystem.Instance.AfterTurn += () =>
+        game.turnSystem.AfterTurn += () =>
         {
             time = 0;
             dest.HandCardLimitOffset -= offset;
@@ -72,8 +72,8 @@ public class 清俭 : Triggered
     public override PlayDecision AIDecision() => new PlayDecision
     {
         action = true,
-        cards = AI.Instance.GetRandomCard(),
-        dests = Game.Instance.AlivePlayers.Where(x => IsValidDest(x) && x.team == src.team).Take(1).ToList()
+        cards = AIGetCards(),
+        dests = game.AlivePlayers.Where(x => IsValidDest(x) && x.team == src.team).Take(1).ToList()
     };
     // {
     //     var cards = AI.GetRandomCard();

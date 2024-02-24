@@ -1,6 +1,7 @@
-using GameCore;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GameCore;
 
 public class 明策 : Active
 {
@@ -9,7 +10,7 @@ public class 明策 : Active
     public override int MaxDest => 2;
     public override int MinDest => 2;
 
-    public override bool IsValidCard(Card card) => !card.isConvert && (card is 杀 || card is Equipment);
+    public override bool IsValidCard(Card card) => card is 杀 || card is Equipment;
     public override bool IsValidDest(Player dest) => dest != src;
     public override bool IsValidSecondDest(Player dest, Player firstDest) => firstDest.DestInAttackRange(dest);
 
@@ -39,29 +40,31 @@ public class 明策 : Active
         else await new DrawCard(dest, 1).Execute();
     }
 
+    public override bool AIAct => src.teammates.Count > 1;
+
     public override PlayDecision AIDecision()
     {
-        // var cards = AI.GetRandomCard();
-        // var dests = AI.GetDestByTeam(team).ToList();
-        // if (cards.Count == 0 || dests.Count == 0) return new();
-
-        // Timer.Instance.temp.cards = cards;
-        // Timer.Instance.temp.dests.Add(dests[0]);
-
-        // var dest1 = AI.GetValidDest().Find(x => x != dests[0]);
-        // if (dest1 != null) Timer.Instance.temp.dests.Add(dest1);
-        return base.AIDecision();
+        var dest0 = AIGetDestsByTeam(src.team).First();
+        var dest1 = game.AlivePlayers.Where(x => IsValidSecondDest(x, dest0))
+            .OrderBy(x => x.team != src.team ? -1 : 1)
+            .FirstOrDefault();
+        if (dest1 is null) return new();
+        return new PlayDecision
+        {
+            cards = AIGetCards(),
+            dests = new List<Player> { dest0, dest1 }
+        };
     }
 }
 
 public class 智迟 : Triggered
 {
     public override bool passive => true;
-    protected override bool OnDamaged(Damage damaged) => TurnSystem.Instance.CurrentPlayer != src;
+    protected override bool OnDamaged(Damage damaged) => game.turnSystem.CurrentPlayer != src;
 
-    protected override async Task Invoke(PlayDecision decision)
+    protected override Task Invoke(PlayDecision decision)
     {
-        await Task.Yield();
         src.effects.InvalidForDest.Add(x => x is 杀 || x is Scheme, Duration.UntilTurnEnd);
+        return Task.CompletedTask;
     }
 }

@@ -39,7 +39,7 @@ namespace Spine
     /// </summary>
     public class SkeletonBounds
     {
-        private ExposedList<Polygon> polygonPool = new ExposedList<Polygon>();
+        private readonly ExposedList<Polygon> polygonPool = new ExposedList<Polygon>();
         private float minX, minY, maxX, maxY;
 
         public ExposedList<BoundingBoxAttachment> BoundingBoxes { get; private set; }

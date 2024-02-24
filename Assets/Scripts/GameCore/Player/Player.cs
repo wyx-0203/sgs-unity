@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using UnityEngine;
 using Team = Model.Team;
 using General = Model.General;
 
@@ -18,10 +17,7 @@ namespace GameCore
             effects = new EffectCollection(this);
         }
 
-        /// <summary>
-        /// 是否为自己
-        /// </summary>
-        // public bool isSelf { get; set; } = false;
+        public Game game { get; set; }
 
         /// <summary>
         /// 是否为AI
@@ -206,7 +202,7 @@ namespace GameCore
                 distance++;
             }
 
-            return Mathf.Max(distance, 1);
+            return Math.Max(distance, 1);
         }
 
         /// <summary>
@@ -232,44 +228,44 @@ namespace GameCore
         /// <summary>
         /// 初始化武将
         /// </summary>
-        public async Task InitGeneral(General general)
+        public void InitGeneral(General general)
         {
             // 基本信息
             this.general = general;
-            hpLimit = general.hp_limit;
+            hpLimit = general.hpLimit;
             if (isMonarch) hpLimit++;
             hp = hpLimit;
 
             // 添加技能
-            foreach (var name in general.skill) Skill.New(name, this);
+            foreach (var name in general.skills) Skill.New(name, this);
 
             // Debug.Log("game1");
-            EventSystem.Instance.Send(new Model.InitGeneral
+            game.eventSystem.SendToClient(new Model.InitGeneral
             {
                 player = position,
                 general = general.id,
                 hp = hp,
                 hpLimit = hpLimit,
-                skills = GetSkillModels()
+                skills = skills.Select(x => x.name).Distinct().ToList()
             });
-            await Task.Yield();
+            // await Task.Yield();
             // Debug.Log("game2");
             // 皮肤
             // skins = (await Skin.GetList(general.id)).ToList();
             // currentSkin = skins[0];
         }
 
-        public List<Model.Skill> GetSkillModels()
-        {
-            var list = new List<Model.Skill>();
-            foreach (var i in skills) if (list.Find(x => x.name == i.name) is null) list.Add(i.ToModel());
-            return list;
-        }
+        // public List<Model.SkillAsset> GetSkillModels()
+        // {
+        //     var list = new List<Model.SkillAsset>();
+        //     foreach (var i in skills) if (list.Find(x => x.name == i.name) is null) list.Add(i.ToModel());
+        //     return list;
+        // }
 
         /// <summary>
         /// 按当前回合角色排序
         /// </summary>
-        public int orderKey => (position - TurnSystem.Instance.CurrentPlayer.position + Game.Instance.players.Length) % Game.Instance.players.Length;
+        public int orderKey => (position - game.turnSystem.CurrentPlayer.position + game.players.Length) % game.players.Length;
 
         /// <summary>
         /// 按当前回合角色排序

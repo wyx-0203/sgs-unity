@@ -691,7 +691,7 @@ RectTransform:
   m_GameObject: {fileID: 5237912864907618129}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9, y: 0.9, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1098544843864997389}
@@ -723,17 +723,7 @@ MonoBehaviour:
   skin: {fileID: 5819258590971404022}
   generalName: {fileID: 5237912864330637259}
   nationBack: {fileID: 5237912865445706716}
-  nationBackSprite:
-  - {fileID: -4920304709469715582, guid: 8c595bb806586f348b27c273c83767e5, type: 3}
-  - {fileID: -318221987211979655, guid: 8c595bb806586f348b27c273c83767e5, type: 3}
-  - {fileID: -3975884159156031258, guid: 8c595bb806586f348b27c273c83767e5, type: 3}
-  - {fileID: -5406880262754352110, guid: 8c595bb806586f348b27c273c83767e5, type: 3}
   nation: {fileID: 5237912864943580544}
-  nationSprite:
-  - {fileID: -7534213437086814610, guid: 8c595bb806586f348b27c273c83767e5, type: 3}
-  - {fileID: -8539006726142497925, guid: 8c595bb806586f348b27c273c83767e5, type: 3}
-  - {fileID: -506653535436486791, guid: 8c595bb806586f348b27c273c83767e5, type: 3}
-  - {fileID: 5084590295900966662, guid: 8c595bb806586f348b27c273c83767e5, type: 3}
   imageGroup: {fileID: 5237912864021750652}
   yinYangYu:
   - {fileID: 5237912864016249541}
@@ -741,11 +731,6 @@ MonoBehaviour:
   - {fileID: 5237912865044897610}
   - {fileID: 5237912866022245723}
   - {fileID: 5237912865640115907}
-  "\u9634\u9633\u9C7CSprite":
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   numberGroup: {fileID: 5237912865015612188}
   hp: {fileID: 5237912865553313381}
   slash: {fileID: 5237912863913790011}

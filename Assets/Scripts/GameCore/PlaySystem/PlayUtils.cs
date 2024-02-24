@@ -22,7 +22,7 @@ namespace GameCore
                 hint = hint,
                 isValidCard = card => card.isHandCard,
                 refusable = false,
-                defaultAI = defaultAI != null ? defaultAI : AI.Instance.TryAction
+                defaultAI = defaultAI != null ? defaultAI : player.game.ai.TryAction
             }.Run(count, 0)).cards;
         }
 
@@ -80,8 +80,8 @@ namespace GameCore
                 return new PlayDecision { action = true, cards = new List<Card> { card } };
             });
 
-            CardPile.Instance.AddToDiscard(srcCard, src);
-            CardPile.Instance.AddToDiscard(destCard, dest);
+            src.game.cardPile.AddToDiscard(srcCard, src);
+            src.game.cardPile.AddToDiscard(destCard, dest);
             await new LoseCard(src, srcCard).Execute();
             await new LoseCard(dest, destCard).Execute();
 

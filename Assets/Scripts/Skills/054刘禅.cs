@@ -33,18 +33,17 @@ public class 放权 : Triggered
 {
     protected override bool OnPhaseStart(Phase phase) => phase == Phase.Play;
 
-    protected override async Task Invoke(PlayDecision decision)
+    protected override Task Invoke(PlayDecision decision)
     {
         // 出牌阶段
-        // if (TurnSystem.Instance.CurrentPhase == Phase.Play)
+        // if (game.turnSystem.CurrentPhase == Phase.Play)
         // {
         // var decision = await WaitDecision();
         // if (!decision.action) return;
         // Execute(decision);
 
         // invoked = true;
-        await Task.Yield();
-        TurnSystem.Instance.BeforePhaseExecute[Phase.Discard] += OnDiscardPhase;
+        game.turnSystem.BeforePhaseExecute[Phase.Discard] += OnDiscardPhase;
         throw new SkipPhaseException();
         // }
 
@@ -62,7 +61,7 @@ public class 放权 : Triggered
         // Execute(decision1);
 
         // await new Discard(src, decision1.cards).Execute();
-        // TurnSystem.Instance.ExtraTurnPlayer = decision1.dests[0];
+        // game.turnSystem.ExtraTurnPlayer = decision1.dests[0];
     }
 
     private async Task OnDiscardPhase()
@@ -81,8 +80,7 @@ public class 放权 : Triggered
             isValidDest = player => player != src,
             defaultAI = () => new PlayDecision
             {
-                action = true,
-                cards = AI.Instance.GetRandomCard(),
+                cards = game.ai.GetRandomCard(),
                 dests = src.teammates.Where(x => x != src).Take(1).ToList()
             }
         }.Run(1, 1);
@@ -90,7 +88,7 @@ public class 放权 : Triggered
         Execute(decision);
 
         await new Discard(src, decision.cards).Execute();
-        TurnSystem.Instance.ExtraTurnPlayer = decision.dests[0];
+        game.turnSystem.ExtraTurnPlayer = decision.dests[0];
     }
 
     // private bool invoked = false;

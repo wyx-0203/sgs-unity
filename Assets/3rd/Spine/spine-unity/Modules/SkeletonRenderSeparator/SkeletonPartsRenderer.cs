@@ -69,7 +69,7 @@ namespace Spine.Unity.Modules
         #endregion
 
         MeshRendererBuffers buffers;
-        SkeletonRendererInstruction currentInstructions = new SkeletonRendererInstruction();
+        readonly SkeletonRendererInstruction currentInstructions = new SkeletonRendererInstruction();
 
 
         void LazyIntialize()

@@ -9,8 +9,8 @@ namespace WebGLSupport
     /// </summary>
     class WrappedInputField : IInputField
     {
-        InputField input;
-        RebuildChecker checker;
+        readonly InputField input;
+        readonly RebuildChecker checker;
 
         public bool ReadOnly { get { return input.readOnly; } }
 

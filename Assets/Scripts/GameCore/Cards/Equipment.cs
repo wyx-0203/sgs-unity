@@ -22,12 +22,12 @@ namespace GameCore
 
             if (owner.Equipments.ContainsKey(type))
             {
-                CardPile.Instance.AddToDiscard(owner.Equipments[type], owner);
+                game.cardPile.AddToDiscard(owner.Equipments[type], owner);
                 await new LoseCard(owner, new List<Card> { owner.Equipments[type] }).Execute();
             }
             owner.Equipments[type] = this;
 
-            EventSystem.Instance.Send(new Model.AddEquipment
+            game.eventSystem.SendToClient(new Model.AddEquipment
             {
                 player = owner.position,
                 card = id
@@ -37,17 +37,18 @@ namespace GameCore
         /// <summary>
         /// 移出装备区(只由LoseCard调用)
         /// </summary>
-        public virtual async Task Remove()
+        public virtual Task Remove()
         {
-            await Task.Yield();
             OnRemove?.Invoke();
             owner.Equipments.Remove(type);
             owner = null;
+            return Task.CompletedTask;
         }
 
         public void Execute()
         {
-            Util.Print(owner + "发动了" + this);
+            game.eventSystem.SendToClient(new Model.Message { text = $"{src}发动了{this}" });
+            // Util.Print(owner + "发动了" + this);
         }
 
         protected string hint => $"是否发动{name}？";
@@ -55,6 +56,8 @@ namespace GameCore
         public Action OnRemove { get; set; }
 
         public virtual bool enabled => true;
+
+        public override bool IsValid() => isHandCard;
     }
 
     public class PlusHorse : Equipment

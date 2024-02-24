@@ -13,14 +13,13 @@ public class 烈弓 : Triggered, Durative
     private 杀 sha => arg as 杀;
     private Player dest => sha.dest;
 
-    protected override async Task Invoke(PlayDecision decision)
+    protected override Task Invoke(PlayDecision decision)
     {
-        await Task.Yield();
-
         // 不可闪避
         if (dest.handCardsCount <= src.handCardsCount) sha.unmissableDests.Add(dest);
         // 伤害+1
         if (dest.hp >= src.hp) sha.AddDamageValue(dest, 1);
+        return Task.CompletedTask;
     }
 
     public override bool AIAct => dest.team != src.team;

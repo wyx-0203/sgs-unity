@@ -1,7 +1,9 @@
 using GameCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Phase = Model.Phase;
+using Gender = Model.Gender;
 
 public class 离间 : Active
 {
@@ -10,7 +12,7 @@ public class 离间 : Active
     public override int MaxDest => 2;
     public override int MinDest => 2;
 
-    public override bool IsValidDest(Player dest) => dest != src && dest.general.gender;
+    public override bool IsValidDest(Player dest) => dest != src && dest.general.gender == Gender.Male;
 
     public override async Task Use(PlayDecision decision)
     {
@@ -27,7 +29,11 @@ public class 离间 : Active
 
         // Timer.Instance.temp.cards = AI.GetRandomCard();
         // Timer.Instance.temp.dests = dests.GetRange(0, 2);
-        return base.AIDecision();
+        var players = AIGetAllDests().OrderBy(x => x.team == src.team ? 1 : 0);
+        var dest0 = players.FirstOrDefault();
+        // var dest1=players.FirstOrDefault(x=>x)
+        if (players.Count() < 2 || dest0.team == src.team) return new();
+        return new PlayDecision { dests = players.Take(2).ToList() };
     }
 }
 

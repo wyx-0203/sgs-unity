@@ -23,52 +23,14 @@ public class 仁德 : Active
     {
         Execute(decision);
 
-        if (count == 0) TurnSystem.Instance.AfterPlay += Reset;
+        if (count == 0) game.turnSystem.AfterPlay += Reset;
         count += decision.cards.Count;
         invalidDest.Add(decision.dests[0]);
         await new GetAnothersCard(decision.dests[0], src, decision.cards).Execute();
         if (count < 2 || done) return;
 
         done = true;
-        // var list = new List<Card>
-        // {
-        //     Card.Convert<杀>(src),
-        //     Card.Convert<火杀>(src),
-        //     Card.Convert<雷杀>(src),
-        //     Card.Convert<酒>(src),
-        //     Card.Convert<桃>(src)
-        // };
-
-        // Timer.Instance.maxDest = DestArea.Instance.MaxDest;
-        // Timer.Instance.minDest = DestArea.Instance.MinDest;
-        // Timer.Instance.isValidDest = DestArea.Instance.ValidDest;
-        // Timer.Instance.defaultAI = () =>
-        // {
-        //     List<Decision> decisions = new();
-        //     var validCards = Timer.Instance.multiConvert.Where(x => Timer.Instance.isValidCard(x)).ToList();
-        //     foreach (var i in validCards)
-        //     {
-        //         Timer.Instance.temp.cards.Add(i);
-
-        //         if (Timer.Instance.maxDest() > 0)
-        //         {
-        //             var dests = AI.GetValidDest();
-        //             if (dests is null || dests[0].team == src.team) continue;
-
-        //             Timer.Instance.temp.dests.AddRange(dests);
-        //         }
-
-        //         Timer.Instance.temp.action = true;
-        //         decisions.Add(Timer.Instance.SaveTemp());
-        //         Timer.Instance.temp.cards.Remove(i);
-        //     }
-
-        //     if (decisions.Count == 0 || !AI.CertainValue) decisions.Add(new Decision());
-        //     return AI.Shuffle(decisions)[0];
-        // };
-
-        // decision = await TimerAction.MultiConvert(src, list, CardArea.Instance.ValidCard);
-        decision = await new PlayQuery
+        var playQuery = new PlayQuery
         {
             player = src,
             virtualCards = new List<Card>
@@ -82,32 +44,36 @@ public class 仁德 : Active
             isValidVirtualCard = card => card.IsValid(),
             maxDestForCard = card => card.MaxDest(),
             minDestForCard = card => card.MinDest(),
-            isValidDestForCard = (player, card) => card.IsValidDest(player),
-            defaultAI = () => new()
-            // {
-            //     List<Decision> decisions = new();
-            //     var validCards = Timer.Instance.multiConvert.Where(x => Timer.Instance.isValidCard(x)).ToList();
-            //     foreach (var i in validCards)
-            //     {
-            //         Timer.Instance.temp.cards.Add(i);
+            isValidDestForCard = (player, card) => card.IsValidDest(player)
+        };
+        playQuery.defaultAI = () =>
+        {
+            List<PlayDecision> decisions = new();
+            var validCards = playQuery.virtualCards.Where(x => playQuery.isValidVirtualCard(x));
+            foreach (var i in validCards)
+            {
+                var dests = new List<Player>();
 
-            //         if (Timer.Instance.maxDest() > 0)
-            //         {
-            //             var dests = AI.GetValidDest();
-            //             if (dests is null || dests[0].team == src.team) continue;
+                if (playQuery.maxDestForCard(i) > 0)
+                {
+                    dests.AddRange(game.ai.GetValidDestForCard(i));
+                    if (dests.Count < playQuery.minDestForCard(i)) continue;
+                }
 
-            //             Timer.Instance.temp.dests.AddRange(dests);
-            //         }
+                decisions.Add(new PlayDecision
+                {
+                    action = true,
+                    cards = new List<Card> { i },
+                    dests = dests
+                });
+            }
 
-            //         Timer.Instance.temp.action = true;
-            //         decisions.Add(Timer.Instance.SaveTemp());
-            //         Timer.Instance.temp.cards.Remove(i);
-            //     }
+            if (decisions.Count == 0 || !AI.CertainValue) decisions.Add(new());
+            // return AI.Shuffle(decisions)[0];
+            return decisions.GetRandomOne();
+        };
 
-            //     if (decisions.Count == 0 || !AI.CertainValue) decisions.Add(new Decision());
-            //     return AI.Shuffle(decisions)[0];
-            // }
-        }.Run();
+        decision = await playQuery.Run();
         if (decision.action) await decision.virtualCard.UseCard(src, decision.dests);
     }
 
@@ -118,10 +84,5 @@ public class 仁德 : Active
         invalidDest.Clear();
     }
 
-    public override PlayDecision AIDecision()
-    {
-        // Timer.Instance.temp.dests = AI.GetDestByTeam(src).Take(1).ToList();
-        // Timer.Instance.temp.cards = AI.GetRandomCard();
-        return base.AIDecision();
-    }
+    public override PlayDecision AIDecision() => AIUseToTeammate();
 }

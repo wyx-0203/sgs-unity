@@ -5,11 +5,11 @@ namespace GameCore
 {
     public abstract class DelayScheme : Card
     {
-        protected override async Task UseForeachDest()
+        protected override Task UseForeachDest()
         {
-            CardPile.Instance.RemoveToDiscard(this);
+            game.cardPile.RemoveToDiscard(this);
             AddToJudgeArea(dest);
-            await Task.Yield();
+            return Task.CompletedTask;
         }
 
         public Player owner { get; private set; }
@@ -19,7 +19,7 @@ namespace GameCore
             owner = _owner;
             src = owner;
             owner.JudgeCards.Insert(0, this);
-            EventSystem.Instance.Send(new Model.AddJudgeCard
+            game.eventSystem.SendToClient(new Model.AddJudgeCard
             {
                 player = owner.position,
                 card = id
@@ -29,7 +29,7 @@ namespace GameCore
         public void RemoveToJudgeArea()
         {
             owner.JudgeCards.Remove(this);
-            EventSystem.Instance.Send(new Model.RemoveJudgeCard
+            game.eventSystem.SendToClient(new Model.RemoveJudgeCard
             {
                 player = owner.position,
                 card = id
@@ -38,10 +38,10 @@ namespace GameCore
 
         public virtual async Task OnJudgePhase()
         {
-            CardPile.Instance.AddToDiscard(this, owner);
+            game.cardPile.AddToDiscard(this, owner);
             RemoveToJudgeArea();
             if (await 无懈可击.Call(this)) return;
-            judgeCard = await Judge.Execute();
+            judgeCard = await Judge.Execute(owner);
         }
 
         protected Card judgeCard;
@@ -58,7 +58,7 @@ namespace GameCore
         public override async Task OnJudgePhase()
         {
             await base.OnJudgePhase();
-            if (judgeCard.suit != "红桃") TurnSystem.Instance.SkipPhase.Add(Model.Phase.Play);
+            if (judgeCard.suit != "红桃") game.turnSystem.SkipPhase.Add(Model.Phase.Play);
         }
 
         public override int MaxDest() => 1;
@@ -77,7 +77,7 @@ namespace GameCore
         public override async Task OnJudgePhase()
         {
             await base.OnJudgePhase();
-            if (judgeCard.suit != "草花") TurnSystem.Instance.SkipPhase.Add(Model.Phase.Get);
+            if (judgeCard.suit != "草花") game.turnSystem.SkipPhase.Add(Model.Phase.Get);
         }
 
         public override int MaxDest() => 1;
@@ -93,10 +93,10 @@ namespace GameCore
             name = "闪电";
         }
 
-        protected override async Task BeforeUse()
+        protected override Task BeforeUse()
         {
             if (dests.Count == 0) dests.Add(src);
-            await Task.Yield();
+            return Task.CompletedTask;
         }
 
         public override async Task OnJudgePhase()
@@ -107,11 +107,11 @@ namespace GameCore
                 AddToJudgeArea(owner.next);
                 return;
             }
-            judgeCard = await Judge.Execute();
+            judgeCard = await Judge.Execute(owner);
 
             if (judgeCard.suit == "黑桃" && judgeCard.weight >= 2 && judgeCard.weight <= 9)
             {
-                CardPile.Instance.AddToDiscard(this, owner);
+                game.cardPile.AddToDiscard(this, owner);
                 await new Damage(owner, null, this, 3, Model.Damage.Type.Thunder).Execute();
             }
             else AddToJudgeArea(owner.next);

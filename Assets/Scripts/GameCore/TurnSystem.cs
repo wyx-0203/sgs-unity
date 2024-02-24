@@ -1,25 +1,27 @@
-using Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Model;
 
 namespace GameCore
 {
-
     /// <summary>
-    /// 单机回合系统
+    /// 回合系统
     /// </summary>
-    public class TurnSystem : Singleton<TurnSystem>
+    public class TurnSystem
     {
-        public void Init()
+        public TurnSystem(Game game)
         {
+            this.game = game;
             // 初始化被跳过阶段,设置为否
-            foreach (Phase phase in System.Enum.GetValues(typeof(Phase))) BeforePhaseExecute.Add(phase, null);
+            foreach (Phase phase in Enum.GetValues(typeof(Phase))) BeforePhaseExecute.Add(phase, null);
 
-            actionQueue = Game.Instance.players.OrderBy(x => x.turnOrder).ToArray();
+            actionQueue = game.players.OrderBy(x => x.turnOrder).ToArray();
             CurrentPlayer = actionQueue[0];
         }
+
+        private Game game;
 
         // 当前执行回合的玩家
         public Player CurrentPlayer { get; private set; }
@@ -45,22 +47,24 @@ namespace GameCore
                 int pos = CurrentPlayer.turnOrder;
                 do CurrentPlayer = actionQueue[(CurrentPlayer.turnOrder + 1) % actionQueue.Length];
                 while (!CurrentPlayer.alive || await IsTurnOver(CurrentPlayer));
-                if (CurrentPlayer.turnOrder <= pos) round++;
+                if (CurrentPlayer.turnOrder <= pos)
+                {
+                    round++;
+                    game.eventSystem.SendToClient(new NewRound { round = round });
+                }
             }
         }
 
+        // 执行回合
         private async Task ExecuteTurn()
         {
-            // 执行回合
-            // await Main.Instance.MoveSeat(CurrentPlayer);
-            EventSystem.Instance.Send(new StartTurn { player = CurrentPlayer.position });
+            game.eventSystem.SendToClient(new StartTurn { player = CurrentPlayer.position });
 
             try
             {
                 // 从准备阶段到结束阶段
                 for (CurrentPhase = Phase.Prepare; CurrentPhase <= Phase.End; CurrentPhase++)
                 {
-                    // if (!Room.Instance.IsSingle) await Sync();
                     try { await ExecutePhase(); }
                     catch (SkipPhaseException) { }
                     while (ExtraPhase.Count > 0) await ExecuteExtraPhase();
@@ -68,9 +72,16 @@ namespace GameCore
             }
             catch (CurrentPlayerDie) { }
 
-            EventSystem.Instance.Send(new FinishTurn { player = CurrentPlayer.position });
+            game.eventSystem.SendToClient(new FinishTurn { player = CurrentPlayer.position });
+
             AfterTurn?.Invoke();
             AfterTurn = null;
+
+            if (AfterTurnAsyncTask != null)
+            {
+                await AfterTurnAsyncTask.Invoke();
+                AfterTurnAsyncTask = null;
+            }
 
             // if (MCTS.Instance.state == MCTS.State.Simulating) throw new FinishSimulation();
 
@@ -88,16 +99,6 @@ namespace GameCore
             return false;
         }
 
-        // private async Task Sync()
-        // {
-        //     if (CurrentPlayer.isSelf)
-        //     {
-        //         var json = new Model.Message { type = "phase" };
-        //         WebSocket.Instance.SendMessage(json);
-        //     }
-        //     await WebSocket.Instance.PopMessage();
-        // }
-
         private async Task ExecutePhase()
         {
             // 阶段开始时判断是否跳过
@@ -108,12 +109,12 @@ namespace GameCore
             }
 
             // 执行阶段开始时view事件
-            EventSystem.Instance.Send(new StartPhase { player = CurrentPlayer.position, phase = CurrentPhase });
+            game.eventSystem.SendToClient(new StartPhase { player = CurrentPlayer.position, phase = CurrentPhase });
 
-            await new Delay(0.3f).Run();
+            await Delay.Run(300);
 
             // 执行阶段开始时事件
-            await Triggered.Invoke(x => x.OnEveryPhaseStart, new Tuple<Player, Phase>(CurrentPlayer, CurrentPhase), () =>
+            await Triggered.Invoke(game, x => x.OnEveryPhaseStart, new Tuple<Player, Phase>(CurrentPlayer, CurrentPhase), () =>
             {
                 if (!CurrentPlayer.alive) throw new CurrentPlayerDie();
             });
@@ -155,11 +156,11 @@ namespace GameCore
             if (!CurrentPlayer.alive) throw new CurrentPlayerDie();
 
             // 执行阶段结束时事件
-            await Triggered.Invoke(x => x.OnEveryPhaseOver, new Tuple<Player, Phase>(CurrentPlayer, CurrentPhase), () =>
+            await Triggered.Invoke(game, x => x.OnEveryPhaseOver, new Tuple<Player, Phase>(CurrentPlayer, CurrentPhase), () =>
             {
                 if (!CurrentPlayer.alive) throw new CurrentPlayerDie();
             });
-            EventSystem.Instance.Send(new FinishPhase { player = CurrentPlayer.position });
+            game.eventSystem.SendToClient(new FinishPhase { player = CurrentPlayer.position });
         }
 
         private async Task Play()
@@ -171,106 +172,77 @@ namespace GameCore
 
             while (true)
             {
-                // 暂停线程,显示进度条
-                // var timer = Timer.Instance;
-                // timer.hint = "出牌阶段，请选择一张牌。";
-                // timer.maxCard = 1;
-                // timer.minCard = 1;
-                // timer.maxDest = DestArea.Instance.MaxDest;
-                // timer.minDest = DestArea.Instance.MinDest;
-                // timer.isValidCard = CardArea.Instance.ValidCard;
-                // timer.isValidDest = DestArea.Instance.ValidDest;
-                // timer.type = Timer.Type.InPlayPhase;
-
-                // timer.defaultAI = () =>
-                // {
-                //     var validCards = CurrentPlayer.handCards.Where(x => CardArea.Instance.ValidCard(x));
-                //     foreach (var i in validCards)
-                //     {
-                //         timer.temp.cards.Add(i);
-
-                //         if (timer.maxDest() > 0)
-                //         {
-                //             var dests = AI.GetValidDest();
-                //             if (dests.Count == 0 || dests[0].team == CurrentPlayer.team)
-                //             {
-                //                 timer.temp.cards.Clear();
-                //                 continue;
-                //             }
-
-                //             timer.temp.dests.AddRange(dests);
-                //         }
-                //         timer.temp.action = true;
-                //         PlayDecisions.Add(timer.SaveTemp());
-                //     }
-
-                //     var skills = CurrentPlayer.skills.Where(x => x is Active && x.IsValid);
-                //     foreach (var i in skills)
-                //     {
-                //         timer.temp.skill = i;
-                //         var decision = i.AIDecision();
-                //         if (decision.action) PlayDecisions.Add(decision);
-                //     }
-
-                //     if (PlayDecisions.Count == 0 || !AI.CertainValue) PlayDecisions.Add(new Decision());
-
-                //     var decision1 = PlayDecisions[UnityEngine.Random.Range(0, PlayDecisions.Count)];
-                //     PlayDecisions.Clear();
-                //     return decision1;
-                // };
-
-
-                var decision = await new PlayQuery
+                var playQuery = new PlayQuery
                 {
                     player = CurrentPlayer,
                     hint = "出牌阶段，请选择一张牌。",
                     maxCard = 1,
                     minCard = 1,
                     isValidCard = card => card.IsValid(),
-                    maxDestForCard = card => card.MaxDest(),
+                    maxDestForCard = card => card.MaxDest() + CurrentPlayer.effects.ExtraDestCount.Invoke(card),
                     minDestForCard = card => card.MinDest(),
                     isValidDestForCard = (player, card) => card.IsValidDest(player),
-                    type = Model.SinglePlayQuery.Type.PlayPhase,
-                    defaultAI = () => new()
-                    // {
-                    //     // var validCards = CurrentPlayer.handCards.Where(x => CardArea.Instance.ValidCard(x));
-                    //     var startPlay=timer.startPlay;
-                    //     var validCards = CurrentPlayer.cards.Where(x => startPlay.isValidCard(x));
-                    //     foreach (var i in validCards)
-                    //     {
-                    //         timer.temp.cards.Add(i);
-                    //         var temp = new Decision { cards = new List<Card> { i } };
+                    type = Model.SinglePlayQuery.Type.PlayPhase
+                };
+                playQuery.defaultAI = () =>
+                {
+                    // var validCards = CurrentPlayer.handCards.Where(x => CardArea.Instance.ValidCard(x));
+                    // var startPlay = timer.startPlay;
+                    List<PlayDecision> playDecisions = new();
+                    var validCards = CurrentPlayer.cards.Where(x => playQuery.isValidCard(x));
+                    foreach (var i in validCards)
+                    {
+                        // timer.temp.cards.Add(i);
+                        // var temp = new PlayDecision { cards = new List<Card> { i } };
+                        var dests = new List<Player>();
 
-                    //         if (startPlay.maxDestForCard(i) > 0)
-                    //         {
-                    //             var dests = AI.Instance.GetValidDest(i);
-                    //             if (dests.Count == 0 || dests[0].team == CurrentPlayer.team)
-                    //             {
-                    //                 // timer.temp.cards.Clear();
-                    //                 continue;
-                    //             }
+                        if (playQuery.maxDestForCard(i) > 0)
+                        {
+                            dests.AddRange(game.ai.GetValidDestForCard(i));
+                            if (dests.Count < playQuery.minDestForCard(i))
+                            {
+                                // timer.temp.cards.Clear();
+                                continue;
+                            }
 
-                    //             timer.temp.dests.AddRange(dests);
-                    //         }
-                    //         timer.temp.action = true;
-                    //         PlayDecisions.Add(timer.SaveTemp());
-                    //     }
+                            // timer.temp.dests.AddRange(dests);
+                        }
+                        // timer.temp.action = true;
+                        // PlayDecisions.Add(timer.SaveTemp());
+                        playDecisions.Add(new PlayDecision
+                        {
+                            action = true,
+                            cards = new List<Card> { i },
+                            dests = dests
+                        });
+                    }
 
-                    //     var skills = CurrentPlayer.skills.Where(x => x is Active && x.IsValid);
-                    //     foreach (var i in skills)
-                    //     {
-                    //         timer.temp.skill = i;
-                    //         var decision = i.AIDecision();
-                    //         if (decision.action) PlayDecisions.Add(decision);
-                    //     }
+                    var skills = CurrentPlayer.skills.Where(x => x is Active && x.IsValid && x.AIAct);
+                    foreach (var i in skills)
+                    {
+                        // timer.temp.skill = i;
+                        var decision = i.AIDecision();
+                        decision.action = true;
+                        decision.skill = i;
+                        var skillQuery = playQuery.skillQuerys.First(x => x.skill == i.name);
+                        if (decision.IsValid(skillQuery))
+                        {
+                            playDecisions.Add(decision);
+                        }
+                        // Util.Print(i.name + decision.IsValid(skillQuery));
+                    }
 
-                    //     if (PlayDecisions.Count == 0 || !AI.CertainValue) PlayDecisions.Add(new Decision());
+                    if (playDecisions.Count == 0 || CurrentPlayer.handCardsCount < CurrentPlayer.handCardsLimit)
+                    // if (playDecisions.Count == 0)
+                    {
+                        playDecisions.Add(new());
+                    }
 
-                    //     var decision1 = PlayDecisions[UnityEngine.Random.Range(0, PlayDecisions.Count)];
-                    //     PlayDecisions.Clear();
-                    //     return decision1;
-                    // }
-                }.Run();
+                    return playDecisions.GetRandomOne();
+                    // PlayDecisions.Clear();
+                    // return decision1;
+                };
+                var decision = await playQuery.Run();
 
                 if (!decision.action) break;
 
@@ -286,7 +258,7 @@ namespace GameCore
                     await card.UseCard(CurrentPlayer, decision.dests);
                 }
 
-                EventSystem.Instance.Send(new FinishOncePlay { player = CurrentPlayer.position });
+                game.eventSystem.SendToClient(new FinishOncePlay { player = CurrentPlayer.position });
             }
 
             // 重置出杀次数
@@ -298,12 +270,14 @@ namespace GameCore
             AfterPlay = null;
         }
 
-        public List<PlayDecision> PlayDecisions { get; } = new();
+        // public List<PlayDecision> PlayDecisions { get; } = new();
 
         /// <summary>
         /// 回合结束后事件 (用于重置数据)
         /// </summary>
         public Action AfterTurn;
+
+        public Func<Task> AfterTurnAsyncTask;
 
         /// <summary>
         /// 出牌结束后事件 (用于重置数据)
@@ -339,11 +313,5 @@ namespace GameCore
 
             CurrentPhase = t;
         }
-
-        // public Action StartTurnView;
-        // public Action FinishTurnView;
-        // public Action StartPhaseView;
-        // public Action FinishPhaseView;
-        // public Action FinishPlayView;
     }
 }

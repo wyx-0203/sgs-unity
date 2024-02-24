@@ -489,7 +489,11 @@ namespace Spine.Unity.Editor
 
                 if (newPrefab)
                 {
+#pragma warning disable CS0618 // 类型或成员已过时
+#pragma warning disable CS0618 // 类型或成员已过时
                     PrefabUtility.ReplacePrefab(prefabRoot, prefab, ReplacePrefabOptions.ConnectToPrefab);
+#pragma warning restore CS0618 // 类型或成员已过时
+#pragma warning restore CS0618 // 类型或成员已过时
                     // PrefabUtility.SaveAsPrefabAssetAndConnect(prefabRoot,)
                 }
                 else
@@ -500,7 +504,11 @@ namespace Spine.Unity.Editor
                         Mesh.DestroyImmediate(meshTable[str], true);
                     }
 
+#pragma warning disable CS0618 // 类型或成员已过时
+#pragma warning disable CS0618 // 类型或成员已过时
                     PrefabUtility.ReplacePrefab(prefabRoot, prefab, ReplacePrefabOptions.ReplaceNameBased);
+#pragma warning restore CS0618 // 类型或成员已过时
+#pragma warning restore CS0618 // 类型或成员已过时
                 }
 
                 EditorGUIUtility.PingObject(prefab);

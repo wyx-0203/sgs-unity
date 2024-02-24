@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using SkillType = Model.Skill.Type;
+using Team = Model.Team;
 
 namespace GameCore
 {
@@ -14,12 +14,17 @@ namespace GameCore
         public Player src { get; private set; }
         // 技能名称
         public string name { get; private set; }
-        // 锁定技
+        /// <summary>
+        /// 锁定技
+        /// </summary>
         public virtual bool passive => false;
-        // 限定次数
+        /// <summary>
+        /// 每回合限定次数
+        /// </summary>
         public virtual int timeLimit => int.MaxValue;
         // 已使用次数
         public int time { get; protected set; }
+        protected Game game => src.game;
 
         protected void Init(string name, Player src)
         {
@@ -79,7 +84,7 @@ namespace GameCore
             maxDest = MaxDest,
             minDest = MinDest,
             isValidDest = IsValidDest,
-            // 第二个目标(明策、眩惑) 若未被重写，则为空
+            // 第二个目标(明策、眩惑)。若未被重写，则为空
             isValidSecondDest = GetType().GetMethod("IsValidSecondDest").DeclaringType == GetType() ? IsValidSecondDest : null,
             defaultAI = AIDecision,
             aiAct = AIAct
@@ -103,20 +108,21 @@ namespace GameCore
         {
             if (time == 0)
             {
-                if (this is Active) TurnSystem.Instance.AfterPlay += () => time = 0;
-                else TurnSystem.Instance.AfterTurn += () => time = 0;
+                if (this is Active) game.turnSystem.AfterPlay += () => time = 0;
+                else game.turnSystem.AfterTurn += () => time = 0;
             }
             time++;
 
             // if (!MCTS.Instance.isRunning) UseSkillView?.Invoke(this, decision?.dests);
-            EventSystem.Instance.Send(new Model.UseSkill
+            string destStr = decision != null && decision.dests.Count > 0 ? "对" + string.Join("、", decision.dests) : "";
+            game.eventSystem.SendToClient(new Model.UseSkill
             {
                 player = src.position,
-                dests = (decision != null) ? decision.dests.Select(x => x.position).ToList() : new(),
-                name = name
+                dests = decision?.dests.Select(x => x.position).ToList() ?? new(),
+                skill = name,
+                text = $"{src}{destStr}使用了{name}"
             });
-            string destStr = decision != null && decision.dests.Count > 0 ? "对" + string.Join("、", decision.dests) : "";
-            Util.Print(src + destStr + "使用了" + name);
+            // Util.Print(src + destStr + "使用了" + name);
         }
         public void Execute() => Execute(null);
 
@@ -124,8 +130,35 @@ namespace GameCore
 
         // public static Action<Skill, List<Player>> UseSkillView { get; set; }
 
-        public virtual PlayDecision AIDecision() => AI.Instance.TryAction();
+        /// <summary>
+        /// AI如何发动技能，默认为随机指定手牌，随机指定任意名敌人
+        /// </summary>
+        /// <returns></returns>
+        public virtual PlayDecision AIDecision() => AIUseToEnemy();
+        /// <summary>
+        /// AI是否发动技能，默认为true
+        /// </summary>
         public virtual bool AIAct => true;
+
+        protected IEnumerable<Player> AIGetAllDests() => game.AlivePlayers.Where(IsValidDest).Shuffle();
+        protected IEnumerable<Player> AIGetDestsByTeam(Team team) => AIGetAllDests().Where(x => x.team == team);
+        // .Take(MaxDest)
+        // .ToList();
+        protected List<Card> AIGetCards() => src.cards
+            .Where(IsValidCard)
+            .Shuffle(new Random().Next(MinCard, MaxCard + 1));
+
+        protected PlayDecision AIUseToEnemy() => new PlayDecision
+        {
+            cards = AIGetCards(),
+            dests = AIGetDestsByTeam(~src.team).Take(MaxDest).ToList()
+        };
+
+        protected PlayDecision AIUseToTeammate() => new PlayDecision
+        {
+            cards = AIGetCards(),
+            dests = AIGetDestsByTeam(src.team).Take(MaxDest).ToList()
+        };
 
         public static void New(string name, Player src)
         {
@@ -149,16 +182,20 @@ namespace GameCore
             //         Debug.Log($"LoadMetadataForAOTAssembly:{i}. ret:{err}");
             //     }
             // }
-            var instance = Activator.CreateInstance(assembly.GetType(name));
+            var type = assembly.GetType(name);
+            if (type is null) return;
+            var instance = Activator.CreateInstance(type);
             if (instance is Skill skill) skill.Init(name, src);
             else if (instance is Multi multi) multi.Init(name, src);
         }
 
-        public Model.Skill ToModel() => new Model.Skill
-        {
-            name = name,
-            type = this is Limited ? SkillType.Limited : passive ? SkillType.Passive : SkillType.Normal
-        };
+        // public static string GetSkillType(string name)
+        // {
+        //     var assembly = AppDomain.CurrentDomain.GetAssemblies().First(a => a.GetName().Name == "Skills");
+        //     var instance = Activator.CreateInstance(assembly.GetType(name)) as Skill;
+        //     if (instance is null) return "";
+        //     return instance is Limited ? "限定技" : instance.passive ? "锁定技" : "主动技";
+        // }
 
         public Multi parent { get; private set; } = null;
 

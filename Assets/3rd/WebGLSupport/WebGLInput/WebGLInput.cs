@@ -70,7 +70,7 @@ namespace WebGLSupport
         public static extern void WebGLInputEnableTabText(int id, bool enable);
 #endif
 #else
-        public static void WebGLInputInit() {}
+        public static void WebGLInputInit() { }
         public static int WebGLInputCreate(string canvasId, int x, int y, int width, int height, int fontsize, string text, string placeholder, bool isMultiLine, bool isPassword, bool isHidden) { return 0; }
         public static void WebGLInputEnterSubmit(int id, bool flag) { }
         public static void WebGLInputTab(int id, Action<int, int> cb) { }
@@ -97,7 +97,7 @@ namespace WebGLSupport
 
     public class WebGLInput : MonoBehaviour, IComparable<WebGLInput>
     {
-        static Dictionary<int, WebGLInput> instances = new Dictionary<int, WebGLInput>();
+        static readonly Dictionary<int, WebGLInput> instances = new Dictionary<int, WebGLInput>();
         public static string CanvasId { get; set; }
 
 #if WEBGLINPUT_TAB
@@ -390,7 +390,7 @@ namespace WebGLSupport
         /// </summary>
         static class WebGLInputTabFocus
         {
-            static List<WebGLInput> inputs = new List<WebGLInput>();
+            static readonly List<WebGLInput> inputs = new List<WebGLInput>();
 
             public static void Add(WebGLInput input)
             {

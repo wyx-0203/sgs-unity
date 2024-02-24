@@ -1,18 +1,19 @@
 using GameCore;
-using System.Collections.Generic;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
 public class 散谣 : Active
 {
-    public override int MaxCard => Game.Instance.AlivePlayers.Where(x => x.hp == MaxHp && x != src).Count();
+    public override int MaxCard => game.AlivePlayers.Where(x => x.hp == MaxHp && x != src).Count();
     public override int MinCard => 1;
     public override int MaxDest => 8;
     public override int MinDest => 1;
-    public override bool IsValidDest(Player dest) => dest.hp == Game.Instance.MaxHp(src) && dest != src;
+    public override bool IsValidDest(Player dest) => dest.hp == game.MaxHp(src) && dest != src;
+    // 特殊类型
     public override Model.SinglePlayQuery.Type type => Model.SinglePlayQuery.Type.SanYao;
 
-    private int MaxHp => Game.Instance.MaxHp(src);
+    private int MaxHp => game.MaxHp(src);
 
     public override async Task Use(PlayDecision decision)
     {
@@ -25,26 +26,25 @@ public class 散谣 : Active
 
     public override PlayDecision AIDecision()
     {
-        // var dests = AI.GetDestByTeam(!team);
+        var dests = AIGetDestsByTeam(~src.team);
 
         // // 尽量选择更多的敌人
-        // var cards = src.cards.ToList();
-        // int count = UnityEngine.Mathf.Min(cards.Count, dests.Count());
+        var cards = src.cards;
+        int count = Math.Min(cards.Count(), dests.Count());
 
         // Timer.Instance.temp.cards = AI.Shuffle(cards, count);
         // Timer.Instance.temp.dests.AddRange(dests.Take(count));
-        return base.AIDecision();
+        return new PlayDecision
+        {
+            cards = cards.Shuffle(count),
+            dests = dests.Take(count).ToList()
+        };
     }
 }
 
 public class 制蛮 : Triggered
 {
-    // protected override bool BeforeMakeDamage(Damage damaged) => true;
-    protected override bool BeforeMakeDamage(Damage damaged)
-    {
-        Util.Print("aaaa");
-        return true;
-    }
+    protected override bool BeforeMakeDamage(Damage damaged) => true;
 
     public override int MaxDest => 1;
     public override int MinDest => 1;
@@ -69,7 +69,7 @@ public class 制蛮 : Triggered
         throw new PreventDamage();
     }
 
-    public override bool AIAct => dest.team == src.team || !dest.regionIsEmpty && UnityEngine.Random.value < 0.5f;
+    public override bool AIAct => dest.team == src.team || !dest.regionIsEmpty && new Random().NextDouble() < 0.5d;
 
     // public override Decision AIDecision()
     // {

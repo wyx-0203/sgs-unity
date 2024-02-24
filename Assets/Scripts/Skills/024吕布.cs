@@ -8,10 +8,10 @@ public class 无双 : Triggered
 
     protected override bool OnExecuteSha(杀 sha) => true;
 
-    protected override async Task Invoke(PlayDecision decision)
+    protected override Task Invoke(PlayDecision decision)
     {
-        await Task.Yield();
         (arg as 杀).needDoubleShan = true;
+        return Task.CompletedTask;
     }
 }
 
@@ -38,7 +38,7 @@ public class 利驭 : Triggered
         // 若为装备牌
         if (cards[0] is Equipment)
         {
-            if (Game.Instance.AlivePlayers.Count <= 2) return;
+            if (game.AlivePlayers.Count <= 2) return;
 
             // 指定角色
             // Timer.Instance.hint = src + "对你发动利驭，选择一名角色";

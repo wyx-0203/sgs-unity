@@ -2,11 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using UnityEngine;
 
 namespace GameCore
 {
-    public class CardPile : Singleton<CardPile>
+    public class CardPile
     {
         // 卡牌数组
         public Card[] cards { get; private set; }
@@ -17,15 +16,16 @@ namespace GameCore
         // 牌堆数
         public int pileCount => RemainPile.Count;
 
-        private static List<Model.Card> cardJsons;
+        private Game game;
 
-        public async Task Init()
+        public CardPile(Game game)
         {
-            if (cardJsons is null) cardJsons = await Model.Card.GetList();
+            this.game = game;
+            var cardModels = Model.Card.GetList();
 
             // 初始化卡牌数组
-            cards = new Card[cardJsons.Count];
-            foreach (var i in cardJsons)
+            cards = new Card[cardModels.Count];
+            foreach (var i in cardModels)
             {
                 var type = Type.GetType("GameCore." + i.name);
                 if (type is null) continue;
@@ -45,7 +45,7 @@ namespace GameCore
             DiscardPile.RemoveAt(0);
 
             // 3v3模式删去闪电
-            if (Mode.Instance is ThreeVSThree) DiscardPile.RemoveAll(x => x is 闪电);
+            if (game.mode == Model.Mode._3V3) DiscardPile.RemoveAll(x => x is 闪电);
         }
 
         /// <summary>
@@ -58,10 +58,10 @@ namespace GameCore
             var card = RemainPile[0];
             RemainPile.RemoveAt(0);
 
-            EventSystem.Instance.Send(new Model.UpdatePileCount
-            {
-                count = RemainPile.Count
-            });
+            // game.eventSystem.SendToClient(new Model.UpdatePileCount
+            // {
+            //     count = RemainPile.Count
+            // });
             return card;
         }
 
@@ -71,7 +71,7 @@ namespace GameCore
         public void AddToDiscard(List<Card> cards, Player src)
         {
             DiscardPile.AddRange(cards);
-            EventSystem.Instance.Send(new Model.AddToDiscard
+            game.eventSystem.SendToClient(new Model.AddToDiscard
             {
                 player = src != null ? src.position : -1,
                 cards = cards.Select(x => x.id).ToList()
@@ -101,14 +101,17 @@ namespace GameCore
             // else if (Room.Instance.IsSingle)
             // {
             // Debug.Log("shuffle");
-            var discards = AI.Shuffle(DiscardPile, DiscardPile.Count);
-            EventSystem.Instance.PushDecision(new Model.Shuffle { cards = discards.Select(x => x.id).ToList() });
+            // var discards = AI.Shuffle(DiscardPile, DiscardPile.Count);
+            game.eventSystem.PushDecision(new Model.Shuffle
+            {
+                cards = DiscardPile.Shuffle().Select(x => x.id).ToList()
+            });
             // PlayDecision.List.Instance.Push(new Decision { cards = discards });
             // }
 
             // else
             // {
-            //     if (TurnSystem.Instance.CurrentPlayer.isSelf)
+            //     if (game.turnSystem.CurrentPlayer.isSelf)
             //     {
             //         // 发送洗牌请求
             //         var discards = AI.Shuffle(DiscardPile, DiscardPile.Count);
@@ -122,7 +125,7 @@ namespace GameCore
             // }
 
             DiscardPile.Clear();
-            var message = await EventSystem.Instance.PopDecision() as Model.Shuffle;
+            var message = await game.eventSystem.PopDecision() as Model.Shuffle;
             RemainPile.AddRange(message.cards.Select(x => cards[x]));
         }
     }

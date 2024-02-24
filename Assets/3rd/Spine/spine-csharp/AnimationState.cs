@@ -38,9 +38,9 @@ namespace Spine
         static readonly Animation EmptyAnimation = new Animation("<empty>", new ExposedList<Timeline>(), 0);
         internal const int Subsequent = 0, First = 1, Dip = 2, DipMix = 3;
 
-        private AnimationStateData data;
+        private readonly AnimationStateData data;
 
-        Pool<TrackEntry> trackEntryPool = new Pool<TrackEntry>();
+        readonly Pool<TrackEntry> trackEntryPool = new Pool<TrackEntry>();
         private readonly ExposedList<TrackEntry> tracks = new ExposedList<TrackEntry>();
         private readonly ExposedList<Event> events = new ExposedList<Event>();
         private readonly EventQueue queue; // Initialized by constructor.

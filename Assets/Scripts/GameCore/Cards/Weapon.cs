@@ -21,13 +21,13 @@ namespace GameCore
         /// </summary>
         protected int range;
 
-        public virtual async Task BeforeUseSha(杀 sha) => await Task.Yield();
+        public virtual Task BeforeUseSha(杀 sha) => Task.CompletedTask;
 
-        public virtual async Task AfterInitSha(杀 sha) => await Task.Yield();
+        public virtual Task AfterInitSha(杀 sha) => Task.CompletedTask;
 
-        public virtual async Task OnShaMissed(杀 sha) => await Task.Yield();
+        public virtual Task OnShaMissed(杀 sha) => Task.CompletedTask;
 
-        public virtual async Task OnShaDamage(杀 sha) => await Task.Yield();
+        public virtual Task OnShaDamage(杀 sha) => Task.CompletedTask;
     }
 
     public class 青龙偃月刀 : Weapon
@@ -152,11 +152,11 @@ namespace GameCore
             range = 2;
         }
 
-        public override async Task BeforeUseSha(杀 sha)
+        public override Task BeforeUseSha(杀 sha)
         {
-            await Task.Yield();
             Execute();
             sha.ignoreArmor = true;
+            return Task.CompletedTask;
         }
     }
 
@@ -276,12 +276,14 @@ namespace GameCore
             range = 2;
         }
 
-        public override async Task OnShaDamage(杀 sha)
+        public override Task OnShaDamage(杀 sha)
         {
-            if (sha.dest.handCardsCount > 0) return;
-            await Task.Yield();
-            Execute();
-            sha.AddDamageValue(sha.dest, 1);
+            if (sha.dest.handCardsCount == 0)
+            {
+                Execute();
+                sha.AddDamageValue(sha.dest, 1);
+            }
+            return Task.CompletedTask;
         }
     }
 

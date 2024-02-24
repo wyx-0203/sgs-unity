@@ -11,9 +11,51 @@ using Newtonsoft.Json;
 
 namespace Editor
 {
+    public class Voice : ScriptableObject
+    {
+        public string skill_name;
+        public string url1;
+        public string url2;
+
+        private static VisualTreeAsset template;
+
+        public VisualElement NewElement(SkinManager skinManager)
+        {
+            template ??= AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Editor/voice.uxml");
+            var element = template.CloneTree();
+
+            var skillName = element.Q<TextField>("skill-name");
+            var voice_url1 = element.Q<TextField>("voice-url1");
+            var voice_url2 = element.Q<TextField>("voice-url2");
+
+            var serializedObject = new SerializedObject(this);
+            skillName.BindProperty(serializedObject);
+            voice_url1.BindProperty(serializedObject);
+            voice_url2.BindProperty(serializedObject);
+
+            element.RegisterCallback((ContextualMenuPopulateEvent evt) =>
+            {
+                evt.menu.AppendAction("新建技能", x =>
+                {
+                    var newVoice = ScriptableObject.CreateInstance<Voice>();
+                    skinManager.voices.Add(newVoice);
+                    element.parent.hierarchy.Add(newVoice.NewElement(skinManager));
+                });
+                evt.menu.AppendAction("移除技能", x =>
+                {
+                    skinManager.voices.Remove(this);
+                    element.parent.hierarchy.Remove(element);
+                });
+            });
+
+            return element;
+        }
+    }
+
+
     public class SkinManager : EditorWindow
     {
-        [MenuItem("Window/皮肤")]
+        [MenuItem("Window/新建皮肤")]
         public static void ShowExample()
         {
             SkinManager wnd = GetWindow<SkinManager>();
@@ -38,15 +80,6 @@ namespace Editor
             voiceParent = root.Q<VisualElement>("voices").Q<VisualElement>("unity-content");
             save = root.Q<Button>("save");
             save.clicked += Save;
-            // save.clicked += Save1;
-
-            // 绑定数据
-            var skin = ScriptableObject.CreateInstance<Skin>();
-            var serializedObject = new SerializedObject(skin);
-            general_id.BindProperty(serializedObject);
-            id.BindProperty(serializedObject);
-            _name.BindProperty(serializedObject);
-            dynamic.BindProperty(serializedObject);
 
             AddSkill("技能1");
             AddSkill("技能2");
@@ -77,20 +110,19 @@ namespace Editor
         private const string bigUrl = "https://web.sanguosha.com/10/pc/res/assets/runtime/general/big/static/";
         private const string dynamicUrl = "https://web.sanguosha.com/10/pc/res/assets/runtime/general/big/dynamic/";
         // https://web.sanguosha.com/10/pc/res/assets/runtime/general/big/dynamic/706001/daiji.png
-        // https://web.sanguosha.com/10/pc/res/assets/runtime/general/big/dynamic/506001/daiji.png
         private const string seatPath = "Assets/StreamingAssets/Image/General/Seat/";
         private const string windowPath = "Assets/StreamingAssets/Image/General/Window/";
         private const string bigPath = "Assets/StreamingAssets/Image/General/Big/";
 
-        private const string voicePath = "Assets/StreamingAssets/Audio/skin/";
+        private const string voicePath = "Assets/Assets/Skin/Voice/";
 
 
         // 下载图片
-        private async Task DownloadImage(int skin_id)
+        private async Task DownloadImage()
         {
             using (WebClient client = new WebClient())
             {
-                string fileName = skin_id + ".png";
+                string fileName = id.value + ".png";
 
                 await client.DownloadFileTaskAsync(seatUrl + fileName, seatPath + fileName);
                 Debug.Log("图片下载成功并保存为 " + seatPath + fileName);
@@ -103,125 +135,178 @@ namespace Editor
             }
         }
 
-        // 下载语音
-        private string DownloadVoice(string url)
+        private async Task<AudioClip> DownloadOneVoice(string url)
         {
-            var strings = url.Split('/');
-            string folderName = strings[strings.Length - 2];
-            string fileName = folderName + "/" + strings[strings.Length - 1];
+            var s = url.Split('/');
+            string folderName = voicePath + s[s.Length - 2];
+            string fileName = folderName + "/" + s[s.Length - 1];
 
-            if (!Directory.Exists(voicePath + folderName))
-            {
-                Directory.CreateDirectory(voicePath + folderName);
-            }
-
-            using (WebClient client = new WebClient()) client.DownloadFile(url, voicePath + fileName);
-            Debug.Log("音频下载成功并保存为 " + voicePath + fileName);
-            return fileName;
-        }
-
-        private async Task DownloadDynamic(int id)
-        {
-            id += 200000;
-            string folderName = "Assets/Assets/dynamic/" + id;
             if (!Directory.Exists(folderName))
             {
                 Directory.CreateDirectory(folderName);
             }
 
-            using (WebClient client = new WebClient())
+            using (WebClient client = new WebClient()) await client.DownloadFileTaskAsync(url, fileName);
+            AssetDatabase.Refresh();
+            Debug.Log("音频下载成功并保存为 " + fileName);
+            return AssetDatabase.LoadAssetAtPath<AudioClip>(fileName);
+        }
+
+        // 下载语音
+        private async Task DownloadVoice()
+        {
+            var voiceAsset = ScriptableObject.CreateInstance<VoiceAsset>();
+            voiceAsset.voices = new();
+            foreach (var i in voices)
             {
-                Debug.Log(dynamicUrl + id + "/daiji.png");
-                try
+                var voice = new KeyValue<List<AudioClip>>
                 {
-                    await client.DownloadFileTaskAsync(dynamicUrl + id + "/daiji.png", folderName + "/daiji.png");
-                    // client.DownloadFile(dyaDownloadFileTaskAsyncnamicUrl + id + "/daiji.skel", folderName + "/daiji.skel.bytes");
-                    await client.DownloadFileTaskAsync(dynamicUrl + id + "/daiji.json", folderName + "/daiji.json");
-                    await client.DownloadFileTaskAsync(dynamicUrl + id + "/daiji.atlas", folderName + "/daiji.atlas.txt");
-                }
-                catch (System.Exception e) { Debug.Log(e); }
-                try
-                {
-                    await client.DownloadFileTaskAsync(dynamicUrl + id + "/beijing.png", folderName + "/beijing.png");
-                    await client.DownloadFileTaskAsync(dynamicUrl + id + "/beijing.json", folderName + "/beijing.json");
-                    await client.DownloadFileTaskAsync(dynamicUrl + id + "/beijing.atlas", folderName + "/beijing.atlas.txt");
-                }
-                catch (System.Exception e) { Debug.Log(e); }
-                try
-                {
-                    await client.DownloadFileTaskAsync(dynamicUrl + id + "/daiji2.png", folderName + "/daiji2.png");
-                    await client.DownloadFileTaskAsync(dynamicUrl + id + "/daiji2.json", folderName + "/daiji2.json");
-                    await client.DownloadFileTaskAsync(dynamicUrl + id + "/daiji2.atlas", folderName + "/daiji2.atlas.txt");
-                }
-                catch (System.Exception e) { Debug.Log(e); }
-                Debug.Log("动态皮肤下载成功: " + id);
+                    key = i.skill_name,
+                    value = new List<AudioClip>()
+                };
+                if (i.url1 != null && i.url1 != "") voice.value.Add(await DownloadOneVoice(i.url1));
+                if (i.url2 != null && i.url2 != "") voice.value.Add(await DownloadOneVoice(i.url2));
+                voiceAsset.voices.Add(voice);
+                // Debug.Log(voice.value.All(x => x != null));
             }
+
+            string fileName = $"{voicePath}{id.value}.asset";
+            string abName = $"voice/{id.value}";
+            // AssetDatabase.Refresh();
+            AssetDatabase.CreateAsset(voiceAsset, fileName);
+            AssetImporter.GetAtPath(fileName).assetBundleName = abName;
+            var abbuild = new AssetBundleBuild
+            {
+                assetBundleName = abName,
+                assetNames = new string[] { fileName }
+            };
+            BuildPipeline.BuildAssetBundles
+            (
+                "Assets/StreamingAssets/AssetBundles",
+                new AssetBundleBuild[] { abbuild },
+                BuildAssetBundleOptions.ChunkBasedCompression,
+                EditorUserBuildSettings.activeBuildTarget
+            );
+            // BuildPipeline.BuildAssetBundles()
+            // AssetDatabase.GetAssetPathsFromAssetBundle();
+            // foreach (var ab in AssetDatabase.GetAllAssetBundleNames().Where(x => !x.StartsWith("dynamic/") && !x.StartsWith("voice/")))
+            // {
+            //     BuildPipeline.BuildAssetBundle(
+            //         "Assets/StreamingAssets/AssetBundles1",
+            //         AssetDatabase.GetAssetPathsFromAssetBundle(ab).Select(x=>new AssetBundleBuild{assetBundleName=ab,
+            //         assetNames=x})
+            //     )
+            // }
+            Debug.Log($"打包成功：{abName}");
+        }
+
+        private async Task DownloadOneDynamic(int id, string name, string folderName)
+        {
+            id += 200000;
+            Debug.Log($"{dynamicUrl}{id}/{name}");
+            var client = new WebClient();
+            try
+            {
+                await client.DownloadFileTaskAsync($"{dynamicUrl}{id}/{name}.json", $"{folderName}/{name}.json");
+                await client.DownloadFileTaskAsync($"{dynamicUrl}{id}/{name}.png", $"{folderName}/{name}.png");
+                await client.DownloadFileTaskAsync($"{dynamicUrl}{id}/{name}.atlas", $"{folderName}/{name}.atlas.txt");
+                Debug.Log($"下载成功：{dynamicUrl}{id}/{name}");
+            }
+            catch (System.Exception e) { Debug.Log(e); }
+            finally { client.Dispose(); }
+        }
+
+        private async Task DownloadDynamic()
+        {
+            string folderName = "Assets/Assets/Skin/Dynamic/" + id.value;
+            if (!Directory.Exists(folderName))
+            {
+                Directory.CreateDirectory(folderName);
+            }
+            string[] names = { "daiji", "daiji2", "beijing" };
+
+            foreach (var i in names) await DownloadOneDynamic(id.value, i, folderName);
+            AssetDatabase.Refresh();
+
+            string abname = $"dynamic/{id.value}";
+            var abbuild = new AssetBundleBuild
+            {
+                assetBundleName = abname,
+                assetNames = names.Select(x => $"{folderName}/{x}_SkeletonData.asset").Where(x => File.Exists(x)).ToArray()
+            };
+            var dependency = new AssetBundleBuild
+            {
+                assetBundleName = "spine-base",
+                assetNames = new string[]
+                {
+                    "Assets/3rd/Spine/spine-unity/Editor/GUI/SkeletonDataAsset Icon.png",
+                    "Assets/3rd/Spine/spine-unity/Editor/GUI/AtlasAsset Icon.png",
+                    "Assets/3rd/Spine/spine-unity/Shaders/Spine-Skeleton.shader"
+                }
+            };
+            foreach (var i in abbuild.assetNames) AssetImporter.GetAtPath(i).assetBundleName = abname;
+            BuildPipeline.BuildAssetBundles
+            (
+                "Assets/StreamingAssets/AssetBundles",
+                new AssetBundleBuild[] { dependency, abbuild },
+                BuildAssetBundleOptions.ChunkBasedCompression,
+                EditorUserBuildSettings.activeBuildTarget
+            );
         }
 
         private void Save1()
         {
-            // foreach (var i in Directory.GetDirectories("Assets/Assets/dynamic"))
-            // {
-            //     var s = i.Split('/');
-            //     Debug.Log(s[s.Length - 1]);
-            //     //    await DownloadDynamic(System.Int32.Parse(s[s.Length - 1]));
-            //     foreach (var j in Directory.GetFiles(i).Where(x => x.EndsWith("SkeletonData.asset")))
-            //     {
-            //         AssetImporter.GetAtPath(j).assetBundleName = "dynamic/" + s[s.Length - 1];
-            //     }
-            // }
-            // AssetDatabase.Refresh();
 
-            foreach (var j in Directory.GetFiles("Assets/Assets/Game/spine/cards").Where(x => x.EndsWith("SkeletonData.asset")))
-            {
-                AssetImporter.GetAtPath(j).assetBundleName = "effect";
-            }
         }
 
         private async void Save()
         {
             // 下载皮肤图片
-            // await DownloadImage(id.value);
+            await DownloadImage();
 
             // 下载语音
-            Dictionary<Voice, List<string>> dict = new();
-            foreach (var i in voices)
-            {
-                dict.Add(i, new List<string>());
-                if (i.url1 != null && i.url1 != "") dict[i].Add(DownloadVoice(i.url1));
-                if (i.url2 != null && i.url2 != "") dict[i].Add(DownloadVoice(i.url2));
-            }
+            await DownloadVoice();
 
-            if (dynamic.value) await DownloadDynamic(id.value);
+            // 下载动态皮肤
+            if (dynamic.value) await DownloadDynamic();
 
             // 创建skin对象
-            var skin = new Model.Skin
+            var skin = new SkinAsset
             {
-                general_id = general_id.value,
+                generalId = general_id.value,
                 id = id.value,
                 name = _name.value,
-                dynamic = dynamic.value,
-                voice = voices.Select(x => new Model.Voice
-                {
-                    name = x.skill_name,
-                    url = dict[x]
-                }).ToList()
+                dynamic = dynamic.value
             };
-            Debug.Log(JsonConvert.SerializeObject(skin));
 
-            // 获得并更新皮肤列表
-            var skins = await Model.Skin.GetList();
+            // 更新皮肤列表
+            await SkinAsset.Init();
+            var skins = SkinAsset.GetList();
             skins.Add(skin);
-            var list = new Model.JsonList<Model.Skin>
-            {
-                list = skins.OrderBy(x => x.general_id).ThenBy(x => x.name == "界限突破" ? 0 : x.id).ToList()
-            };
-            string json = JsonConvert.SerializeObject(list);
+            skins = skins.OrderBy(x => x.generalId).ThenBy(x => x.name == "界限突破" ? 0 : x.id).ToList();
 
             // 写入文件
+            string json = JsonConvert.SerializeObject(skins);
             string filePath = "Assets/StreamingAssets/Json/skin.json";
             using (var writer = new StreamWriter(filePath)) writer.Write(json);
             Debug.Log("字符串已成功写入文件：" + filePath);
+
+            // 更新武将的皮肤信息
+            Model.General.Init(await WebRequest.Get(Url.JSON + "general.json"));
+            var generals = Model.General.GetList();
+            generals.Find(x => x.id == general_id.value).skins = skins
+                .Where(x => x.generalId == general_id.value)
+                .Select(x => x.id)
+                .ToList();
+
+            // 写入文件
+            json = JsonConvert.SerializeObject(generals);
+            filePath = "Assets/StreamingAssets/Json/general.json";
+            using (var writer = new StreamWriter(filePath)) writer.Write(json);
+            Debug.Log("字符串已成功写入文件：" + filePath);
+
+            AssetDatabase.Refresh();
+
         }
     }
 }

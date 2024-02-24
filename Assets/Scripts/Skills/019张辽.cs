@@ -28,12 +28,11 @@ public class 突袭 : Triggered
         }
     }
 
-    // public override bool AIAct => Game.Instance.players.FirstOrDefault(x => IsValidDest(x) && x.team != src.team) != null;
+    // public override bool AIAct => game.players.FirstOrDefault(x => IsValidDest(x) && x.team != src.team) != null;
 
     public override PlayDecision AIDecision() => new PlayDecision
     {
-        action = true,
-        dests = Game.Instance.AlivePlayers
+        dests = game.AlivePlayers
             .Where(x => IsValidDest(x) && x.team != src.team)
             .Take(drawCard.Count)
             .ToList()

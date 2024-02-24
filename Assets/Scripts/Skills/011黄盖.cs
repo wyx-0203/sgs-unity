@@ -15,12 +15,7 @@ public class 苦肉 : Active
         await new LoseHp(src, 1).Execute();
     }
 
-    public override PlayDecision AIDecision()
-    {
-        // if (src.hp < 2) return new();
-        // Timer.Instance.temp.cards = AI.GetRandomCard();
-        return base.AIDecision();
-    }
+    public override bool AIAct => src.hp >= 2;
 }
 
 public class 诈降 : Triggered
@@ -35,7 +30,7 @@ public class 诈降 : Triggered
 
         // 摸三张牌
         await new DrawCard(src, 3 * value).Execute();
-        if (TurnSystem.Instance.CurrentPlayer != src || TurnSystem.Instance.CurrentPhase != Phase.Play) return;
+        if (game.turnSystem.CurrentPlayer != src || game.turnSystem.CurrentPhase != Phase.Play) return;
 
         // 出杀次数加1
         src.shaCount -= value;
@@ -44,23 +39,4 @@ public class 诈降 : Triggered
         // 红杀不可闪避
         src.effects.Unmissable.Add(x => x.Item1 is 杀 && x.Item1.isRed, Duration.UntilPlayPhaseEnd);
     }
-
-    // bool SkillEvent<UpdateHp>.IsValid(UpdateHp arg)=>true;
-
-    // public async Task Invoke(UpdateHp arg)
-    // {
-    //     Execute();
-    //     int value = -(arg as UpdateHp).value;
-
-    //     // 摸三张牌
-    //     await new GetCardFromPile(src, 3 * value).Execute();
-    //     if (TurnSystem.Instance.CurrentPlayer != src || TurnSystem.Instance.CurrentPhase != Phase.Play) return;
-
-    //     // 出杀次数加1
-    //     src.shaCount -= value;
-    //     // 红杀无距离限制
-    //     src.effects.NoDistanceLimit.Add(x => x.Item1 is 杀 && x.Item1.isRed, LifeType.UntilPlayPhaseEnd);
-    //     // 红杀不可闪避
-    //     src.effects.Unmissable.Add(x => x.Item1 is 杀 && x.Item1.isRed, LifeType.UntilPlayPhaseEnd);
-    // }
 }

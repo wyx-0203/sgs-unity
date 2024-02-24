@@ -23,11 +23,19 @@ namespace GameCore
         protected abstract Task Invoke(PlayDecision decision);
         protected object arg;
 
-        public static async Task Invoke<T>(Func<Triggered, Predicate<T>> func, T arg, Action afterInvoke = null)
+        public static async Task Invoke<T>(Game game, Func<Triggered, Predicate<T>> func, T arg, Action afterInvoke = null)
         {
-            foreach (var i in Game.Instance.AlivePlayers.OrderBy(x => x.orderKey))
+            foreach (var i in game.AlivePlayers.OrderBy(x => x.orderKey))
             {
-                foreach (var triggered in i.skills.Select(x => x as Triggered).Where(x => x != null && x.IsValid && func(x)(arg)).ToList())
+                // var triggereds = i.skills.Where(x => x is Triggered t && t.IsValid && func(t)(arg)).Cast<Triggered>().ToList();
+                // // if(triggereds.Count==0) continue;
+                // // else if(triggereds.Count==1){
+                // //     // 
+                // // }
+                // while(triggereds.Count>0){
+                //     // 
+                // }
+                foreach (var triggered in i.skills.Where(x => x is Triggered t && t.IsValid && func(t)(arg)).Cast<Triggered>().ToList())
                 {
                     triggered.arg = arg;
                     PlayDecision decision = null;
@@ -84,7 +92,7 @@ namespace GameCore
         protected virtual bool BeforeDrawInDrawPhase(DrawCard drawCard) => false;
 
         public bool OnEveryGetCard(GetCard getCard) =>
-            // TurnSystem.Instance.round > 0&& 
+            // game.turnSystem.round > 0&& 
             getCard.player == src && OnGetCard(getCard);
         // || getCard is GetAnothersCard getCardFromElse && OnEveryGetAnothersCard(getCardFromElse));
 
@@ -241,5 +249,10 @@ namespace GameCore
         /// 死亡时调用
         /// </summary>
         protected virtual bool OnDie() => false;
+    }
+
+    public abstract class Awoken : Triggered
+    {
+        public override bool passive => true;
     }
 }

@@ -39,7 +39,7 @@ namespace Spine
     /// </summary>
     public class AtlasAttachmentLoader : AttachmentLoader
     {
-        private Atlas[] atlasArray;
+        private readonly Atlas[] atlasArray;
 
         public AtlasAttachmentLoader(params Atlas[] atlasArray)
         {

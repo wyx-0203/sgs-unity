@@ -1,8 +1,8 @@
 using GameCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using UnityEngine;
 
 public class 千驹 : Triggered, Durative
 {
@@ -25,7 +25,7 @@ public class 千驹 : Triggered, Durative
         OnRemove += () => src.subDst -= offset;
     }
 
-    protected override async Task Invoke(PlayDecision decision) => await Task.Yield();
+    protected override Task Invoke(PlayDecision decision) => Task.CompletedTask;
 }
 
 public class 倾袭 : Triggered
@@ -43,8 +43,8 @@ public class 倾袭 : Triggered
         var card = arg as Card;
         var dest = card.dest;
 
-        int count = Game.Instance.AlivePlayers.Where(x => src.DestInAttackRange(x)).Count();
-        count = Mathf.Min(count, src.weapon is null ? 2 : 4);
+        int count = game.AlivePlayers.Where(x => src.DestInAttackRange(x)).Count();
+        count = Math.Min(count, src.weapon is null ? 2 : 4);
 
         // Timer.Instance.hint = "弃置" + count + "张手牌，然后弃置其武器牌，或令此牌伤害+1";
         // Timer.Instance.isValidCard = x => x.isHandCard;
@@ -70,7 +70,7 @@ public class 倾袭 : Triggered
         {
             // 伤害+1
             card.AddDamageValue(dest, 1);
-            var judge = await Judge.Execute();
+            var judge = await Judge.Execute(src);
             // 不可闪避
             if (judge.isRed) card.unmissableDests.Add(dest);
         }

@@ -57,7 +57,7 @@ public class 解烦 : Active, Limited
         Execute(decision);
         var dest = decision.dests[0];
 
-        foreach (var i in Game.Instance.AlivePlayers.Where(x => x.DestInAttackRange(dest)).OrderBy(x => x.orderKey))
+        foreach (var i in game.AlivePlayers.Where(x => x.DestInAttackRange(dest)).OrderBy(x => x.orderKey))
         {
             // Timer.Instance.hint = "弃置一张武器牌，或令该角色摸一张牌";
             // Timer.Instance.isValidCard = x => x is Weapon;
@@ -72,14 +72,8 @@ public class 解烦 : Active, Limited
             else await new DrawCard(dest, 1).Execute();
         }
 
-        if (TurnSystem.Instance.round == 1) TurnSystem.Instance.AfterTurn += () => IsDone = false;
+        if (game.turnSystem.round == 1) game.turnSystem.AfterTurn += () => IsDone = false;
     }
 
-    public override PlayDecision AIDecision()
-    {
-        // 随机指定一名队友
-        // var dests = AI.GetDestByTeam(src.team).OrderBy(x => -Game.Instance.AlivePlayers.Where(y => y.DestInAttackRange(x)).Count());
-        // Timer.Instance.temp.dests.Add(dests.First());
-        return base.AIDecision();
-    }
+    public override PlayDecision AIDecision() => AIUseToTeammate();
 }

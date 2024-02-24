@@ -18,7 +18,6 @@
         "**/*.ico": true,
         "**/*.jpg": true,
         "**/*.jpeg": true,
-        // "**/*.png": true,
         "**/*.psd": true,
         "**/*.tga": true,
         "**/*.tif": true,
@@ -48,10 +47,10 @@
         "Obj/": true,
         "ProjectSettings/": true,
         "temp/": true,
-        "Temp/": true,
-        "*.csproj": true
+        "Temp/": true
     },
-    "omnisharp.useModernNet": false,
     "python.formatting.provider": "black",
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
+    "dotnet.defaultSolution": "sgs-unity.sln",
+    "omnisharp.useGlobalMono": "always"
 }

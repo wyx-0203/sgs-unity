@@ -18,12 +18,11 @@ public class 制衡 : Active
         await new DrawCard(src, count).Execute();
     }
 
-    public override PlayDecision AIDecision()
-    {
-        // 优先出牌
-        // if (TurnSystem.Instance.PlayDecisions.Count > 0 && AI.CertainValue) return new();
+    // 优先出牌
+    public override bool AIAct => src.handCards.All(x => !x.IsValid());
 
-        // Timer.Instance.temp.cards = AI.GetRandomCard();
-        return base.AIDecision();
-    }
+    public override PlayDecision AIDecision() => new PlayDecision
+    {
+        cards = src.handCards
+    };
 }

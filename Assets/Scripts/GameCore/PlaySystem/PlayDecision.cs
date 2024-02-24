@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -16,22 +17,28 @@ namespace GameCore
 
         public PlayDecision(Model.PlayDecision model, PlayQuery playerQuery)
         {
-            action = model.action;
-            if (!action) return;
-            cards = model.cards.Select(x => CardPile.Instance.cards[x]).ToList();
-            dests = model.dests.Select(x => Game.Instance.players[x]).ToList();
-            src = Game.Instance.players[model.player];
-            skill = src.FindSkill(model.skill);
-            virtualCard = Card.NewVirtualCard(model.virtualCard, src);
+            try
+            {
+                action = model.action;
+                if (!action) return;
 
-            var list = playerQuery.skillQuerys.ToList();
-            list.Add(playerQuery);
-            UnityEngine.Debug.Log(Newtonsoft.Json.JsonConvert.SerializeObject(model));
-            var pq = list.FirstOrDefault(x => x.skill == model.skill && IsValid(x));
-            if (pq is null) action = false;
+                var game = playerQuery.player.game;
+                cards = model.cards.Select(x => game.cardPile.cards[x]).ToList();
+                dests = model.dests.Select(x => game.players[x]).ToList();
+                src = game.players[model.player];
+                skill = src.FindSkill(model.skill);
+                virtualCard = Card.NewVirtualCard(model.virtualCard, src);
+
+                var list = playerQuery.skillQuerys.ToList();
+                list.Add(playerQuery);
+                // UnityEngine.Debug.Log(Newtonsoft.Json.JsonConvert.SerializeObject(model));
+                var pq = list.FirstOrDefault(x => x.skill == model.skill && IsValid(x));
+                if (pq is null) action = false;
+            }
+            catch (Exception) { action = false; }
         }
 
-        private bool IsValid(PlayQuery playQuery)
+        public bool IsValid(PlayQuery playQuery)
         {
             if (cards.Count < playQuery.minCard
                 || cards.Count > playQuery.maxCard

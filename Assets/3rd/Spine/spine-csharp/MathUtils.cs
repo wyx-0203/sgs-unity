@@ -46,7 +46,7 @@ namespace Spine
         const float DegFull = 360;
         const float RadToIndex = SIN_COUNT / RadFull;
         const float DegToIndex = SIN_COUNT / DegFull;
-        static float[] sin = new float[SIN_COUNT];
+        static readonly float[] sin = new float[SIN_COUNT];
 
         static MathUtils()
         {

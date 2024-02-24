@@ -634,8 +634,8 @@ namespace Spine.Unity.Modules.AttachmentTools
             return Sprite.Create(ar.GetMainTexture(), ar.GetUnityRect(), new Vector2(0.5f, 0.5f), pixelsPerUnit);
         }
 
-        static Dictionary<AtlasRegion, Texture2D> CachedRegionTextures = new Dictionary<AtlasRegion, Texture2D>();
-        static List<Texture2D> CachedRegionTexturesList = new List<Texture2D>();
+        static readonly Dictionary<AtlasRegion, Texture2D> CachedRegionTextures = new Dictionary<AtlasRegion, Texture2D>();
+        static readonly List<Texture2D> CachedRegionTexturesList = new List<Texture2D>();
 
         public static void ClearCache()
         {

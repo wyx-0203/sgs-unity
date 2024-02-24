@@ -74,6 +74,9 @@ crashlytics-build.properties
 
 **/.DS_Store
 /Assets/StreamingAssets/*
+/Assets/Assets/Skin/*
 
 /HybridCLRData
 /Assets/HybridCLRGenerate
+
+mono_crash.*

@@ -650,7 +650,7 @@ namespace Spine
         {
             private ExposedList<T> l;
             private int next;
-            private int ver;
+            private readonly int ver;
             private T current;
 
             internal Enumerator(ExposedList<T> l)

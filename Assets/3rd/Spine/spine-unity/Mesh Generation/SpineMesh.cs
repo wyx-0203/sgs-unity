@@ -158,9 +158,9 @@ namespace Spine.Unity
         [NonSerialized] float meshBoundsThickness;
         [NonSerialized] int submeshIndex = 0;
 
-        [NonSerialized] SkeletonClipping clipper = new SkeletonClipping();
+        [NonSerialized] readonly SkeletonClipping clipper = new SkeletonClipping();
         [NonSerialized] float[] tempVerts = new float[8];
-        [NonSerialized] int[] regionTriangles = { 0, 1, 2, 2, 3, 0 };
+        [NonSerialized] readonly int[] regionTriangles = { 0, 1, 2, 2, 3, 0 };
 
         #region Optional Buffers
         [NonSerialized] Vector3[] normals;
@@ -1342,10 +1342,10 @@ namespace Spine.Unity
         #endregion
 
         #region AttachmentRendering
-        static List<Vector3> AttachmentVerts = new List<Vector3>();
-        static List<Vector2> AttachmentUVs = new List<Vector2>();
-        static List<Color32> AttachmentColors32 = new List<Color32>();
-        static List<int> AttachmentIndices = new List<int>();
+        static readonly List<Vector3> AttachmentVerts = new List<Vector3>();
+        static readonly List<Vector2> AttachmentUVs = new List<Vector2>();
+        static readonly List<Color32> AttachmentColors32 = new List<Color32>();
+        static readonly List<int> AttachmentIndices = new List<int>();
 
         /// <summary>
         /// Fills mesh vertex data to render a RegionAttachment.</summary>

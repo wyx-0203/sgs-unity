@@ -1,4 +1,5 @@
 using GameCore;
+using System;
 using System.Threading.Tasks;
 using Phase = Model.Phase;
 
@@ -6,8 +7,8 @@ public class 龙吟 : Triggered
 {
     public override bool OnEveryUseCard(Card card) => card is 杀
         && src.cardsCount > 0
-        && card.src == TurnSystem.Instance.CurrentPlayer
-        && TurnSystem.Instance.CurrentPhase == Phase.Play;
+        && card.src == game.turnSystem.CurrentPlayer
+        && game.turnSystem.CurrentPhase == Phase.Play;
 
     public override int MaxCard => 1;
     public override int MinCard => 1;
@@ -27,7 +28,7 @@ public class 龙吟 : Triggered
         if (decision.cards[0].weight == card.weight) src.FindSkill<竭忠>().IsDone = false;
     }
 
-    public override bool AIAct => dest.team == src.team || (card.isRed && UnityEngine.Random.value < 0.5f);
+    public override bool AIAct => dest.team == src.team || (card.isRed && new Random().NextDouble() < 0.5f);
 
     // public override Decision AIDecision()
     // {

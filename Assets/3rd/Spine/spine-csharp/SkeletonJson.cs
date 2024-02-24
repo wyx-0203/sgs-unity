@@ -47,8 +47,8 @@ namespace Spine
     {
         public float Scale { get; set; }
 
-        private AttachmentLoader attachmentLoader;
-        private List<LinkedMesh> linkedMeshes = new List<LinkedMesh>();
+        private readonly AttachmentLoader attachmentLoader;
+        private readonly List<LinkedMesh> linkedMeshes = new List<LinkedMesh>();
 
         public SkeletonJson(params Atlas[] atlasArray)
             : this(new AtlasAttachmentLoader(atlasArray))

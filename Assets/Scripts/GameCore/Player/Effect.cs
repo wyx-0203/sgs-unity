@@ -19,38 +19,49 @@ namespace GameCore
 
     public class EffectCollection
     {
-        public EffectCollection(Player src) => this.src = src;
+        public EffectCollection(Player src)
+        {
+            this.src = src;
+            NoTimesLimit = new NoTimesLimit(src);
+            NoDistanceLimit = new NoDistanceLimit(src);
+            InvalidForDest = new InvalidForDest(src);
+            Unmissable = new Unmissable(src);
+            DisableCard = new DisableCard(src);
+            DisableSkill = new DisableSkill(src);
+            OffsetDamageValue = new OffsetDamageValue(src);
+            ExtraDestCount = new ExtraDestCount(src);
+        }
         private Player src;
+        // private Game game=>src.game;
 
         /// <summary>
         /// 无次数限制
         /// </summary>
-        public NoTimesLimit NoTimesLimit { get; } = new();
+        public NoTimesLimit NoTimesLimit { get; }
 
         /// <summary>
         /// 无距离限制
         /// </summary>
-        public NoDistanceLimit NoDistanceLimit { get; } = new();
+        public NoDistanceLimit NoDistanceLimit { get; }
 
         /// <summary>
         /// 卡牌对玩家无效
         /// </summary>
-        public InvalidForDest InvalidForDest { get; } = new();
-
+        public InvalidForDest InvalidForDest { get; }
         /// <summary>
         /// 不可响应
         /// </summary>
-        public Unmissable Unmissable { get; } = new();
+        public Unmissable Unmissable { get; }
 
         /// <summary>
         /// 禁用卡牌
         /// </summary>
-        public DisableCard DisableCard { get; } = new();
+        public DisableCard DisableCard { get; }
 
         /// <summary>
         /// 禁用技能
         /// </summary>
-        public DisableSkill DisableSkill { get; } = new();
+        public DisableSkill DisableSkill { get; }
 
         /// <summary>
         /// 需要两张牌响应 (杀、决斗)
@@ -65,23 +76,29 @@ namespace GameCore
         /// <summary>
         /// 伤害值偏移
         /// </summary>
-        public OffsetDamageValue OffsetDamageValue { get; } = new();
+        public OffsetDamageValue OffsetDamageValue { get; }
 
         /// <summary>
         /// 额外目标
         /// </summary>
-        public ExtraDestCount ExtraDestCount { get; } = new();
-
+        public ExtraDestCount ExtraDestCount { get; }
         public void NoAttactRangeLimit(Duration lifeType)
         {
             src.attackRange += 20;
-            if (lifeType == Duration.UntilPlayPhaseEnd) TurnSystem.Instance.AfterPlay += () => src.attackRange -= 20;
-            else if (lifeType == Duration.UntilTurnEnd) TurnSystem.Instance.AfterTurn += () => src.attackRange -= 20;
+            if (lifeType == Duration.UntilPlayPhaseEnd) src.game.turnSystem.AfterPlay += () => src.attackRange -= 20;
+            else if (lifeType == Duration.UntilTurnEnd) src.game.turnSystem.AfterTurn += () => src.attackRange -= 20;
         }
     }
 
     public class Effect<T>
     {
+        public Effect(Player player)
+        {
+            this.player = player;
+        }
+        private Player player;
+        protected Game game => player.game;
+
         private Predicate<T> effects;
         private List<Predicate<T>> onceEffects = new();
         private Dictionary<Predicate<T>, IExecutable> skills = new();
@@ -91,8 +108,8 @@ namespace GameCore
         {
             effects += predicate;
             if (once) onceEffects.Add(predicate);
-            if (lifeType == Duration.UntilPlayPhaseEnd) TurnSystem.Instance.AfterPlay += () => effects -= predicate;
-            else if (lifeType == Duration.UntilTurnEnd) TurnSystem.Instance.AfterTurn += () => effects -= predicate;
+            if (lifeType == Duration.UntilPlayPhaseEnd) game.turnSystem.AfterPlay += () => effects -= predicate;
+            else if (lifeType == Duration.UntilTurnEnd) game.turnSystem.AfterTurn += () => effects -= predicate;
         }
 
         public void Add(Predicate<T> predicate, IExecutable skill)
@@ -134,6 +151,8 @@ namespace GameCore
 
     public class Effect<T1, T2> : Effect<Tuple<T1, T2>>
     {
+        public Effect(Player player) : base(player) { }
+
         public void Add(Func<T1, T2, bool> predicate, Duration lifeType, bool once = false)
         {
             Add(x => predicate(x.Item1, x.Item2), lifeType, once);
@@ -149,6 +168,12 @@ namespace GameCore
 
     public class EffectInt<T>
     {
+        public EffectInt(Player player)
+        {
+            game = player.game;
+        }
+        protected Game game;
+
         private Func<T, int> effects;
         private List<Func<T, int>> onceEffects = new();
         private Dictionary<Func<T, int>, IExecutable> skills = new();
@@ -158,8 +183,8 @@ namespace GameCore
         {
             effects += predicate;
             if (once) onceEffects.Add(predicate);
-            if (lifeType == Duration.UntilPlayPhaseEnd) TurnSystem.Instance.AfterPlay += () => effects -= predicate;
-            else if (lifeType == Duration.UntilTurnEnd) TurnSystem.Instance.AfterTurn += () => effects -= predicate;
+            if (lifeType == Duration.UntilPlayPhaseEnd) game.turnSystem.AfterPlay += () => effects -= predicate;
+            else if (lifeType == Duration.UntilTurnEnd) game.turnSystem.AfterTurn += () => effects -= predicate;
         }
 
         public void Add(Func<T, int> predicate, IExecutable skill)
@@ -184,7 +209,7 @@ namespace GameCore
                 if (t == 0) continue;
                 if (onceEffects.Contains(i))
                 {
-                    Util.Print("onceEffects.Contains(i)");
+                    // Util.Print("onceEffects.Contains(i)");
                     effects -= i;
                     onceEffects.Remove(i);
                 }
@@ -202,11 +227,26 @@ namespace GameCore
         }
     }
 
-    public class NoTimesLimit : Effect<Card> { }
+    public class NoTimesLimit : Effect<Card>
+    {
+        public NoTimesLimit(Player player) : base(player)
+        {
+        }
+    }
 
-    public class InvalidForDest : Effect<Card> { }
+    public class InvalidForDest : Effect<Card>
+    {
+        public InvalidForDest(Player player) : base(player)
+        {
+        }
+    }
 
-    public class NoDistanceLimit : Effect<Card, Player> { }
+    public class NoDistanceLimit : Effect<Card, Player>
+    {
+        public NoDistanceLimit(Player player) : base(player)
+        {
+        }
+    }
     // {
     //     public void Add(Func<Card, Player, bool> predicate, Duration lifeType, bool once = false)
     //     {
@@ -221,7 +261,12 @@ namespace GameCore
     //     public bool Invoke(Card card, Player player) => Invoke(new Tuple<Card, Player>(card, player));
     // }
 
-    public class Unmissable : Effect<Card, Player> { }
+    public class Unmissable : Effect<Card, Player>
+    {
+        public Unmissable(Player player) : base(player)
+        {
+        }
+    }
     // {
     //     public void Add(Func<Card, Player, bool> predicate, Duration lifeType, bool once = false)
     //     {
@@ -236,15 +281,35 @@ namespace GameCore
     //     public bool Invoke(Card card, Player player) => Invoke(new Tuple<Card, Player>(card, player));
     // }
 
-    public class DisableCard : Effect<Card> { }
+    public class DisableCard : Effect<Card>
+    {
+        public DisableCard(Player player) : base(player)
+        {
+        }
+    }
 
-    public class DisableSkill : Effect<Skill> { }
+    public class DisableSkill : Effect<Skill>
+    {
+        public DisableSkill(Player player) : base(player)
+        {
+        }
+    }
 
     // public class DestNeedsDoubleResponse : Effect<Card, Player> { }
 
     // public class SrcNeedsDoubleSha : Effect<决斗> { }
 
-    public class OffsetDamageValue : EffectInt<Damage> { }
+    public class OffsetDamageValue : EffectInt<Damage>
+    {
+        public OffsetDamageValue(Player player) : base(player)
+        {
+        }
+    }
 
-    public class ExtraDestCount : EffectInt<Card> { }
+    public class ExtraDestCount : EffectInt<Card>
+    {
+        public ExtraDestCount(Player player) : base(player)
+        {
+        }
+    }
 }

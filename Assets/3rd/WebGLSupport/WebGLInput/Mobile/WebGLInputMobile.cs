@@ -23,13 +23,13 @@ namespace WebGLSupport
         /// <returns></returns>
         public static int WebGLInputMobileRegister(Action<int> OnTouchEnd) { return 0; }
 
-        public static void WebGLInputMobileOnFocusOut(int id, Action<int> OnFocusOut) {}
+        public static void WebGLInputMobileOnFocusOut(int id, Action<int> OnFocusOut) { }
 #endif
     }
 
     public class WebGLInputMobile : MonoBehaviour, IPointerDownHandler
     {
-        static Dictionary<int, WebGLInputMobile> instances = new Dictionary<int, WebGLInputMobile>();
+        static readonly Dictionary<int, WebGLInputMobile> instances = new Dictionary<int, WebGLInputMobile>();
 
         int id = -1;
 

@@ -1,22 +1,53 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
+// using UnityEngine;
 
 namespace GameCore
 {
-    public class AI : Singleton<AI>
+    public class AI
     {
+        public AI(Game game)
+        {
+            this.game = game;
+        }
+        private Game game;
+
         private List<string> haveDamageSkill = new List<string> { "曹操", "法正", "夏侯惇", "荀彧" };
 
-        private Player player => playRequest.player;
-        public PlayQuery playRequest { get; set; }
+        private Player player => playQuery.player;
+        public PlayQuery playQuery { get; set; }
 
         public List<Player> GetValidDest()
         {
-            if (playRequest.minDest == 0) return new();
-            var dests = Game.Instance.AlivePlayers.Where(x => playRequest.isValidDest(x)).OrderBy(GetDefensePower);
-            return dests.Take(playRequest.minDest).ToList();
+            if (playQuery.minDest == 0) return new();
+            var dests = game.AlivePlayers.Where(x => playQuery.isValidDest(x)).OrderBy(GetDefensePower);
+            return dests.Take(playQuery.minDest).ToList();
         }
+
+        public List<Player> GetValidDestForCard(Card card)
+        {
+            // if (playQuery.minDest == 0) return new();
+            var dests = game.AlivePlayers.Where(x => playQuery.isValidDestForCard(x, card));
+            switch (card)
+            {
+                case 铁索连环:
+                    dests = dests.Where(x => x.team != playQuery.player.team ^ x.locked).Shuffle();
+                    break;
+                default:
+                    dests = dests.Where(x => x.team != playQuery.player.team).OrderBy(GetDefensePower);
+                    break;
+            }
+            return dests.Take(playQuery.maxDestForCard(card)).ToList();
+        }
+
+        // public List<Player> GetValidDestForSkill(Skill skill)
+        // {
+        //     var playQuery = this.playQuery.skillQuerys.First(x => x.skill == skill.name);
+        //     if (playQuery.minDest == 0) return new();
+        //     var dests = game.AlivePlayers.Where(x => playQuery.isValidDest(x)).OrderBy(GetDefensePower);
+        //     return dests.Take(playQuery.minDest).ToList();
+        // }
 
         public int GetDefensePower(Player dest)
         {
@@ -46,28 +77,31 @@ namespace GameCore
 
         public List<Card> GetRandomCard()
         {
-            int maxCard = playRequest.maxCard;
-            int minCard = playRequest.minCard;
+            int maxCard = playQuery.maxCard;
+            int minCard = playQuery.minCard;
+            // int count=new Random
 
-            var cards = player.cards.Where(x => playRequest.isValidCard(x)).ToList();
-            if (cards.Count < minCard) return cards;
+            // return player.cards.Where(x=>playQuery.isValidCard(x))
 
-            int count = Mathf.Min(cards.Count, maxCard);
-            if (count > minCard) count = Random.Range(minCard, count);
+            var cards = player.cards.Where(x => playQuery.isValidCard(x));
+            if (cards.Count() < minCard) return cards.ToList();
 
-            return Shuffle(cards, count);
+            int count = Math.Min(cards.Count(), maxCard);
+            if (count > minCard) count = new Random().Next(minCard, count + 1);
+
+            return cards.Shuffle(count);
         }
 
         public IEnumerable<Player> GetDestByTeam(Model.Team team) =>
             // var card = Timer.Instance.temp.cards.FirstOrDefault();
             // var isValidDest = Timer.Instance.startPlay.isValidDest;
-            Game.Instance.AlivePlayers.Where(x => playRequest.isValidDest(x)).OrderBy(x => (x.team == team ? -1 : 1) * Random.Range(0, 8));
-        // Game.Instance.AlivePlayers.Where(x=>x.team==team&&isValidDest(x,))
+            game.AlivePlayers.Where(x => playQuery.isValidDest(x) && x.team == team).Shuffle();
+        // game.AlivePlayers.Where(x=>x.team==team&&isValidDest(x,))
 
 
         // public static IEnumerable<Player> GetAllDests()
         // {
-        //     return Game.Instance.AlivePlayers.Where(x => Timer.Instance.isValidDest(x));
+        //     return game.AlivePlayers.Where(x => Timer.Instance.isValidDest(x));
         // }
 
         public PlayDecision TryAction()
@@ -76,25 +110,26 @@ namespace GameCore
 
             var cards = GetRandomCard();
             var dests = GetValidDest();
+            // Debug.Log($"card.count: {cards.Count}");
 
-            if (cards.Count < playRequest.minCard || dests.Count < playRequest.minDest) return new();
+            if (cards.Count < playQuery.minCard || dests.Count < playQuery.minDest) return new();
             else return new PlayDecision { action = true, cards = cards, dests = dests };
         }
 
-        private const float certainX = 1f;
-        public static bool CertainValue => Random.value < certainX;
+        private const double certainX = 1d;
+        public static bool CertainValue => new Random().NextDouble() < certainX;
 
-        public static List<T> Shuffle<T>(List<T> list, int count = 1)
-        {
-            // 随机取一个元素与第i个元素交换
-            for (int i = 0; i < count; i++)
-            {
-                int t = Random.Range(i, list.Count);
-                var item = list[i];
-                list[i] = list[t];
-                list[t] = item;
-            }
-            return list.GetRange(0, count);
-        }
+        // public static List<T> Shuffle<T>(List<T> list, int count = 1)
+        // {
+        //     // 随机取一个元素与第i个元素交换
+        //     for (int i = 0; i < count; i++)
+        //     {
+        //         int t = Random.Range(i, list.Count);
+        //         var item = list[i];
+        //         list[i] = list[t];
+        //         list[t] = item;
+        //     }
+        //     return list.GetRange(0, count);
+        // }
     }
 }

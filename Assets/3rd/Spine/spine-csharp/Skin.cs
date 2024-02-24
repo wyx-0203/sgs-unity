@@ -40,7 +40,7 @@ namespace Spine
     public class Skin
     {
         internal string name;
-        private Dictionary<AttachmentKeyTuple, Attachment> attachments =
+        private readonly Dictionary<AttachmentKeyTuple, Attachment> attachments =
             new Dictionary<AttachmentKeyTuple, Attachment>(AttachmentKeyTupleComparer.Instance);
 
         public string Name { get { return name; } }

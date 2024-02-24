@@ -117,10 +117,10 @@ namespace SharpJson
             set;
         }
 
-        char[] json;
+        readonly char[] json;
         int index = 0;
         bool success = true;
-        char[] stringBuffer = new char[4096];
+        readonly char[] stringBuffer = new char[4096];
 
         public Lexer(string text)
         {

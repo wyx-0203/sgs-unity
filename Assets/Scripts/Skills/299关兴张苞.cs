@@ -33,8 +33,8 @@ public class 父魂 : Skill.Multi
         private bool invoked;
 
         protected override bool OnMakeDamage(Damage damaged) => damaged.SrcCard == card
-            && TurnSystem.Instance.CurrentPlayer == src
-            && TurnSystem.Instance.CurrentPhase == Phase.Play
+            && game.turnSystem.CurrentPlayer == src
+            && game.turnSystem.CurrentPhase == Phase.Play
             && !invoked;
 
         protected override async Task Invoke(PlayDecision decision)
@@ -42,10 +42,10 @@ public class 父魂 : Skill.Multi
             Execute();
             invoked = true;
             await new AddSkill(src, new List<string> { "武圣", "咆哮" }).Execute();
-            TurnSystem.Instance.AfterTurn += () =>
+            game.turnSystem.AfterTurn += async () =>
             {
                 invoked = false;
-                new RemoveSkill(src, new List<string> { "武圣", "咆哮" }).Execute().Wait();
+                await new RemoveSkill(src, new List<string> { "武圣", "咆哮" }).Execute();
             };
         }
     }

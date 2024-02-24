@@ -15,13 +15,14 @@ namespace GameCore
             this.player = player;
         }
 
+        protected Game game => player.game;
 
         public abstract Task Execute();
 
         public void SendMessage(Message message)
         {
             message.player = player.position;
-            EventSystem.Instance.Send(message);
+            game.eventSystem.SendToClient(message);
         }
 
         // protected abstract ActionMessage GetMessage();
@@ -30,7 +31,7 @@ namespace GameCore
     /// <summary>
     /// 获得牌
     /// </summary>
-    public abstract class GetCard : PlayerAction
+    public class GetCard : PlayerAction
     {
         /// <summary>
         /// 获得牌
@@ -45,6 +46,21 @@ namespace GameCore
             // 获得牌
             player.handCards.AddRange(Cards);
             foreach (var i in Cards) i.src = player;
+        }
+
+        public override async Task Execute()
+        {
+            Add();
+
+            SendMessage(new Model.DrawCard
+            {
+                cards = Cards.Select(x => x.id).ToList(),
+                handCardsCount = player.handCardsCount,
+                pileCount = game.cardPile.pileCount
+            });
+
+            // 执行获得牌后事件
+            await Triggered.Invoke(game, x => x.OnEveryGetCard, this);
         }
     }
 
@@ -63,25 +79,27 @@ namespace GameCore
 
         public override async Task Execute()
         {
-            await Triggered.Invoke(x => x.BeforeEveryDrawCard, this);
-            // await EventSystem.Instance.OnGetCardFromPile(this);
+            await Triggered.Invoke(game, x => x.BeforeEveryDrawCard, this);
+            // await game.eventSystem.OnGetCardFromPile(this);
 
             if (Count == 0) return;
-            Util.Print(player + "摸了" + Count + "张牌");
+            // Util.Print(player + "摸了" + Count + "张牌");
             // 摸牌
-            for (int i = 0; i < Count; i++) Cards.Add(await CardPile.Instance.Pop());
+            for (int i = 0; i < Count; i++) Cards.Add(await game.cardPile.Pop());
             // 获得牌
             Add();
 
             SendMessage(new Model.DrawCard
             {
                 cards = Cards.Select(x => x.id).ToList(),
-                handCardsCount = player.handCardsCount
+                text = $"{player}摸了{Count}张牌",
+                handCardsCount = player.handCardsCount,
+                pileCount = game.cardPile.pileCount
             });
 
             // 执行获得牌后事件
-            await Triggered.Invoke(x => x.OnEveryDrawCard, this);
-            // await EventSystem.Instance.AfterGetCard(this);
+            await Triggered.Invoke(game, x => x.OnEveryDrawCard, this);
+            // await game.eventSystem.AfterGetCard(this);
             // await base.Execute();
 
             // 鲁肃
@@ -101,16 +119,17 @@ namespace GameCore
         {
             if (Cards.Count == 0) return;
 
-            Util.Print(player + "从弃牌堆获得了" + string.Join("、", Cards));
-            foreach (var i in Cards) CardPile.Instance.DiscardPile.Remove(i);
+            // Util.Print(player + "从弃牌堆获得了" + string.Join("、", Cards));
+            foreach (var i in Cards) game.cardPile.DiscardPile.Remove(i);
             // await base.Execute();
             Add();
             SendMessage(new Model.GetDiscard
             {
                 cards = Cards.Select(x => x.id).ToList(),
+                text = $"{player}从弃牌堆获得了{string.Join("、", Cards)}",
                 handCardsCount = player.handCardsCount
             });
-            await Triggered.Invoke(x => x.OnEveryGetCard, this);
+            await Triggered.Invoke(game, x => x.OnEveryGetCard, this);
         }
     }
 
@@ -123,15 +142,16 @@ namespace GameCore
             var card = Cards[0];
 
             (card as DelayScheme).RemoveToJudgeArea();
-            Util.Print(player + "获得了" + string.Join("、", Cards));
+            // Util.Print(player + "获得了" + string.Join("、", Cards));
             // await base.Execute();
             Add();
             SendMessage(new Model.GetCardInJudgeArea
             {
                 cards = Cards.Select(x => x.id).ToList(),
+                text = $"{player}获得了{string.Join("、", Cards)}",
                 handCardsCount = player.handCardsCount
             });
-            await Triggered.Invoke(x => x.OnEveryGetCard, this);
+            await Triggered.Invoke(game, x => x.OnEveryGetCard, this);
         }
     }
 
@@ -140,19 +160,28 @@ namespace GameCore
     /// </summary>
     public class LoseCard : PlayerAction
     {
-        /// <summary>
-        /// 失去牌
-        /// </summary>
         public LoseCard(Player player, List<Card> cards) : base(player) => Cards = cards;
         public List<Card> Cards { get; private set; }
+        public List<Card> HandCards { get; } = new();
+        public List<Equipment> Equipments { get; } = new();
 
         public async Task Remove()
         {
             foreach (var card in Cards)
             {
-                if (player.handCards.Contains(card)) player.handCards.Remove(card);
-                else if (card is Equipment equipage) await equipage.Remove();
+                if (player.handCards.Contains(card))
+                {
+                    player.handCards.Remove(card);
+                    HandCards.Add(card);
+                }
+                else if (card is Equipment equipment)
+                {
+                    await equipment.Remove();
+                    Equipments.Add(equipment);
+                }
             }
+            // HandCards=Cards.Where(x=>player.handCards.Contains(x)).ToList();
+            // player.handCards.RemoveAll(x=>HandCards.Contains(x));
         }
 
         public override async Task Execute()
@@ -166,8 +195,8 @@ namespace GameCore
             });
 
             // 执行失去牌后事件
-            await Triggered.Invoke(x => x.OnEveryLoseCard, this);
-            // await EventSystem.Instance.AfterLoseCard(this);
+            await Triggered.Invoke(game, x => x.OnEveryLoseCard, this);
+            // await game.eventSystem.AfterLoseCard(this);
         }
     }
 
@@ -184,19 +213,20 @@ namespace GameCore
         public override async Task Execute()
         {
             if (Cards is null || Cards.Count == 0) return;
-            Util.Print(player + "弃置了" + string.Join("、", Cards));
+            // Util.Print(player + "弃置了" + string.Join("、", Cards));
 
-            CardPile.Instance.AddToDiscard(Cards, player);
+            game.cardPile.AddToDiscard(Cards, player);
 
             // await base.Execute();
             await Remove();
             SendMessage(new Model.LoseCard
             {
                 cards = Cards.Select(x => x.id).ToList(),
+                text = $"{player}弃置了{string.Join("、", Cards)}",
                 handCardsCount = player.handCardsCount
             });
 
-            await Triggered.Invoke(x => x.OnEveryDiscard, this);
+            await Triggered.Invoke(game, x => x.OnEveryDiscard, this);
         }
     }
 
@@ -227,18 +257,18 @@ namespace GameCore
             // // if (player.hp < 1 && value < 0) await NearDeath();
 
             // // 改变体力后事件
-            // // await EventSystem.Instance.OnUpdateHp(this);
+            // // await game.eventSystem.OnUpdateHp(this);
             // await Triggered.Invoke(x => x.OnEveryUpdateHp, this);
         }
 
         protected async Task NearDeath()
         {
             if (player.hp > 0) return;
-            Util.Print(player + "进入濒死状态");
+            // Util.Print(player + "进入濒死状态");
 
-            foreach (var i in Game.Instance.AlivePlayers.OrderBy(x => x.orderKey))
+            foreach (var i in game.AlivePlayers.OrderBy(x => x.orderKey))
             {
-                await Triggered.Invoke(x => x.OnEveryNearDeath, player);
+                await Triggered.Invoke(game, x => x.OnEveryNearDeath, player);
                 if (player.hp >= 1) return;
                 while (await 桃.Call(i, player))
                 {
@@ -266,7 +296,8 @@ namespace GameCore
         {
             SendMessage(new Model.Die
             {
-                damageSrc = DamageSrc != null ? DamageSrc.position : -1
+                damageSrc = DamageSrc != null ? DamageSrc.position : -1,
+                text = $"{player}阵亡。"
             });
 
             // 清除技能
@@ -280,17 +311,17 @@ namespace GameCore
             player.next.last = player.last;
             player.last.next = player.next;
             player.teammates.Remove(player);
-            Game.Instance.AlivePlayers.Remove(player);
+            game.AlivePlayers.Remove(player);
 
             // 弃置所有牌
             await new Discard(player, player.cards.ToList()).Execute();
 
             // 清空判定区
-            CardPile.Instance.AddToDiscard(player.JudgeCards.Cast<Card>().ToList(), player);
+            game.cardPile.AddToDiscard(player.JudgeCards.Cast<Card>().ToList(), player);
             foreach (var i in player.JudgeCards.ToList()) i.RemoveToJudgeArea();
 
             // 执行当前模式的阵亡时事件
-            await Mode.Instance.OnPlayerDie(player, DamageSrc);
+            await game.mode.OnPlayerDie(player, DamageSrc);
             throw new PlayerDie();
         }
     }
@@ -314,7 +345,7 @@ namespace GameCore
                 if (value == 0) return;
             }
 
-            Util.Print(player + "回复了" + value + "点体力");
+            // Util.Print(player + "回复了" + value + "点体力");
 
             // 回复体力
             // await base.Execute();
@@ -323,12 +354,13 @@ namespace GameCore
             {
                 value = value,
                 hp = player.hp,
-                handCardsLimit = player.handCardsCount
+                handCardsLimit = player.handCardsCount,
+                text = $"{player}回复了{value}点体力"
             });
 
             // 执行事件
-            await Triggered.Invoke(x => x.OnEveryRecover, this);
-            // await EventSystem.Instance.
+            await Triggered.Invoke(game, x => x.OnEveryRecover, this);
+            // await game.eventSystem.
         }
     }
 
@@ -339,16 +371,17 @@ namespace GameCore
 
         public override async Task Execute()
         {
-            Util.Print(player + "失去了" + value + "点体力");
+            // Util.Print(player + "失去了" + value + "点体力");
             SetValue();
             SendMessage(new Model.LoseHp
             {
                 value = -value,
                 hp = player.hp,
-                handCardsLimit = player.handCardsCount
+                handCardsLimit = player.handCardsCount,
+                text = $"{player}失去了{value}点体力"
             });
             await NearDeath();
-            await Triggered.Invoke(x => x.OnEveryLoseHp, this);
+            await Triggered.Invoke(game, x => x.OnEveryLoseHp, this);
         }
     }
 
@@ -375,7 +408,7 @@ namespace GameCore
         public override async Task Execute()
         {
             // 受到伤害时
-            try { await Triggered.Invoke(x => x.BeforeEveryDamaged, this); }
+            try { await Triggered.Invoke(game, x => x.BeforeEveryDamaged, this); }
             catch (PreventDamage) { return; }
 
             // 藤甲 义绝
@@ -388,7 +421,7 @@ namespace GameCore
                 value = 1;
                 bysz.Execute();
             }
-            Util.Print(player + "受到了" + value + "点伤害");
+            // Util.Print(player + "受到了" + value + "点伤害");
 
             // 解锁
             if (type != DamageType.Normal && player.locked)
@@ -397,21 +430,23 @@ namespace GameCore
                 if (!isConDucted) conduct = true;
             }
 
+            // 受到伤害
+            // await base.Execute();
+            SetValue();
+            SendMessage(new Model.Damage
+            {
+                value = -value,
+                hp = player.hp,
+                handCardsLimit = player.handCardsCount,
+                type = type,
+                src = Src != null ? Src.position : -1,
+                text = $"{player}受到了{value}点伤害"
+            });
+
             try
             {
-                // 受到伤害
-                // await base.Execute();
-                SetValue();
-                SendMessage(new Model.Damage
-                {
-                    value = -value,
-                    hp = player.hp,
-                    handCardsLimit = player.handCardsCount,
-                    type = type,
-                    src = Src != null ? Src.position : -1
-                });
                 await NearDeath();
-                await Triggered.Invoke(x => x.OnEveryDamaged, this);
+                await Triggered.Invoke(game, x => x.OnEveryDamaged, this);
             }
             catch (PlayerDie) { }
 
@@ -424,7 +459,7 @@ namespace GameCore
         /// </summary>
         private async Task Conduct()
         {
-            foreach (var i in Game.Instance.AlivePlayers.Where(x => x.locked).OrderBy(x => x.orderKey))
+            foreach (var i in game.AlivePlayers.Where(x => x.locked).OrderBy(x => x.orderKey))
             {
                 var damaged = new Damage(i, Src, SrcCard, value, type);
                 damaged.isConDucted = true;
@@ -460,33 +495,43 @@ namespace GameCore
 
             // 获得牌
             Add();
-            Util.Print(player + "获得了" + dest + "的" + Cards.Count + "张牌");
+            // Util.Print(player + "获得了" + dest + "的" + Cards.Count + "张牌");
             SendMessage(new Model.GetAnothersCard
             {
                 cards = Cards.Select(x => x.id).ToList(),
                 dest = dest.position,
                 handCardsCount = player.handCardsCount,
-                known = known
+                known = known,
+                text = $"{player}获得了{dest}的{Cards.Count}张牌"
             });
 
             // 执行获得牌后事件
-            await Triggered.Invoke(x => x.OnEveryLoseCard, loseCard);
-            await Triggered.Invoke(x => x.OnEveryGetAnothersCard, this);
+            await Triggered.Invoke(game, x => x.OnEveryLoseCard, loseCard);
+            await Triggered.Invoke(game, x => x.OnEveryGetAnothersCard, this);
         }
     }
 
     /// <summary>
     /// 判定
     /// </summary>
-    public class Judge
+    public class Judge : PlayerAction
     {
-        public static async Task<Card> Execute()
-        {
-            var JudgeCard = await CardPile.Instance.Pop();
-            CardPile.Instance.AddToDiscard(JudgeCard, null);
-            Util.Print("判定结果为" + JudgeCard);
+        public Judge(Player player) : base(player) { }
 
-            return JudgeCard;
+        public Card judgeCard;
+
+        public override async Task Execute()
+        {
+            judgeCard = await game.cardPile.Pop();
+            game.cardPile.AddToDiscard(judgeCard, null);
+            // Util.Print("判定结果为" + judgeCard);
+        }
+
+        public static async Task<Card> Execute(Player player)
+        {
+            var judge = new Judge(player);
+            await judge.Execute();
+            return judge.judgeCard;
         }
     }
 
@@ -501,14 +546,15 @@ namespace GameCore
         }
         public List<Card> Cards { get; protected set; }
 
-        public override async Task Execute()
+        public override Task Execute()
         {
-            await Task.Yield();
-            Util.Print(player + "展示了" + string.Join("、", Cards));
+            // Util.Print(player + "展示了" + string.Join("、", Cards));
             SendMessage(new Model.ShowCard
             {
                 cards = Cards.Select(x => x.id).ToList(),
+                text = $"{player}展示了{string.Join("、", Cards)}"
             });
+            return Task.CompletedTask;
         }
     }
 
@@ -524,7 +570,7 @@ namespace GameCore
 
         public bool ByDamage { get; private set; }
 
-        public override async Task Execute()
+        public override Task Execute()
         {
             player.locked = !player.locked;
             SendMessage(new Model.SetLock
@@ -532,7 +578,7 @@ namespace GameCore
                 value = player.locked,
                 byDamage = ByDamage
             });
-            await Task.Yield();
+            return Task.CompletedTask;
         }
     }
 
@@ -547,25 +593,15 @@ namespace GameCore
         }
         public List<string> Skills { get; protected set; }
 
-        public override async Task Execute()
+        public override Task Execute()
         {
             foreach (var i in Skills) Skill.New(i, player);
             SendMessage(new Model.UpdateSkill
             {
-                skills = player.GetSkillModels()
+                skills = player.skills.Select(x => x.name).Distinct().ToList()
             });
-            await Task.Yield();
+            return Task.CompletedTask;
         }
-
-
-        // public void Remove()
-        // {
-        //     foreach (var i in Skills)
-        //     {
-        //         var skill = player.FindSkill(i);
-        //         if (skill != null) skill.Remove();
-        //     }
-        // }
     }
 
     /// <summary>
@@ -579,24 +615,14 @@ namespace GameCore
         }
         public List<string> Skills { get; protected set; }
 
-        // public async Task Execute()
-        // {
-        //     foreach (var i in Skills) await Skill.New(i, player);
-        //     SendMessage();
-        // }
-
-        public override async Task Execute()
+        public override Task Execute()
         {
-            await Task.Yield();
-            foreach (var i in Skills)
-            {
-                var skill = player.FindSkill(i);
-                if (skill != null) skill.Remove();
-            }
+            foreach (var i in player.skills.Where(x => Skills.Contains(x.name)).ToList()) i.Remove();
             SendMessage(new Model.UpdateSkill
             {
-                skills = player.GetSkillModels()
+                skills = player.skills.Select(x => x.name).Distinct().ToList()
             });
+            return Task.CompletedTask;
         }
     }
 
@@ -632,8 +658,8 @@ namespace GameCore
             {
                 value = player.isTurnOver
             });
-            // await EventSystem.Instance.OnTurnOver(this);
-            await Triggered.Invoke(x => x.OnEveryTurnOver, this);
+            // await game.eventSystem.OnTurnOver(this);
+            await Triggered.Invoke(game, x => x.OnEveryTurnOver, this);
         }
 
     }

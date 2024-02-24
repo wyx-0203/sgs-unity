@@ -227,7 +227,7 @@ namespace Spine.Unity
         [SerializeField] protected Spine.Unity.MeshGenerator meshGenerator = new MeshGenerator();
         public Spine.Unity.MeshGenerator MeshGenerator { get { return this.meshGenerator; } }
         DoubleBuffered<Spine.Unity.MeshRendererBuffers.SmartMesh> meshBuffers;
-        SkeletonRendererInstruction currentInstructions = new SkeletonRendererInstruction();
+        readonly SkeletonRendererInstruction currentInstructions = new SkeletonRendererInstruction();
 
         public Mesh GetLastMesh()
         {

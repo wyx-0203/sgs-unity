@@ -1,13 +1,18 @@
 using Model;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
-using UnityEngine;
 
 namespace GameCore
 {
-    public class BanPick : Singleton<BanPick>
+    public class BanPick
     {
+        public BanPick(Game game)
+        {
+            this.game = game;
+        }
+        private Game game;
         public List<General> Pool { get; private set; }
         public Dictionary<Team, List<General>> TeamPool { get; } = new Dictionary<Team, List<General>>
         {
@@ -17,15 +22,16 @@ namespace GameCore
 
         public async Task Run()
         {
-            var generalList = await General.GetList();
-            Pool = AI.Shuffle(generalList, 18);
+            var generalList = General.GetList();
+            // Pool = AI.Shuffle(generalList, 18);
+            Pool = generalList.Shuffle(18);
 #if UNITY_EDITOR
             // string name = "夏侯惇";
             // General self = generalList.Find(x => x.name == name);
             // if (!Pool.Contains(self)) Pool[11] = self;
 #endif
 
-            EventSystem.Instance.Send(new StartBanPick { generals = Pool.Select(x => x.id).ToList() });
+            game.eventSystem.SendToClient(new StartBanPick { generals = Pool.Select(x => x.id).ToList() });
             await Ban(Team.BLUE);
             await Ban(Team.RED);
 
@@ -38,64 +44,77 @@ namespace GameCore
 
             await SelfPick();
 
-            EventSystem.Instance.Send(new FinishBanPick());
+            game.eventSystem.SendToClient(new FinishBanPick { startFightTime = System.DateTime.Now });
         }
 
-        private Player GetTeamPlayer(Team team) => Game.Instance.AlivePlayers.Find(x => x.team == team);
+        private Player GetTeamPlayer(Team team) => game.AlivePlayers.Find(x => x.team == team);
 
-        private TaskCompletionSource<Model.BanpickMessage> tcs;
+        // private TaskCompletionSource<Model.BanpickMessage> tcs;
         private int second = 15;
 
         private async Task Ban(Team team)
         {
-            BpAutoResult(team);
-            EventSystem.Instance.Send(new BanQuery
+            game.eventSystem.SendToClient(new BanQuery
             {
                 player = GetTeamPlayer(team).position,
                 second = second
             });
+
+            var cts = new CancellationTokenSource();
+            BpAutoResult(team, cts.Token);
+
             var general = await WaitBp();
+            cts.Cancel();
+            cts.Dispose();
             Pool.Remove(general);
 
-            EventSystem.Instance.Send(new OnBan
+
+            game.eventSystem.SendToClient(new OnBan
             {
                 player = GetTeamPlayer(team).position,
                 general = general.id
             });
-            Delay.StopAll();
         }
 
         private async Task Pick(Team team)
         {
-            BpAutoResult(team);
-            EventSystem.Instance.Send(new PickQuery
+            game.eventSystem.SendToClient(new PickQuery
             {
                 player = GetTeamPlayer(team).position,
                 second = second
             });
+
+            var cts = new CancellationTokenSource();
+            BpAutoResult(team, cts.Token);
+
             var general = await WaitBp();
+            cts.Cancel();
+            cts.Dispose();
+
             Pool.Remove(general);
             TeamPool[team].Add(general);
 
-            EventSystem.Instance.Send(new OnPick
+            game.eventSystem.SendToClient(new OnPick
             {
                 player = GetTeamPlayer(team).position,
                 general = general.id
             });
-            Delay.StopAll();
         }
 
         private async Task<General> WaitBp()
         {
-            var decision = await EventSystem.Instance.PopDecision() as GeneralDecision;
+            var decision = await game.eventSystem.PopDecision() as GeneralDecision;
             return General.Get(decision.general);
         }
 
-        private async void BpAutoResult(Team team)
+        private async void BpAutoResult(Team team, CancellationToken cancellationToken)
         {
             var player = GetTeamPlayer(team);
-            if (!await new Delay(player.isAI ? 0.1f : second).Run()) return;
-            EventSystem.Instance.PushDecision(new GeneralDecision
+
+            try { await Delay.Run(player.isAI ? 100 : second * 1000, cancellationToken); }
+            catch (TaskCanceledException) { return; }
+
+            game.eventSystem.PushDecision(new GeneralDecision
             {
                 player = player.position,
                 general = Pool.First().id
@@ -105,33 +124,40 @@ namespace GameCore
         private async Task SelfPick()
         {
             second = 25;
-            EventSystem.Instance.Send(new StartSelfPick { second = second });
-            SelfAutoResult();
+            game.eventSystem.SendToClient(new StartSelfPick { second = second });
+
+            var cts = new CancellationTokenSource();
+            SelfAutoResult(cts.Token);
             AIAutoResult();
+
             await WaitSelfPick();
-            Delay.StopAll();
+            cts.Cancel();
+            cts.Dispose();
         }
+
         public async Task WaitSelfPick()
         {
-            for (int i = 0; i < Game.Instance.AlivePlayers.Count; i++)
+            for (int i = 0; i < game.AlivePlayers.Count; i++)
             {
-                var decision = await EventSystem.Instance.PopDecision() as GeneralDecision;
-                var player = Game.Instance.players[decision.player];
+                var decision = await game.eventSystem.PopDecision() as GeneralDecision;
+                var player = game.players[decision.player];
                 generals.Add(player, General.Get(decision.general));
             }
         }
 
         public Dictionary<Player, General> generals { get; } = new();
 
-        private async void SelfAutoResult()
+        private async void SelfAutoResult(CancellationToken cancellationToken)
         {
-            if (!await new Delay(second).Run()) return;
+            // if (!await new Delay(second).Run()) return;
+            try { await Delay.Run(second * 1000, cancellationToken); }
+            catch (TaskCanceledException) { return; }
 
-            var player = Game.Instance.AlivePlayers.Find(x => !x.isAI);
+            var player = game.AlivePlayers.Find(x => !x.isAI);
             int t = 0;
             foreach (var i in player.teammates)
             {
-                EventSystem.Instance.PushDecision(new GeneralDecision
+                game.eventSystem.PushDecision(new GeneralDecision
                 {
                     player = i.position,
                     general = TeamPool[player.team][t++].id
@@ -141,13 +167,16 @@ namespace GameCore
 
         private async void AIAutoResult()
         {
-            var player = Game.Instance.AlivePlayers.Find(x => x.isAI);
+            var player = game.AlivePlayers.Find(x => x.isAI);
             if (player is null) return;
-            if (!await new Delay(0.1f).Run()) return;
+            // if (!await new Delay(0.1f).Run()) return;
+
+            await Delay.Run(100);
+
             int t = 0;
             foreach (var i in player.teammates)
             {
-                EventSystem.Instance.PushDecision(new GeneralDecision
+                game.eventSystem.PushDecision(new GeneralDecision
                 {
                     player = i.position,
                     general = TeamPool[player.team][t++].id

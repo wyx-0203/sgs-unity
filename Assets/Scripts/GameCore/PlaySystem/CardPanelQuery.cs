@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace GameCore
@@ -9,6 +10,7 @@ namespace GameCore
     {
         public Player player { get; private set; }
         public Player dest { get; private set; }
+        private Game game => player.game;
 
         public string title { get; set; }
         public string hint { get; set; }
@@ -26,11 +28,11 @@ namespace GameCore
         }
 
         public CardPanelQuery(Player player, Player dest, string title, string hint, bool judgeArea)
-            : this(player, dest, title, hint, dest.cards.Union(judgeArea ? dest.JudgeCards : new()).ToList()) { }
+            : this(player, dest, title, hint, (judgeArea ? dest.cards.Union(dest.JudgeCards) : dest.cards).ToList()) { }
 
         public async Task<List<Card>> Run()
         {
-            EventSystem.Instance.Send(new Model.CardPanelQuery
+            game.eventSystem.SendToClient(new Model.CardPanelQuery
             {
                 player = player.position,
                 dest = dest.position,
@@ -44,10 +46,14 @@ namespace GameCore
                 judgeCards = cards.Where(x => dest.JudgeCards.Contains(x)).Select(x => x.id).ToList(),
             });
 
-            AutoDecision();
-            var decisionCards = await WaitAction();
+            var cts = new CancellationTokenSource();
+            AutoDecision(cts.Token);
 
-            EventSystem.Instance.Send(new Model.FinishCardPanel { player = player.position });
+            var decisionCards = await WaitAction();
+            cts.Cancel();
+            cts.Dispose();
+
+            game.eventSystem.SendToClient(new Model.FinishCardPanel { player = player.position });
 
             if (decisionCards.Count == 0) decisionCards.Add(cards[0]);
 
@@ -63,15 +69,15 @@ namespace GameCore
 
         public async Task<List<Card>> WaitAction()
         {
-            var message = await EventSystem.Instance.PopDecision() as Model.CardDecision;
-            Delay.StopAll();
-            return message.cards.Select(x => CardPile.Instance.cards[x]).ToList();
+            var message = await game.eventSystem.PopDecision() as Model.CardDecision;
+            var cards = message?.cards ?? new();
+            return cards.Select(x => game.cardPile.cards[x]).ToList();
         }
 
-        private async void AutoDecision()
+        private async void AutoDecision(CancellationToken cancellationToken)
         {
             // PlayDecision decision = null;
-            List<Card> cards1 = new();
+            Card card;
             // switch (MCTS.Instance.state)
             // {
             //     case MCTS.State.Disable:
@@ -85,17 +91,20 @@ namespace GameCore
             // else 
             if (player.isAI)
             {
-                await new Delay(1f).Run();
-                cards1 = AI.Shuffle(cards);
+                await Delay.Run(1000);
+                card = cards.GetRandomOne();
                 // decision = new PlayDecision { action = true, cards = AI.Shuffle(cards) };
                 // SendResult(AI.Shuffle(cards), true);
                 // decision = await MonteCarloTreeSearch.Instance.Run();
             }
             else
             {
-                if (!await new Delay(second).Run()) return;
+                // if (!await new Delay(second).Run()) return;
+                try { await Delay.Run(second * 1000, cancellationToken); }
+                catch (TaskCanceledException) { return; }
+                card = cards.GetRandomOne();
             }
-            EventSystem.Instance.Send(new Model.CardDecision { cards = cards1.Select(x => x.id).ToList() });
+            game.eventSystem.PushDecision(new Model.CardDecision { cards = new List<int> { card.id } });
             // break;
             // if (players[0].isSelf)
             // {

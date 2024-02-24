@@ -32,6 +32,7 @@ namespace GameCore
         /// 使用者
         /// </summary>
         public Player src { get; set; }
+        public Game game => src.game;
         /// <summary>
         /// 所有目标
         /// </summary>
@@ -61,37 +62,38 @@ namespace GameCore
             // 使用者失去此手牌
             if (!isConvert)
             {
-                if (this is not Equipment) CardPile.Instance.AddToDiscard(this, src);
+                if (this is not Equipment) game.cardPile.AddToDiscard(this, src);
                 await new LoseCard(src, new List<Card> { this }).Execute();
             }
             else if (PrimiTives.Count != 0)
             {
-                CardPile.Instance.AddToDiscard(PrimiTives, src);
+                game.cardPile.AddToDiscard(PrimiTives, src);
                 await new LoseCard(src, PrimiTives).Execute();
             }
 
             string destStr = dests.Count > 0 ? "对" + string.Join("、", dests) : "";
-            Util.Print(src + destStr + "使用了" + this);
-            EventSystem.Instance.Send(new Model.UseCard
+            // Util.Print(src + destStr + "使用了" + this);
+            game.eventSystem.SendToClient(new Model.UseCard
             {
                 player = src.position,
                 dests = dests.Select(x => x.position).ToList(),
                 id = id,
                 name = name,
                 type = type,
-                gender = src.general.gender
+                gender = src.general.gender,
+                text = src + destStr + "使用了" + this
             });
             src.effects.ExtraDestCount.TryExecute();
             src.effects.NoTimesLimit.TryExecute();
 
             // 指定目标时
-            await Triggered.Invoke(x => x.OnEveryUseCard, this);
+            await Triggered.Invoke(game, x => x.OnEveryUseCard, this);
 
             // 指定目标后
             foreach (var i in dests)
             {
                 dest = i;
-                await Triggered.Invoke(x => x.AfterEveryUseCard, this);
+                await Triggered.Invoke(game, x => x.AfterEveryUseCard, this);
             }
 
             await AfterInit();
@@ -107,11 +109,11 @@ namespace GameCore
             }
         }
 
-        protected virtual async Task BeforeUse() { await Task.Yield(); }
+        protected virtual Task BeforeUse() => Task.CompletedTask;
 
-        protected virtual async Task AfterInit() { await Task.Yield(); }
+        protected virtual Task AfterInit() => Task.CompletedTask;
 
-        protected virtual async Task UseForeachDest() { await Task.Yield(); }
+        protected virtual Task UseForeachDest() => Task.CompletedTask;
 
 
 
@@ -121,28 +123,29 @@ namespace GameCore
         public async Task Put(Player player)
         {
             src = player;
-            Util.Print(player + "打出了" + this);
+            // Util.Print(player + "打出了" + this);
 
             // 使用者失去此手牌
             if (!isConvert)
             {
-                if (!(this is Equipment)) CardPile.Instance.AddToDiscard(this, src);
+                if (!(this is Equipment)) game.cardPile.AddToDiscard(this, src);
                 await new LoseCard(player, new List<Card> { this }).Execute();
             }
             else if (PrimiTives.Count != 0)
             {
-                CardPile.Instance.AddToDiscard(PrimiTives, src);
+                game.cardPile.AddToDiscard(PrimiTives, src);
                 await new LoseCard(player, PrimiTives).Execute();
             }
 
-            EventSystem.Instance.Send(new Model.UseCard
+            game.eventSystem.SendToClient(new Model.UseCard
             {
                 player = src.position,
-                dests = dests.Select(x => x.position).ToList(),
+                dests = new(),
                 id = id,
                 name = name,
                 type = type,
-                gender = src.general.gender
+                gender = src.general.gender,
+                text = $"{player}打出了{this}"
             });
         }
 
@@ -169,7 +172,7 @@ namespace GameCore
             if (primitives is null || primitives.Count == 0) return new T
             {
                 // id为同类牌的相反数
-                id = -CardPile.Instance.cards.First(x => x is T).id,
+                id = -src.game.cardPile.cards.First(x => x is T).id,
                 src = src,
                 isConvert = true
             };
@@ -214,7 +217,7 @@ namespace GameCore
         {
             if (virtualId >= 0) return null;
 
-            string cardName = CardPile.Instance.cards[-virtualId].name;
+            string cardName = src.game.cardPile.cards[-virtualId].name;
             var type = Type.GetType($"GameCore.{cardName}");
             var method = typeof(Card).GetMethod("Convert").MakeGenericMethod(new Type[] { type });
             return method.Invoke(null, new object[] { src, null }) as Card;
@@ -227,7 +230,7 @@ namespace GameCore
         public List<Card> InDiscardPile()
         {
             List<Card> cards = isConvert ? PrimiTives : new List<Card> { this };
-            return cards.Where(x => CardPile.Instance.DiscardPile.Contains(x)).ToList();
+            return cards.Where(x => game.cardPile.DiscardPile.Contains(x)).ToList();
         }
 
         protected int[] damageOffset;

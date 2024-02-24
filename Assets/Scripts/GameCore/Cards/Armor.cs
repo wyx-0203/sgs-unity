@@ -20,7 +20,7 @@ namespace GameCore
             }.Run()).action) return false;
 
             Execute();
-            var card = await Judge.Execute();
+            var card = await Judge.Execute(src);
             return card.suit == "红桃" || card.suit == "方片";
         }
     }

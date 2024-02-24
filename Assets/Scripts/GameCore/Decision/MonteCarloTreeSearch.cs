@@ -50,7 +50,7 @@
 
 //         public async Task<Decision> Run(State _state)
 //         {
-//             root = new Node { N = 1, team = TurnSystem.Instance.CurrentPlayer.team };
+//             root = new Node { N = 1, team = game.turnSystem.CurrentPlayer.team };
 //             state = _state;
 //             Expand(root);
 //             if (root.childs.Count == 1) return root.childs[0].decisionMessage.ToDecision();
@@ -68,7 +68,7 @@
 //                 // Debug.Log(555);
 
 //                 state = State.Restoring;
-//                 await Game.Instance.Init();
+//                 await game.Init();
 //                 // Debug.Log(666);
 
 //                 // Decision.list = new List<Decision.Message>(_decisionList);
@@ -76,7 +76,7 @@
 //                 // Decision.list = decisions.Select(decision => new Decision
 //                 // {
 //                 //     action = decision.action,
-//                 //     cards = decision.cards.Select(x => CardPile.Instance.cards[x.id]).ToList(),
+//                 //     cards = decision.cards.Select(x => game.cardPile.cards[x.id]).ToList(),
 //                 //     dests = decision.dests.Select(x => SgsMain.Instance.players[x.position]).ToList(),
 //                 //     skill = decision.skill != null ? SgsMain.Instance.players[decision.skill.Src.position].FindSkill(decision.skill.Name) : null,
 //                 //     converted = decision.converted,
@@ -90,16 +90,16 @@
 //                 // Debug.Log("finish select\n" + Util.GetGameInfo());
 
 //                 // Debug.Log("before restore");
-//                 Game.Instance.Run();
+//                 game.Run();
 //                 while (state == State.Restoring) await Task.Yield();
 //                 // Debug.Log("finish restore\n" + Util.GetGameInfo());
 
 //                 // Decision next = null;
 //                 if (node.N != 0)
 //                 {
-//                     // if (CardPile.Instance.PileCount == 0)
+//                     // if (game.cardPile.PileCount == 0)
 //                     // {
-//                     //     var discards = AI.Shuffle(CardPile.Instance.DiscardPile, CardPile.Instance.DiscardPile.Count);
+//                     //     var discards = AI.Shuffle(game.cardPile.DiscardPile, game.cardPile.DiscardPile.Count);
 //                     //     next = new Decision { cards = discards };
 //                     //     node.AddChild(new Node { decision = next });
 //                     //     node = node.childs[0];
@@ -180,7 +180,7 @@
 //             {
 //                 case State.WaitShuffle:
 
-//                     var discards = AI.Shuffle(CardPile.Instance.DiscardPile, CardPile.Instance.DiscardPile.Count);
+//                     var discards = AI.Shuffle(game.cardPile.DiscardPile, game.cardPile.DiscardPile.Count);
 //                     var decision = new Decision { cards = discards };
 //                     node.AddChild(new Node { decisionMessage = decision.ToMessage() });
 //                     break;
@@ -225,7 +225,7 @@
 //                     {
 //                         temp.cards.Add(i);
 //                         // temp.
-//                         dests = Game.Instance.AlivePlayers.Where(x => Timer.Instance.isValidDest(x)).ToList();
+//                         dests = game.AlivePlayers.Where(x => Timer.Instance.isValidDest(x)).ToList();
 //                         int minDest = Timer.Instance.minDest();
 //                         int maxDest = Mathf.Min(Timer.Instance.maxDest(), dests.Count);
 
@@ -282,7 +282,7 @@
 //         private float Evaluate(Node node)
 //         {
 //             float sum = 0;
-//             foreach (var i in Game.Instance.AlivePlayers)
+//             foreach (var i in game.AlivePlayers)
 //             {
 //                 float value = i.handCardsCount;
 //                 value += i.Equipments.Values.Count * 1.5f;
@@ -312,7 +312,7 @@
 //                 if (Timer.Instance.type == Timer.Type.WXKJ) temp.src = temp.cards.FirstOrDefault()?.src;
 //                 // temp.converted = (temp.skill as Converted)?.Convert(temp.cards);
 
-//                 dests = Game.Instance.AlivePlayers.Where(x => Timer.Instance.isValidDest(x)).ToList();
+//                 dests = game.AlivePlayers.Where(x => Timer.Instance.isValidDest(x)).ToList();
 //                 int minDest = Timer.Instance.minDest();
 //                 int maxDest = Mathf.Min(Timer.Instance.maxDest(), dests.Count);
 
@@ -367,7 +367,7 @@
 //             foreach (var i in dests)
 //             {
 //                 temp.dests.Add(i);
-//                 var secondDests = Game.Instance.AlivePlayers.Where(x => Timer.Instance.isValidDest(x) && x != i);
+//                 var secondDests = game.AlivePlayers.Where(x => Timer.Instance.isValidDest(x) && x != i);
 
 //                 foreach (var j in secondDests)
 //                 {
@@ -389,9 +389,9 @@
 //         {
 //             state = Config.Instance.EnableMCTS && Room.Instance.IsSingle ? State.Ready : State.Disable;
 
-//             _sgsMain = Game.Instance;
-//             _cardPile = CardPile.Instance;
-//             _turnSystem = TurnSystem.Instance;
+//             _sgsMain = game;
+//             _cardPile = game.cardPile;
+//             _turnSystem = game.turnSystem;
 //             _timer = Timer.Instance;
 //             _cardPanel = CardPanel.Instance;
 //             _decisionList = Decision.List.Instance;

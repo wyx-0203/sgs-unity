@@ -6,7 +6,7 @@ namespace WebGLSupport.Detail
 {
     public class RebuildChecker
     {
-        IInputField input;
+        readonly IInputField input;
 
         string beforeString;
         int beforeCaretPosition;
@@ -26,7 +26,7 @@ namespace WebGLSupport.Detail
             // any not same
             if (beforeString != input.text)
             {
-                if(debug) Debug.Log(string.Format("beforeString : {0} != {1}", beforeString, input.text));
+                if (debug) Debug.Log(string.Format("beforeString : {0} != {1}", beforeString, input.text));
                 beforeString = input.text;
                 res = true;
             }

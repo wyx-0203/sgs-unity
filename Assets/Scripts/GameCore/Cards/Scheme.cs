@@ -17,12 +17,12 @@ namespace GameCore
 
         private bool isCountered;
 
-        public static async Task<bool> Call(Card card)
+        public static async Task<bool> Call(Card scheme)
         {
-            var team = TurnSystem.Instance.CurrentPlayer.team;
-            var decision = await WaitPlay(card, team);
+            var team = scheme.game.turnSystem.CurrentPlayer.team;
+            var decision = await WaitPlay(scheme, team);
             // var decision = await Timer.Instance.Run
-            if (!decision.action) decision = await WaitPlay(card, ~team);
+            if (!decision.action) decision = await WaitPlay(scheme, ~team);
 
             if (decision.action)
             {
@@ -35,21 +35,21 @@ namespace GameCore
 
         private static async Task<PlayDecision> WaitPlay(Card scheme, Team team) => await new PlayQuery
         {
-            player = Game.Instance.AlivePlayers.Find(x => x.team == team),
+            player = scheme.game.AlivePlayers.Find(x => x.team == team),
             hint = $"{scheme}即将对{scheme.dest}生效，是否使用无懈可击？",
             isValidCard = x => x is 无懈可击,
             type = Model.SinglePlayQuery.Type.WXKJ,
             aiAct = scheme.src.team != team ^ scheme is DelayScheme,
             defaultAI = () =>
             {
-                foreach (var i in Game.Instance.AlivePlayers.Where(x => x.team == team))
+                foreach (var i in scheme.game.AlivePlayers.Where(x => x.team == team))
                 {
                     var card = i.FindCard<无懈可击>();
                     if (card is null) continue;
 
-                    return new PlayDecision { src = i, action = true, cards = new List<Card> { card } };
+                    return new PlayDecision { src = i, cards = new List<Card> { card } };
                 }
-                // var player=Game.Instance.AlivePlayers.Find(x=>x.team==team&&x.FindCard<无懈可击>() is Card card1);
+                // var player=game.AlivePlayers.Find(x=>x.team==team&&x.FindCard<无懈可击>() is Card card1);
                 // return player!=null?new PlayDecision{action=true,cards=new List<Card>{card1}}
                 return new();
             }
@@ -58,7 +58,8 @@ namespace GameCore
         protected override async Task AfterInit()
         {
             // if (!MCTS.Instance.isRunning) 
-            await new Delay(0.2f).Run();
+            // await new Delay(0.2f).Run();
+            await Delay.Run(200);
             isCountered = await Call(this);
         }
 
@@ -83,7 +84,7 @@ namespace GameCore
             if (cards[0] is DelayScheme delayScheme && dest.JudgeCards.Contains(delayScheme))
             {
                 delayScheme.RemoveToJudgeArea();
-                CardPile.Instance.AddToDiscard(cards, dest);
+                game.cardPile.AddToDiscard(cards, dest);
             }
             else await new Discard(dest, cards).Execute();
         }
@@ -156,11 +157,11 @@ namespace GameCore
             name = "南蛮入侵";
         }
 
-        protected override async Task BeforeUse()
+        protected override Task BeforeUse()
         {
-            dests = new List<Player>(Game.Instance.AlivePlayers);
+            dests = new List<Player>(game.AlivePlayers);
             dests.Remove(src);
-            await Task.Yield();
+            return Task.CompletedTask;
         }
 
         protected override async Task UseForeachDest()
@@ -178,11 +179,11 @@ namespace GameCore
             name = "万箭齐发";
         }
 
-        protected override async Task BeforeUse()
+        protected override Task BeforeUse()
         {
-            dests = new List<Player>(Game.Instance.AlivePlayers);
+            dests = new List<Player>(game.AlivePlayers);
             dests.Remove(src);
-            await Task.Yield();
+            return Task.CompletedTask;
         }
 
         protected override async Task UseForeachDest()
@@ -200,16 +201,16 @@ namespace GameCore
             name = "桃园结义";
         }
 
-        protected override async Task BeforeUse()
+        protected override Task BeforeUse()
         {
-            dests = new List<Player>(Game.Instance.AlivePlayers);
-            await Task.Yield();
+            dests = new List<Player>(game.AlivePlayers);
+            return Task.CompletedTask;
         }
 
-        protected override async Task AfterInit()
+        protected override Task AfterInit()
         {
             dests.RemoveAll(x => x.hp == x.hpLimit);
-            await Task.Yield();
+            return Task.CompletedTask;
         }
 
         protected override async Task UseForeachDest()
@@ -226,10 +227,10 @@ namespace GameCore
             name = "无中生有";
         }
 
-        protected override async Task BeforeUse()
+        protected override Task BeforeUse()
         {
             if (dests.Count == 0) dests.Add(src);
-            await Task.Yield();
+            return Task.CompletedTask;
         }
 
         protected override async Task UseForeachDest()
@@ -289,7 +290,7 @@ namespace GameCore
         public override int MinDest() => 1;
         public override bool IsValidDest(Player player) => player != src
             && player.weapon != null
-            && Game.Instance.AlivePlayers.Find(x => 杀.UseSha(player, x)) != null;
+            && game.AlivePlayers.Find(x => 杀.UseSha(player, x)) != null;
     }
 
     public class 铁索连环 : Scheme
@@ -304,8 +305,9 @@ namespace GameCore
         {
             if (dests.Count > 0) return;
 
-            Util.Print(src + "重铸了" + this);
-            CardPile.Instance.AddToDiscard(this, src);
+            // Util.Print(src + "重铸了" + this);
+            game.eventSystem.SendToClient(new Model.Message { text = $"{src}重铸了{this}" });
+            game.cardPile.AddToDiscard(this, src);
             await new LoseCard(src, new List<Card> { this }).Execute();
             await new DrawCard(src, 1).Execute();
             throw new CancelUseCard();

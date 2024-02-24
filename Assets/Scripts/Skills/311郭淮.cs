@@ -10,9 +10,9 @@ public class 精策 : Triggered
 
     protected override bool OnUseCard(Card card)
     {
-        if (TurnSystem.Instance.CurrentPlayer == src)
+        if (game.turnSystem.CurrentPlayer == src)
         {
-            if (cards.Count == 0) TurnSystem.Instance.AfterTurn += () => cards.Clear();
+            if (cards.Count == 0) game.turnSystem.AfterTurn += () => cards.Clear();
             if (!card.isConvert) cards.Add(card);
             else cards.AddRange(card.PrimiTives);
         }
@@ -26,7 +26,7 @@ public class 精策 : Triggered
         {
             // Timer.Instance.hint = "点击确定执行一个额外的摸牌阶段，点击取消执行出牌阶段";
             // Timer.Instance.defaultAI = () => new Decision { action = AI.CertainValue };
-            TurnSystem.Instance.ExtraPhase.Add((await new PlayQuery
+            game.turnSystem.ExtraPhase.Add((await new PlayQuery
             {
                 player = src,
                 hint = "点击确定执行一个额外的摸牌阶段，点击取消执行出牌阶段",
@@ -36,8 +36,8 @@ public class 精策 : Triggered
         // 全部执行
         else
         {
-            TurnSystem.Instance.ExtraPhase.Add(Phase.Get);
-            TurnSystem.Instance.ExtraPhase.Add(Phase.Play);
+            game.turnSystem.ExtraPhase.Add(Phase.Get);
+            game.turnSystem.ExtraPhase.Add(Phase.Play);
         }
     }
 

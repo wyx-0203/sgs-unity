@@ -15,9 +15,9 @@ namespace WebGLSupport
     /// </summary>
     class WrappedTMPInputField : IInputField
     {
-        TMP_InputField input;
-        RebuildChecker checker;
-        Coroutine delayedGraphicRebuild;
+        readonly TMP_InputField input;
+        readonly RebuildChecker checker;
+        readonly Coroutine delayedGraphicRebuild;
 
         public bool ReadOnly { get { return input.readOnly; } }
 

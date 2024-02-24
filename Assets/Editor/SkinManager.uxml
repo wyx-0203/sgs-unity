@@ -4,7 +4,7 @@
         <ui:Foldout text="基本信息" name="basic" class="title" style="-unity-font-style: normal;">
             <uie:IntegerField label="武将编号" value="0" name="general_id" binding-path="hp_limit" />
             <uie:IntegerField label="编号" value="0" name="id" binding-path="id" is-delayed="true" />
-            <ui:TextField picking-mode="Ignore" label="名称" name="name" binding-path="_name" is-delayed="true" style="height: auto; -unity-text-align: middle-left; font-size: 12px; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0;" />
+            <ui:TextField picking-mode="Ignore" label="名称" name="name" binding-path="name_" is-delayed="true" style="height: auto; -unity-text-align: middle-left; font-size: 12px; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0;" />
             <ui:Toggle label="动态" name="dynamic" binding-path="dynamic" />
         </ui:Foldout>
         <ui:Foldout text="技能" name="voices" style="margin-top: 10px; flex-grow: 1;" />

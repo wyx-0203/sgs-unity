@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Type = Model.SinglePlayQuery.Type;
 
@@ -15,6 +16,8 @@ namespace GameCore
         /// 出牌玩家
         /// </summary>
         public Player player;
+
+        private Game game => player.game;
         /// <summary>
         /// 出牌类型
         /// </summary>
@@ -34,7 +37,7 @@ namespace GameCore
         /// <summary>
         /// 技能名
         /// </summary>
-        public string skill { get; set; } = "";
+        public string skill { get; set; }
 
         /// <summary>
         /// 最多可选牌数
@@ -80,10 +83,12 @@ namespace GameCore
         /// </summary>
         public Predicate<Card> isValidVirtualCard = x => true;
 
+        // public PlayQuery
+
         /// <summary>
         /// AI行动时的决策
         /// </summary>
-        public Func<PlayDecision> defaultAI = AI.Instance.TryAction;
+        public Func<PlayDecision> defaultAI;
         /// <summary>
         /// AI是否行动
         /// </summary>
@@ -93,17 +98,14 @@ namespace GameCore
 
         private Model.SinglePlayQuery ToMessage()
         {
-            var players = Game.Instance.AlivePlayers;
+            var players = game.AlivePlayers;
 
             // 初始化基本信息
             var message = new Model.SinglePlayQuery
             {
-                // player = player.position,
                 type = type,
                 hint = hint,
                 skillName = skill,
-                // refusable = refusable,
-                // second = second,
 
                 maxCard = maxCard,
                 minCard = minCard,
@@ -193,16 +195,19 @@ namespace GameCore
             // var b = Newtonsoft.Json.JsonConvert.DeserializeObject(a, typeof(Model.PlayQuery));
             // a = Newtonsoft.Json.JsonConvert.SerializeObject(b);
             // UnityEngine.Debug.Log(a);
-            EventSystem.Instance.Send(message);
+            game.eventSystem.SendToClient(message);
 
             // 自动出牌
-            AutoDecision();
+            var cts = new CancellationTokenSource();
+            AutoDecision(cts.Token);
 
             // 等待玩家或AI决策
             var decision = await WaitDecision();
+            cts.Cancel();
+            cts.Dispose();
 
             // 发送完成出牌消息
-            EventSystem.Instance.Send(new Model.FinishPlay
+            game.eventSystem.SendToClient(new Model.FinishPlay
             {
                 player = player.position,
                 type = type
@@ -223,7 +228,7 @@ namespace GameCore
                     }
                     if (minDest > 0)
                     {
-                        decision.dests = Game.Instance.AlivePlayers
+                        decision.dests = game.AlivePlayers
                             .Where(x => isValidDest(x))
                             .Take(minDest)
                             .ToList();
@@ -250,12 +255,12 @@ namespace GameCore
 
         private async Task<PlayDecision> WaitDecision()
         {
-            var message = await EventSystem.Instance.PopDecision() as Model.PlayDecision;
-            Delay.StopAll();
+            var message = await game.eventSystem.PopDecision() as Model.PlayDecision;
+            // Delay.StopAll();
             return new PlayDecision(message, this);
         }
 
-        protected async void AutoDecision()
+        protected async void AutoDecision(CancellationToken cancellationToken)
         {
             PlayDecision decision = null;
             // switch (MCTS.Instance.state)
@@ -263,13 +268,25 @@ namespace GameCore
             //     case MCTS.State.Disable:
             if (player.isAI)
             {
-                await new Delay(1f).Run();
-                AI.Instance.playRequest = this;
-                decision = aiAct ? defaultAI() : new PlayDecision();
+                await Delay.Run(1000);
+                // await new Delay(1f).Run();
+                // decision = aiAct ? defaultAI() : new PlayDecision();
+                if (aiAct)
+                {
+                    game.ai.playQuery = this;
+                    defaultAI ??= game.ai.TryAction;
+                    decision = defaultAI();
+                    decision.action = true;
+                }
+                else decision = new();
             }
             else
             {
-                if (!await new Delay(second).Run()) return;
+                // if (!await new Delay(second).Run()) return;
+
+                try { await Delay.Run(second * 1000, cancellationToken); }
+                catch (TaskCanceledException) { return; }
+
                 decision = new PlayDecision();
             }
             //         break;
@@ -294,8 +311,11 @@ namespace GameCore
             // }
 
             // SendDecision(decision);
-            if (decision.src is null) decision.src = player;
-            EventSystem.Instance.PushDecision(decision.ToMessage());
+            decision.src ??= player;
+            var message = decision.ToMessage();
+            // if(message.player==-1) message.player=player.position;
+            message.skill ??= skill;
+            game.eventSystem.PushDecision(message);
         }
     }
 
@@ -380,7 +400,7 @@ namespace GameCore
 
     //     // public Timer()
     //     // {
-    //     //     EventSystem.Instance.AddEvent<Model.PlayDecision>(OnMessage);
+    //     //     game.eventSystem.AddEvent<Model.PlayDecision>(OnMessage);
     //     // }
 
     //     /// <summary>
@@ -398,7 +418,7 @@ namespace GameCore
     //         // {
     //         //     // int index = validdests.IndexOf(dests);
     //         //     var firsts = validdests[cards.IndexOf(x)];
-    //         //     return firsts.Select(first => Game.Instance.players.Where(p => condition.isValidSecondDest(p, first, x)));
+    //         //     return firsts.Select(first => game.players.Where(p => condition.isValidSecondDest(p, first, x)));
     //         // });
     //         // if (condition.maxCard == 1 && condition.minCard == 1)
     //         // {
@@ -428,7 +448,7 @@ namespace GameCore
     //             .Select(x => x.ToStartPlay().ToMessage())
     //             .ToList();
 
-    //         EventSystem.Instance.Send(message);
+    //         game.eventSystem.Send(message);
     //         // startPlay.vtlCards = condition.virtualCards.Select(x => x.name).ToList();
     //         // if (startPlay.vtlCards.Count > 0) startPlay.disabledVtlCards
     //         //     = condition.virtualCards
@@ -445,13 +465,13 @@ namespace GameCore
     //         //     st.givenDestsForCard = new int[length][];
     //         //     for (int i = 0; i < length; i++)
     //         //     {
-    //         //         var card = CardPile.Instance.cards[st.givenCards[i]];
+    //         //         var card = game.cardPile.cards[st.givenCards[i]];
     //         //         st.maxDestForCard[i] = diffDest.maxDestForCard(card);
     //         //         st.minDestForCard[i] = diffDest.minDestForCard(card);
-    //         //         st.givenDestsForCard[i] = Game.Instance.players.Where(x => diffDest.isValidDestForCard(x, card)).Select(x => x.position).ToArray();
+    //         //         st.givenDestsForCard[i] = game.players.Where(x => diffDest.isValidDestForCard(x, card)).Select(x => x.position).ToArray();
     //         //     }
     //         // }
-    //         // EventSystem.Instance.Send(new)
+    //         // game.eventSystem.Send(new)
 
     //         await AutoDecision();
 
@@ -473,7 +493,7 @@ namespace GameCore
     //             }
     //             if (startPlay.maxDest > 0)
     //             {
-    //                 decision.dests = Game.Instance.AlivePlayers
+    //                 decision.dests = game.AlivePlayers
     //                     .Where(x => startPlay.isValidDest(x))
     //                     .Take(startPlay.minDest)
     //                     .ToList();
@@ -481,7 +501,7 @@ namespace GameCore
     //         }
 
     //         // Reset();
-    //         EventSystem.Instance.Send(new Model.FinishPlay
+    //         game.eventSystem.Send(new Model.FinishPlay
     //         {
     //             player = startPlay.player.position,
     //             type = startPlay.type
@@ -522,8 +542,8 @@ namespace GameCore
     //     protected async Task<PlayDecision> WaitResult()
     //     {
     //         // tcs=new TaskCompletionSource<Model.PlayDecision>();
-    //         // return new PlayDecision(await tcs.Task,Game.Instance);
-    //         return new PlayDecision(await EventSystem.Instance.PopDecision(), playRequest);
+    //         // return new PlayDecision(await tcs.Task,game);
+    //         return new PlayDecision(await game.eventSystem.PopDecision(), playRequest);
     //         // if (!Room.Instance.IsSingle)
     //         // {
     //         //     var message = await WebSocket.Instance.PopMessage();
@@ -642,7 +662,7 @@ namespace GameCore
     //         // }
 
     //         // SendDecision(decision);
-    //         EventSystem.Instance.PushDecision(decision.ToMessage());
+    //         game.eventSystem.PushDecision(decision.ToMessage());
     //     }
 
     //     // public async Task<PlayDecision> RunWxkj(Card scheme, Model.Team team)

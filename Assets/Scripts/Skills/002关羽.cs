@@ -74,10 +74,14 @@ public class 义绝 : Active
         }
     }
 
-    public override PlayDecision AIDecision()
-    {
-        // Timer.Instance.temp.cards = AI.GetRandomCard();
-        // Timer.Instance.temp.dests = AI.GetValidDest();
-        return base.AIDecision();
-    }
+    // public override PlayDecision AIDecision() => new PlayDecision
+    // {
+    //     cards = GetValidCards(),
+    //     dests = AIGetValidDestByTeam(~src.team).Take(1).ToList()
+    // };
 }
+
+// public class _Temp
+// {
+//     public static int A() => 0;
+// }

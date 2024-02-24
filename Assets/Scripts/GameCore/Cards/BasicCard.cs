@@ -27,7 +27,7 @@ namespace GameCore
 
             // 出杀次数+1
             src.shaCount++;
-            TurnSystem.Instance.AfterPlay += () => src.shaCount = 0;
+            game.turnSystem.AfterPlay += () => src.shaCount = 0;
 
             // 酒
             if (src.useJiu)
@@ -46,7 +46,7 @@ namespace GameCore
         protected override async Task UseForeachDest()
         {
             // 杀生效时事件 (无双，肉林)
-            await Triggered.Invoke(x => x.OnEveryExecuteSha, this);
+            await Triggered.Invoke(game, x => x.OnEveryExecuteSha, this);
 
             isDamage =
                 // 不可闪避
@@ -148,10 +148,10 @@ namespace GameCore
             name = "桃";
         }
 
-        protected override async Task BeforeUse()
+        protected override Task BeforeUse()
         {
             if (dests.Count == 0) dests.Add(src);
-            await Task.Yield();
+            return Task.CompletedTask;
         }
 
         protected override async Task UseForeachDest()
@@ -210,10 +210,10 @@ namespace GameCore
             name = "酒";
         }
 
-        protected override async Task BeforeUse()
+        protected override Task BeforeUse()
         {
             if (dests.Count == 0) dests.Add(src);
-            await Task.Yield();
+            return Task.CompletedTask;
         }
 
         protected override async Task UseForeachDest()
@@ -223,7 +223,7 @@ namespace GameCore
             {
                 dest.useJiu = true;
                 dest.jiuCount++;
-                TurnSystem.Instance.AfterPlay += () =>
+                game.turnSystem.AfterPlay += () =>
                 {
                     dest.useJiu = false;
                     dest.jiuCount = 0;

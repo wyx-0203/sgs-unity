@@ -75,7 +75,7 @@ namespace Spine.Unity.Modules
 
         ISkeletonAnimation targetSkeletonComponent;
         Skeleton skeleton;
-        Dictionary<Bone, Transform> boneTable = new Dictionary<Bone, Transform>();
+        readonly Dictionary<Bone, Transform> boneTable = new Dictionary<Bone, Transform>();
         Transform ragdollRoot;
         public Rigidbody RootRigidbody { get; private set; }
         public Bone StartingBone { get; private set; }

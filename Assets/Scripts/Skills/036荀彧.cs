@@ -24,7 +24,7 @@ public class 驱虎 : Active
         }
 
         // 攻击范围内没有角色，直接返回
-        if (Game.Instance.AlivePlayers.Find(x => dest.DestInAttackRange(x)) is null) return;
+        if (game.AlivePlayers.Find(x => dest.DestInAttackRange(x)) is null) return;
 
         // Timer.Instance.hint = "请选择一名角色";
         // Timer.Instance.refusable = false;
@@ -42,12 +42,12 @@ public class 驱虎 : Active
         await new Damage(decision.dests[0], dest).Execute();
     }
 
-    public override PlayDecision AIDecision()
-    {
-        // var dests = AI.GetValidDest();
-        // Timer.Instance.temp.dests.AddRange(dests.Take(1));
-        return base.AIDecision();
-    }
+    // public override PlayDecision AIDecision()
+    // {
+    //     // var dests = AI.GetValidDest();
+    //     // Timer.Instance.temp.dests.AddRange(dests.Take(1));
+    //     return base.AIDecision();
+    // }
 }
 
 public class 节命 : Triggered
@@ -68,7 +68,7 @@ public class 节命 : Triggered
     public override PlayDecision AIDecision() => new PlayDecision
     {
         action = true,
-        dests = Game.Instance.AlivePlayers.Where(x => x.team == src.team)
+        dests = game.AlivePlayers.Where(x => x.team == src.team)
             .OrderBy(x => x.handCardsCount)
             .Take(1)
             .ToList()

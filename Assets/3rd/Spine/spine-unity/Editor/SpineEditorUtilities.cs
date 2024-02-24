@@ -265,7 +265,9 @@ namespace Spine.Unity.Editor
         #region Spine Preferences and Defaults
         static bool preferencesLoaded = false;
 
+#pragma warning disable CS0618 // 类型或成员已过时
         [PreferenceItem("Spine")]
+#pragma warning restore CS0618 // 类型或成员已过时
         // [SettingsProvider]
         static void PreferencesGUI()
         {

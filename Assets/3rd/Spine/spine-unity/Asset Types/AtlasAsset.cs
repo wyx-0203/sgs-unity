@@ -230,7 +230,7 @@ namespace Spine.Unity
 
     public class MaterialsTextureLoader : TextureLoader
     {
-        AtlasAsset atlasAsset;
+        readonly AtlasAsset atlasAsset;
 
         public MaterialsTextureLoader(AtlasAsset atlasAsset)
         {

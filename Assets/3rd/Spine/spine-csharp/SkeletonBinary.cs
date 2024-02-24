@@ -64,9 +64,9 @@ namespace Spine
 
         public float Scale { get; set; }
 
-        private AttachmentLoader attachmentLoader;
-        private byte[] buffer = new byte[32];
-        private List<SkeletonJson.LinkedMesh> linkedMeshes = new List<SkeletonJson.LinkedMesh>();
+        private readonly AttachmentLoader attachmentLoader;
+        private readonly byte[] buffer = new byte[32];
+        private readonly List<SkeletonJson.LinkedMesh> linkedMeshes = new List<SkeletonJson.LinkedMesh>();
 
         public SkeletonBinary(params Atlas[] atlasArray)
             : this(new AtlasAttachmentLoader(atlasArray))
