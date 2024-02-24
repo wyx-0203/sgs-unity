@@ -8,19 +8,15 @@ public static class Url
     public const string DOMAIN_NAME = "http://192.168.1.5:8080/";
     // public const string DOMAIN_NAME = "localhost:8080/";
     // public const string DOMAIN_NAME = "https://app931.acapp.acwing.com.cn/";
-    public const string WEB_SOCKET = "wss://app931.acapp.acwing.com.cn/websocket";
-
-    // public const string DOMAIN_NAME = "http://localhost:80/";
-    // public const string WS_URL = "ws://localhost:80/websocket";
+    // public const string WEB_SOCKET = "wss://app931.acapp.acwing.com.cn/websocket";
 
     /// <summary>
-    /// Django静态文件地址
+    /// 静态文件地址
     /// </summary>
-    public static string STATIC =
 #if UNITY_EDITOR
-        "file://" + Application.streamingAssetsPath + "/";
+    public static string STATIC = $"file://{Application.streamingAssetsPath}/";
 #else
-        Application.streamingAssetsPath + "/";
+    public static string STATIC = Application.streamingAssetsPath + "/";
 #endif
 
     public static string ASSET_BUNDLE = STATIC + "AssetBundles/";
