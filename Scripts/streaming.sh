@@ -1,1 +1,0 @@
-scp -r Build/WebGL/StreamingAssets aliyun:~/sgs-server/nginx/webgl

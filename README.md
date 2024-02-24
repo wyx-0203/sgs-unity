@@ -19,7 +19,7 @@
 2. 下载源码:
 
    ```sh
-   git clone https://github.com/wyx-0203/sgs-unity.git
+   git clone https://github.com/wyx-0203/sgs-unity.git --depth 1
    ```
 
 3. 用Unity打开项目，打开`Game`场景:
