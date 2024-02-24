@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -65,21 +64,6 @@ public static class Extensions
 
 public class Util : GlobalSingletonMono<Util>
 {
-    [RuntimeInitializeOnLoadMethod]
-    public static async void Init()
-    {
-#if UNITY_ANDROID
-        Application.targetFrameRate = 60;
-#endif
-
-        Model.General.Init(await WebRequest.Get(Url.JSON + "general.json"));
-        Model.Card.Init(await WebRequest.Get(Url.JSON + "card.json"));
-        await SkinAsset.Init();
-        await SkillAsset.Init();
-        await GeneralsAsset.Init();
-
-        Debug.Log("after init");
-    }
 
     public static async Task WaitFrame(int count = 1)
     {

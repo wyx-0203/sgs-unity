@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using UnityEngine;
 using Newtonsoft.Json;
 using Spine.Unity;
+using UnityEngine;
 
 [Serializable]
 public class SkinAsset
@@ -14,12 +14,14 @@ public class SkinAsset
     public bool dynamic;
 
     private static List<SkinAsset> list;
+
     public static async Task Init()
     {
         if (list != null) return;
         string json = await WebRequest.Get(Url.JSON + "skin.json");
         list = JsonConvert.DeserializeObject<List<SkinAsset>>(json);
     }
+
     public static SkinAsset Get(int id) => list.Find(x => x.id == id);
     public static List<SkinAsset> GetList() => list;
 

@@ -27,9 +27,9 @@ public static class KeyValueExtensions
         where TValue : class => list.Find(x => x.key.Equals(key))?.value;
 }
 
-public class GameAsset : ScriptableObject
+public class GameAsset : ScriptableSingleton<GameAsset>
 {
-    public static GameAsset Instance => Game.Instance.gameAssets;
+    // public static GameAsset Instance => Game.Instance.gameAssets;
 
     public Card card;
     public Transform cardGroup;

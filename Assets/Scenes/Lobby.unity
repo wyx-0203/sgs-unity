@@ -8944,12 +8944,7 @@ MonoBehaviour:
   bj: {fileID: 1248469258}
   SetCharacter: {fileID: 401927248}
   back: {fileID: 1800467947}
-  nation: {fileID: 1758859328}
-  nationSprite:
-  - {fileID: -670959145, guid: 6c60a92bc93da4334b4a435fd7582a4e, type: 3}
-  - {fileID: -90513992, guid: 6c60a92bc93da4334b4a435fd7582a4e, type: 3}
-  - {fileID: 2095602209, guid: 6c60a92bc93da4334b4a435fd7582a4e, type: 3}
-  - {fileID: 2028312432, guid: 6c60a92bc93da4334b4a435fd7582a4e, type: 3}
+  kindom: {fileID: 1758859328}
   "\u9634\u9633\u9C7C":
   - {fileID: 939754628}
   - {fileID: 588917208}

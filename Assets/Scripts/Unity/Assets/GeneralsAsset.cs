@@ -1,16 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// [CreateAssetMenu(fileName = "GeneralsAsset")]
 public class GeneralsAsset : ScriptableSingleton<GeneralsAsset>
 {
-
-    // player
-    // public GeneralBP general;
-    // public SelfPickSeat seat;
-    // public Sprite[] position;
-    // public Sprite[] team;
     public List<KeyValue<Sprite>> kindom;
     public List<KeyValue<Sprite>> kindomBg;
     public Sprite[] blood;

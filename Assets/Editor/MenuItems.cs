@@ -136,4 +136,14 @@ public static class MenuItems
         AssetDatabase.Refresh();
         Debug.Log("构建完成！");
     }
+
+    private const string exportPath = "sgs.unitypackage";
+
+    [MenuItem("Game/Export Package")]
+    private static void ExportPackage()
+    {
+        string[] assetPaths = { "Assets/StreamingAssets", "Assets/Assets/Skin" };
+        AssetDatabase.ExportPackage(assetPaths, exportPath, ExportPackageOptions.Recurse);
+        Debug.Log("导出完成: " + exportPath);
+    }
 }

@@ -25,9 +25,10 @@ public class Game : SingletonMono<Game>
 #endif
 
         SetBorder();
-        bgIndex = Random.Range(0, gameAssets.background.Count);
+        GameAsset.Instance = gameAssets;
+        bgIndex = Random.Range(0, GameAsset.Instance.background.Count);
         ChangeBg();
-        BGM.Instance.Load(gameAssets.bgm);
+        BGM.Instance.Load(GameAsset.Instance.bgm);
 
         EventSystem.Instance.AddEvent<CardPanelQuery>(ShowPanel);
         EventSystem.Instance.AddEvent<FinishCardPanel>(HidePanel);
@@ -178,7 +179,7 @@ public class Game : SingletonMono<Game>
 
     public void ChangeBg()
     {
-        background.sprite = gameAssets.background[bgIndex++ % gameAssets.background.Count];
+        background.sprite = GameAsset.Instance.background[bgIndex++ % GameAsset.Instance.background.Count];
         // 调整原始图像大小
         background.SetNativeSize();
         // 适应屏幕

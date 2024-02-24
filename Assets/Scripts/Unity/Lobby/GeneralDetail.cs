@@ -92,7 +92,7 @@ public class GeneralDetail : SingletonMono<GeneralDetail>
                 image.gameObject.SetActive(false);
 
                 skeletonGraphicDaiji = daiji.AddComponent<SkeletonGraphic>();
-                skeletonGraphicDaiji.skeletonDataAsset = await skin.GetDaijiSkeleton();
+                skeletonGraphicDaiji.skeletonDataAsset = await skin.GetDaijiSkeleton() ?? throw new NullReferenceException();
                 skeletonGraphicDaiji.startingLoop = true;
                 skeletonGraphicDaiji.startingAnimation = "play";
                 skeletonGraphicDaiji.raycastTarget = false;

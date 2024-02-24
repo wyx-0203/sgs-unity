@@ -70,9 +70,9 @@ crashlytics-build.properties
 
 **/.DS_Store
 /Assets/StreamingAssets/*
-/Assets/StreamingAssets.mata
+/Assets/StreamingAssets.meta
 /Assets/Assets/Skin/*
-/Assets/Assets/Skin.mata
+/Assets/Assets/Skin.meta
 
 /Scripts
 /Assets/HybridCLRGenerate

@@ -4575,7 +4575,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe7c44e8fa3353e45b328e3ca60e034e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameAssets: {fileID: 0}
+  gameAssets: {fileID: 11400000, guid: 918810c6b386a4c2dacb7aba6b1267ef, type: 2}
   background: {fileID: 8986772208204142092}
   players:
   - {fileID: 1639329782}

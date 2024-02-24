@@ -55,7 +55,7 @@ namespace Editor
 
     public class SkinManager : EditorWindow
     {
-        [MenuItem("Window/新建皮肤")]
+        [MenuItem("Game/新建皮肤")]
         public static void ShowExample()
         {
             SkinManager wnd = GetWindow<SkinManager>();

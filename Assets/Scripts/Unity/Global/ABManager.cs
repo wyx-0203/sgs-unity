@@ -26,7 +26,7 @@ public class ABManager : GlobalSingleton<ABManager>
     /// <summary>
     /// 初始化manifest
     /// </summary>
-    private async Task LoadManifest()
+    public async Task LoadManifest()
     {
         // 下载主包
         string mainABName = "AssetBundles";
@@ -35,23 +35,30 @@ public class ABManager : GlobalSingleton<ABManager>
         manifest = abMap[mainABName].LoadAsset<AssetBundleManifest>("AssetBundleManifest");
     }
 
+    // [RuntimeInitializeOnLoadMethod]
+    // private static async void Init()
+    // {
+    //     await Instance.LoadManifest();
+    // }
 
     /// <summary>
     /// 从外部下载AssetBundle
     /// </summary>
     public async Task<AssetBundle> Load(string abName)
     {
-        if (abMap.ContainsKey(abName)) return abMap[abName];
         await semaphoreSlim.WaitAsync();
+        if (!abMap.ContainsKey(abName))
+        {
+            // if (manifest == null) await LoadManifest();
 
-        // 获取所有依赖项
-        if (manifest == null) await LoadManifest();
+            // 获取所有依赖项
+            string[] dependencies = manifest.GetAllDependencies(abName);
+            foreach (string i in dependencies.Where(x => !abMap.ContainsKey(x))) await GetABFromServer(i);
 
-        string[] dependencies = manifest.GetAllDependencies(abName);
-        foreach (string i in dependencies.Where(x => !abMap.ContainsKey(x))) await GetABFromServer(i);
+            // 加载目标资源包
+            await GetABFromServer(abName);
+        }
 
-        // 加载目标资源包
-        await GetABFromServer(abName);
         semaphoreSlim.Release();
         return abMap[abName];
     }

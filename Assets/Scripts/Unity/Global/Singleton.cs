@@ -84,10 +84,11 @@ public class GlobalSingletonMono<T> : MonoBehaviour where T : MonoBehaviour
 
 public class ScriptableSingleton<T> : ScriptableObject where T : ScriptableObject
 {
-    public static T Instance;
+    public static T Instance { get; set; }
+
     public static async Task Init()
     {
-        if (Instance is null)
+        if (Instance == null)
         {
             string abName = $"scriptable/{typeof(T).ToString().ToLower()}";
             var ab = await ABManager.Instance.Load(abName);

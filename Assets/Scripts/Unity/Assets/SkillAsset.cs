@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using UnityEngine;
 using Newtonsoft.Json;
+using UnityEngine;
 
 [Serializable]
 public class SkillAsset
@@ -21,6 +20,7 @@ public class SkillAsset
     [TextArea(8, 10)][InspectorName("描述")] public string describe;
 
     private static List<SkillAsset> list;
+
     public static async Task Init()
     {
         if (list != null) return;
