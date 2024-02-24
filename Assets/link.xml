@@ -1,0 +1,3 @@
+<linker>
+    <assembly fullname="Microsoft.AspNetCore.SignalR.Client.Core" preserve="all" />
+</linker>
