@@ -8,7 +8,7 @@ public static class Url
     public const string DOMAIN_NAME = "http://192.168.1.5:8080/";
     // public const string DOMAIN_NAME = "localhost:8080/";
     // public const string DOMAIN_NAME = "https://app931.acapp.acwing.com.cn/";
-    // public const string WEB_SOCKET = "wss://app931.acapp.acwing.com.cn/websocket";
+    public const string WEB_SOCKET = "wss://app931.acapp.acwing.com.cn/websocket";
 
     /// <summary>
     /// 静态文件地址

@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Model;
 
-public class EventSystem : GlobalSingleton<EventSystem>
+public class EventSystem : Singleton<EventSystem>
 {
     public EventSystem()
     {
@@ -15,8 +15,8 @@ public class EventSystem : GlobalSingleton<EventSystem>
     {
         while (true)
         {
-            await Lock();
             await semaphoreSlim.WaitAsync();
+            await Lock();
             Invoke(messages.Dequeue());
             UnLock();
             await Task.Yield();

@@ -1,5 +1,6 @@
 using Model;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class SignIn : SingletonMono<SignIn>
@@ -7,7 +8,7 @@ public class SignIn : SingletonMono<SignIn>
     // 登录
     public Button signIn;
     // 单机
-    public Button singleMode;
+    [FormerlySerializedAs("singleMode")] public Button standaloneMode;
     // 前往注册
     public Button toSignUp;
 
@@ -22,7 +23,7 @@ public class SignIn : SingletonMono<SignIn>
     {
         signIn.onClick.AddListener(ClickSignIn);
         toSignUp.onClick.AddListener(ClickToSignUp);
-        singleMode.onClick.AddListener(ClickSingleMode);
+        standaloneMode.onClick.AddListener(ClickStandaloneMode);
     }
 
     private async void ClickSignIn()
@@ -76,10 +77,10 @@ public class SignIn : SingletonMono<SignIn>
         SignUp.Instance.gameObject.SetActive(true);
     }
 
-    private void ClickSingleMode()
+    private void ClickStandaloneMode()
     {
         Global.Instance.userId = User.StandaloneId;
-        SceneManager.Instance.LoadScene("Game");
+        SceneManager.Instance.LoadScene("Lobby");
     }
 
 }

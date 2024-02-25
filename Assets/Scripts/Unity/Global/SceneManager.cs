@@ -1,9 +1,8 @@
 using UnityEngine;
 
-public class SceneManager : GlobalSingleton<SceneManager>
+public class SceneManager : Singleton<SceneManager>
 {
     private bool isDone = true;
-    private GameObject loading;
     private const string localScene = "Home";
 
     public async void LoadScene(string sceneName)
@@ -12,12 +11,7 @@ public class SceneManager : GlobalSingleton<SceneManager>
         if (!isDone) return;
         isDone = false;
 
-        if (loading is null)
-        {
-            var ab = await ABManager.Instance.Load("loading");
-            loading = ab.LoadAsset<GameObject>("Loading");
-        }
-        GameObject.Instantiate(loading, GameObject.Find("Canvas").transform);
+        GameObject.Instantiate(GlobalAsset.Instance.loading, Transform.FindObjectOfType<Canvas>().transform);
 
         // 卸载当前场景的AssetBundle
         string currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;

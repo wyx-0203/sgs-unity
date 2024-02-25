@@ -16,7 +16,6 @@ public class GeneralList : SingletonMono<GeneralList>
     private void Start()
     {
         // 获得所有武将信息
-        // string url = Url.JSON + "general.json";
         var list = Model.General.GetList();
 
         // 实例化每个武将
@@ -42,6 +41,6 @@ public class GeneralList : SingletonMono<GeneralList>
     private void ClickBack()
     {
         gameObject.SetActive(false);
-        // Lobby.Instance.ShowLobby();
+        Lobby.Instance.ShowLobby();
     }
 }

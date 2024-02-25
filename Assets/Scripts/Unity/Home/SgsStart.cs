@@ -1,8 +1,5 @@
-using System.Threading.Tasks;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-// using NativeWebSocket;
 
 public class SgsStart : SingletonMono<SgsStart>
 {
@@ -17,19 +14,17 @@ public class SgsStart : SingletonMono<SgsStart>
         start.onClick.AddListener(ClickStart);
         signOut.onClick.AddListener(ClickSignOut);
 
-        // BGM.Instance.Load(Url.AUDIO + "bgm/outbgm_2.mp3");
+        BGM.Instance.Load(GlobalAsset.Instance.lobbyBgm);
     }
 
     public void ShowStartPanel()
     {
-        // SignIn.Instance.gameObject.SetActive(false);
         startPanel.SetActive(true);
         nickname.text = SignIn.Instance.username.text;
     }
 
     private void ClickStart()
     {
-        // GameCore.Room.Instance.IsSingle = false;
         SceneManager.Instance.LoadScene("Lobby");
     }
 

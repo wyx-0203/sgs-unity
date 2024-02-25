@@ -142,7 +142,13 @@ public static class MenuItems
     [MenuItem("Game/Export Package")]
     private static void ExportPackage()
     {
-        string[] assetPaths = { "Assets/StreamingAssets", "Assets/Assets/Skin" };
+        File.Delete(exportPath);
+        string[] assetPaths =
+        {
+            "Assets/StreamingAssets/AssetBundles",
+            "Assets/StreamingAssets/Image",
+            "Assets/Assets/Skin"
+        };
         AssetDatabase.ExportPackage(assetPaths, exportPath, ExportPackageOptions.Recurse);
         Debug.Log("导出完成: " + exportPath);
     }

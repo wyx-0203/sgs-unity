@@ -1,0 +1,668 @@
+[
+    {
+        "id": 106001,
+        "generalId": 1,
+        "name": "界限突破",
+        "dynamic": false
+    },
+    {
+        "id": 100101,
+        "generalId": 1,
+        "name": "经典形象",
+        "dynamic": false
+    },
+    {
+        "id": 400101,
+        "generalId": 1,
+        "name": "御驾亲征",
+        "dynamic": false
+    },
+    {
+        "id": 506001,
+        "generalId": 1,
+        "name": "六星耀帝",
+        "dynamic": true
+    },
+    {
+        "id": 506002,
+        "generalId": 1,
+        "name": "英杰会聚",
+        "dynamic": true
+    },
+    {
+        "id": 106101,
+        "generalId": 2,
+        "name": "界限突破",
+        "dynamic": false
+    },
+    {
+        "id": 100201,
+        "generalId": 2,
+        "name": "经典形象",
+        "dynamic": false
+    },
+    {
+        "id": 500201,
+        "generalId": 2,
+        "name": "飞龙在天",
+        "dynamic": true
+    },
+    {
+        "id": 500205,
+        "generalId": 2,
+        "name": "开泰盛世",
+        "dynamic": false
+    },
+    {
+        "id": 500206,
+        "generalId": 2,
+        "name": "狂龙怒战",
+        "dynamic": false
+    },
+    {
+        "id": 506101,
+        "generalId": 2,
+        "name": "单刀赴会",
+        "dynamic": false
+    },
+    {
+        "id": 600201,
+        "generalId": 2,
+        "name": "武动乾坤",
+        "dynamic": true
+    },
+    {
+        "id": 106701,
+        "generalId": 8,
+        "name": "界限突破",
+        "dynamic": false
+    },
+    {
+        "id": 100801,
+        "generalId": 8,
+        "name": "经典形象",
+        "dynamic": false
+    },
+    {
+        "id": 500801,
+        "generalId": 8,
+        "name": "吴王光耀",
+        "dynamic": true
+    },
+    {
+        "id": 500802,
+        "generalId": 8,
+        "name": "英杰会聚",
+        "dynamic": true
+    },
+    {
+        "id": 500803,
+        "generalId": 8,
+        "name": "励战年兽",
+        "dynamic": false
+    },
+    {
+        "id": 106901,
+        "generalId": 10,
+        "name": "界限突破",
+        "dynamic": false
+    },
+    {
+        "id": 506901,
+        "generalId": 10,
+        "name": "溯江激战",
+        "dynamic": false
+    },
+    {
+        "id": 506902,
+        "generalId": 10,
+        "name": "濡须抗曹",
+        "dynamic": false
+    },
+    {
+        "id": 506903,
+        "generalId": 10,
+        "name": "清雨踏春",
+        "dynamic": true
+    },
+    {
+        "id": 107001,
+        "generalId": 11,
+        "name": "界限突破",
+        "dynamic": false
+    },
+    {
+        "id": 101101,
+        "generalId": 11,
+        "name": "经典形象",
+        "dynamic": false
+    },
+    {
+        "id": 501101,
+        "generalId": 11,
+        "name": "破天焚舰",
+        "dynamic": true
+    },
+    {
+        "id": 501102,
+        "generalId": 11,
+        "name": "勇力精锐",
+        "dynamic": false
+    },
+    {
+        "id": 501103,
+        "generalId": 11,
+        "name": "烈江映炎",
+        "dynamic": false
+    },
+    {
+        "id": 601101,
+        "generalId": 11,
+        "name": "武动乾坤",
+        "dynamic": true
+    },
+    {
+        "id": 107301,
+        "generalId": 14,
+        "name": "界限突破",
+        "dynamic": false
+    },
+    {
+        "id": 407301,
+        "generalId": 14,
+        "name": "淑人君子",
+        "dynamic": false
+    },
+    {
+        "id": 501401,
+        "generalId": 14,
+        "name": "挥剑驭火",
+        "dynamic": false
+    },
+    {
+        "id": 507301,
+        "generalId": 14,
+        "name": "烈焰燃天",
+        "dynamic": false
+    },
+    {
+        "id": 507302,
+        "generalId": 14,
+        "name": "清雨踏春",
+        "dynamic": true
+    },
+    {
+        "id": 607301,
+        "generalId": 14,
+        "name": "谋定天下",
+        "dynamic": true
+    },
+    {
+        "id": 107501,
+        "generalId": 16,
+        "name": "界限突破",
+        "dynamic": false
+    },
+    {
+        "id": 101601,
+        "generalId": 16,
+        "name": "经典形象",
+        "dynamic": false
+    },
+    {
+        "id": 501601,
+        "generalId": 16,
+        "name": "魏武东临",
+        "dynamic": true
+    },
+    {
+        "id": 501606,
+        "generalId": 16,
+        "name": "山河常青",
+        "dynamic": false
+    },
+    {
+        "id": 507501,
+        "generalId": 16,
+        "name": "魏武霸业",
+        "dynamic": false
+    },
+    {
+        "id": 507502,
+        "generalId": 16,
+        "name": "英杰会聚",
+        "dynamic": true
+    },
+    {
+        "id": 107701,
+        "generalId": 18,
+        "name": "界限突破",
+        "dynamic": false
+    },
+    {
+        "id": 101801,
+        "generalId": 18,
+        "name": "经典形象",
+        "dynamic": false
+    },
+    {
+        "id": 501801,
+        "generalId": 18,
+        "name": "开疆烈血",
+        "dynamic": true
+    },
+    {
+        "id": 501802,
+        "generalId": 18,
+        "name": "元让伏虎",
+        "dynamic": false
+    },
+    {
+        "id": 501803,
+        "generalId": 18,
+        "name": "万难不辞",
+        "dynamic": false
+    },
+    {
+        "id": 107801,
+        "generalId": 19,
+        "name": "界限突破",
+        "dynamic": false
+    },
+    {
+        "id": 101901,
+        "generalId": 19,
+        "name": "经典形象",
+        "dynamic": false
+    },
+    {
+        "id": 507801,
+        "generalId": 19,
+        "name": "威震逍遥",
+        "dynamic": false
+    },
+    {
+        "id": 507802,
+        "generalId": 19,
+        "name": "奋勇破敌",
+        "dynamic": true
+    },
+    {
+        "id": 507803,
+        "generalId": 19,
+        "name": "踏雪疾驰",
+        "dynamic": false
+    },
+    {
+        "id": 601901,
+        "generalId": 19,
+        "name": "武动乾坤",
+        "dynamic": true
+    },
+    {
+        "id": 108301,
+        "generalId": 24,
+        "name": "界限突破",
+        "dynamic": false
+    },
+    {
+        "id": 102401,
+        "generalId": 24,
+        "name": "经典形象",
+        "dynamic": false
+    },
+    {
+        "id": 508301,
+        "generalId": 24,
+        "name": "如火燎原",
+        "dynamic": false
+    },
+    {
+        "id": 602401,
+        "generalId": 24,
+        "name": "武动乾坤",
+        "dynamic": true
+    },
+    {
+        "id": 608301,
+        "generalId": 24,
+        "name": "文和乱武",
+        "dynamic": true
+    },
+    {
+        "id": 108401,
+        "generalId": 25,
+        "name": "界限突破",
+        "dynamic": false
+    },
+    {
+        "id": 102501,
+        "generalId": 25,
+        "name": "经典形象",
+        "dynamic": false
+    },
+    {
+        "id": 302502,
+        "generalId": 25,
+        "name": "月下弄兔",
+        "dynamic": false
+    },
+    {
+        "id": 502501,
+        "generalId": 25,
+        "name": "玉蝉仙子",
+        "dynamic": true
+    },
+    {
+        "id": 502503,
+        "generalId": 25,
+        "name": "aaa",
+        "dynamic": true
+    },
+    {
+        "id": 502504,
+        "generalId": 25,
+        "name": "红颜绮梦",
+        "dynamic": false
+    },
+    {
+        "id": 602501,
+        "generalId": 25,
+        "name": "花好月圆",
+        "dynamic": true
+    },
+    {
+        "id": 602502,
+        "generalId": 25,
+        "name": "文和乱舞",
+        "dynamic": true
+    },
+    {
+        "id": 102701,
+        "generalId": 27,
+        "name": "经典形象",
+        "dynamic": false
+    },
+    {
+        "id": 502701,
+        "generalId": 27,
+        "name": "没金饮羽",
+        "dynamic": true
+    },
+    {
+        "id": 502702,
+        "generalId": 27,
+        "name": "佻身飞镞",
+        "dynamic": true
+    },
+    {
+        "id": 602701,
+        "generalId": 27,
+        "name": "武动乾坤",
+        "dynamic": true
+    },
+    {
+        "id": 51500,
+        "generalId": 36,
+        "name": "界限突破",
+        "dynamic": false
+    },
+    {
+        "id": 103601,
+        "generalId": 36,
+        "name": "经典形象",
+        "dynamic": false
+    },
+    {
+        "id": 403601,
+        "generalId": 36,
+        "name": "王佐之才",
+        "dynamic": false
+    },
+    {
+        "id": 503601,
+        "generalId": 36,
+        "name": "明以举贤",
+        "dynamic": false
+    },
+    {
+        "id": 503602,
+        "generalId": 36,
+        "name": "令君劝战",
+        "dynamic": false
+    },
+    {
+        "id": 503604,
+        "generalId": 36,
+        "name": "王佐之谋",
+        "dynamic": false
+    },
+    {
+        "id": 603601,
+        "generalId": 36,
+        "name": "谋定天下",
+        "dynamic": true
+    },
+    {
+        "id": 104201,
+        "generalId": 42,
+        "name": "经典形象",
+        "dynamic": false
+    },
+    {
+        "id": 304202,
+        "generalId": 42,
+        "name": "乱箭宿敌",
+        "dynamic": false
+    },
+    {
+        "id": 504201,
+        "generalId": 42,
+        "name": "箭击曹营",
+        "dynamic": true
+    },
+    {
+        "id": 504202,
+        "generalId": 42,
+        "name": "率盟伐董",
+        "dynamic": true
+    },
+    {
+        "id": 105001,
+        "generalId": 50,
+        "name": "经典形象",
+        "dynamic": false
+    },
+    {
+        "id": 505001,
+        "generalId": 50,
+        "name": "缔造联盟",
+        "dynamic": true
+    },
+    {
+        "id": 505002,
+        "generalId": 50,
+        "name": "周济万民",
+        "dynamic": true
+    },
+    {
+        "id": 605001,
+        "generalId": 50,
+        "name": "谋定天下",
+        "dynamic": true
+    },
+    {
+        "id": 105401,
+        "generalId": 54,
+        "name": "经典形象",
+        "dynamic": false
+    },
+    {
+        "id": 505401,
+        "generalId": 54,
+        "name": "庸主阿斗",
+        "dynamic": false
+    },
+    {
+        "id": 505403,
+        "generalId": 54,
+        "name": "虚拟天团",
+        "dynamic": true
+    },
+    {
+        "id": 505404,
+        "generalId": 54,
+        "name": "樽酒逍遥",
+        "dynamic": false
+    },
+    {
+        "id": 128801,
+        "generalId": 288,
+        "name": "经典形象",
+        "dynamic": false
+    },
+    {
+        "id": 528801,
+        "generalId": 288,
+        "name": "恩怨如火",
+        "dynamic": true
+    },
+    {
+        "id": 528802,
+        "generalId": 288,
+        "name": "戡律定料",
+        "dynamic": true
+    },
+    {
+        "id": 128901,
+        "generalId": 289,
+        "name": "经典形象",
+        "dynamic": false
+    },
+    {
+        "id": 528901,
+        "generalId": 289,
+        "name": "攻心定南",
+        "dynamic": false
+    },
+    {
+        "id": 129701,
+        "generalId": 297,
+        "name": "经典形象",
+        "dynamic": false
+    },
+    {
+        "id": 529701,
+        "generalId": 297,
+        "name": "一战而就",
+        "dynamic": true
+    },
+    {
+        "id": 529702,
+        "generalId": 297,
+        "name": "公台献城",
+        "dynamic": false
+    },
+    {
+        "id": 129901,
+        "generalId": 299,
+        "name": "经典形象",
+        "dynamic": false
+    },
+    {
+        "id": 529901,
+        "generalId": 299,
+        "name": "父魂子魄",
+        "dynamic": false
+    },
+    {
+        "id": 529902,
+        "generalId": 299,
+        "name": "同心并力",
+        "dynamic": true
+    },
+    {
+        "id": 130001,
+        "generalId": 300,
+        "name": "经典形象",
+        "dynamic": false
+    },
+    {
+        "id": 430001,
+        "generalId": 300,
+        "name": "果敢刚直",
+        "dynamic": false
+    },
+    {
+        "id": 130401,
+        "generalId": 304,
+        "name": "经典形象",
+        "dynamic": false
+    },
+    {
+        "id": 530401,
+        "generalId": 304,
+        "name": "箭厉沙场",
+        "dynamic": false
+    },
+    {
+        "id": 530402,
+        "generalId": 304,
+        "name": "激箭流星",
+        "dynamic": false
+    },
+    {
+        "id": 131101,
+        "generalId": 311,
+        "name": "经典形象",
+        "dynamic": false
+    },
+    {
+        "id": 531101,
+        "generalId": 311,
+        "name": "御蜀屏障",
+        "dynamic": false
+    },
+    {
+        "id": 131301,
+        "generalId": 313,
+        "name": "经典形象",
+        "dynamic": false
+    },
+    {
+        "id": 531301,
+        "generalId": 313,
+        "name": "战场虎子",
+        "dynamic": false
+    },
+    {
+        "id": 531302,
+        "generalId": 313,
+        "name": "忠武鏖战",
+        "dynamic": true
+    },
+    {
+        "id": 531303,
+        "generalId": 313,
+        "name": "贲勇直前",
+        "dynamic": false
+    },
+    {
+        "id": 133301,
+        "generalId": 333,
+        "name": "经典形象",
+        "dynamic": false
+    },
+    {
+        "id": 533301,
+        "generalId": 333,
+        "name": "烽火连天",
+        "dynamic": false
+    },
+    {
+        "id": 633301,
+        "generalId": 333,
+        "name": "骁勇金衔",
+        "dynamic": true
+    }
+]

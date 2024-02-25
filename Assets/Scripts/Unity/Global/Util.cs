@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Threading.Tasks;
+using Model;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -76,6 +77,11 @@ public class Util : GlobalSingletonMono<Util>
         Debug.Log(str);
     }
 
+    public static async Task<UserInfoResponse> GetUserInfo(int userId)
+    {
+        var msg = await WebRequest.Get($"{Url.DOMAIN_NAME}getUserInfo?id={userId}");
+        return JsonUtility.FromJson<Model.UserInfoResponse>(msg);
+    }
 }
 
 // public class Delay

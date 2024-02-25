@@ -69,10 +69,9 @@ crashlytics-build.properties
 /[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
 
 **/.DS_Store
-/Assets/StreamingAssets/*
-/Assets/StreamingAssets.meta
-/Assets/Assets/Skin/*
-/Assets/Assets/Skin.meta
+/Assets/StreamingAssets/AssetBundles*
+/Assets/StreamingAssets/Image*
+/Assets/Assets/Skin*
 
 /Scripts
 /Assets/HybridCLRGenerate

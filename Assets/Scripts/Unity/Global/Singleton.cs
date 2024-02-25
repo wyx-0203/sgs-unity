@@ -1,35 +1,7 @@
 using System.Threading.Tasks;
 using UnityEngine;
 
-// public class Singleton<T> where T : new()
-// {
-//     private static T instance;
-//     public static T Instance
-//     {
-//         get
-//         {
-//             if (instance is null)
-//             {
-//                 instance = new T();
-//                 UnityEngine.SceneManagement.SceneManager.sceneUnloaded += OnSceneUnloaded;
-//             }
-//             return instance;
-//         }
-//     }
-
-//     private static void OnSceneUnloaded(UnityEngine.SceneManagement.Scene scene)
-//     {
-//         UnityEngine.SceneManagement.SceneManager.sceneUnloaded -= OnSceneUnloaded;
-//         instance = default;
-//         // if (instance is null) Debug.Log("destroy " + typeof(T).ToString());
-//     }
-
-//     // public static T SaveInstance() => instance;
-//     public static void NewInstance() => instance = new();
-//     public static void SetInstance(T _instance) => instance = _instance;
-// }
-
-public class GlobalSingleton<T> where T : new()
+public class Singleton<T> where T : new()
 {
     private static T instance;
     public static T Instance
@@ -90,6 +62,7 @@ public class ScriptableSingleton<T> : ScriptableObject where T : ScriptableObjec
     {
         if (Instance == null)
         {
+            // 获取"scriptable/xxx"包中的"XXX.asset"文件
             string abName = $"scriptable/{typeof(T).ToString().ToLower()}";
             var ab = await ABManager.Instance.Load(abName);
             Instance = ab.LoadAsset<T>($"{typeof(T)}.asset");

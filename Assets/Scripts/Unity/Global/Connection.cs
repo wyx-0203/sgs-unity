@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.SignalR.Client;
 using Model;
 using UnityEngine;
 
-public class Connection : GlobalSingleton<Connection>
+public class Connection : Singleton<Connection>
 {
     private HubConnection hubConnection;
     private string currentUrl;

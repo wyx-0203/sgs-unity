@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class ABManager : GlobalSingleton<ABManager>
+public class ABManager : Singleton<ABManager>
 {
     // 依赖项配置文件
     private AssetBundleManifest manifest = null;
@@ -34,12 +34,6 @@ public class ABManager : GlobalSingleton<ABManager>
 
         manifest = abMap[mainABName].LoadAsset<AssetBundleManifest>("AssetBundleManifest");
     }
-
-    // [RuntimeInitializeOnLoadMethod]
-    // private static async void Init()
-    // {
-    //     await Instance.LoadManifest();
-    // }
 
     /// <summary>
     /// 从外部下载AssetBundle

@@ -1,6 +1,6 @@
 # Unity复刻《三国杀》
 
-[游戏主页](https://app931.acapp.acwing.com.cn) | [演示视频](https://bilibili.com/video/BV1ua4y1N7m8) | [服务端](https://github.com/wyx-0203/sgs-server)
+[演示视频](https://bilibili.com/video/BV1ua4y1N7m8) | [下载 (安卓)](https://mypikpak.com/s/VNrTSVJmDL7le14GPRDAS27Ko1/VNrRS57jsCnkbOZGqY1FtooKo1)
 
 ## 简介
 
@@ -8,9 +8,9 @@
 
 ## 预览
 
-![](Images/preview1.png)
-![](Images/preview2.png)
-![](Images/preview3.png)
+![](Images/preview1.jpg)
+![](Images/preview2.jpg)
+![](Images/preview3.jpg)
 
 ## 快速开始
 
@@ -22,23 +22,13 @@
    git clone https://github.com/wyx-0203/sgs-unity.git --depth 1
    ```
 
-3. 用Unity打开项目，打开`Game`场景:
+3. 用Unity打开项目，导入 [sgs.unitypackage](https://mypikpak.com/s/VNrTSVJmDL7le14GPRDAS27Ko1) (包含武将、皮肤等资源):
 
-   ![](Images/start1.png)
+   ![](Images/start1.jpg)
 
-4. 生成AssetBundle:
+4. 进入`Game`场景，运行项目，即可开始游戏 (单机模式)
 
-   在菜单栏中打开`窗口/AssetBundle Broser`，`Build Target`设为要发布的平台(例如WebGL)，`Output Path`设为`Assets/StreamingAssets/AssetBundles`，开始构建。
-
-   ![](Images/start2.png)
-
-5. 开始运行
-
-   ![](Images/start3.png)
-
-## 联网模式
-
-若要实现联网功能，需在服务器(或本地)运行服务端程序，本项目的服务端部分使用Go语言开发，提供了用户系统、房间系统、游戏同步、部署WebGL等服务。[查看源码](https://github.com/wyx-0203/sgs-server)
+   ![](Images/start2.jpg)
 
 ## 项目结构
 
@@ -64,7 +54,7 @@
 
 * 技能的具体实现写为`C#`脚本。
 
-* 联网模式下，使用`.Net Core`和`SignalR`实现房间系统，使用`Go`语言实现网关、鉴权等常规后端服务。服务之间通过`gRPC`通信。
+* 若要实现联网功能，需在服务器(或本地)运行服务端程序。本项目的服务端部分(暂未开源)使用`.Net Core`和`SignalR`实现房间系统，使用`Go`语言实现网关、鉴权等常规后端服务。服务之间通过`gRPC`通信。
 
 ### 重要的类
 
@@ -118,7 +108,7 @@
 
 #### Model
 
-- `HttpResponse` Http响应基类
-- `Message` 游戏消息基类
+- `HttpResponse` Http响应消息基类
+- `Message` 游戏消息基类 (SignalR)
 - `Card` 卡牌信息
 - `General` 武将信息

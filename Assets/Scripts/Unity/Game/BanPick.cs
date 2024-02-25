@@ -13,21 +13,12 @@ public class BanPick : SingletonMono<BanPick>
     // 提示
     public Text hint;
 
-    // private GameCore.BanPick model => GameCore.BanPick.Instance;
-    // private GameCore.Team selfTeam => GameCore.Self.Instance.team;
-
-    // public GameObject generalPrefab;
     public Transform pool;
     public Transform selfPool;
 
     public async void Show(List<int> _pool)
     {
         gameObject.SetActive(true);
-        // model.StartPickView += StartPick;
-        // model.OnPickView += OnPick;
-        // model.StartBanView += StartBan;
-        // model.OnBanView += OnBan;
-        // model.StartSelfPickView += SelfPick;
         EventSystem.Instance.AddEvent<PickQuery>(StartPick);
         EventSystem.Instance.AddEvent<OnPick>(OnPick);
         EventSystem.Instance.AddEvent<BanQuery>(StartBan);
@@ -52,11 +43,6 @@ public class BanPick : SingletonMono<BanPick>
 
     private void OnDestroy()
     {
-        // model.StartPickView -= StartPick;
-        // model.OnPickView -= OnPick;
-        // model.StartBanView -= StartBan;
-        // model.OnBanView -= OnBan;
-        // model.StartSelfPickView -= SelfPick;
         EventSystem.Instance.RemoveEvent<PickQuery>(StartPick);
         EventSystem.Instance.RemoveEvent<OnPick>(OnPick);
         EventSystem.Instance.RemoveEvent<BanQuery>(StartBan);
@@ -115,7 +101,6 @@ public class BanPick : SingletonMono<BanPick>
 
     public Button commit;
     public Transform seatParent;
-    // public GameObject seatPrefab;
     public List<SelfPickSeat> seats { get; } = new();
 
 
@@ -140,7 +125,6 @@ public class BanPick : SingletonMono<BanPick>
             seat.Init(i.model);
             seats.Add(seat);
         }
-        // seats = seatParent.Cast<Transform>().Select(x => x.GetComponent<SelfPickSeat>()).ToList();
 
         StartCoroutine(StartTimer(ssp.second));
 
@@ -171,7 +155,7 @@ public class BanPick : SingletonMono<BanPick>
 
     public void UpdateCommitButton()
     {
-        commit.gameObject.SetActive(seats.FirstOrDefault(x => x.general is null) is null);
+        commit.gameObject.SetActive(seats.All(x => x.general != null));
     }
 
     private async void OnSubmit()
@@ -185,7 +169,6 @@ public class BanPick : SingletonMono<BanPick>
                 general = i.general.id
             });
         }
-        // GameCore.BanPick.Instance.SendSelfResult(selfTeam, seats.Select(x => x.general.model.id).ToList());
-        commit.gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 }

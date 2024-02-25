@@ -15,13 +15,7 @@ public class SkinBasic : MonoBehaviour
         asset = SkinAsset.Get(id);
         toggle.onValueChanged.AddListener(OnValueChanged);
         toggle.group = GeneralDetail.Instance.toggleGroup;
-
         title.text = asset.name;
-
-        // string url = Url.GENERAL_IMAGE + "Seat/" + asset.id + ".png";
-        // var texture = await WebRequest.GetTexture(url);
-        // if (texture is null) return;
-        // image.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
         image.sprite = await asset.GetSeatImage();
     }
 

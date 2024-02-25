@@ -27,8 +27,7 @@ public class GameOver : SingletonMono<GameOver>
     {
         if (Input.GetMouseButtonDown(0))
         {
-            string scene = Global.Instance.IsStandalone ? "Home" : "Lobby";
-            SceneManager.Instance.LoadScene(scene);
+            SceneManager.Instance.LoadScene("Lobby");
         }
     }
 }

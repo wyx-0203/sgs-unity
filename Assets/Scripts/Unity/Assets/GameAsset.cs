@@ -29,8 +29,6 @@ public static class KeyValueExtensions
 
 public class GameAsset : ScriptableSingleton<GameAsset>
 {
-    // public static GameAsset Instance => Game.Instance.gameAssets;
-
     public Card card;
     public Transform cardGroup;
 

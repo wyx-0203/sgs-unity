@@ -6,8 +6,6 @@ namespace Model
     {
         public int id;
         public int position;
-        // public string nickname;
-        // public string character;
         public bool already;
 
         public const int StandaloneId = 0;
